@@ -5,17 +5,6 @@ if (!defined('BASEPATH')) exit('No direct access allowed');
 class Extension extends \Base_Extension
 {
 
-	public function extensionMeta() {
-		return array(
-			'code'        => 'account_module',
-			'name'        => 'Account',
-			'description' => 'This extension will allows you to place account links on any page.',
-			'author'      => 'SamPoyigi',
-			'icon'        => 'fa-plug',
-			'version'     => '1.1',
-		);
-	}
-
 	public function registerComponents() {
 		return array(
 			'account_module/components/Account_module' => array(
