@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct access allowed');
 
-class Account_module extends Base_Component {
+class Account_module extends BaseComponent {
 
 	public function index() {
 		$this->lang->load('account_module/account_module');
