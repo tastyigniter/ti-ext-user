@@ -1,28 +1,46 @@
-<?php namespace Account_module;
+<?php namespace SamPoyigi\Account;
 
-if (!defined('BASEPATH')) exit('No direct access allowed');
-
-class Extension extends \Base_Extension
+class Extension extends \System\Classes\BaseExtension
 {
 
-	public function registerComponents() {
-		return array(
-			'account_module/components/Account_module' => array(
-				'code'        => 'account_module',
-				'name'       => 'lang:account_module.text_component_title',
-				'description' => 'lang:account_module.text_component_desc',
-			),
-		);
-	}
-
-	public function registerPermissions() {
-		return array(
-			'name'        => 'Module.AccountModule',
-			'action'      => array('manage'),
-			'description' => 'Ability to manage account module',
-		);
-	}
+    public function registerComponents()
+    {
+        return [
+            'SamPoyigi\Account\Components\Account'      => [
+                'code'        => 'account',
+                'name'        => 'lang:sampoyigi.account::default.account.component_title',
+                'description' => 'lang:sampoyigi.account::default.account.component_desc',
+            ],
+            'SamPoyigi\Account\Components\AddressBook'  => [
+                'code'        => 'accountAddressBook',
+                'name'        => 'lang:sampoyigi.account::default.addressbook.component_title',
+                'description' => 'lang:sampoyigi.account::default.addressbook.component_desc',
+            ],
+            'SamPoyigi\Account\Components\Settings'     => [
+                'code'        => 'accountSettings',
+                'name'        => 'lang:sampoyigi.account::default.settings.component_title',
+                'description' => 'lang:sampoyigi.account::default.settings.component_desc',
+            ],
+            'SamPoyigi\Account\Components\Orders'       => [
+                'code'        => 'accountOrders',
+                'name'        => 'lang:sampoyigi.account::default.orders.component_title',
+                'description' => 'lang:sampoyigi.account::default.orders.component_desc',
+            ],
+            'SamPoyigi\Account\Components\Reservations' => [
+                'code'        => 'accountReservations',
+                'name'        => 'lang:sampoyigi.account::default.reservations.component_title',
+                'description' => 'lang:sampoyigi.account::default.reservations.component_desc',
+            ],
+            'SamPoyigi\Account\Components\Reviews'      => [
+                'code'        => 'accountReviews',
+                'name'        => 'lang:sampoyigi.account::default.reviews.component_title',
+                'description' => 'lang:sampoyigi.account::default.reviews.component_desc',
+            ],
+            'SamPoyigi\Account\Components\Inbox'        => [
+                'code'        => 'accountInbox',
+                'name'        => 'lang:sampoyigi.account::default.inbox.component_title',
+                'description' => 'lang:sampoyigi.account::default.inbox.component_desc',
+            ],
+        ];
+    }
 }
-
-/* End of file Extension.php */
-/* Location: ./extensions/account_module/Extension.php */

@@ -1,5 +1,5 @@
 {
-  "code": "account_module",
+  "code": "sampoyigi.account",
   "name": "Account Links",
   "description": "Allows you to place account links on any page.",
   "version": "1.1.0",
@@ -9,8 +9,5 @@
   "tags": {
     "1.0.0": "Initial tag of account links extension",
     "1.1.0": "Update code to use latest Extension API"
-  },
-  "require": {
-    "core": ">=2.0.0"
   }
 }
