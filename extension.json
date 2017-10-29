@@ -1,7 +1,7 @@
 {
   "code": "sampoyigi.account",
-  "name": "Account Links",
-  "description": "Allows you to place account links on any page.",
+  "name": "Account",
+  "description": "Allows your customers to login or register on any page.",
   "version": "1.1.0",
   "author": "SamPoyigi",
   "icon": "fa-plug",

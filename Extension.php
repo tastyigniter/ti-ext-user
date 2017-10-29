@@ -2,7 +2,6 @@
 
 class Extension extends \System\Classes\BaseExtension
 {
-
     public function registerComponents()
     {
         return [
