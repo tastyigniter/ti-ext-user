@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "author": "SamPoyigi",
   "icon": "fa-plug",
-  "homepage": "https://github.com/igniter-labs/ti-account-extension",
+  "homepage": "https://github.com/sampoyigi/ti-account-extension",
   "tags": {
     "1.0.0": "Initial tag of account links extension",
     "1.1.0": "Update code to use latest Extension API"

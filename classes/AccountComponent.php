@@ -24,32 +24,9 @@ trait AccountComponent
 
     protected $messagesModel = 'System\Models\Messages_model';
 
-    public function defineProperties()
-    {
-        return [
-            'context' => [
-                'label'   => 'Who can access this page',
-                'type'    => 'string',
-                'default' => 'guest',
-            ],
-        ];
-    }
-
-    public function setCustomer($customer)
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getCustomer()
-    {
-        return $this->customer;
-    }
-
     public function countInbox()
     {
-        return Messages_model::countUnread($this->getCustomer());
+        return Messages_model::countUnread($this->customer);
     }
 
     public function getDetails()

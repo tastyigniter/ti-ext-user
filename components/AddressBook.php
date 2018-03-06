@@ -1,16 +1,37 @@
 <?php namespace SamPoyigi\Account\Components;
 
-use SamPoyigi\Account\Classes\AccountComponent;
+use Admin\Models\Addresses_model;
+use Auth;
 
 class AddressBook extends \System\Classes\BaseComponent
 {
-    use AccountComponent;
-
     public function onRun()
     {
+        $this->page['addAddressEventHandler'] = $this->getEventHandler('onLoadAddForm');
+        $this->page['submitAddressEventHandler'] = $this->getEventHandler('onSubmit');
+
+        $this->page['customerAddresses'] = $this->loadAddressBook();
     }
 
-    public function prepareVars()
+    public function onLoadAddForm()
     {
+        $this->pageCycle();
+
+        $this->page['address'] = Addresses_model::make();
+
+        return ['#address-book' => $this->renderPartial('@form')];
+    }
+
+    public function onSubmit()
+    {
+
+    }
+
+    protected function loadAddressBook()
+    {
+        if (!$customer = Auth::customer())
+            return [];
+
+        return $customer->addresses()->get();
     }
 }

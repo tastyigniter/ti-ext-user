@@ -10,6 +10,11 @@ class Extension extends \System\Classes\BaseExtension
                 'name'        => 'lang:sampoyigi.account::default.account.component_title',
                 'description' => 'lang:sampoyigi.account::default.account.component_desc',
             ],
+            'SamPoyigi\Account\Components\ResetPassword'      => [
+                'code'        => 'resetPassword',
+                'name'        => 'lang:sampoyigi.account::default.reset.component_title',
+                'description' => 'lang:sampoyigi.account::default.reset.component_desc',
+            ],
             'SamPoyigi\Account\Components\AddressBook'  => [
                 'code'        => 'accountAddressBook',
                 'name'        => 'lang:sampoyigi.account::default.addressbook.component_title',
