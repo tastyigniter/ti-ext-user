@@ -77,22 +77,7 @@
     <?= form_error('telephone', '<span class="text-danger">', '</span>'); ?>
 </div>
 
-<?php if ($showCaptcha) { ?>
-    <div class="form-group">
-        <div class="input-group">
-            <span><?= $account->renderCaptcha(); ?></span>
-            <input
-                type="text"
-                name="captcha"
-                class="form-control"
-                placeholder="<?= lang('main::account.login.label_captcha'); ?>"
-                autocomplete="off"
-            />
-        </div>
-        <?= form_error('captcha', '<span class="text-danger">', '</span>'); ?>
-    </div>
-<?php } ?>
-
+<div class="form-group">
 <span class="button-checkbox">
     <button
         id="newsletter"
@@ -100,7 +85,7 @@
         class="btn"
         data-color="info"
         tabindex="7"
-    ><?= lang('main::account.login.button_subscribe'); ?></button>
+    >&nbsp;&nbsp;<?= lang('main::account.login.button_subscribe'); ?></button>
     <input
         type="checkbox"
         name="newsletter"
@@ -108,12 +93,12 @@
         value="1" <?= set_checkbox('newsletter', '1'); ?>
     >
 </span>
-<?= lang('main::account.login.label_newsletter'); ?>
-<?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
+    <?= lang('main::account.login.label_newsletter'); ?>
+    <?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
+</div>
 
 <?php if ($requireRegistrationTerms) { ?>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="form-group">
             <span class="button-checkbox">
                 <button
                     id="terms-condition"
@@ -121,9 +106,7 @@
                     class="btn"
                     data-color="info"
                     tabindex="7"
-                >
-                    &nbsp;&nbsp;<?= lang('main::account.login.button_terms_agree'); ?>
-                </button>
+                >&nbsp;&nbsp;<?= lang('main::account.login.button_terms_agree'); ?></button>
                 <input
                     type="checkbox"
                     name="terms"
@@ -131,8 +114,7 @@
                     value="1" <?= set_checkbox('terms', '1'); ?>
                 >
             </span>
-            <?= sprintf(lang('main::account.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
-        </div>
+        <?= sprintf(lang('main::account.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
         <?= form_error('terms', '<span class="text-danger">', '</span>'); ?>
     </div>
     <div class="modal fade"

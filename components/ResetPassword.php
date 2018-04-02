@@ -14,11 +14,19 @@ class ResetPassword extends BaseComponent
 {
     use ValidatesForm;
 
-    public $paramCode;
-
     public function defineProperties()
     {
         return [
+            'resetPage' => [
+                'label'   => 'The reset password page',
+                'type'    => 'text',
+                'default' => 'account/reset',
+            ],
+            'loginPage' => [
+                'label'   => 'The login page',
+                'type'    => 'text',
+                'default' => 'account/login',
+            ],
             'paramName' => [
                 'label'   => 'The parameter name used for the password reset code',
                 'type'    => 'text',
@@ -27,17 +35,26 @@ class ResetPassword extends BaseComponent
         ];
     }
 
-    public function onRun()
+    /**
+     * Returns the reset password code from the URL
+     * @return string
+     */
+    public function resetCode()
     {
         $routeParameter = $this->property('paramName');
-        $this->paramCode = $this->param($routeParameter);
+
+        if ($code = $this->param($routeParameter)) {
+            return $code;
+        }
+
+        return get('reset');
     }
 
     public function onForgotPassword()
     {
         try {
             $namedRules = [
-                ['email', 'lang:main::account.label_email', 'required|email|between:6,255']
+                ['email', 'lang:main::account.label_email', 'required|email|between:6,255'],
             ];
 
             $this->validate(post(), $namedRules);
@@ -45,22 +62,12 @@ class ResetPassword extends BaseComponent
             if (!$customer = Customers_model::whereEmail(post('email'))->first())
                 throw new ApplicationException(lang('main::account.reset.alert_reset_error'));
 
-            $link = $this->controller->currentPageUrl([
-                $this->property('paramName') => $customer->resetPassword()
-            ]);
+            $link = $this->makeResetUrl($code = $customer->resetPassword());
 
-            $data = [
-                'first_name' => $customer->first_name,
-                'last_name' => $customer->last_name,
-                'reset_link' => $link,
-                'account_login_link' => site_url('account/login'),
-            ];
+            $this->sendResetPasswordMail($customer, $code, $link);
 
-//        Mail::send('', $data, function($message) use ($customer) {
-//            $message->to($customer->email, $customer->customer_name);
-//        });
+            flash()->success(lang('main::account.reset.alert_reset_request_success'));
 
-            return Redirect::to($link);
             return Redirect::back();
         } catch (Exception $ex) {
             flash()->warning($ex->getMessage());
@@ -75,7 +82,7 @@ class ResetPassword extends BaseComponent
             $namedRules = [
                 ['code', 'lang:main::account.reset.label_code', 'required'],
                 ['password', 'lang:main::account.reset.label_password', 'required|same:password_confirm'],
-                ['password_confirm', 'lang:main::account.reset.label_password_confirm', 'required']
+                ['password_confirm', 'lang:main::account.reset.label_password_confirm', 'required'],
             ];
 
             $this->validate(post(), $namedRules);
@@ -87,12 +94,46 @@ class ResetPassword extends BaseComponent
 
             flash()->success(lang('main::account.reset.alert_reset_success'));
 
-            return Redirect::back();
-
+            return Redirect::to($this->pageUrl($this->property('loginPage')));
         } catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
         }
+    }
+
+    protected function makeResetUrl($code)
+    {
+        $params = [
+            $this->property('paramName') => $code
+        ];
+
+        if ($pageName = $this->property('resetPage')) {
+            $url = $this->pageUrl($pageName, $params);
+        }
+        else {
+            $url = $this->currentPageUrl($params);
+        }
+
+        if (strpos($url, $code) === false) {
+            $url .= '?reset=' . $code;
+        }
+
+        return $url;
+    }
+
+    protected function sendResetPasswordMail($customer, $code, $link)
+    {
+        $data = [
+            'first_name'         => $customer->first_name,
+            'last_name'          => $customer->last_name,
+            'reset_code'         => $code,
+            'reset_link'         => $link,
+            'account_login_link' => site_url($this->property('loginPage')),
+        ];
+
+        Mail::send('sampoyigi.account::mail.password_reset_request', $data, function ($message) use ($customer) {
+            $message->to($customer->email, $customer->full_name);
+        });
     }
 }

@@ -1,4 +1,4 @@
-<?php if ($__SELF__->paramCode) { ?>
+<?php if ($__SELF__->resetCode()) { ?>
     <?= partial('@reset'); ?>
 <?php } else { ?>
     <?= partial('@forgot'); ?>

@@ -10,7 +10,7 @@
     name="code"
     type="hidden"
     class="form-control input-lg"
-    value="<?= set_value('code', $__SELF__->paramCode); ?>"
+    value="<?= set_value('code', $__SELF__->resetCode()); ?>"
 />
 <?= form_error('code', '<span class="text-danger">', '</span>'); ?>
 

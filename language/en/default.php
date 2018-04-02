@@ -12,9 +12,14 @@ return [
     'text_reservations' => 'Recent Reservations',
     'text_reviews'      => 'Recent Reviews',
     'text_inbox'        => 'My Inbox <span class="badge">%s</span>',
+
     'text_logout'       => 'Logout',
+    'text_logged_in' => 'Already have an account? <a href="%s">Login Here</a>',
+    'text_logged_out'     => 'Welcome back <b>%s</b>, Not You? <a data-request="%s">Logout</a>',
 
     'label_heading' => 'Heading:',
+
+    'alert_logout_success'  => 'You have been logged out successfully.',
 
     'account'      => [
         'component_title' => 'Account Component',

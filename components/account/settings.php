@@ -1,11 +1,12 @@
 <form
+    role="form"
     method="POST"
     accept-charset="utf-8"
     action="<?= current_url(); ?>"
-    role="form"
+    data-request="<?= $__SELF__.'::onUpdate'; ?>"
 >
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 <input
                     type="text"
@@ -17,7 +18,7 @@
                 <?= form_error('first_name', '<span class="text-danger">', '</span>'); ?>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 <input
                     type="text"
@@ -31,7 +32,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 <input
                     type="text"
@@ -43,7 +44,7 @@
                 <?= form_error('telephone', '<span class="text-danger">', '</span>'); ?>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 <input
                     type="text"
@@ -73,7 +74,7 @@
                     id="newsletter"
                     class="hidden"
                     value="1"
-                    <?= set_checkbox('newsletter', '1', ($customer->newsletter === '1')); ?>
+                    <?= set_checkbox('newsletter', '1', (bool)$customer->newsletter); ?>
                 >
             </span>
             <label for="newsletter"
@@ -124,12 +125,10 @@
         </div>
     </div>
 
-    <div class="col-md-12">
-        <div class="buttons">
-            <button
-                type="submit"
-                class="btn btn-primary btn-lg"
-            ><?= lang('sampoyigi.account::default.settings.button_save'); ?></button>
-        </div>
+    <div class="buttons">
+        <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+        ><?= lang('sampoyigi.account::default.settings.button_save'); ?></button>
     </div>
 </form>

@@ -4,6 +4,11 @@
     data-request="<?= $submitAddressEventHandler; ?>"
     role="form"
 >
+    <input
+        type="hidden"
+        name="address[address_id]"
+        value="<?= set_value('address[address_id]', $address->address_id); ?>"
+    />
     <div class="form-group">
         <label><?= lang('sampoyigi.account::default.account.label_address_1'); ?></label>
         <input
@@ -12,7 +17,7 @@
             class="form-control"
             value="<?= set_value('address[address_1]', $address->address_1); ?>"
         />
-        <?= form_error('address[address_1]', '<span class="text-danger">', '</span>'); ?>
+        <?= form_error('address.address_1', '<span class="text-danger">', '</span>'); ?>
     </div>
 
     <div class="form-group">
@@ -23,7 +28,7 @@
             class="form-control"
             value="<?= set_value('address[address_2]', $address->address_2); ?>"
         />
-        <?= form_error('address[address_2]', '<span class="text-danger">', '</span>'); ?>
+        <?= form_error('address.address_2', '<span class="text-danger">', '</span>'); ?>
     </div>
 
     <div class="row">
@@ -37,7 +42,7 @@
                     value="<?= set_value('address[city]', $address->city); ?>"
                     placeholder="<?= lang('sampoyigi.account::default.account.label_city'); ?>"
                 >
-                <?= form_error('address[city]', '<span class="text-danger">', '</span>'); ?>
+                <?= form_error('address.city', '<span class="text-danger">', '</span>'); ?>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4">
@@ -50,7 +55,7 @@
                     name="address[state]"
                     placeholder="<?= lang('sampoyigi.account::default.account.label_state'); ?>"
                 >
-                <?= form_error('address[state]', '<span class="text-danger">', '</span>'); ?>
+                <?= form_error('address.state', '<span class="text-danger">', '</span>'); ?>
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4">
@@ -63,7 +68,7 @@
                     value="<?= set_value('address[postcode]', $address->postcode); ?>"
                     placeholder="<?= lang('sampoyigi.account::default.account.label_postcode'); ?>"
                 >
-                <?= form_error('address[postcode]', '<span class="text-danger">', '</span>'); ?>
+                <?= form_error('address.postcode', '<span class="text-danger">', '</span>'); ?>
             </div>
         </div>
     </div>
@@ -74,11 +79,11 @@
             <?php foreach (countries() as $key => $value) { ?>
                 <option
                     value="<?= $key; ?>"
-                    <?= ($key == $address->country_id) ? '' : ' selected="selected"' ?>
+                    <?= ($key == $address->country_id) ? ' selected="selected"' : '' ?>
                 ><?= $value; ?></option>
             <?php } ?>
         </select>
-        <?= form_error('address[country]', '<span class="text-danger">', '</span>'); ?>
+        <?= form_error('address.country', '<span class="text-danger">', '</span>'); ?>
     </div>
 
     <div class="buttons">
