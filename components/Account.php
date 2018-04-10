@@ -43,7 +43,7 @@ class Account extends \System\Classes\BaseComponent
     {
         $this->page['customer'] = $this->customer = Auth::user();
         if ($this->property('security') == 'customer' AND !$this->customer) {
-            flash()->danger(lang('main::account.login.alert_expired_login'));
+            flash()->danger(lang('sampoyigi.account::default.login.alert_expired_login'));
 
             return Redirect::guest($this->pageUrl($this->property('loginPage')));
         }
@@ -93,9 +93,9 @@ class Account extends \System\Classes\BaseComponent
     {
         try {
             $namedRules = [
-                ['email', 'lang:main::account.login.label_email', 'required|email'],
-                ['password', 'lang:main::account.login.label_password', 'required|min:6|max:32'],
-                ['remember', 'lang:main::account.login.label_remember', 'integer'],
+                ['email', 'lang:sampoyigi.account::default.settings.label_email', 'required|email'],
+                ['password', 'lang:sampoyigi.account::default.login.label_password', 'required|min:6|max:32'],
+                ['remember', 'lang:sampoyigi.account::default.login.label_remember', 'integer'],
             ];
 
             $this->validate(post(), $namedRules);
@@ -109,11 +109,11 @@ class Account extends \System\Classes\BaseComponent
             Event::fire('sampoyigi.account.beforeAuthenticate', [$this, $credentials]);
 
             if (!Auth::authenticate($credentials, $remember, TRUE))
-                throw new ApplicationException(lang('main::account.login.alert_invalid_login'));
+                throw new ApplicationException(lang('sampoyigi.account::default.login.alert_invalid_login'));
 
             activity()
                 ->causedBy(Auth::getUser())
-                ->log(lang('main::account.login.activity_logged_in'));
+                ->log(lang('sampoyigi.account::default.login.activity_logged_in'));
 
             if ($redirect = get('redirect'))
                 return Redirect::to($this->pageUrl($redirect));
@@ -150,17 +150,17 @@ class Account extends \System\Classes\BaseComponent
             $data = post();
 
             $rules = [
-                ['first_name', 'lang:main::account.label_first_name', 'required|min:2|max:32'],
-                ['last_name', 'lang:main::account.label_last_name', 'required|min:2|max:32'],
-                ['email', 'lang:main::account.label_email', 'required|email|unique:customers,email'],
-                ['password', 'lang:main::account.label_password', 'required|min:6|max:32|same:password_confirm'],
-                ['password_confirm', 'lang:main::account.label_password_confirm', 'required'],
-                ['telephone', 'lang:main::account.label_telephone', 'required'],
-                ['newsletter', 'lang:main::account.login.label_subscribe', 'integer'],
+                ['first_name', 'lang:sampoyigi.account::default.settings.label_first_name', 'required|min:2|max:32'],
+                ['last_name', 'lang:sampoyigi.account::default.settings.label_last_name', 'required|min:2|max:32'],
+                ['email', 'lang:sampoyigi.account::default.settings.label_email', 'required|email|unique:customers,email'],
+                ['password', 'lang:sampoyigi.account::default.login.label_password', 'required|min:6|max:32|same:password_confirm'],
+                ['password_confirm', 'lang:sampoyigi.account::login.settings.label_password_confirm', 'required'],
+                ['telephone', 'lang:sampoyigi.account::default.settings.label_telephone', 'required'],
+                ['newsletter', 'lang:sampoyigi.account::default.login.label_subscribe', 'integer'],
             ];
 
             if ((bool)setting('registration_terms'))
-                $rules[] = ['terms', 'lang:main::account.label_i_agree', 'required|integer'];
+                $rules[] = ['terms', 'lang:sampoyigi.account::default.login.label_i_agree', 'required|integer'];
 
             $this->validate($data, $rules);
 
@@ -179,12 +179,12 @@ class Account extends \System\Classes\BaseComponent
 
                 Auth::login($customer);
 
-                flash()->success(lang('main::account.login.alert_account_created'));
+                flash()->success(lang('sampoyigi.account::default.login.alert_account_created'));
             }
 
             activity()
                 ->causedBy($customer)
-                ->log(lang('main::account.login.activity_registered_account'));
+                ->log(lang('sampoyigi.account::default.login.activity_registered_account'));
 
             $redirectUrl = $this->pageUrl($this->property('redirectPage'));
 
@@ -206,13 +206,13 @@ class Account extends \System\Classes\BaseComponent
             $data = post();
 
             $rules = [
-                ['first_name', 'lang:main::account.label_first_name', 'required|min:2|max:32'],
-                ['last_name', 'lang:main::account.label_last_name', 'required|min:2|max:32'],
-                ['old_password', 'lang:main::account.label_email', 'sometimes'],
-                ['new_password', 'lang:main::account.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
-                ['confirm_new_password', 'lang:main::account.label_password_confirm', 'required_with:old_password'],
-                ['telephone', 'lang:main::account.label_telephone', 'required'],
-                ['newsletter', 'lang:main::account.login.label_subscribe', 'integer'],
+                ['first_name', 'lang:sampoyigi.account::default.label_first_name', 'required|min:2|max:32'],
+                ['last_name', 'lang:sampoyigi.account::default.label_last_name', 'required|min:2|max:32'],
+                ['old_password', 'lang:sampoyigi.account::default.label_email', 'sometimes'],
+                ['new_password', 'lang:sampoyigi.account::default.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
+                ['confirm_new_password', 'lang:sampoyigi.account::default.label_password_confirm', 'required_with:old_password'],
+                ['telephone', 'lang:sampoyigi.account::default.label_telephone', 'required'],
+                ['newsletter', 'lang:sampoyigi.account::default.login.label_subscribe', 'integer'],
             ];
 
             $this->validateAfter(function ($validator) {

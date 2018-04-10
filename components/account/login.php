@@ -13,7 +13,7 @@
             name="email"
             id="login-email"
             class="form-control input-lg"
-            placeholder="<?= lang('main::account.label_email'); ?>"
+            placeholder="<?= lang('sampoyigi.account::default.settings.label_email'); ?>"
             autofocus="" required/>
         <span class="input-group-addon">@</span>
     </div>
@@ -27,7 +27,7 @@
             name="password"
             id="login-password"
             class="form-control input-lg"
-            placeholder="<?= lang('main::account.label_password'); ?>" required/>
+            placeholder="<?= lang('sampoyigi.account::default.settings.label_password'); ?>" required/>
         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
     </div>
     <?= form_error('password', '<span class="text-danger">', '</span>'); ?>
@@ -40,7 +40,7 @@
                 class="btn"
                 data-color="default"
                 tabindex="7">
-            &nbsp;&nbsp;<?= lang('main::account.login.text_remember'); ?>
+            &nbsp;&nbsp;<?= lang('sampoyigi.account::default.login.label_remember'); ?>
         </button>
         <input type="checkbox"
                name="remember"
@@ -55,7 +55,7 @@
             <button
                 type="submit"
                 class="btn btn-primary btn-block btn-lg"
-            ><?= lang('main::account.login.button_login'); ?></button>
+            ><?= lang('sampoyigi.account::default.login.button_login'); ?></button>
         </div>
     </div>
 </div>

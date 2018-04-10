@@ -54,19 +54,19 @@ class ResetPassword extends BaseComponent
     {
         try {
             $namedRules = [
-                ['email', 'lang:main::account.label_email', 'required|email|between:6,255'],
+                ['email', 'lang:sampoyigi.account::default.reset.label_email', 'required|email|between:6,255'],
             ];
 
             $this->validate(post(), $namedRules);
 
             if (!$customer = Customers_model::whereEmail(post('email'))->first())
-                throw new ApplicationException(lang('main::account.reset.alert_reset_error'));
+                throw new ApplicationException(lang('sampoyigi.account::default.reset.alert_reset_error'));
 
             $link = $this->makeResetUrl($code = $customer->resetPassword());
 
             $this->sendResetPasswordMail($customer, $code, $link);
 
-            flash()->success(lang('main::account.reset.alert_reset_request_success'));
+            flash()->success(lang('sampoyigi.account::default.reset.alert_reset_request_success'));
 
             return Redirect::back();
         } catch (Exception $ex) {
@@ -80,9 +80,9 @@ class ResetPassword extends BaseComponent
     {
         try {
             $namedRules = [
-                ['code', 'lang:main::account.reset.label_code', 'required'],
-                ['password', 'lang:main::account.reset.label_password', 'required|same:password_confirm'],
-                ['password_confirm', 'lang:main::account.reset.label_password_confirm', 'required'],
+                ['code', 'lang:sampoyigi.account::default.reset.label_code', 'required'],
+                ['password', 'lang:sampoyigi.account::default.reset.label_password', 'required|same:password_confirm'],
+                ['password_confirm', 'lang:sampoyigi.account::default.reset.label_password_confirm', 'required'],
             ];
 
             $this->validate(post(), $namedRules);
@@ -90,9 +90,9 @@ class ResetPassword extends BaseComponent
             $customer = Customers_model::whereResetCode($code = post('code'))->first();
 
             if (!$customer->completeResetPassword($code, post('password')))
-                throw new ApplicationException(lang('main::account.reset.alert_reset_failed'));
+                throw new ApplicationException(lang('sampoyigi.account::default.reset.alert_reset_failed'));
 
-            flash()->success(lang('main::account.reset.alert_reset_success'));
+            flash()->success(lang('sampoyigi.account::default.reset.alert_reset_success'));
 
             return Redirect::to($this->pageUrl($this->property('loginPage')));
         } catch (Exception $ex) {

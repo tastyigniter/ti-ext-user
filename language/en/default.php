@@ -1,8 +1,7 @@
 <?php
 
 return [
-    '_text_title'      => 'Account',
-    'text_tab_general' => 'General',
+    'text_title'      => 'My Account',
 
     'text_heading'      => 'Account',
     'text_account'      => 'My Account',
@@ -12,18 +11,60 @@ return [
     'text_reservations' => 'Recent Reservations',
     'text_reviews'      => 'Recent Reviews',
     'text_inbox'        => 'My Inbox <span class="badge">%s</span>',
+    'text_welcome'      => 'Welcome %s',
+    'text_cart_summary' => 'You have %s items: %s',
+    'text_change_password'    => 'Change Password',
+    'text_order'              => 'ORDER NOW',
+    'text_checkout'           => 'CHECKOUT NOW',
+    'text_edit'               => 'EDIT',
+    'text_default_address'    => 'My Default Address',
+    'text_no_default_address' => 'You don\'t have a default address',
+    'text_no_orders'          => 'There are no orders available to show.',
+    'text_no_reservations'    => 'There are no reservations available to show.',
+    'text_no_inbox'           => 'There are no messages available to show',
+    'text_no_cart_items'      => 'There are no menus added in your cart.',
 
-    'text_logout'       => 'Logout',
-    'text_logged_in' => 'Already have an account? <a href="%s">Login Here</a>',
-    'text_logged_out'     => 'Welcome back <b>%s</b>, Not You? <a data-request="%s">Logout</a>',
+    'text_logout'     => 'Logout',
+    'text_logged_in'  => 'Already have an account? <a href="%s">Login Here</a>',
+    'text_logged_out' => 'Welcome back <b>%s</b>, Not You? <a data-request="%s">Logout</a>',
 
     'label_heading' => 'Heading:',
 
-    'alert_logout_success'  => 'You have been logged out successfully.',
+    'column_id'         => 'ID',
+    'column_date'       => 'Date/Time',
+    'column_status'     => 'Status',
+    'column_subject'    => 'Subject',
+
+    'alert_logout_success' => 'You have been logged out successfully.',
+
+    'login' => [
+        'label_password'         => 'Password',
+        'label_password_confirm' => 'Password Confirm',
+        'label_remember'         => 'Remember me',
+        'label_newsletter'       => 'Keep me up-to-date with offers by email.',
+        'label_terms'            => 'By clicking <strong class="label label-primary">Register</strong>, you agree to the <a href="%s" data-toggle="modal" data-target="#terms-modal">Terms and Conditions</a> set out by this site, including our Cookie Use.',
+        'label_i_agree'          => 'I Agree',
+        'label_subscribe'        => 'Subscribe',
+
+        'button_terms_agree' => 'I Agree',
+        'button_subscribe'   => 'Subscribe',
+        'button_login'       => 'Login',
+        'button_register'    => 'Register',
+
+        'error_email_exist' => 'The Email address already has an account, please log in',
+
+        'alert_logout_success'  => 'You have been logged out successfully.',
+        'alert_expired_login'   => 'Session expired, please login',
+        'alert_invalid_login'   => 'Username and password not found!',
+        'alert_account_created' => 'Account created successfully, login below!',
+
+        'activity_logged_in'          => ' <b>logged</b> in.',
+        'activity_registered_account' => ' <b>created</b> an account.',
+    ],
 
     'account'      => [
-        'component_title' => 'Account Component',
-        'component_desc'  => 'Displays account dashboard',
+        'component_title'   => 'Account Component',
+        'component_desc'    => 'Displays account dashboard',
         'text_heading'      => 'Address Book',
         'text_my_account'   => 'My Account',
         'text_edit_heading' => 'Address Book Edit',
@@ -45,17 +86,33 @@ return [
         'alert_updated_success' => 'Address added/updated successfully.',
         'alert_deleted_success' => 'Address deleted successfully.',
     ],
-    'reset'     => [
+    'reset'        => [
         'component_title' => 'Reset Password Component',
         'component_desc'  => 'Displays reset password form',
+
+        'text_summary' => 'Email address you use to log in to your account We\'ll send you an email with a new password.',
+
+        'label_email'            => 'Email Address',
+        'label_password'         => 'Password',
+        'label_password_confirm' => 'Confirm Password',
+        'label_code'            => 'Reset Code',
+
+        'button_login'    => 'Login',
+        'button_reset'    => 'Reset Password',
+
+        'alert_reset_success'         => 'Password reset successfully.',
+        'alert_reset_request_success' => 'Password reset request successfully, please check your email on how to proceed.',
+        'alert_reset_error'           => 'Password reset unsuccessful, email not found or incorrect details entered.',
+        'alert_reset_failed'          => 'Password reset failed, reset code is either invalid or expired.',
+        'alert_no_email_match'        => 'No matching email address',
     ],
     'addressbook'  => [
         'component_title' => 'Address Book Component',
         'component_desc'  => 'Displays and manages account address book',
     ],
     'settings'     => [
-        'component_title' => 'Settings Component',
-        'component_desc'  => 'Manages account settings',
+        'component_title'       => 'Settings Component',
+        'component_desc'        => 'Manages account settings',
         'text_heading'          => 'My Details',
         'text_details'          => 'Edit your details',
         'text_password_heading' => 'Change Password',
@@ -80,8 +137,8 @@ return [
         'alert_updated_success' => 'Details updated successfully.',
     ],
     'orders'       => [
-        'component_title' => 'Orders Component',
-        'component_desc'  => 'Displays and manages account orders',
+        'component_title'   => 'Orders Component',
+        'component_desc'    => 'Displays and manages account orders',
         'text_heading'      => 'Recent Orders',
         'text_my_account'   => 'My Account',
         'text_view_heading' => 'My Order View',
@@ -114,8 +171,8 @@ return [
         'alert_reorder_success' => 'You have successfully added the menus from order ID %s to your order.',
     ],
     'reservations' => [
-        'component_title' => 'Reservations Component',
-        'component_desc'  => 'Displays and manages account reservations',
+        'component_title'   => 'Reservations Component',
+        'component_desc'    => 'Displays and manages account reservations',
         'text_heading'      => 'Recent Reservations',
         'text_my_account'   => 'My Account',
         'text_view_heading' => 'My Reservation View',
@@ -140,8 +197,8 @@ return [
         'alert_reservation_disabled' => 'Table reservation has been disabled, please contact administrator.',
     ],
     'inbox'        => [
-        'component_title' => 'Inbox Component',
-        'component_desc'  => 'Displays account inbox messages',
+        'component_title'   => 'Inbox Component',
+        'component_desc'    => 'Displays account inbox messages',
         'text_heading'      => 'My Inbox',
         'text_my_account'   => 'My Account',
         'text_view_heading' => 'My Inbox Message',
@@ -160,7 +217,7 @@ return [
         'alert_unknown_error'   => 'Sorry, an error has occurred.',
         'alert_deleted_success' => 'Message deleted successfully.',
     ],
-    'reviews' => [
+    'reviews'      => [
         'text_heading'             => 'Recent Reviews',
         'text_my_account'          => 'My Account',
         'text_empty'               => 'There are no added review(s).',

@@ -1,4 +1,4 @@
-<p class="text-center"><?= lang('main::account.reset.text_summary'); ?></p>
+<p class="text-center"><?= lang('sampoyigi.account::default.reset.text_summary'); ?></p>
 
 <?= form_open(current_url(),
     [
@@ -14,7 +14,7 @@
         id="email"
         class="form-control input-lg"
         value="<?= set_value('email'); ?>"
-        placeholder="<?= lang('main::account.reset.label_email'); ?>"
+        placeholder="<?= lang('sampoyigi.account::default.reset.label_email'); ?>"
     />
     <?= form_error('email', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -23,11 +23,11 @@
     <button
         type="submit"
         class="btn btn-primary btn-lg pull-left"
-    ><?= lang('main::account.reset.button_reset'); ?></button>
+    ><?= lang('sampoyigi.account::default.reset.button_reset'); ?></button>
     <a
         class="btn btn-default btn-lg pull-right"
         href="<?= site_url('account/login'); ?>"
-    ><?= lang('main::account.reset.button_login'); ?></a>
+    ><?= lang('sampoyigi.account::default.reset.button_login'); ?></a>
 </div>
 
 <?= form_close(); ?>

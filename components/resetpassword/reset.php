@@ -20,7 +20,7 @@
         type="password"
         class="form-control input-lg"
         value="<?= set_value('password'); ?>"
-        placeholder="<?= lang('main::account.reset.label_password') ?>"
+        placeholder="<?= lang('sampoyigi.account::default.reset.label_password') ?>"
     />
     <?= form_error('password', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -31,7 +31,7 @@
         type="password"
         class="form-control input-lg"
         value="<?= set_value('password_confirm'); ?>"
-        placeholder="<?= lang('main::account.reset.label_password_confirm') ?>"
+        placeholder="<?= lang('sampoyigi.account::default.reset.label_password_confirm') ?>"
     />
     <?= form_error('password_confirm', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -40,7 +40,7 @@
     <button
         type="submit"
         class="btn btn-primary btn-block btn-lg"
-    ><?= lang('main::account.reset.button_reset'); ?></button>
+    ><?= lang('sampoyigi.account::default.reset.button_reset'); ?></button>
 </div>
 
 <?= form_close(); ?>

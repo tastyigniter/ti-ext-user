@@ -14,7 +14,7 @@
                    class="form-control input-lg"
                    value="<?= set_value('first_name'); ?>"
                    name="first_name"
-                   placeholder="<?= lang('main::account.label_first_name'); ?>"
+                   placeholder="<?= lang('sampoyigi.account::default.settings.label_first_name'); ?>"
                    autofocus="">
             <?= form_error('first_name', '<span class="text-danger">', '</span>'); ?>
         </div>
@@ -26,7 +26,7 @@
                    class="form-control input-lg"
                    value="<?= set_value('last_name'); ?>"
                    name="last_name"
-                   placeholder="<?= lang('main::account.label_last_name'); ?>">
+                   placeholder="<?= lang('sampoyigi.account::default.settings.label_last_name'); ?>">
             <?= form_error('last_name', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>
@@ -37,7 +37,7 @@
            class="form-control input-lg"
            value="<?= set_value('email'); ?>"
            name="email"
-           placeholder="<?= lang('main::account.label_email'); ?>">
+           placeholder="<?= lang('sampoyigi.account::default.settings.label_email'); ?>">
     <?= form_error('email', '<span class="text-danger">', '</span>'); ?>
 </div>
 <div class="row">
@@ -48,7 +48,7 @@
                    class="form-control input-lg"
                    value=""
                    name="password"
-                   placeholder="<?= lang('main::account.label_password'); ?>">
+                   placeholder="<?= lang('sampoyigi.account::default.login.label_password'); ?>">
             <?= form_error('password', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>
@@ -59,7 +59,7 @@
                    class="form-control input-lg"
                    name="password_confirm"
                    value=""
-                   placeholder="<?= lang('main::account.label_password_confirm'); ?>">
+                   placeholder="<?= lang('sampoyigi.account::default.login.label_password_confirm'); ?>">
             <?= form_error('password_confirm', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>
@@ -72,7 +72,7 @@
         class="form-control input-lg"
         value="<?= set_value('telephone'); ?>"
         name="telephone"
-        placeholder="<?= lang('main::account.label_telephone'); ?>"
+        placeholder="<?= lang('sampoyigi.account::default.settings.label_telephone'); ?>"
     >
     <?= form_error('telephone', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -85,7 +85,7 @@
         class="btn"
         data-color="info"
         tabindex="7"
-    >&nbsp;&nbsp;<?= lang('main::account.login.button_subscribe'); ?></button>
+    >&nbsp;&nbsp;<?= lang('sampoyigi.account::default.login.button_subscribe'); ?></button>
     <input
         type="checkbox"
         name="newsletter"
@@ -93,7 +93,7 @@
         value="1" <?= set_checkbox('newsletter', '1'); ?>
     >
 </span>
-    <?= lang('main::account.login.label_newsletter'); ?>
+    <?= lang('sampoyigi.account::default.login.label_newsletter'); ?>
     <?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
 </div>
 
@@ -106,7 +106,7 @@
                     class="btn"
                     data-color="info"
                     tabindex="7"
-                >&nbsp;&nbsp;<?= lang('main::account.login.button_terms_agree'); ?></button>
+                >&nbsp;&nbsp;<?= lang('sampoyigi.account::default.login.button_terms_agree'); ?></button>
                 <input
                     type="checkbox"
                     name="terms"
@@ -114,7 +114,7 @@
                     value="1" <?= set_checkbox('terms', '1'); ?>
                 >
             </span>
-        <?= sprintf(lang('main::account.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
+        <?= sprintf(lang('sampoyigi.account::default.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
         <?= form_error('terms', '<span class="text-danger">', '</span>'); ?>
     </div>
     <div class="modal fade"
@@ -137,13 +137,13 @@
         <button
             type="submit"
             class="btn btn-primary btn-block btn-lg"
-        ><?= lang('main::account.login.button_register'); ?></button>
+        ><?= lang('sampoyigi.account::default.login.button_register'); ?></button>
     </div>
     <div class="col-xs-12 col-md-6">
         <a
             href="<?= site_url('account/login'); ?>"
             class="btn btn-default btn-block btn-lg"
-        ><?= lang('main::account.login.button_login'); ?></a>
+        ><?= lang('sampoyigi.account::default.login.button_login'); ?></a>
     </div>
 </div>
 <?= form_close(); ?>
