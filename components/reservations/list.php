@@ -23,7 +23,7 @@
                                     <?= $reservation->reservation_id; ?>
                                 </a>
                             </td>
-                            <td><?= $reservation->related_status->status_name; ?></td>
+                            <td><?= $reservation->status->status_name; ?></td>
                             <td><?= $reservation->location ? $reservation->location->location_name : null; ?></td>
                             <td><?= $reservation->reserve_time->format('H:i'); ?> - <?= day_elapsed($reservation->reserve_date); ?></td>
                             <td><?= $reservation->related_table ? $reservation->related_table->table_name : null; ?></td>

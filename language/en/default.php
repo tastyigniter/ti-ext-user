@@ -90,6 +90,7 @@ return [
         'component_title' => 'Reset Password Component',
         'component_desc'  => 'Displays reset password form',
 
+        'text_heading' => 'Account Password Reset',
         'text_summary' => 'Email address you use to log in to your account We\'ll send you an email with a new password.',
 
         'label_email'            => 'Email Address',

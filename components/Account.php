@@ -57,10 +57,26 @@ class Account extends \System\Classes\BaseComponent
 
     public function prepareVars()
     {
+        $this->page['accountPage'] = $this->property('accountPage');
+        $this->page['detailsPage'] = $this->property('detailsPage');
+        $this->page['addressPage'] = $this->property('addressPage');
+        $this->page['ordersPage'] = $this->property('ordersPage');
+        $this->page['reservationsPage'] = $this->property('reservationsPage');
+        $this->page['reviewsPage'] = $this->property('reviewsPage');
+        $this->page['inboxPage'] = $this->property('inboxPage');
+
         $this->page['customer'] = $this->customer();
-        $this->page['cartCount'] = Cart::count();
-        $this->page['cartTotal'] = Cart::total();
         $this->page['requireRegistrationTerms'] = (bool)setting('registration_terms');
+    }
+
+    public function cartCount()
+    {
+        return Cart::count();
+    }
+
+    public function cartTotal()
+    {
+        return Cart::total();
     }
 
     public function getRegistrationTermsUrl()

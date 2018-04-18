@@ -19,8 +19,8 @@
     <div class="col-md-6">
         <div class="text-center">
             <i class="fa fa-shopping-basket fa-2x"></i>
-            <?php if ($cartCount) { ?>
-                <p><?= sprintf(lang('sampoyigi.account::default.text_cart_summary'), $cartCount, $cartTotal); ?></p>
+            <?php if ($__SELF__->cartCount()) { ?>
+                <p><?= sprintf(lang('sampoyigi.account::default.text_cart_summary'), $__SELF__->cartCount(), $__SELF__->cartTotal()); ?></p>
                 <a class="btn btn-primary" href="<?= site_url('checkout/checkout'); ?>">
                     <?= lang('sampoyigi.account::default.text_checkout'); ?>
                 </a>

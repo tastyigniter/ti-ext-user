@@ -29,7 +29,7 @@
                         <td><?= $order->location ? $order->location->location_name : ''; ?></td>
                         <td><?= day_elapsed($order->order_date_time); ?></td>
                         <td><?= $order->order_type_name; ?></td>
-                        <td><?= $order->total_items; ?></td>
+                        <td><?= $order->order_total_items; ?></td>
                         <td><?= currency_format($order->order_total); ?></td>
                         <td>
                             <a
