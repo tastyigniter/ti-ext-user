@@ -26,6 +26,41 @@ class Account extends \System\Classes\BaseComponent
                 'type'    => 'string',
                 'default' => 'all',
             ],
+            'accountPage'    => [
+                'label'   => 'The customer dashboard page',
+                'type'    => 'text',
+                'default' => 'account/account',
+            ],
+            'detailsPage'    => [
+                'label'   => 'The customer details page',
+                'type'    => 'text',
+                'default' => 'account/details',
+            ],
+            'addressPage'    => [
+                'label'   => 'The customer address page',
+                'type'    => 'text',
+                'default' => 'account/address',
+            ],
+            'ordersPage'    => [
+                'label'   => 'The customer orders page',
+                'type'    => 'text',
+                'default' => 'account/orders',
+            ],
+            'reservationsPage'    => [
+                'label'   => 'The customer reservations page',
+                'type'    => 'text',
+                'default' => 'account/reservations',
+            ],
+            'reviewsPage'    => [
+                'label'   => 'The customer reviews page',
+                'type'    => 'text',
+                'default' => 'account/reviews',
+            ],
+            'inboxPage'    => [
+                'label'   => 'The customer inbox page',
+                'type'    => 'text',
+                'default' => 'account/inbox',
+            ],
             'redirectPage' => [
                 'label'   => 'Page to redirect to after successful login or registration',
                 'type'    => 'text',

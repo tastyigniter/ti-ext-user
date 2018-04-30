@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <h3><?= sprintf(lang('sampoyigi.account::default.account.text_welcome'), $customer->first_name); ?></h3>
+        <h3><?= sprintf(lang('sampoyigi.account::default.text_welcome'), $customer->first_name); ?></h3>
         <?php if (count($customer->address)) { ?>
             <p>
                 <a
