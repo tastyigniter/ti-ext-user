@@ -46,7 +46,7 @@
                                     title="<?= lang('sampoyigi.account::default.orders.text_leave_review'); ?>"
                                     href="<?= site_url($addReviewsPage, [
                                         'saleType' => 'order',
-                                        'saleId' => $order->order_id,
+                                        'saleId'   => $order->order_id,
                                     ]); ?>"
                                 ><i class="fa fa-heart"></i></a>
                             </td>

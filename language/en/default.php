@@ -1,18 +1,18 @@
 <?php
 
 return [
-    'text_title'      => 'My Account',
+    'text_title' => 'My Account',
 
-    'text_heading'      => 'Account',
-    'text_account'      => 'My Account',
-    'text_edit_details' => 'Edit My Details',
-    'text_address'      => 'Address Book',
-    'text_orders'       => 'Recent Orders',
-    'text_reservations' => 'Recent Reservations',
-    'text_reviews'      => 'Recent Reviews',
-    'text_inbox'        => 'My Inbox <span class="badge">%s</span>',
-    'text_welcome'      => 'Welcome %s',
-    'text_cart_summary' => 'You have %s items: %s',
+    'text_heading'            => 'Account',
+    'text_account'            => 'My Account',
+    'text_edit_details'       => 'Edit My Details',
+    'text_address'            => 'Address Book',
+    'text_orders'             => 'Recent Orders',
+    'text_reservations'       => 'Recent Reservations',
+    'text_reviews'            => 'Recent Reviews',
+    'text_inbox'              => 'My Inbox <span class="badge">%s</span>',
+    'text_welcome'            => 'Welcome %s',
+    'text_cart_summary'       => 'You have %s items: %s',
     'text_change_password'    => 'Change Password',
     'text_order'              => 'ORDER NOW',
     'text_checkout'           => 'CHECKOUT NOW',
@@ -30,10 +30,10 @@ return [
 
     'label_heading' => 'Heading:',
 
-    'column_id'         => 'ID',
-    'column_date'       => 'Date/Time',
-    'column_status'     => 'Status',
-    'column_subject'    => 'Subject',
+    'column_id'      => 'ID',
+    'column_date'    => 'Date/Time',
+    'column_status'  => 'Status',
+    'column_subject' => 'Subject',
 
     'alert_logout_success' => 'You have been logged out successfully.',
 
@@ -96,10 +96,10 @@ return [
         'label_email'            => 'Email Address',
         'label_password'         => 'Password',
         'label_password_confirm' => 'Confirm Password',
-        'label_code'            => 'Reset Code',
+        'label_code'             => 'Reset Code',
 
-        'button_login'    => 'Login',
-        'button_reset'    => 'Reset Password',
+        'button_login' => 'Login',
+        'button_reset' => 'Reset Password',
 
         'alert_reset_success'         => 'Password reset successfully.',
         'alert_reset_request_success' => 'Password reset request successfully, please check your email on how to proceed.',
@@ -219,8 +219,8 @@ return [
         'alert_deleted_success' => 'Message deleted successfully.',
     ],
     'reviews'      => [
-        'component_title'   => 'Account Reviews Component',
-        'component_desc'    => 'Displays account reviews',
+        'component_title'          => 'Account Reviews Component',
+        'component_desc'           => 'Displays account reviews',
         'text_heading'             => 'Recent Reviews',
         'text_my_account'          => 'My Account',
         'text_empty'               => 'There are no added review(s).',

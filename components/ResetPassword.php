@@ -116,7 +116,7 @@ class ResetPassword extends BaseComponent
     protected function makeResetUrl($code)
     {
         $params = [
-            $this->property('paramName') => $code
+            $this->property('paramName') => $code,
         ];
 
         if ($pageName = $this->property('resetPage')) {
@@ -126,8 +126,8 @@ class ResetPassword extends BaseComponent
             $url = $this->currentPageUrl($params);
         }
 
-        if (strpos($url, $code) === false) {
-            $url .= '?reset=' . $code;
+        if (strpos($url, $code) === FALSE) {
+            $url .= '?reset='.$code;
         }
 
         return $url;

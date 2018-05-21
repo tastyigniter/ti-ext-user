@@ -22,64 +22,64 @@ class Account extends \System\Classes\BaseComponent
     public function defineProperties()
     {
         return [
-            'security'     => [
+            'security'         => [
                 'label'   => 'Who can access this page',
                 'type'    => 'string',
                 'default' => 'all',
             ],
-            'accountPage'    => [
+            'accountPage'      => [
                 'label'   => 'The customer dashboard page',
                 'type'    => 'select',
                 'default' => 'account/account',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'detailsPage'    => [
+            'detailsPage'      => [
                 'label'   => 'The customer details page',
                 'type'    => 'select',
                 'default' => 'account/details',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'addressPage'    => [
+            'addressPage'      => [
                 'label'   => 'The customer address page',
                 'type'    => 'select',
                 'default' => 'account/address',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'ordersPage'    => [
+            'ordersPage'       => [
                 'label'   => 'The customer orders page',
                 'type'    => 'select',
                 'default' => 'account/orders',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'reservationsPage'    => [
+            'reservationsPage' => [
                 'label'   => 'The customer reservations page',
                 'type'    => 'select',
                 'default' => 'account/reservations',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'reviewsPage'    => [
+            'reviewsPage'      => [
                 'label'   => 'The customer reviews page',
                 'type'    => 'select',
                 'default' => 'account/reviews',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'inboxPage'    => [
+            'inboxPage'        => [
                 'label'   => 'The customer inbox page',
                 'type'    => 'select',
                 'default' => 'account/inbox',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'redirectPage' => [
+            'redirectPage'     => [
                 'label'   => 'Page to redirect to after successful login or registration',
                 'type'    => 'select',
                 'default' => 'account/account',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
-            'loginPage'    => [
+            'loginPage'        => [
                 'label'   => 'Page to redirect to when checkout is successful',
                 'type'    => 'select',
                 'default' => 'account/login',
-                'options' => [static::class, 'getPageOptions']
+                'options' => [static::class, 'getPageOptions'],
             ],
         ];
     }
@@ -152,6 +152,7 @@ class Account extends \System\Classes\BaseComponent
     public function loginUrl()
     {
         $currentUrl = str_replace(Request::root(), '', Request::fullUrl());
+
         return $this->pageUrl($this->property('loginPage')).'?redirect='.urlencode($currentUrl);
     }
 
@@ -289,10 +290,10 @@ class Account extends \System\Classes\BaseComponent
 
             $this->validate($data, $rules);
 
-            $passwordChanged = false;
+            $passwordChanged = FALSE;
             if (strlen(post('old_password')) AND strlen(post('new_password'))) {
                 $data['password'] = post('new_password');
-                $passwordChanged = true;
+                $passwordChanged = TRUE;
             }
 
             if (!array_key_exists('newsletter', $data))
@@ -308,7 +309,6 @@ class Account extends \System\Classes\BaseComponent
             flash()->success(lang('sampoyigi.account::default.settings.alert_updated_success'));
 
             return Redirect::back();
-
         } catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
@@ -343,7 +343,7 @@ class Account extends \System\Classes\BaseComponent
     protected function passwordDoesNotMatch()
     {
         if (!strlen($password = post('old_password')))
-            return false;
+            return FALSE;
 
         $credentials = ['password' => $password];
         if (!Auth::validateCredentials($this->customer(), $credentials)) {

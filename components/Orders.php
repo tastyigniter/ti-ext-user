@@ -1,43 +1,43 @@
 <?php namespace SamPoyigi\Account\Components;
 
-use SamPoyigi\Cart\Models\Menus_model;
 use Admin\Models\Orders_model;
 use Auth;
 use Cart;
 use Redirect;
+use SamPoyigi\Cart\Models\Menus_model;
 
 class Orders extends \System\Classes\BaseComponent
 {
     public function defineProperties()
     {
         return [
-            'pageNumber'   => [
+            'pageNumber'     => [
                 'label' => 'Page Number',
                 'type'  => 'string',
             ],
-            'itemsPerPage' => [
+            'itemsPerPage'   => [
                 'label'   => 'Items Per Page',
                 'type'    => 'number',
                 'default' => 20,
             ],
-            'sortOrder'    => [
+            'sortOrder'      => [
                 'label' => 'Sort order',
                 'type'  => 'string',
             ],
-            'addReviewsPage'    => [
-                'label' => 'Add review page',
-                'type'  => 'string',
-                'default'  => 'account/reviews',
+            'addReviewsPage' => [
+                'label'   => 'Add review page',
+                'type'    => 'string',
+                'default' => 'account/reviews',
             ],
-            'ordersPage'    => [
-                'label' => 'Account Orders Page',
-                'type'  => 'string',
-                'default'  => 'account/orders',
+            'ordersPage'     => [
+                'label'   => 'Account Orders Page',
+                'type'    => 'string',
+                'default' => 'account/orders',
             ],
             'reorderPage'    => [
-                'label' => 'Re Order Page',
-                'type'  => 'string',
-                'default'  => 'local/menus',
+                'label'   => 'Re Order Page',
+                'type'    => 'string',
+                'default' => 'local/menus',
             ],
         ];
     }
@@ -91,8 +91,8 @@ class Orders extends \System\Classes\BaseComponent
                 $reorderPage = $this->property('reorderPage');
 
                 return Redirect::to($this->pageUrl($reorderPage, [
-                    'orderId' => $orderId,
-                    'location' => $order->location->permalink_slug
+                    'orderId'  => $orderId,
+                    'location' => $order->location->permalink_slug,
                 ]));
             }
         }
@@ -107,7 +107,7 @@ class Orders extends \System\Classes\BaseComponent
             'page'      => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
             'sort'      => $this->property('sortOrder', 'date_added desc'),
-            'customer' => $customer,
+            'customer'  => $customer,
         ]);
     }
 }

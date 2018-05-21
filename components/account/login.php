@@ -1,7 +1,7 @@
 <?= form_open(current_url(),
     [
-        'role' => 'form',
-        'method' => 'POST',
+        'role'         => 'form',
+        'method'       => 'POST',
         'data-request' => 'account::onLogin',
     ]
 ); ?>

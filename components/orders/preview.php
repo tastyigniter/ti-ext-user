@@ -27,7 +27,7 @@
             <td><?= $customerOrder->payment_method
                     ? $customerOrder->payment_method->name
                     : lang('sampoyigi.cart::default.checkout.text_no_payment');
-            ?></td>
+                ?></td>
         </tr>
         <tr>
             <td><b><?= lang('sampoyigi.account::default.orders.column_location'); ?>:</b></td>
