@@ -7,6 +7,7 @@ use Admin\Traits\ValidatesForm;
 use ApplicationException;
 use Exception;
 use Mail;
+use Main\Template\Page;
 use Redirect;
 use System\Classes\BaseComponent;
 
@@ -19,12 +20,12 @@ class ResetPassword extends BaseComponent
         return [
             'resetPage' => [
                 'label'   => 'The reset password page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/reset',
             ],
             'loginPage' => [
                 'label'   => 'The login page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/login',
             ],
             'paramName' => [
@@ -33,6 +34,16 @@ class ResetPassword extends BaseComponent
                 'default' => 'code',
             ],
         ];
+    }
+
+    public static function getResetPageOptions()
+    {
+        return Page::lists('baseFileName', 'baseFileName');
+    }
+
+    public static function getLoginPageOptions()
+    {
+        return Page::lists('baseFileName', 'baseFileName');
     }
 
     /**

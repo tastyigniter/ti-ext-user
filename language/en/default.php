@@ -87,8 +87,8 @@ return [
         'alert_deleted_success' => 'Address deleted successfully.',
     ],
     'reset'        => [
-        'component_title' => 'Reset Password Component',
-        'component_desc'  => 'Displays reset password form',
+        'component_title' => 'Password Reset Component',
+        'component_desc'  => 'Displays password reset form',
 
         'text_heading' => 'Account Password Reset',
         'text_summary' => 'Email address you use to log in to your account We\'ll send you an email with a new password.',
@@ -108,11 +108,11 @@ return [
         'alert_no_email_match'        => 'No matching email address',
     ],
     'addressbook'  => [
-        'component_title' => 'Address Book Component',
+        'component_title' => 'Account Address Book Component',
         'component_desc'  => 'Displays and manages account address book',
     ],
     'settings'     => [
-        'component_title'       => 'Settings Component',
+        'component_title'       => 'Account Settings Component',
         'component_desc'        => 'Manages account settings',
         'text_heading'          => 'My Details',
         'text_details'          => 'Edit your details',
@@ -138,7 +138,7 @@ return [
         'alert_updated_success' => 'Details updated successfully.',
     ],
     'orders'       => [
-        'component_title'   => 'Orders Component',
+        'component_title'   => 'Account Orders Component',
         'component_desc'    => 'Displays and manages account orders',
         'text_heading'      => 'Recent Orders',
         'text_my_account'   => 'My Account',
@@ -172,7 +172,7 @@ return [
         'alert_reorder_success' => 'You have successfully added the menus from order ID %s to your order.',
     ],
     'reservations' => [
-        'component_title'   => 'Reservations Component',
+        'component_title'   => 'Account Reservations Component',
         'component_desc'    => 'Displays and manages account reservations',
         'text_heading'      => 'Recent Reservations',
         'text_my_account'   => 'My Account',
@@ -198,7 +198,7 @@ return [
         'alert_reservation_disabled' => 'Table reservation has been disabled, please contact administrator.',
     ],
     'inbox'        => [
-        'component_title'   => 'Inbox Component',
+        'component_title'   => 'Account Inbox Component',
         'component_desc'    => 'Displays account inbox messages',
         'text_heading'      => 'My Inbox',
         'text_my_account'   => 'My Account',
@@ -219,6 +219,8 @@ return [
         'alert_deleted_success' => 'Message deleted successfully.',
     ],
     'reviews'      => [
+        'component_title'   => 'Account Reviews Component',
+        'component_desc'    => 'Displays account reviews',
         'text_heading'             => 'Recent Reviews',
         'text_my_account'          => 'My Account',
         'text_empty'               => 'There are no added review(s).',

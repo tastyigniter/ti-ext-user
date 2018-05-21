@@ -8,6 +8,7 @@ use Cart;
 use Event;
 use Exception;
 use Mail;
+use Main\Template\Page;
 use Redirect;
 use Request;
 use SamPoyigi\Pages\Models\Pages_model;
@@ -28,50 +29,64 @@ class Account extends \System\Classes\BaseComponent
             ],
             'accountPage'    => [
                 'label'   => 'The customer dashboard page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/account',
+                'options' => [static::class, 'getPageOptions']
             ],
             'detailsPage'    => [
                 'label'   => 'The customer details page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/details',
+                'options' => [static::class, 'getPageOptions']
             ],
             'addressPage'    => [
                 'label'   => 'The customer address page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/address',
+                'options' => [static::class, 'getPageOptions']
             ],
             'ordersPage'    => [
                 'label'   => 'The customer orders page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/orders',
+                'options' => [static::class, 'getPageOptions']
             ],
             'reservationsPage'    => [
                 'label'   => 'The customer reservations page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/reservations',
+                'options' => [static::class, 'getPageOptions']
             ],
             'reviewsPage'    => [
                 'label'   => 'The customer reviews page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/reviews',
+                'options' => [static::class, 'getPageOptions']
             ],
             'inboxPage'    => [
                 'label'   => 'The customer inbox page',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/inbox',
+                'options' => [static::class, 'getPageOptions']
             ],
             'redirectPage' => [
                 'label'   => 'Page to redirect to after successful login or registration',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/account',
+                'options' => [static::class, 'getPageOptions']
             ],
             'loginPage'    => [
                 'label'   => 'Page to redirect to when checkout is successful',
-                'type'    => 'text',
+                'type'    => 'select',
                 'default' => 'account/login',
+                'options' => [static::class, 'getPageOptions']
             ],
         ];
+    }
+
+    public static function getPageOptions()
+    {
+        return Page::lists('baseFileName', 'baseFileName');
     }
 
     public function onRun()
