@@ -10,7 +10,7 @@ return [
     'text_orders'             => 'Recent Orders',
     'text_reservations'       => 'Recent Reservations',
     'text_reviews'            => 'Recent Reviews',
-    'text_inbox'              => 'My Inbox <span class="badge">%s</span>',
+    'text_inbox'              => 'My Inbox',
     'text_welcome'            => 'Welcome %s',
     'text_cart_summary'       => 'You have %s items: %s',
     'text_change_password'    => 'Change Password',
@@ -42,7 +42,7 @@ return [
         'label_password_confirm' => 'Password Confirm',
         'label_remember'         => 'Remember me',
         'label_newsletter'       => 'Keep me up-to-date with offers by email.',
-        'label_terms'            => 'By clicking <strong class="label label-primary">Register</strong>, you agree to the <a href="%s" data-toggle="modal" data-target="#terms-modal">Terms and Conditions</a> set out by this site, including our Cookie Use.',
+        'label_terms'            => 'By clicking Register, you agree to the <a target="_blank" href="%s">Terms and Conditions</a> set out by this site, including our Cookie Use.',
         'label_i_agree'          => 'I Agree',
         'label_subscribe'        => 'Subscribe',
 
@@ -194,8 +194,6 @@ return [
 
         'button_reserve' => 'Make Reservation',
         'button_back'    => 'Back',
-
-        'alert_reservation_disabled' => 'Table reservation has been disabled, please contact administrator.',
     ],
     'inbox'        => [
         'component_title'   => 'Account Inbox Component',

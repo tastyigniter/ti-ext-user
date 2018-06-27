@@ -1,4 +1,4 @@
-<p class="text-center"><?= lang('sampoyigi.account::default.reset.text_summary'); ?></p>
+<p><?= lang('sampoyigi.account::default.reset.text_summary'); ?></p>
 
 <?= form_open(current_url(),
     [
@@ -20,14 +20,14 @@
 </div>
 
 <div class="clearfix">
-    <button
-        type="submit"
-        class="btn btn-primary btn-lg pull-left"
-    ><?= lang('sampoyigi.account::default.reset.button_reset'); ?></button>
     <a
-        class="btn btn-default btn-lg pull-right"
+        class="btn btn-link btn-lg pull-left"
         href="<?= site_url('account/login'); ?>"
     ><?= lang('sampoyigi.account::default.reset.button_login'); ?></a>
+    <button
+        type="submit"
+        class="btn btn-primary btn-lg pull-right"
+    ><?= lang('sampoyigi.account::default.reset.button_reset'); ?></button>
 </div>
 
 <?= form_close(); ?>

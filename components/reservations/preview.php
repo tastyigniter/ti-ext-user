@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-none">
+    <table class="table table-borderless">
         <tr>
             <td><b><?= lang('sampoyigi.account::default.reservations.column_id'); ?>:</b></td>
             <td><?= $customerReservation->reservation_id; ?></td>

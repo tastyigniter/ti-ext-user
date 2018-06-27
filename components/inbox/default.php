@@ -39,5 +39,7 @@
         <div class="links"><?= $customerMessages->links(); ?></div>
     </div>
 <?php } else { ?>
-    <p><?= lang('sampoyigi.account::default.inbox.text_empty'); ?></p>
+    <div class="card-body">
+        <p><?= lang('sampoyigi.account::default.inbox.text_empty'); ?></p>
+    </div>
 <?php } ?>

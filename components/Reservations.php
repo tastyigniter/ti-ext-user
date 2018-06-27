@@ -63,7 +63,7 @@ class Reservations extends \System\Classes\BaseComponent
         if (!$customer = Auth::customer())
             return [];
 
-        return Reservations_model::listFrontEnd([
+        return Reservations_model::with(['location', 'status', 'related_table'])->listFrontEnd([
             'page'      => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
             'sort'      => $this->property('sortOrder', 'date_added desc'),

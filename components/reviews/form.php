@@ -32,7 +32,7 @@
                 type="text"
                 id="customer"
                 class="form-control"
-                value="<?= $reviewSale->author; ?>"
+                value="<?= $reviewSale->customer_name; ?>"
                 disabled
             />
         </div>

@@ -9,9 +9,9 @@
                 <address class="text-left"><?= format_address($address); ?></address>
                 <span class="">
                     <a
-                        class="edit-address"
+                        class="btn btn-outline-default"
                         href="<?= site_url('account/address', ['addressId' => $address->address_id]); ?>"
-                    ><?= lang('sampoyigi.account::default.account.text_edit'); ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    ><?= lang('sampoyigi.account::default.account.text_edit'); ?></a>
                 </span>
             </div>
         <?php } ?>
@@ -21,12 +21,12 @@
         <div class="links"><?= $customerAddresses->links(); ?></div>
     </div>
 <?php } else { ?>
-    <div class="list-group-item"><?= lang('sampoyigi.account::default.account.text_no_address'); ?></div>
+    <p><?= lang('sampoyigi.account::default.account.text_no_address'); ?></p>
 <?php } ?>
 
 <div class="buttons">
-    <a
+    <button
         class="btn btn-primary btn-lg"
         data-request="<?= $addAddressEventHandler; ?>"
-    ><?= lang('sampoyigi.account::default.account.button_add'); ?></a>
+    ><?= lang('sampoyigi.account::default.account.button_add'); ?></button>
 </div>

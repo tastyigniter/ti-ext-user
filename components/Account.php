@@ -22,64 +22,70 @@ class Account extends \System\Classes\BaseComponent
     public function defineProperties()
     {
         return [
-            'security'         => [
+            'security'                   => [
                 'label'   => 'Who can access this page',
                 'type'    => 'string',
                 'default' => 'all',
             ],
-            'accountPage'      => [
+            'accountPage'                => [
                 'label'   => 'The customer dashboard page',
                 'type'    => 'select',
                 'default' => 'account/account',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'detailsPage'      => [
+            'detailsPage'                => [
                 'label'   => 'The customer details page',
                 'type'    => 'select',
                 'default' => 'account/details',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'addressPage'      => [
+            'addressPage'                => [
                 'label'   => 'The customer address page',
                 'type'    => 'select',
                 'default' => 'account/address',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'ordersPage'       => [
+            'ordersPage'                 => [
                 'label'   => 'The customer orders page',
                 'type'    => 'select',
                 'default' => 'account/orders',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'reservationsPage' => [
+            'reservationsPage'           => [
                 'label'   => 'The customer reservations page',
                 'type'    => 'select',
                 'default' => 'account/reservations',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'reviewsPage'      => [
+            'reviewsPage'                => [
                 'label'   => 'The customer reviews page',
                 'type'    => 'select',
                 'default' => 'account/reviews',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'inboxPage'        => [
+            'inboxPage'                  => [
                 'label'   => 'The customer inbox page',
                 'type'    => 'select',
                 'default' => 'account/inbox',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'redirectPage'     => [
+            'redirectPage'               => [
                 'label'   => 'Page to redirect to after successful login or registration',
                 'type'    => 'select',
                 'default' => 'account/account',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'loginPage'        => [
+            'loginPage'                  => [
                 'label'   => 'Page to redirect to when checkout is successful',
                 'type'    => 'select',
                 'default' => 'account/login',
                 'options' => [static::class, 'getPageOptions'],
+            ],
+            'agreeRegistrationTermsPage' => [
+                'label'   => 'Registration Terms',
+                'type'    => 'select',
+                'options' => [static::class, 'getPagesOptions'],
+                'comment' => 'Require customers to agree to terms before an account is registered',
             ],
         ];
     }
@@ -87,6 +93,11 @@ class Account extends \System\Classes\BaseComponent
     public static function getPageOptions()
     {
         return Page::lists('baseFileName', 'baseFileName');
+    }
+
+    public static function getPagesOptions()
+    {
+        return Pages_model::dropdown('name');
     }
 
     public function onRun()
@@ -116,7 +127,7 @@ class Account extends \System\Classes\BaseComponent
         $this->page['inboxPage'] = $this->property('inboxPage');
 
         $this->page['customer'] = $this->customer();
-        $this->page['requireRegistrationTerms'] = (bool)setting('registration_terms');
+        $this->page['requireRegistrationTerms'] = (bool)$this->property('agreeRegistrationTermsPage');
     }
 
     public function cartCount()
@@ -131,12 +142,11 @@ class Account extends \System\Classes\BaseComponent
 
     public function getRegistrationTermsUrl()
     {
-        $termsPageId = setting('registration_terms');
+        $termsPageId = $this->property('registrationTerms');
         $termsPage = Pages_model::find($termsPageId);
 
         return $this->pageUrl('pages/pages', [
-            'slug'  => $termsPage->permalink_slug,
-            'popup' => 'show',
+            'slug' => $termsPage ? $termsPage->permalink_slug : null,
         ]);
     }
 
@@ -147,6 +157,21 @@ class Account extends \System\Classes\BaseComponent
         }
 
         return Auth::getUser();
+    }
+
+    public function getCustomerOrders()
+    {
+        return $this->customer()->orders()->with('status')->take(10)->get();
+    }
+
+    public function getCustomerReservations()
+    {
+        return $this->customer()->reservations()->with('status')->take(10)->get();
+    }
+
+    public function getCustomerMessages()
+    {
+        return $this->customer()->messages()->take(10)->get();
     }
 
     public function loginUrl()
@@ -187,7 +212,8 @@ class Account extends \System\Classes\BaseComponent
 
             if ($redirectUrl = $this->pageUrl($this->property('redirectPage')))
                 return Redirect::intended($redirectUrl);
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
@@ -221,12 +247,12 @@ class Account extends \System\Classes\BaseComponent
                 ['last_name', 'lang:sampoyigi.account::default.settings.label_last_name', 'required|min:2|max:32'],
                 ['email', 'lang:sampoyigi.account::default.settings.label_email', 'required|email|unique:customers,email'],
                 ['password', 'lang:sampoyigi.account::default.login.label_password', 'required|min:6|max:32|same:password_confirm'],
-                ['password_confirm', 'lang:sampoyigi.account::login.settings.label_password_confirm', 'required'],
+                ['password_confirm', 'lang:sampoyigi.account::default.login.label_password_confirm', 'required'],
                 ['telephone', 'lang:sampoyigi.account::default.settings.label_telephone', 'required'],
                 ['newsletter', 'lang:sampoyigi.account::default.login.label_subscribe', 'integer'],
             ];
 
-            if ((bool)setting('registration_terms'))
+            if (is_numeric($this->property('registrationTerms')))
                 $rules[] = ['terms', 'lang:sampoyigi.account::default.login.label_i_agree', 'required|integer'];
 
             $this->validate($data, $rules);
@@ -257,7 +283,8 @@ class Account extends \System\Classes\BaseComponent
 
             if ($redirectUrl = get('redirect', $redirectUrl))
                 return Redirect::intended($redirectUrl);
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
@@ -309,7 +336,8 @@ class Account extends \System\Classes\BaseComponent
             flash()->success(lang('sampoyigi.account::default.settings.alert_updated_success'));
 
             return Redirect::back();
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();

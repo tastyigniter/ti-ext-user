@@ -14,8 +14,12 @@
             id="login-email"
             class="form-control input-lg"
             placeholder="<?= lang('sampoyigi.account::default.settings.label_email'); ?>"
-            autofocus="" required/>
-        <span class="input-group-addon">@</span>
+            autofocus=""
+            required
+        />
+        <span class="input-group-addon">
+            <span class="input-group-text">@</span>
+        </span>
     </div>
     <?= form_error('email', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -27,31 +31,34 @@
             name="password"
             id="login-password"
             class="form-control input-lg"
-            placeholder="<?= lang('sampoyigi.account::default.settings.label_password'); ?>" required/>
-        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+            placeholder="<?= lang('sampoyigi.account::default.settings.label_password'); ?>"
+            required
+        />
+        <span class="input-group-addon">
+            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+        </span>
     </div>
     <?= form_error('password', '<span class="text-danger">', '</span>'); ?>
 </div>
 
 <div class="form-group">
-    <span class="button-checkbox">
-        <button id="remember"
-                type="button"
-                class="btn"
-                data-color="default"
-                tabindex="7">
-            &nbsp;&nbsp;<?= lang('sampoyigi.account::default.login.label_remember'); ?>
-        </button>
-        <input type="checkbox"
-               name="remember"
-               class="hidden"
-               value="1" <?= set_checkbox('remember', '1'); ?>>
-    </span>
+    <div class="custom-control custom-checkbox">
+        <input
+            id="rememberLogin"
+            type="checkbox"
+            name="newsletter"
+            value="1"
+            class="custom-control-input" <?= set_checkbox('remember', '1'); ?>
+        >
+        <label class="custom-control-label" for="rememberLogin">
+            <?= lang('sampoyigi.account::default.login.label_remember'); ?>
+        </label>
+    </div>
 </div>
 
 <div class="form-group">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <button
                 type="submit"
                 class="btn btn-primary btn-block btn-lg"

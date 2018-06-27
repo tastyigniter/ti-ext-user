@@ -1,12 +1,12 @@
 <div class="table-responsive">
-    <table class="table table-none">
+    <table class="table table-borderless">
         <tr>
             <td style="width:20%;"><b><?= lang('sampoyigi.account::default.orders.column_id'); ?>:</b></td>
             <td><?= $customerOrder->order_id; ?></td>
         </tr>
         <tr>
             <td><b><?= lang('sampoyigi.account::default.orders.column_date'); ?>:</b></td>
-            <td><?= day_elapsed($customerOrder->order_date).' - '.$customerOrder->order_time->format('H:i'); ?></td>
+            <td><?= day_elapsed($customerOrder->order_date).' - '.$customerOrder->order_time; ?></td>
         </tr>
         <tr>
             <td><b><?= lang('sampoyigi.account::default.orders.column_date_added'); ?>:</b></td>
@@ -43,7 +43,7 @@
     <h4><?= lang('sampoyigi.account::default.orders.text_order_menus'); ?></h4>
 </div>
 <div class="table-responsive">
-    <table class="table">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th style="width:7%"></th>
@@ -107,7 +107,7 @@
     </table>
 </div>
 
-<div class="buttons">
+<div class="buttons p-3">
     <a
         class="btn btn-primary"
         data-request="<?= $__SELF__.'::onReOrder'; ?>"

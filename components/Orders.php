@@ -84,7 +84,7 @@ class Orders extends \System\Classes\BaseComponent
                     $cartItem->setComment($menu->comment);
                 }
 
-                flash()->set('alert', sprintf(
+                flash()->success(sprintf(
                     lang('sampoyigi.account::default.orders.alert_reorder_success'), $orderId
                 ));
 
@@ -103,7 +103,7 @@ class Orders extends \System\Classes\BaseComponent
         if (!$customer = Auth::customer())
             return [];
 
-        return Orders_model::listFrontEnd([
+        return Orders_model::with(['location', 'status'])->listFrontEnd([
             'page'      => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
             'sort'      => $this->property('sortOrder', 'date_added desc'),

@@ -28,6 +28,11 @@ class Reviews extends \System\Classes\BaseComponent
                 'label' => 'Sort order',
                 'type'  => 'string',
             ],
+            'redirectPage'             => [
+                'label'   => 'Page to redirect to when reviews is disabled',
+                'type'    => 'string',
+                'default' => 'account/account',
+            ],
             'ordersRedirectPage'       => [
                 'label'   => 'Orders Page',
                 'type'    => 'string',
@@ -44,13 +49,19 @@ class Reviews extends \System\Classes\BaseComponent
     public function onRun()
     {
         $this->page['ordersPage'] = $this->property('ordersPage');
-        $this->page['showReviews'] = setting('allow_reviews') == 1;
+        $this->page['showReviews'] = $showReviews = setting('allow_reviews') == 1;
         $this->page['customerReviews'] = $this->loadReviews();
 
         $customerId = ($customer = Auth::customer()) ? $customer->getKey() : null;
         $this->page['saleIdParam'] = $this->saleIdParam = $this->param('saleId');
         $this->page['saleTypeParam'] = $this->saleTypeParam = $this->param('saleType');
         $this->page['reviewSale'] = $model = $this->getSaleModel();
+
+        if (!$showReviews) {
+            flash()->error(lang('sampoyigi.account::default.reviews.alert_review_disabled'))->now();
+
+            return Redirect::to($this->pageUrl($this->property('redirectPage')));
+        }
 
         if ($this->saleIdParam AND !$model) {
             flash()->warning(lang('sampoyigi.account::default.reviews.alert_review_status_history'))->now();
@@ -70,7 +81,7 @@ class Reviews extends \System\Classes\BaseComponent
         if (!$customer = Auth::customer())
             return [];
 
-        return Reviews_model::listFrontEnd([
+        return Reviews_model::with(['location'])->listFrontEnd([
             'page'      => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
             'sort'      => $this->property('sortOrder', 'date_added desc'),
@@ -103,6 +114,6 @@ class Reviews extends \System\Classes\BaseComponent
 
     protected function makeRedirectUrl()
     {
-        return $this->property($this->saleTypeParam.'sRedirectPage');
+        return $this->pageUrl($this->property($this->saleTypeParam.'sRedirectPage'));
     }
 }
