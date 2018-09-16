@@ -1,7 +1,7 @@
 <?= form_open(current_url(),
     [
-        'role'         => 'form',
-        'method'       => 'POST',
+        'role' => 'form',
+        'method' => 'POST',
         'data-request' => $__SELF__.'::onResetPassword',
     ]
 ); ?>
@@ -20,7 +20,7 @@
         type="password"
         class="form-control input-lg"
         value="<?= set_value('password'); ?>"
-        placeholder="<?= lang('sampoyigi.account::default.reset.label_password') ?>"
+        placeholder="<?= lang('igniter.user::default.reset.label_password') ?>"
     />
     <?= form_error('password', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -31,7 +31,7 @@
         type="password"
         class="form-control input-lg"
         value="<?= set_value('password_confirm'); ?>"
-        placeholder="<?= lang('sampoyigi.account::default.reset.label_password_confirm') ?>"
+        placeholder="<?= lang('igniter.user::default.reset.label_password_confirm') ?>"
     />
     <?= form_error('password_confirm', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -40,7 +40,7 @@
     <button
         type="submit"
         class="btn btn-primary btn-block btn-lg"
-    ><?= lang('sampoyigi.account::default.reset.button_reset'); ?></button>
+    ><?= lang('igniter.user::default.reset.button_reset'); ?></button>
 </div>
 
 <?= form_close(); ?>

@@ -7,17 +7,17 @@ $customerMessages = $__SELF__->getCustomerMessages();
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <h4><?= sprintf(lang('sampoyigi.account::default.text_welcome'), $customer->first_name); ?></h4>
+                <h4><?= sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name); ?></h4>
                 <?php if (count($customer->address)) { ?>
                     <a
                         class="edit-address pull-right"
                         href="<?= site_url('account/address/'.$customer->address->getKey()); ?>"
-                    ><?= lang('sampoyigi.account::default.text_edit'); ?></a>
-                    <b><?= lang('sampoyigi.account::default.text_default_address'); ?></b>
+                    ><?= lang('igniter.user::default.text_edit'); ?></a>
+                    <b><?= lang('igniter.user::default.text_default_address'); ?></b>
                     <address class="text-left text-overflow"><?= format_address($customer->address); ?></address>
                 <?php }
                 else { ?>
-                    <p><?= lang('sampoyigi.account::default.text_no_default_address'); ?></p>
+                    <p><?= lang('igniter.user::default.text_no_default_address'); ?></p>
                 <?php } ?>
             </div>
         </div>
@@ -28,15 +28,15 @@ $customerMessages = $__SELF__->getCustomerMessages();
             <div class="card-body">
                 <i class="fa fa-shopping-basket fa-2x"></i>
                 <?php if ($__SELF__->cartCount()) { ?>
-                    <p><?= sprintf(lang('sampoyigi.account::default.text_cart_summary'), $__SELF__->cartCount(), $__SELF__->cartTotal()); ?></p>
+                    <p><?= sprintf(lang('igniter.user::default.text_cart_summary'), $__SELF__->cartCount(), $__SELF__->cartTotal()); ?></p>
                     <a class="btn btn-primary" href="<?= site_url('checkout/checkout'); ?>">
-                        <?= lang('sampoyigi.account::default.text_checkout'); ?>
+                        <?= lang('igniter.user::default.text_checkout'); ?>
                     </a>
                 <?php }
                 else { ?>
-                    <p><?= lang('sampoyigi.account::default.text_no_cart_items'); ?></p>
+                    <p><?= lang('igniter.user::default.text_no_cart_items'); ?></p>
                     <a class="btn btn-primary" href="<?= restaurant_url('local/menus'); ?>">
-                        <?= lang('sampoyigi.account::default.text_order'); ?>
+                        <?= lang('igniter.user::default.text_order'); ?>
                     </a>
                 <?php } ?>
             </div>
@@ -48,18 +48,18 @@ $customerMessages = $__SELF__->getCustomerMessages();
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <h4 class="mb-0"><?= lang('sampoyigi.account::default.text_orders'); ?></h4>
+                <h4 class="mb-0"><?= lang('igniter.user::default.text_orders'); ?></h4>
             </div>
             <?php if (count($customerOrders)) { ?>
                 <div class="table-responsive">
                     <table class="table table-striped table-none">
                         <thead>
                         <tr>
-                            <th><?= lang('sampoyigi.account::default.column_id'); ?></th>
+                            <th><?= lang('igniter.user::default.column_id'); ?></th>
                             <th width="65%" class="text-center">
-                                <?= lang('sampoyigi.account::default.column_status'); ?>
+                                <?= lang('igniter.user::default.column_status'); ?>
                             </th>
-                            <th><?= lang('sampoyigi.account::default.column_date'); ?></th>
+                            <th><?= lang('igniter.user::default.column_date'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -81,7 +81,7 @@ $customerMessages = $__SELF__->getCustomerMessages();
                 </div>
             <?php }
             else { ?>
-                <p class="card-body"><?= lang('sampoyigi.account::default.text_no_orders'); ?></p>
+                <p class="card-body"><?= lang('igniter.user::default.text_no_orders'); ?></p>
             <?php } ?>
         </div>
     </div>
@@ -91,18 +91,18 @@ $customerMessages = $__SELF__->getCustomerMessages();
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <h4 class="mb-0"><?= lang('sampoyigi.account::default.text_reservations'); ?></h4>
+                <h4 class="mb-0"><?= lang('igniter.user::default.text_reservations'); ?></h4>
             </div>
             <?php if (count($customerReservations)) { ?>
                 <div class="table-responsive">
                     <table class="table table-striped table-none">
                         <thead>
                         <tr>
-                            <th><?= lang('sampoyigi.account::default.column_id'); ?></th>
+                            <th><?= lang('igniter.user::default.column_id'); ?></th>
                             <th width="65%" class="text-center">
-                                <?= lang('sampoyigi.account::default.column_status'); ?>
+                                <?= lang('igniter.user::default.column_status'); ?>
                             </th>
-                            <th><?= lang('sampoyigi.account::default.column_date'); ?></th>
+                            <th><?= lang('igniter.user::default.column_date'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -124,7 +124,7 @@ $customerMessages = $__SELF__->getCustomerMessages();
                 </div>
             <?php }
             else { ?>
-                <p class="card-body"><?= lang('sampoyigi.account::default.text_no_reservations'); ?></p>
+                <p class="card-body"><?= lang('igniter.user::default.text_no_reservations'); ?></p>
             <?php } ?>
         </div>
     </div>
@@ -134,15 +134,15 @@ $customerMessages = $__SELF__->getCustomerMessages();
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <h4 class="mb-0"><?= lang('sampoyigi.account::default.text_inbox'); ?></h4>
+                <h4 class="mb-0"><?= lang('igniter.user::default.text_inbox'); ?></h4>
             </div>
             <?php if (count($customerMessages)) { ?>
                 <div class="table-responsive">
                     <table class="table table-striped table-none">
                         <thead>
                         <tr>
-                            <th><?= lang('sampoyigi.account::default.column_date'); ?></th>
-                            <th><?= lang('sampoyigi.account::default.column_subject'); ?></th>
+                            <th><?= lang('igniter.user::default.column_date'); ?></th>
+                            <th><?= lang('igniter.user::default.column_subject'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -164,7 +164,7 @@ $customerMessages = $__SELF__->getCustomerMessages();
                 </div>
             <?php }
             else { ?>
-                <p class="card-body"><?= lang('sampoyigi.account::default.text_no_inbox'); ?></p>
+                <p class="card-body"><?= lang('igniter.user::default.text_no_inbox'); ?></p>
             <?php } ?>
         </div>
     </div>

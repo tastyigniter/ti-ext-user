@@ -1,6 +1,6 @@
 <?php
 
-namespace SamPoyigi\Account\Classes;
+namespace Igniter\User\Classes;
 
 use ApplicationException;
 use Exception;

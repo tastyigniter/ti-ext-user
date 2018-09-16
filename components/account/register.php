@@ -1,7 +1,7 @@
 <?= form_open(current_url(),
     [
-        'role'         => 'form',
-        'method'       => 'POST',
+        'role' => 'form',
+        'method' => 'POST',
         'data-request' => 'account::onRegister',
     ]
 ); ?>
@@ -15,7 +15,7 @@
                 class="form-control input-lg"
                 value="<?= set_value('first_name'); ?>"
                 name="first_name"
-                placeholder="<?= lang('sampoyigi.account::default.settings.label_first_name'); ?>"
+                placeholder="<?= lang('igniter.user::default.settings.label_first_name'); ?>"
                 autofocus="">
             <?= form_error('first_name', '<span class="text-danger">', '</span>'); ?>
         </div>
@@ -28,7 +28,7 @@
                 class="form-control input-lg"
                 value="<?= set_value('last_name'); ?>"
                 name="last_name"
-                placeholder="<?= lang('sampoyigi.account::default.settings.label_last_name'); ?>">
+                placeholder="<?= lang('igniter.user::default.settings.label_last_name'); ?>">
             <?= form_error('last_name', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>
@@ -40,7 +40,7 @@
         class="form-control input-lg"
         value="<?= set_value('email'); ?>"
         name="email"
-        placeholder="<?= lang('sampoyigi.account::default.settings.label_email'); ?>">
+        placeholder="<?= lang('igniter.user::default.settings.label_email'); ?>">
     <?= form_error('email', '<span class="text-danger">', '</span>'); ?>
 </div>
 <div class="form-row">
@@ -52,7 +52,7 @@
                 class="form-control input-lg"
                 value=""
                 name="password"
-                placeholder="<?= lang('sampoyigi.account::default.login.label_password'); ?>">
+                placeholder="<?= lang('igniter.user::default.login.label_password'); ?>">
             <?= form_error('password', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>
@@ -63,7 +63,7 @@
                    class="form-control input-lg"
                    name="password_confirm"
                    value=""
-                   placeholder="<?= lang('sampoyigi.account::default.login.label_password_confirm'); ?>">
+                   placeholder="<?= lang('igniter.user::default.login.label_password_confirm'); ?>">
             <?= form_error('password_confirm', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>
@@ -76,7 +76,7 @@
         class="form-control input-lg"
         value="<?= set_value('telephone'); ?>"
         name="telephone"
-        placeholder="<?= lang('sampoyigi.account::default.settings.label_telephone'); ?>"
+        placeholder="<?= lang('igniter.user::default.settings.label_telephone'); ?>"
     >
     <?= form_error('telephone', '<span class="text-danger">', '</span>'); ?>
 </div>
@@ -91,7 +91,7 @@
             class="custom-control-input" <?= set_checkbox('newsletter', '1'); ?>
         >
         <label class="custom-control-label" for="newsletter">
-            <?= lang('sampoyigi.account::default.login.label_newsletter'); ?>
+            <?= lang('igniter.user::default.login.label_newsletter'); ?>
         </label>
     </div>
     <?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
@@ -108,7 +108,7 @@
                 class="custom-control-input" <?= set_checkbox('terms', '1'); ?>
             >
             <label class="custom-control-label" for="agree-terms">
-                <?= sprintf(lang('sampoyigi.account::default.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
+                <?= sprintf(lang('igniter.user::default.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
             </label>
         </div>
         <?= form_error('terms', '<span class="text-danger">', '</span>'); ?>
@@ -120,13 +120,13 @@
         <button
             type="submit"
             class="btn btn-primary btn-block btn-lg"
-        ><?= lang('sampoyigi.account::default.login.button_register'); ?></button>
+        ><?= lang('igniter.user::default.login.button_register'); ?></button>
     </div>
     <div class="col-12 text-center">
         <a
             href="<?= site_url('account/login'); ?>"
             class="btn btn-link"
-        ><?= lang('sampoyigi.account::default.login.button_login'); ?></a>
+        ><?= lang('igniter.user::default.login.button_login'); ?></a>
     </div>
 </div>
 <?= form_close(); ?>

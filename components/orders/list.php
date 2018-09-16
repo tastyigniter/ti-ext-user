@@ -2,13 +2,13 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th><?= lang('sampoyigi.account::default.orders.column_id'); ?></th>
-            <th><?= lang('sampoyigi.account::default.orders.column_status'); ?></th>
-            <th><?= lang('sampoyigi.account::default.orders.column_location'); ?></th>
-            <th><?= lang('sampoyigi.account::default.orders.column_date'); ?></th>
-            <th><?= lang('sampoyigi.account::default.orders.column_order'); ?></th>
-            <th><?= lang('sampoyigi.account::default.orders.column_items'); ?></th>
-            <th><?= lang('sampoyigi.account::default.orders.column_total'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_id'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_status'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_location'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_date'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_order'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_items'); ?></th>
+            <th><?= lang('igniter.user::default.orders.column_total'); ?></th>
             <th></th>
             <?php if ($showReviews) { ?>
                 <th></th>
@@ -33,7 +33,7 @@
                     <td>
                         <button
                             class="btn btn-primary re-order"
-                            title="<?= lang('sampoyigi.account::default.orders.text_reorder'); ?>"
+                            title="<?= lang('igniter.user::default.orders.text_reorder'); ?>"
                             data-request="<?= $__SELF__.'::onReOrder'; ?>"
                             data-request-data="orderId: <?= $order->order_id; ?>"
                         ><i class="fa fa-mail-reply"></i></button>
@@ -42,10 +42,10 @@
                         <td>
                             <a
                                 class="btn btn-warning leave-review"
-                                title="<?= lang('sampoyigi.account::default.orders.text_leave_review'); ?>"
+                                title="<?= lang('igniter.user::default.orders.text_leave_review'); ?>"
                                 href="<?= site_url($addReviewsPage, [
                                     'saleType' => 'order',
-                                    'saleId'   => $order->order_id,
+                                    'saleId' => $order->order_id,
                                 ]); ?>"
                             ><i class="fa fa-heart"></i></a>
                         </td>
@@ -54,7 +54,7 @@
             <?php } ?>
         <?php } else { ?>
             <tr>
-                <td colspan="9"><?= lang('sampoyigi.account::default.orders.text_empty'); ?></td>
+                <td colspan="9"><?= lang('igniter.user::default.orders.text_empty'); ?></td>
             </tr>
         <?php } ?>
         </tbody>

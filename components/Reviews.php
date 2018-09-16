@@ -1,4 +1,4 @@
-<?php namespace SamPoyigi\Account\Components;
+<?php namespace Igniter\User\Components;
 
 use Admin\Models\Orders_model;
 use Admin\Models\Reservations_model;
@@ -15,32 +15,32 @@ class Reviews extends \System\Classes\BaseComponent
     public function defineProperties()
     {
         return [
-            'pageNumber'               => [
+            'pageNumber' => [
                 'label' => 'Page Number',
-                'type'  => 'string',
+                'type' => 'string',
             ],
-            'itemsPerPage'             => [
-                'label'   => 'Items Per Page',
-                'type'    => 'number',
+            'itemsPerPage' => [
+                'label' => 'Items Per Page',
+                'type' => 'number',
                 'default' => 20,
             ],
-            'sortOrder'                => [
+            'sortOrder' => [
                 'label' => 'Sort order',
-                'type'  => 'string',
+                'type' => 'string',
             ],
-            'redirectPage'             => [
-                'label'   => 'Page to redirect to when reviews is disabled',
-                'type'    => 'string',
+            'redirectPage' => [
+                'label' => 'Page to redirect to when reviews is disabled',
+                'type' => 'string',
                 'default' => 'account/account',
             ],
-            'ordersRedirectPage'       => [
-                'label'   => 'Orders Page',
-                'type'    => 'string',
+            'ordersRedirectPage' => [
+                'label' => 'Orders Page',
+                'type' => 'string',
                 'default' => 'account/orders',
             ],
             'reservationsRedirectPage' => [
-                'label'   => 'Reservations Page',
-                'type'    => 'string',
+                'label' => 'Reservations Page',
+                'type' => 'string',
                 'default' => 'account/reservations',
             ],
         ];
@@ -58,19 +58,19 @@ class Reviews extends \System\Classes\BaseComponent
         $this->page['reviewSale'] = $model = $this->getSaleModel();
 
         if (!$showReviews) {
-            flash()->error(lang('sampoyigi.account::default.reviews.alert_review_disabled'))->now();
+            flash()->error(lang('igniter.user::default.reviews.alert_review_disabled'))->now();
 
             return Redirect::to($this->pageUrl($this->property('redirectPage')));
         }
 
         if ($this->saleIdParam AND !$model) {
-            flash()->warning(lang('sampoyigi.account::default.reviews.alert_review_status_history'))->now();
+            flash()->warning(lang('igniter.user::default.reviews.alert_review_status_history'))->now();
 
             return Redirect::to($this->makeRedirectUrl());
         }
 
         if ($this->saleIdParam AND Reviews_model::hasBeenReviewed($model, $customerId)->first()) {
-            flash()->set('danger', lang('sampoyigi.account::default.reviews.alert_review_duplicate'))->now();
+            flash()->set('danger', lang('igniter.user::default.reviews.alert_review_duplicate'))->now();
 
             return Redirect::to($this->makeRedirectUrl());
         }
@@ -82,10 +82,10 @@ class Reviews extends \System\Classes\BaseComponent
             return [];
 
         return Reviews_model::with(['location'])->listFrontEnd([
-            'page'      => $this->param('page'),
+            'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
-            'sort'      => $this->property('sortOrder', 'date_added desc'),
-            'customer'  => $customer,
+            'sort' => $this->property('sortOrder', 'date_added desc'),
+            'customer' => $customer,
         ]);
     }
 

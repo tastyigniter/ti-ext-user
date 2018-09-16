@@ -1,4 +1,4 @@
-<?php namespace SamPoyigi\Account\Components;
+<?php namespace Igniter\User\Components;
 
 use Auth;
 use System\Models\Messages_model;
@@ -8,18 +8,18 @@ class Inbox extends \System\Classes\BaseComponent
     public function defineProperties()
     {
         return [
-            'pageNumber'   => [
+            'pageNumber' => [
                 'label' => 'Page Number',
-                'type'  => 'string',
+                'type' => 'string',
             ],
             'itemsPerPage' => [
-                'label'   => 'Items Per Page',
-                'type'    => 'number',
+                'label' => 'Items Per Page',
+                'type' => 'number',
                 'default' => 20,
             ],
-            'sortOrder'    => [
+            'sortOrder' => [
                 'label' => 'Sort order',
-                'type'  => 'string',
+                'type' => 'string',
             ],
         ];
     }
@@ -35,9 +35,9 @@ class Inbox extends \System\Classes\BaseComponent
             return [];
 
         return Messages_model::listFrontEnd([
-            'page'      => $this->param('page'),
+            'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
-            'sort'      => $this->property('sortOrder', 'date_added desc'),
+            'sort' => $this->property('sortOrder', 'date_added desc'),
             'recipient' => $customer,
         ]);
     }

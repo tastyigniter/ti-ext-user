@@ -1,42 +1,42 @@
-<?php namespace SamPoyigi\Account\Components;
+<?php namespace Igniter\User\Components;
 
 use Admin\Models\Orders_model;
 use Auth;
 use Cart;
+use Igniter\Cart\Models\Menus_model;
 use Redirect;
-use SamPoyigi\Cart\Models\Menus_model;
 
 class Orders extends \System\Classes\BaseComponent
 {
     public function defineProperties()
     {
         return [
-            'pageNumber'     => [
+            'pageNumber' => [
                 'label' => 'Page Number',
-                'type'  => 'string',
+                'type' => 'string',
             ],
-            'itemsPerPage'   => [
-                'label'   => 'Items Per Page',
-                'type'    => 'number',
+            'itemsPerPage' => [
+                'label' => 'Items Per Page',
+                'type' => 'number',
                 'default' => 20,
             ],
-            'sortOrder'      => [
+            'sortOrder' => [
                 'label' => 'Sort order',
-                'type'  => 'string',
+                'type' => 'string',
             ],
             'addReviewsPage' => [
-                'label'   => 'Add review page',
-                'type'    => 'string',
+                'label' => 'Add review page',
+                'type' => 'string',
                 'default' => 'account/reviews',
             ],
-            'ordersPage'     => [
-                'label'   => 'Account Orders Page',
-                'type'    => 'string',
+            'ordersPage' => [
+                'label' => 'Account Orders Page',
+                'type' => 'string',
                 'default' => 'account/orders',
             ],
-            'reorderPage'    => [
-                'label'   => 'Re Order Page',
-                'type'    => 'string',
+            'reorderPage' => [
+                'label' => 'Re Order Page',
+                'type' => 'string',
                 'default' => 'local/menus',
             ],
         ];
@@ -85,13 +85,13 @@ class Orders extends \System\Classes\BaseComponent
                 }
 
                 flash()->success(sprintf(
-                    lang('sampoyigi.account::default.orders.alert_reorder_success'), $orderId
+                    lang('igniter.user::default.orders.alert_reorder_success'), $orderId
                 ));
 
                 $reorderPage = $this->property('reorderPage');
 
                 return Redirect::to($this->pageUrl($reorderPage, [
-                    'orderId'  => $orderId,
+                    'orderId' => $orderId,
                     'location' => $order->location->permalink_slug,
                 ]));
             }
@@ -104,10 +104,10 @@ class Orders extends \System\Classes\BaseComponent
             return [];
 
         return Orders_model::with(['location', 'status'])->listFrontEnd([
-            'page'      => $this->param('page'),
+            'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
-            'sort'      => $this->property('sortOrder', 'date_added desc'),
-            'customer'  => $customer,
+            'sort' => $this->property('sortOrder', 'date_added desc'),
+            'customer' => $customer,
         ]);
     }
 }

@@ -2,13 +2,13 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th><?= lang('sampoyigi.account::default.reviews.column_sale_id'); ?></th>
-            <th><?= lang('sampoyigi.account::default.reviews.column_sale_type'); ?></th>
-            <th><?= lang('sampoyigi.account::default.reviews.column_restaurant'); ?></th>
-            <th class="text-center"><?= lang('sampoyigi.account::default.reviews.label_quality'); ?></th>
-            <th class="text-center"><?= lang('sampoyigi.account::default.reviews.label_delivery'); ?></th>
-            <th class="text-center"><?= lang('sampoyigi.account::default.reviews.label_service'); ?></th>
-            <th><?= lang('sampoyigi.account::default.reviews.column_date'); ?></th>
+            <th><?= lang('igniter.user::default.reviews.column_sale_id'); ?></th>
+            <th><?= lang('igniter.user::default.reviews.column_sale_type'); ?></th>
+            <th><?= lang('igniter.user::default.reviews.column_restaurant'); ?></th>
+            <th class="text-center"><?= lang('igniter.user::default.reviews.label_quality'); ?></th>
+            <th class="text-center"><?= lang('igniter.user::default.reviews.label_delivery'); ?></th>
+            <th class="text-center"><?= lang('igniter.user::default.reviews.label_service'); ?></th>
+            <th><?= lang('igniter.user::default.reviews.column_date'); ?></th>
         </tr>
         </thead>
         <tbody>
@@ -47,7 +47,7 @@
             <?php } ?>
         <?php } else { ?>
             <tr>
-                <td colspan="999"><?= lang('sampoyigi.account::default.reviews.text_empty'); ?></td>
+                <td colspan="999"><?= lang('igniter.user::default.reviews.text_empty'); ?></td>
             </tr>
         <?php } ?>
         </tbody>

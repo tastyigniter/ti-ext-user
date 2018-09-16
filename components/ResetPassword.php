@@ -1,6 +1,6 @@
 <?php
 
-namespace SamPoyigi\Account\Components;
+namespace Igniter\User\Components;
 
 use Admin\Models\Customers_model;
 use Admin\Traits\ValidatesForm;
@@ -19,18 +19,18 @@ class ResetPassword extends BaseComponent
     {
         return [
             'resetPage' => [
-                'label'   => 'The reset password page',
-                'type'    => 'select',
+                'label' => 'The reset password page',
+                'type' => 'select',
                 'default' => 'account/reset',
             ],
             'loginPage' => [
-                'label'   => 'The login page',
-                'type'    => 'select',
+                'label' => 'The login page',
+                'type' => 'select',
                 'default' => 'account/login',
             ],
             'paramName' => [
-                'label'   => 'The parameter name used for the password reset code',
-                'type'    => 'text',
+                'label' => 'The parameter name used for the password reset code',
+                'type' => 'text',
                 'default' => 'code',
             ],
         ];
@@ -65,22 +65,23 @@ class ResetPassword extends BaseComponent
     {
         try {
             $namedRules = [
-                ['email', 'lang:sampoyigi.account::default.reset.label_email', 'required|email|between:6,255'],
+                ['email', 'lang:igniter.user::default.reset.label_email', 'required|email|between:6,255'],
             ];
 
             $this->validate(post(), $namedRules);
 
             if (!$customer = Customers_model::whereEmail(post('email'))->first())
-                throw new ApplicationException(lang('sampoyigi.account::default.reset.alert_reset_error'));
+                throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
 
             $link = $this->makeResetUrl($code = $customer->resetPassword());
 
             $this->sendResetPasswordMail($customer, $code, $link);
 
-            flash()->success(lang('sampoyigi.account::default.reset.alert_reset_request_success'));
+            flash()->success(lang('igniter.user::default.reset.alert_reset_request_success'));
 
             return Redirect::back();
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
@@ -91,9 +92,9 @@ class ResetPassword extends BaseComponent
     {
         try {
             $namedRules = [
-                ['code', 'lang:sampoyigi.account::default.reset.label_code', 'required'],
-                ['password', 'lang:sampoyigi.account::default.reset.label_password', 'required|same:password_confirm'],
-                ['password_confirm', 'lang:sampoyigi.account::default.reset.label_password_confirm', 'required'],
+                ['code', 'lang:igniter.user::default.reset.label_code', 'required'],
+                ['password', 'lang:igniter.user::default.reset.label_password', 'required|same:password_confirm'],
+                ['password_confirm', 'lang:igniter.user::default.reset.label_password_confirm', 'required'],
             ];
 
             $this->validate(post(), $namedRules);
@@ -101,12 +102,13 @@ class ResetPassword extends BaseComponent
             $customer = Customers_model::whereResetCode($code = post('code'))->first();
 
             if (!$customer->completeResetPassword($code, post('password')))
-                throw new ApplicationException(lang('sampoyigi.account::default.reset.alert_reset_failed'));
+                throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_failed'));
 
-            flash()->success(lang('sampoyigi.account::default.reset.alert_reset_success'));
+            flash()->success(lang('igniter.user::default.reset.alert_reset_success'));
 
             return Redirect::to($this->pageUrl($this->property('loginPage')));
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
@@ -136,14 +138,14 @@ class ResetPassword extends BaseComponent
     protected function sendResetPasswordMail($customer, $code, $link)
     {
         $data = [
-            'first_name'         => $customer->first_name,
-            'last_name'          => $customer->last_name,
-            'reset_code'         => $code,
-            'reset_link'         => $link,
+            'first_name' => $customer->first_name,
+            'last_name' => $customer->last_name,
+            'reset_code' => $code,
+            'reset_link' => $link,
             'account_login_link' => site_url($this->property('loginPage')),
         ];
 
-        Mail::send('sampoyigi.account::mail.password_reset_request', $data, function ($message) use ($customer) {
+        Mail::send('igniter.user::mail.password_reset_request', $data, function ($message) use ($customer) {
             $message->to($customer->email, $customer->full_name);
         });
     }

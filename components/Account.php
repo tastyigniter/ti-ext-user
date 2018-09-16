@@ -1,4 +1,4 @@
-<?php namespace SamPoyigi\Account\Components;
+<?php namespace Igniter\User\Components;
 
 use Admin\Models\Customer_groups_model;
 use Admin\Traits\ValidatesForm;
@@ -7,11 +7,11 @@ use Auth;
 use Cart;
 use Event;
 use Exception;
+use Igniter\Pages\Models\Pages_model;
 use Mail;
 use Main\Template\Page;
 use Redirect;
 use Request;
-use SamPoyigi\Pages\Models\Pages_model;
 
 class Account extends \System\Classes\BaseComponent
 {
@@ -22,68 +22,68 @@ class Account extends \System\Classes\BaseComponent
     public function defineProperties()
     {
         return [
-            'security'                   => [
-                'label'   => 'Who can access this page',
-                'type'    => 'string',
+            'security' => [
+                'label' => 'Who can access this page',
+                'type' => 'string',
                 'default' => 'all',
             ],
-            'accountPage'                => [
-                'label'   => 'The customer dashboard page',
-                'type'    => 'select',
+            'accountPage' => [
+                'label' => 'The customer dashboard page',
+                'type' => 'select',
                 'default' => 'account/account',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'detailsPage'                => [
-                'label'   => 'The customer details page',
-                'type'    => 'select',
+            'detailsPage' => [
+                'label' => 'The customer details page',
+                'type' => 'select',
                 'default' => 'account/details',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'addressPage'                => [
-                'label'   => 'The customer address page',
-                'type'    => 'select',
+            'addressPage' => [
+                'label' => 'The customer address page',
+                'type' => 'select',
                 'default' => 'account/address',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'ordersPage'                 => [
-                'label'   => 'The customer orders page',
-                'type'    => 'select',
+            'ordersPage' => [
+                'label' => 'The customer orders page',
+                'type' => 'select',
                 'default' => 'account/orders',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'reservationsPage'           => [
-                'label'   => 'The customer reservations page',
-                'type'    => 'select',
+            'reservationsPage' => [
+                'label' => 'The customer reservations page',
+                'type' => 'select',
                 'default' => 'account/reservations',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'reviewsPage'                => [
-                'label'   => 'The customer reviews page',
-                'type'    => 'select',
+            'reviewsPage' => [
+                'label' => 'The customer reviews page',
+                'type' => 'select',
                 'default' => 'account/reviews',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'inboxPage'                  => [
-                'label'   => 'The customer inbox page',
-                'type'    => 'select',
+            'inboxPage' => [
+                'label' => 'The customer inbox page',
+                'type' => 'select',
                 'default' => 'account/inbox',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'redirectPage'               => [
-                'label'   => 'Page to redirect to after successful login or registration',
-                'type'    => 'select',
+            'redirectPage' => [
+                'label' => 'Page to redirect to after successful login or registration',
+                'type' => 'select',
                 'default' => 'account/account',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'loginPage'                  => [
-                'label'   => 'Page to redirect to when checkout is successful',
-                'type'    => 'select',
+            'loginPage' => [
+                'label' => 'Page to redirect to when checkout is successful',
+                'type' => 'select',
                 'default' => 'account/login',
                 'options' => [static::class, 'getPageOptions'],
             ],
             'agreeRegistrationTermsPage' => [
-                'label'   => 'Registration Terms',
-                'type'    => 'select',
+                'label' => 'Registration Terms',
+                'type' => 'select',
                 'options' => [static::class, 'getPagesOptions'],
                 'comment' => 'Require customers to agree to terms before an account is registered',
             ],
@@ -104,7 +104,7 @@ class Account extends \System\Classes\BaseComponent
     {
         $this->page['customer'] = $this->customer = Auth::user();
         if ($this->property('security') == 'customer' AND !$this->customer) {
-            flash()->danger(lang('sampoyigi.account::default.login.alert_expired_login'));
+            flash()->danger(lang('igniter.user::default.login.alert_expired_login'));
 
             return Redirect::guest($this->pageUrl($this->property('loginPage')));
         }
@@ -185,27 +185,27 @@ class Account extends \System\Classes\BaseComponent
     {
         try {
             $namedRules = [
-                ['email', 'lang:sampoyigi.account::default.settings.label_email', 'required|email'],
-                ['password', 'lang:sampoyigi.account::default.login.label_password', 'required|min:6|max:32'],
-                ['remember', 'lang:sampoyigi.account::default.login.label_remember', 'integer'],
+                ['email', 'lang:igniter.user::default.settings.label_email', 'required|email'],
+                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:6|max:32'],
+                ['remember', 'lang:igniter.user::default.login.label_remember', 'integer'],
             ];
 
             $this->validate(post(), $namedRules);
 
             $remember = (bool)post('remember');
             $credentials = [
-                'email'    => post('email'),
+                'email' => post('email'),
                 'password' => post('password'),
             ];
 
-            Event::fire('sampoyigi.account.beforeAuthenticate', [$this, $credentials]);
+            Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
 
             if (!Auth::authenticate($credentials, $remember, TRUE))
-                throw new ApplicationException(lang('sampoyigi.account::default.login.alert_invalid_login'));
+                throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
             activity()
                 ->causedBy(Auth::getUser())
-                ->log(lang('sampoyigi.account::default.login.activity_logged_in'));
+                ->log(lang('igniter.user::default.login.activity_logged_in'));
 
             if ($redirect = get('redirect'))
                 return Redirect::to($this->pageUrl($redirect));
@@ -227,12 +227,12 @@ class Account extends \System\Classes\BaseComponent
         Auth::logout();
 
         if ($user) {
-            Event::fire('sampoyigi.account.logout', [$user]);
+            Event::fire('igniter.user.logout', [$user]);
         }
 
         $url = post('redirect', Request::fullUrl());
 
-        flash()->success(lang('sampoyigi.account::default.alert_logout_success'));
+        flash()->success(lang('igniter.user::default.alert_logout_success'));
 
         return Redirect::to($url);
     }
@@ -243,21 +243,21 @@ class Account extends \System\Classes\BaseComponent
             $data = post();
 
             $rules = [
-                ['first_name', 'lang:sampoyigi.account::default.settings.label_first_name', 'required|min:2|max:32'],
-                ['last_name', 'lang:sampoyigi.account::default.settings.label_last_name', 'required|min:2|max:32'],
-                ['email', 'lang:sampoyigi.account::default.settings.label_email', 'required|email|unique:customers,email'],
-                ['password', 'lang:sampoyigi.account::default.login.label_password', 'required|min:6|max:32|same:password_confirm'],
-                ['password_confirm', 'lang:sampoyigi.account::default.login.label_password_confirm', 'required'],
-                ['telephone', 'lang:sampoyigi.account::default.settings.label_telephone', 'required'],
-                ['newsletter', 'lang:sampoyigi.account::default.login.label_subscribe', 'integer'],
+                ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|min:2|max:32'],
+                ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|min:2|max:32'],
+                ['email', 'lang:igniter.user::default.settings.label_email', 'required|email|unique:customers,email'],
+                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:6|max:32|same:password_confirm'],
+                ['password_confirm', 'lang:igniter.user::default.login.label_password_confirm', 'required'],
+                ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
+                ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
             if (is_numeric($this->property('registrationTerms')))
-                $rules[] = ['terms', 'lang:sampoyigi.account::default.login.label_i_agree', 'required|integer'];
+                $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
 
             $this->validate($data, $rules);
 
-            Event::fire('sampoyigi.account.beforeRegister', [&$data]);
+            Event::fire('igniter.user.beforeRegister', [&$data]);
 
             $data['customer_group_id'] = $defaultCustomerGroupId = setting('customer_group_id');
             $customerGroup = Customer_groups_model::find($defaultCustomerGroupId);
@@ -265,19 +265,19 @@ class Account extends \System\Classes\BaseComponent
             $data['status'] = ($requireActivation) ? 0 : 1;
             $customer = Auth::register(array_except($data, ['password_confirm', 'terms']));
 
-            Event::fire('sampoyigi.account.register', [$customer, $data]);
+            Event::fire('igniter.user.register', [$customer, $data]);
 
             if (!$requireActivation) {
                 $this->sendRegistrationEmail($customer);
 
                 Auth::login($customer);
 
-                flash()->success(lang('sampoyigi.account::default.login.alert_account_created'));
+                flash()->success(lang('igniter.user::default.login.alert_account_created'));
             }
 
             activity()
                 ->causedBy($customer)
-                ->log(lang('sampoyigi.account::default.login.activity_registered_account'));
+                ->log(lang('igniter.user::default.login.activity_registered_account'));
 
             $redirectUrl = $this->pageUrl($this->property('redirectPage'));
 
@@ -300,13 +300,13 @@ class Account extends \System\Classes\BaseComponent
             $data = post();
 
             $rules = [
-                ['first_name', 'lang:sampoyigi.account::default.label_first_name', 'required|min:2|max:32'],
-                ['last_name', 'lang:sampoyigi.account::default.label_last_name', 'required|min:2|max:32'],
-                ['old_password', 'lang:sampoyigi.account::default.label_email', 'sometimes'],
-                ['new_password', 'lang:sampoyigi.account::default.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
-                ['confirm_new_password', 'lang:sampoyigi.account::default.label_password_confirm', 'required_with:old_password'],
-                ['telephone', 'lang:sampoyigi.account::default.label_telephone', 'required'],
-                ['newsletter', 'lang:sampoyigi.account::default.login.label_subscribe', 'integer'],
+                ['first_name', 'lang:igniter.user::default.label_first_name', 'required|min:2|max:32'],
+                ['last_name', 'lang:igniter.user::default.label_last_name', 'required|min:2|max:32'],
+                ['old_password', 'lang:igniter.user::default.label_email', 'sometimes'],
+                ['new_password', 'lang:igniter.user::default.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
+                ['confirm_new_password', 'lang:igniter.user::default.label_password_confirm', 'required_with:old_password'],
+                ['telephone', 'lang:igniter.user::default.label_telephone', 'required'],
+                ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
             $this->validateAfter(function ($validator) {
@@ -333,7 +333,7 @@ class Account extends \System\Classes\BaseComponent
                 Auth::login($customer, TRUE);
             }
 
-            flash()->success(lang('sampoyigi.account::default.settings.alert_updated_success'));
+            flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
 
             return Redirect::back();
         }
@@ -347,8 +347,8 @@ class Account extends \System\Classes\BaseComponent
     protected function sendRegistrationEmail($customer)
     {
         $data = [
-            'first_name'         => $customer->first_name,
-            'last_name'          => $customer->last_name,
+            'first_name' => $customer->first_name,
+            'last_name' => $customer->last_name,
             'account_login_link' => $this->pageUrl('account/login'),
         ];
 
@@ -356,13 +356,13 @@ class Account extends \System\Classes\BaseComponent
         is_array($settingRegistrationEmail) OR $settingRegistrationEmail = [];
 
         if (in_array('customer', $settingRegistrationEmail)) {
-            Mail::send('sampoyigi.account::mail.registration', $data, function ($message) use ($customer) {
+            Mail::send('igniter.user::mail.registration', $data, function ($message) use ($customer) {
                 $message->to($customer->email, $customer->name);
             });
         }
 
         if (in_array('admin', $settingRegistrationEmail)) {
-            Mail::send('sampoyigi.account::mail.registration_alert', $data, function ($message) {
+            Mail::send('igniter.user::mail.registration_alert', $data, function ($message) {
                 $message->to(setting('site_email'), setting('site_name'));
             });
         }

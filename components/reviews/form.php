@@ -17,7 +17,7 @@
     />
     <div class="col-md-12">
         <div class="form-group">
-            <label for="location"><?= lang('sampoyigi.account::default.reviews.label_restaurant'); ?></label>
+            <label for="location"><?= lang('igniter.user::default.reviews.label_restaurant'); ?></label>
             <input
                 type="text"
                 id="location"
@@ -27,7 +27,7 @@
             />
         </div>
         <div class="form-group">
-            <label for="customer"><?= lang('sampoyigi.account::default.reviews.label_customer_name'); ?></label>
+            <label for="customer"><?= lang('igniter.user::default.reviews.label_customer_name'); ?></label>
             <input
                 type="text"
                 id="customer"
@@ -38,7 +38,7 @@
         </div>
         <div class="form-inline">
             <div class="form-group wrap-horizontal wrap-right">
-                <label for="quality"><?= lang('sampoyigi.account::default.reviews.label_quality'); ?></label>
+                <label for="quality"><?= lang('igniter.user::default.reviews.label_quality'); ?></label>
                 <div
                     class="rating rating-star"
                     data-score="<?= $reviewSale->quality; ?>"
@@ -47,7 +47,7 @@
                 <?= form_error('rating.quality', '<span class="text-danger">', '</span>'); ?>
             </div>
             <div class="form-group wrap-horizontal wrap-right">
-                <label for="delivery"><?= lang('sampoyigi.account::default.reviews.label_delivery'); ?></label>
+                <label for="delivery"><?= lang('igniter.user::default.reviews.label_delivery'); ?></label>
                 <div
                     class="rating rating-star"
                     data-score="<?= $reviewSale->delivery; ?>"
@@ -56,7 +56,7 @@
                 <?= form_error('rating.delivery', '<span class="text-danger">', '</span>'); ?>
             </div>
             <div class="form-group wrap-horizontal">
-                <label for="service"><?= lang('sampoyigi.account::default.reviews.label_service'); ?></label>
+                <label for="service"><?= lang('igniter.user::default.reviews.label_service'); ?></label>
                 <div
                     class="rating rating-star"
                     data-score="<?= $reviewSale->service; ?>"
@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="review-text"><?= lang('sampoyigi.account::default.reviews.label_review'); ?></label>
+            <label for="review-text"><?= lang('igniter.user::default.reviews.label_review'); ?></label>
             <textarea
                 name="review_text"
                 id="review-text"
@@ -82,7 +82,7 @@
             <button
                 type="submit"
                 class="btn btn-success"
-            ><?= lang('sampoyigi.account::default.reviews.button_review'); ?></button>
+            ><?= lang('igniter.user::default.reviews.button_review'); ?></button>
         </div>
     </div>
 </form>

@@ -11,7 +11,7 @@
                     <a
                         class="btn btn-outline-default"
                         href="<?= site_url('account/address', ['addressId' => $address->address_id]); ?>"
-                    ><?= lang('sampoyigi.account::default.account.text_edit'); ?></a>
+                    ><?= lang('igniter.user::default.account.text_edit'); ?></a>
                 </span>
             </div>
         <?php } ?>
@@ -21,12 +21,12 @@
         <div class="links"><?= $customerAddresses->links(); ?></div>
     </div>
 <?php } else { ?>
-    <p><?= lang('sampoyigi.account::default.account.text_no_address'); ?></p>
+    <p><?= lang('igniter.user::default.account.text_no_address'); ?></p>
 <?php } ?>
 
 <div class="buttons">
     <button
         class="btn btn-primary btn-lg"
         data-request="<?= $addAddressEventHandler; ?>"
-    ><?= lang('sampoyigi.account::default.account.button_add'); ?></button>
+    ><?= lang('igniter.user::default.account.button_add'); ?></button>
 </div>

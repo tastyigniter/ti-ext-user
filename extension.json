@@ -1,16 +1,12 @@
 {
-  "code": "sampoyigi.account",
-  "name": "Account",
+  "code": "igniter.user",
+  "name": "User",
   "description": "Allows your customers to login or register on any page.",
-  "version": "1.1.0",
+  "version": "1.1.0-beta.2",
   "author": "SamPoyigi",
-  "icon": "fa-plug",
-  "homepage": "https://github.com/sampoyigi/ti-account-extension",
-  "tags": {
-    "1.0.0": "Initial tag of account links extension",
-    "1.1.0": "Update code to use latest Extension API"
-  },
+  "icon": "fa-user",
+  "homepage": "https://github.com/tastyigniter/ti-ext-account",
   "require": {
-    "sampoyigi.cart": "*"
+    "igniter.cart": "*"
   }
 }

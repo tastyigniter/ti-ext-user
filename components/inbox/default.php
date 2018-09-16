@@ -40,6 +40,6 @@
     </div>
 <?php } else { ?>
     <div class="card-body">
-        <p><?= lang('sampoyigi.account::default.inbox.text_empty'); ?></p>
+        <p><?= lang('igniter.user::default.inbox.text_empty'); ?></p>
     </div>
 <?php } ?>

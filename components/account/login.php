@@ -1,7 +1,7 @@
 <?= form_open(current_url(),
     [
-        'role'         => 'form',
-        'method'       => 'POST',
+        'role' => 'form',
+        'method' => 'POST',
         'data-request' => 'account::onLogin',
     ]
 ); ?>
@@ -13,7 +13,7 @@
             name="email"
             id="login-email"
             class="form-control input-lg"
-            placeholder="<?= lang('sampoyigi.account::default.settings.label_email'); ?>"
+            placeholder="<?= lang('igniter.user::default.settings.label_email'); ?>"
             autofocus=""
             required
         />
@@ -31,7 +31,7 @@
             name="password"
             id="login-password"
             class="form-control input-lg"
-            placeholder="<?= lang('sampoyigi.account::default.settings.label_password'); ?>"
+            placeholder="<?= lang('igniter.user::default.settings.label_password'); ?>"
             required
         />
         <span class="input-group-addon">
@@ -51,7 +51,7 @@
             class="custom-control-input" <?= set_checkbox('remember', '1'); ?>
         >
         <label class="custom-control-label" for="rememberLogin">
-            <?= lang('sampoyigi.account::default.login.label_remember'); ?>
+            <?= lang('igniter.user::default.login.label_remember'); ?>
         </label>
     </div>
 </div>
@@ -62,7 +62,7 @@
             <button
                 type="submit"
                 class="btn btn-primary btn-block btn-lg"
-            ><?= lang('sampoyigi.account::default.login.button_login'); ?></button>
+            ><?= lang('igniter.user::default.login.button_login'); ?></button>
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<?php namespace SamPoyigi\Account\Components;
+<?php namespace Igniter\User\Components;
 
 use Admin\Models\Reservations_model;
 use Auth;
@@ -8,27 +8,27 @@ class Reservations extends \System\Classes\BaseComponent
     public function defineProperties()
     {
         return [
-            'pageNumber'       => [
+            'pageNumber' => [
                 'label' => 'Page Number',
-                'type'  => 'string',
+                'type' => 'string',
             ],
-            'itemsPerPage'     => [
-                'label'   => 'Items Per Page',
-                'type'    => 'number',
+            'itemsPerPage' => [
+                'label' => 'Items Per Page',
+                'type' => 'number',
                 'default' => 20,
             ],
-            'sortOrder'        => [
+            'sortOrder' => [
                 'label' => 'Sort order',
-                'type'  => 'string',
+                'type' => 'string',
             ],
-            'addReviewsPage'   => [
-                'label'   => 'Add review page',
-                'type'    => 'string',
+            'addReviewsPage' => [
+                'label' => 'Add review page',
+                'type' => 'string',
                 'default' => 'account/reviews',
             ],
             'reservationsPage' => [
-                'label'   => 'Account Reservations Page',
-                'type'    => 'string',
+                'label' => 'Account Reservations Page',
+                'type' => 'string',
                 'default' => 'account/reservations',
             ],
         ];
@@ -64,10 +64,10 @@ class Reservations extends \System\Classes\BaseComponent
             return [];
 
         return Reservations_model::with(['location', 'status', 'related_table'])->listFrontEnd([
-            'page'      => $this->param('page'),
+            'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
-            'sort'      => $this->property('sortOrder', 'date_added desc'),
-            'customer'  => $customer,
+            'sort' => $this->property('sortOrder', 'date_added desc'),
+            'customer' => $customer,
         ]);
     }
 }

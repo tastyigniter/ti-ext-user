@@ -13,7 +13,7 @@
                     class="form-control"
                     value="<?= set_value('first_name', $customer->first_name); ?>"
                     name="first_name"
-                    placeholder="<?= lang('sampoyigi.account::default.settings.label_first_name'); ?>"
+                    placeholder="<?= lang('igniter.user::default.settings.label_first_name'); ?>"
                 >
                 <?= form_error('first_name', '<span class="text-danger">', '</span>'); ?>
             </div>
@@ -25,7 +25,7 @@
                     class="form-control"
                     value="<?= set_value('last_name', $customer->last_name); ?>"
                     name="last_name"
-                    placeholder="<?= lang('sampoyigi.account::default.settings.label_last_name'); ?>"
+                    placeholder="<?= lang('igniter.user::default.settings.label_last_name'); ?>"
                 >
                 <?= form_error('last_name', '<span class="text-danger">', '</span>'); ?>
             </div>
@@ -39,7 +39,7 @@
                     class="form-control"
                     value="<?= set_value('telephone', $customer->telephone); ?>"
                     name="telephone"
-                    placeholder="<?= lang('sampoyigi.account::default.settings.label_telephone'); ?>"
+                    placeholder="<?= lang('igniter.user::default.settings.label_telephone'); ?>"
                 >
                 <?= form_error('telephone', '<span class="text-danger">', '</span>'); ?>
             </div>
@@ -51,7 +51,7 @@
                     class="form-control"
                     value="<?= set_value('email', $customer->email); ?>"
                     name="email"
-                    placeholder="<?= lang('sampoyigi.account::default.settings.label_email'); ?>"
+                    placeholder="<?= lang('igniter.user::default.settings.label_email'); ?>"
                     disabled
                 >
                 <?= form_error('email', '<span class="text-danger">', '</span>'); ?>
@@ -67,7 +67,7 @@
                             class="btn"
                             data-color="info"
                             tabindex="7"
-                        >&nbsp;&nbsp;<?= lang('sampoyigi.account::default.settings.button_subscribe'); ?></button>
+                        >&nbsp;&nbsp;<?= lang('igniter.user::default.settings.button_subscribe'); ?></button>
                         <input
                             type="checkbox"
                             name="newsletter"
@@ -78,14 +78,14 @@
                         >
                     </span>
             <label for="newsletter" class="control-label text-muted">
-                <?= lang('sampoyigi.account::default.settings.label_newsletter'); ?>
+                <?= lang('igniter.user::default.settings.label_newsletter'); ?>
             </label>
         </div>
         <?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
     </div>
 
     <div class="my-4">
-        <h4><?= lang('sampoyigi.account::default.settings.text_password_heading'); ?></h4>
+        <h4><?= lang('igniter.user::default.settings.text_password_heading'); ?></h4>
     </div>
 
     <div class="form-group">
@@ -94,7 +94,7 @@
             name="old_password"
             class="form-control"
             value=""
-            placeholder="<?= lang('sampoyigi.account::default.settings.label_old_password'); ?>"
+            placeholder="<?= lang('igniter.user::default.settings.label_old_password'); ?>"
         />
         <?= form_error('old_password', '<span class="text-danger">', '</span>'); ?>
     </div>
@@ -107,7 +107,7 @@
                     class="form-control"
                     value=""
                     name="new_password"
-                    placeholder="<?= lang('sampoyigi.account::default.settings.label_password'); ?>"
+                    placeholder="<?= lang('igniter.user::default.settings.label_password'); ?>"
                 >
                 <?= form_error('new_password', '<span class="text-danger">', '</span>'); ?>
             </div>
@@ -119,7 +119,7 @@
                     class="form-control"
                     name="confirm_new_password"
                     value=""
-                    placeholder="<?= lang('sampoyigi.account::default.settings.label_password_confirm'); ?>"
+                    placeholder="<?= lang('igniter.user::default.settings.label_password_confirm'); ?>"
                 >
                 <?= form_error('confirm_new_password', '<span class="text-danger">', '</span>'); ?>
             </div>
@@ -130,6 +130,6 @@
         <button
             type="submit"
             class="btn btn-primary btn-lg"
-        ><?= lang('sampoyigi.account::default.settings.button_save'); ?></button>
+        ><?= lang('igniter.user::default.settings.button_save'); ?></button>
     </div>
 </form>

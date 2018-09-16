@@ -1,4 +1,4 @@
-<?php namespace SamPoyigi\Account\Components;
+<?php namespace Igniter\User\Components;
 
 use Admin\Models\Addresses_model;
 use Admin\Traits\ValidatesForm;
@@ -35,12 +35,12 @@ class AddressBook extends \System\Classes\BaseComponent
         $data = post();
 
         $rules = [
-            ['address.address_1', 'lang:sampoyigi.account::default.account.label_address_1', 'required|min:3|max:128'],
-            ['address.address_2', 'lang:sampoyigi.account::default.account.label_address_2', 'max:128'],
-            ['address.city', 'lang:sampoyigi.account::default.account.label_city', 'required|min:2|max:128'],
-            ['address.state', 'lang:sampoyigi.account::default.account.label_state', 'max:128'],
-            ['address.postcode', 'lang:sampoyigi.account::default.account.label_postcode', 'min:2|max:11]'],
-            ['address.country', 'lang:sampoyigi.account::default.account.label_country', 'required|integer'],
+            ['address.address_1', 'lang:igniter.user::default.account.label_address_1', 'required|min:3|max:128'],
+            ['address.address_2', 'lang:igniter.user::default.account.label_address_2', 'max:128'],
+            ['address.city', 'lang:igniter.user::default.account.label_city', 'required|min:2|max:128'],
+            ['address.state', 'lang:igniter.user::default.account.label_state', 'max:128'],
+            ['address.postcode', 'lang:igniter.user::default.account.label_postcode', 'min:2|max:11]'],
+            ['address.country', 'lang:igniter.user::default.account.label_country', 'required|integer'],
         ];
 
         if (!$this->validatePasses($data, $rules))
@@ -59,7 +59,7 @@ class AddressBook extends \System\Classes\BaseComponent
         $address->customer_id = $customer->customer_id;
         $address->save();
 
-        flash()->success(lang('sampoyigi.account::default.account.alert_updated_success'))->now();
+        flash()->success(lang('igniter.user::default.account.alert_updated_success'))->now();
 
         if (is_numeric($this->param('addressId')))
             return Redirect::to($this->pageUrl(
@@ -93,9 +93,9 @@ class AddressBook extends \System\Classes\BaseComponent
             return [];
 
         return $customer->addresses()->listFrontEnd([
-            'page'      => $this->param('page'),
+            'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
-            'sort'      => $this->property('sortOrder', 'date_added desc'),
+            'sort' => $this->property('sortOrder', 'date_added desc'),
 //            'customer'  => $customer,
         ]);
     }
