@@ -7,26 +7,20 @@ use Auth;
 use Cart;
 use Event;
 use Exception;
-use Igniter\Pages\Models\Pages_model;
 use Mail;
-use Main\Template\Page;
+use Main\Traits\HasPageOptions;
 use Redirect;
 use Request;
+use System\Models\Pages_model;
 
 class Account extends \System\Classes\BaseComponent
 {
     use ValidatesForm;
-
-    public $customer;
+    use HasPageOptions;
 
     public function defineProperties()
     {
         return [
-            'security' => [
-                'label' => 'Who can access this page',
-                'type' => 'string',
-                'default' => 'all',
-            ],
             'accountPage' => [
                 'label' => 'The customer dashboard page',
                 'type' => 'select',
@@ -69,14 +63,8 @@ class Account extends \System\Classes\BaseComponent
                 'default' => 'account/inbox',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'redirectPage' => [
-                'label' => 'Page to redirect to after successful login or registration',
-                'type' => 'select',
-                'default' => 'account/account',
-                'options' => [static::class, 'getPageOptions'],
-            ],
             'loginPage' => [
-                'label' => 'Page to redirect to when checkout is successful',
+                'label' => 'The account login page',
                 'type' => 'select',
                 'default' => 'account/login',
                 'options' => [static::class, 'getPageOptions'],
@@ -87,32 +75,17 @@ class Account extends \System\Classes\BaseComponent
                 'options' => [static::class, 'getPagesOptions'],
                 'comment' => 'Require customers to agree to terms before an account is registered',
             ],
+            'redirectPage' => [
+                'label' => 'Page to redirect to after successful login or registration',
+                'type' => 'select',
+                'default' => 'account/account',
+                'options' => [static::class, 'getPageOptions'],
+            ],
         ];
-    }
-
-    public static function getPageOptions()
-    {
-        return Page::lists('baseFileName', 'baseFileName');
-    }
-
-    public static function getPagesOptions()
-    {
-        return Pages_model::dropdown('name');
     }
 
     public function onRun()
     {
-        $this->page['customer'] = $this->customer = Auth::user();
-        if ($this->property('security') == 'customer' AND !$this->customer) {
-            flash()->danger(lang('igniter.user::default.login.alert_expired_login'));
-
-            return Redirect::guest($this->pageUrl($this->property('loginPage')));
-        }
-
-        if ($this->property('security') == 'guest' AND $this->customer) {
-            return Redirect::to($this->pageUrl($this->property('redirectPage')));
-        }
-
         $this->prepareVars();
     }
 
@@ -125,9 +98,9 @@ class Account extends \System\Classes\BaseComponent
         $this->page['reservationsPage'] = $this->property('reservationsPage');
         $this->page['reviewsPage'] = $this->property('reviewsPage');
         $this->page['inboxPage'] = $this->property('inboxPage');
+        $this->page['requireRegistrationTerms'] = (bool)$this->property('agreeRegistrationTermsPage');
 
         $this->page['customer'] = $this->customer();
-        $this->page['requireRegistrationTerms'] = (bool)$this->property('agreeRegistrationTermsPage');
     }
 
     public function cartCount()
@@ -145,7 +118,7 @@ class Account extends \System\Classes\BaseComponent
         $termsPageId = $this->property('registrationTerms');
         $termsPage = Pages_model::find($termsPageId);
 
-        return $this->pageUrl('pages/pages', [
+        return $this->controller->pageUrl('pages/pages', [
             'slug' => $termsPage ? $termsPage->permalink_slug : null,
         ]);
     }
@@ -178,7 +151,7 @@ class Account extends \System\Classes\BaseComponent
     {
         $currentUrl = str_replace(Request::root(), '', Request::fullUrl());
 
-        return $this->pageUrl($this->property('loginPage')).'?redirect='.urlencode($currentUrl);
+        return $this->controller->pageUrl($this->property('loginPage')).'?redirect='.urlencode($currentUrl);
     }
 
     public function onLogin()
@@ -207,10 +180,10 @@ class Account extends \System\Classes\BaseComponent
                 ->causedBy(Auth::getUser())
                 ->log(lang('igniter.user::default.login.activity_logged_in'));
 
-            if ($redirect = get('redirect'))
-                return Redirect::to($this->pageUrl($redirect));
+            if ($redirect = input('redirect'))
+                return Redirect::to($this->controller->pageUrl($redirect));
 
-            if ($redirectUrl = $this->pageUrl($this->property('redirectPage')))
+            if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage')))
                 return Redirect::intended($redirectUrl);
         }
         catch (Exception $ex) {
@@ -218,23 +191,6 @@ class Account extends \System\Classes\BaseComponent
 
             return Redirect::back()->withInput();
         }
-    }
-
-    public function onLogout()
-    {
-        $user = Auth::getUser();
-
-        Auth::logout();
-
-        if ($user) {
-            Event::fire('igniter.user.logout', [$user]);
-        }
-
-        $url = post('redirect', Request::fullUrl());
-
-        flash()->success(lang('igniter.user::default.alert_logout_success'));
-
-        return Redirect::to($url);
     }
 
     public function onRegister()
@@ -279,7 +235,7 @@ class Account extends \System\Classes\BaseComponent
                 ->causedBy($customer)
                 ->log(lang('igniter.user::default.login.activity_registered_account'));
 
-            $redirectUrl = $this->pageUrl($this->property('redirectPage'));
+            $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
 
             if ($redirectUrl = get('redirect', $redirectUrl))
                 return Redirect::intended($redirectUrl);
@@ -349,7 +305,7 @@ class Account extends \System\Classes\BaseComponent
         $data = [
             'first_name' => $customer->first_name,
             'last_name' => $customer->last_name,
-            'account_login_link' => $this->pageUrl('account/login'),
+            'account_login_link' => $this->controller->pageUrl('account/login'),
         ];
 
         $settingRegistrationEmail = setting('registration_email');

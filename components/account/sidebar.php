@@ -53,7 +53,7 @@
             class="fa fa-inbox"></span>&nbsp;&nbsp;&nbsp;<?= sprintf(lang('igniter.user::default.text_inbox'), empty($inboxCount) ? '' : $inboxCount); ?>
     </a>
     <a
-        data-request="account::onLogout"
+        data-request="session::onLogout"
         class="nav-item nav-link text-danger"
     ><span class="fa fa-ban"></span>&nbsp;&nbsp;&nbsp;<?= lang('igniter.user::default.text_logout'); ?>
     </a>

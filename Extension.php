@@ -5,6 +5,11 @@ class Extension extends \System\Classes\BaseExtension
     public function registerComponents()
     {
         return [
+            'Igniter\User\Components\Session' => [
+                'code' => 'session',
+                'name' => 'lang:igniter.user::default.session.component_title',
+                'description' => 'lang:igniter.user::default.session.component_desc',
+            ],
             'Igniter\User\Components\Account' => [
                 'code' => 'account',
                 'name' => 'lang:igniter.user::default.account.component_title',

@@ -106,7 +106,7 @@ class ResetPassword extends BaseComponent
 
             flash()->success(lang('igniter.user::default.reset.alert_reset_success'));
 
-            return Redirect::to($this->pageUrl($this->property('loginPage')));
+            return Redirect::to($this->controller->pageUrl($this->property('loginPage')));
         }
         catch (Exception $ex) {
             flash()->warning($ex->getMessage());
@@ -122,7 +122,7 @@ class ResetPassword extends BaseComponent
         ];
 
         if ($pageName = $this->property('resetPage')) {
-            $url = $this->pageUrl($pageName, $params);
+            $url = $this->controller->pageUrl($pageName, $params);
         }
         else {
             $url = $this->currentPageUrl($params);

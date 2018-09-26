@@ -60,7 +60,7 @@ class Reviews extends \System\Classes\BaseComponent
         if (!$showReviews) {
             flash()->error(lang('igniter.user::default.reviews.alert_review_disabled'))->now();
 
-            return Redirect::to($this->pageUrl($this->property('redirectPage')));
+            return Redirect::to($this->controller->pageUrl($this->property('redirectPage')));
         }
 
         if ($this->saleIdParam AND !$model) {
@@ -114,6 +114,6 @@ class Reviews extends \System\Classes\BaseComponent
 
     protected function makeRedirectUrl()
     {
-        return $this->pageUrl($this->property($this->saleTypeParam.'sRedirectPage'));
+        return $this->controller->pageUrl($this->property($this->saleTypeParam.'sRedirectPage'));
     }
 }

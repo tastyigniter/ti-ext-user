@@ -62,7 +62,7 @@ class AddressBook extends \System\Classes\BaseComponent
         flash()->success(lang('igniter.user::default.account.alert_updated_success'))->now();
 
         if (is_numeric($this->param('addressId')))
-            return Redirect::to($this->pageUrl(
+            return Redirect::to($this->controller->pageUrl(
                 $this->property('redirectPage', 'account/address'),
                 ['addressId' => null]
             ));

@@ -80,8 +80,7 @@ class Orders extends \System\Classes\BaseComponent
                     if (!is_array($menu->option_values))
                         $menu->option_values = @unserialize($menu->option_values);
 
-                    $cartItem = Cart::add($menuModel, $menu->quantity, $menu->option_values);
-                    $cartItem->setComment($menu->comment);
+                    Cart::add($menuModel, $menu->quantity, $menu->option_values, $menu->comment);
                 }
 
                 flash()->success(sprintf(
@@ -90,7 +89,7 @@ class Orders extends \System\Classes\BaseComponent
 
                 $reorderPage = $this->property('reorderPage');
 
-                return Redirect::to($this->pageUrl($reorderPage, [
+                return Redirect::to($this->controller->pageUrl($reorderPage, [
                     'orderId' => $orderId,
                     'location' => $order->location->permalink_slug,
                 ]));
