@@ -176,6 +176,8 @@ class Account extends \System\Classes\BaseComponent
             if (!Auth::authenticate($credentials, $remember, TRUE))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
+            Event::fire('igniter.user.login', [$this]);
+
             activity()
                 ->causedBy(Auth::getUser())
                 ->log(lang('igniter.user::default.login.activity_logged_in'));
