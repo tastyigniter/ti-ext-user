@@ -29,7 +29,7 @@ class Session extends BaseComponent
                 'default' => 'all',
             ],
             'redirectPage' => [
-                'label' => 'Page to redirect to after successful login or registration',
+                'label' => 'Page name to redirect to when access is restricted',
                 'type' => 'select',
                 'default' => 'home',
                 'options' => [static::class, 'getPageOptions'],
