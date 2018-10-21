@@ -11,7 +11,6 @@ use Mail;
 use Main\Traits\HasPageOptions;
 use Redirect;
 use Request;
-use System\Models\Pages_model;
 
 class Account extends \System\Classes\BaseComponent
 {
@@ -115,8 +114,8 @@ class Account extends \System\Classes\BaseComponent
 
     public function getRegistrationTermsUrl()
     {
-        $termsPageId = $this->property('registrationTerms');
-        $termsPage = Pages_model::find($termsPageId);
+        $termsPageId = $this->property('agreeRegistrationTermsPage');
+        $termsPage = $this->findPage($termsPageId);
 
         return $this->controller->pageUrl('pages/pages', [
             'slug' => $termsPage ? $termsPage->permalink_slug : null,

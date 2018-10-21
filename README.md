@@ -22,7 +22,7 @@ In the admin user interface you can manage customers and their groups.
 | Property                 | Description              | Example Value | Default Value |
 | ------------------------ | ------------------------ | ------------- | ------------- |
 | security                     | Restrict a page or layout to only signed in users, only guests or no restriction            | all/guest/customer        | all        |
-| redirectPage                     | Page name to redirect to when access is restricted            | true/false         | home         |   home |
+| redirectPage                     | Page name to redirect to when access is restricted           | home         |   home |
 
 **Variables available in templates**
 
@@ -68,6 +68,7 @@ In the admin user interface you can manage customers and their groups.
 | $customer | Instance of the logged user model                                                |
 
 **Example:**
+
 ```
 ---
 title: 'Account Details'
@@ -118,6 +119,7 @@ permalink: /register
 | paramName                     | Route parameter name to find the reset code                  | code         |   code  |
 
 **Example:**
+
 ```
 ---
 title: 'Reset Password'
