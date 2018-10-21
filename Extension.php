@@ -25,16 +25,6 @@ class Extension extends \System\Classes\BaseExtension
                 'name' => 'lang:igniter.user::default.addressbook.component_title',
                 'description' => 'lang:igniter.user::default.addressbook.component_desc',
             ],
-            'Igniter\User\Components\Orders' => [
-                'code' => 'accountOrders',
-                'name' => 'lang:igniter.user::default.orders.component_title',
-                'description' => 'lang:igniter.user::default.orders.component_desc',
-            ],
-            'Igniter\User\Components\Reservations' => [
-                'code' => 'accountReservations',
-                'name' => 'lang:igniter.user::default.reservations.component_title',
-                'description' => 'lang:igniter.user::default.reservations.component_desc',
-            ],
             'Igniter\User\Components\Reviews' => [
                 'code' => 'accountReviews',
                 'name' => 'lang:igniter.user::default.reviews.component_title',
