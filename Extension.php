@@ -1,7 +1,34 @@
 <?php namespace Igniter\User;
 
+use Auth;
+
 class Extension extends \System\Classes\BaseExtension
 {
+    public function register()
+    {
+        $this->registerEventGlobalParams();
+    }
+
+    public function registerEventRules()
+    {
+        return [
+            'events' => [
+                'igniter.user.register' => \Igniter\User\EventRules\Events\CustomerRegistered::class,
+            ],
+            'actions' => [
+                \Igniter\User\EventRules\Actions\SendMailTemplate::class,
+            ],
+            'conditions' => [
+                \Igniter\User\EventRules\Conditions\CustomerAttribute::class
+            ],
+            'presets' => [
+                'registration_email' => [
+
+                ],
+            ]
+        ];
+    }
+
     public function registerComponents()
     {
         return [
@@ -46,5 +73,17 @@ class Extension extends \System\Classes\BaseExtension
             'igniter.user::mail.registration' => 'Registration email to customer',
             'igniter.user::mail.registration_alert' => 'Registration email to admin',
         ];
+    }
+
+    protected function registerEventGlobalParams()
+    {
+        if (!class_exists(\Igniter\EventRules\Classes\EventManager::class))
+            return;
+
+        \Igniter\EventRules\Classes\EventManager::instance()->registerCallback(function ($manager) {
+            $manager->registerGlobalParams([
+                'customer' => Auth::customer()
+            ]);
+        });
     }
 }
