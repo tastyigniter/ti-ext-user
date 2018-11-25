@@ -21,11 +21,6 @@ class Extension extends \System\Classes\BaseExtension
             'conditions' => [
                 \Igniter\User\EventRules\Conditions\CustomerAttribute::class
             ],
-            'presets' => [
-                'registration_email' => [
-
-                ],
-            ]
         ];
     }
 

@@ -15,4 +15,8 @@ class CustomerRegistered extends BaseEvent
         ];
     }
 
+    public static function makeParamsFromEvent(array $args, $eventName = null)
+    {
+        return $args;
+    }
 }

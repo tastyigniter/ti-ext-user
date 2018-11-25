@@ -29,6 +29,10 @@ return [
     'text_logged_out' => 'Welcome back <b>%s</b>, Not You? <a data-request="%s">Logout</a>',
 
     'label_heading' => 'Heading:',
+    'label_template' => 'Mail template',
+    'label_send_to' => 'Send To',
+    'label_send_to_staff_group' => 'Send To Staff Group',
+    'label_send_to_custom' => 'Send To Email Address',
 
     'column_id' => 'ID',
     'column_date' => 'Date/Time',
@@ -36,6 +40,13 @@ return [
     'column_subject' => 'Subject',
 
     'alert_logout_success' => 'You have been logged out successfully.',
+
+    'text_send_to_restaurant' => 'Restaurant email address',
+    'text_send_to_location' => 'Location email address (if available)',
+    'text_send_to_staff_email' => 'Staff email address (if available)',
+    'text_send_to_customer_email' => 'Customer email address (if available)',
+    'text_send_to_custom' => 'Specific email address',
+    'text_send_to_staff_group' => 'Staff Group',
 
     'login' => [
         'label_password' => 'Password',
