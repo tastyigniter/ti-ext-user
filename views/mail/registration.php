@@ -37,7 +37,8 @@ Your account has now been created and you can log in using your email address an
                         <td>
                             <h3>Hi, {first_name} {last_name}</h3>
                             <p class="lead">Thank you for registering with {site_name}.</p>
-                            <p>Your account has now been created and you can log in using your email address and password by visiting our website or at the following URL:
+                            <p>Your account has now been created and you can log in using your email address and
+                                password by visiting our website or at the following URL:
                                 <a href="{account_login_link}">Click Here</a></p>
                         </td>
                     </tr>
@@ -47,24 +48,3 @@ Your account has now been created and you can log in using your email address an
         <td></td>
     </tr>
 </table><!-- /BODY -->
-<!-- FOOTER -->
-<table class="footer-wrap">
-    <tr>
-        <td></td>
-        <td class="container">
-            <!-- content -->
-            <div class="content">
-                <table>
-                    <tr>
-                        <td align="center">
-                            <p>
-                                2018 © {site_name} All Rights Reserved.
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div><!-- /content -->
-        </td>
-        <td></td>
-    </tr>
-</table><!-- /FOOTER -->

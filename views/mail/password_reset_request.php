@@ -37,7 +37,8 @@ If you did request a password reset, copy and paste the link below in a new brow
                             <h3>Hi, {first_name} {last_name}</h3>
                             <p class="lead">Someone requested a password reset for your {site_name} account.</p>
                             <p>If you did request a password reset,
-                                <a href="{reset_link}">click here</a> to reset password or alternatively, copy and paste the link below in a new browser window: {reset_link}
+                                <a href="{reset_link}">click here</a> to reset password or alternatively, copy and paste
+                                the link below in a new browser window: {reset_link}
                             </p>
                         </td>
                     </tr>
@@ -47,24 +48,3 @@ If you did request a password reset, copy and paste the link below in a new brow
         <td></td>
     </tr>
 </table><!-- /BODY -->
-<!-- FOOTER -->
-<table class="footer-wrap">
-    <tr>
-        <td></td>
-        <td class="container">
-            <!-- content -->
-            <div class="content">
-                <table>
-                    <tr>
-                        <td align="center">
-                            <p>
-                                2018 © {site_name} All Rights Reserved.
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div><!-- /content -->
-        </td>
-        <td></td>
-    </tr>
-</table><!-- /FOOTER -->

@@ -50,24 +50,3 @@ If you think this password update was a mistake, reset your password immediately
         <td></td>
     </tr>
 </table><!-- /BODY -->
-<!-- FOOTER -->
-<table class="footer-wrap">
-    <tr>
-        <td></td>
-        <td class="container">
-            <!-- content -->
-            <div class="content">
-                <table>
-                    <tr>
-                        <td align="center">
-                            <p>
-                                2018 © {site_name} All Rights Reserved.
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div><!-- /content -->
-        </td>
-        <td></td>
-    </tr>
-</table><!-- /FOOTER -->
