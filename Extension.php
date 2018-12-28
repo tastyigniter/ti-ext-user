@@ -67,6 +67,7 @@ class Extension extends \System\Classes\BaseExtension
             'igniter.user::mail.password_reset_request' => 'Password reset request email to customer',
             'igniter.user::mail.registration' => 'Registration email to customer',
             'igniter.user::mail.registration_alert' => 'Registration email to admin',
+            'igniter.user::mail.activation' => 'Registration activation email to customer',
         ];
     }
 

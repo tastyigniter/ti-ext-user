@@ -1,6 +1,7 @@
 <?php namespace Igniter\User\Components;
 
 use Admin\Models\Customer_groups_model;
+use Admin\Models\Customers_model;
 use Admin\Traits\ValidatesForm;
 use ApplicationException;
 use Auth;
@@ -68,6 +69,12 @@ class Account extends \System\Classes\BaseComponent
                 'default' => 'account/login',
                 'options' => [static::class, 'getPageOptions'],
             ],
+            'activationPage' => [
+                'label' => 'The account registration activation page',
+                'type' => 'select',
+                'default' => 'account/register',
+                'options' => [static::class, 'getPageOptions'],
+            ],
             'agreeRegistrationTermsPage' => [
                 'label' => 'Registration Terms',
                 'type' => 'select',
@@ -85,6 +92,9 @@ class Account extends \System\Classes\BaseComponent
 
     public function onRun()
     {
+        if ($code = $this->getActivationCode())
+            $this->onActivate($code);
+
         $this->prepareVars();
     }
 
@@ -219,16 +229,22 @@ class Account extends \System\Classes\BaseComponent
             $data['customer_group_id'] = $defaultCustomerGroupId = setting('customer_group_id');
             $customerGroup = Customer_groups_model::find($defaultCustomerGroupId);
             $requireActivation = ($customerGroup AND $customerGroup->requiresApproval());
-            $data['status'] = ($requireActivation) ? 0 : 1;
-            $customer = Auth::register(array_except($data, ['password_confirm', 'terms']));
+            $autoActivation = !$requireActivation;
+
+            $customer = Auth::register(
+                array_except($data, ['password_confirm', 'terms']), $autoActivation
+            );
 
             Event::fire('igniter.user.register', [$customer, $data]);
 
+            if ($requireActivation) {
+                $this->sendActivationEmail($customer);
+                flash()->success(lang('igniter.user::default.login.alert_account_activation'));
+            }
+
             if (!$requireActivation) {
                 $this->sendRegistrationEmail($customer);
-
                 Auth::login($customer);
-
                 flash()->success(lang('igniter.user::default.login.alert_account_created'));
             }
 
@@ -301,12 +317,44 @@ class Account extends \System\Classes\BaseComponent
         }
     }
 
+    public function onActivate($code = null)
+    {
+        try {
+            $code = post('code', $code);
+
+            $namedRules = [
+                ['code', 'lang:igniter.user::default.login.label_activation', 'required'],
+            ];
+
+            $this->validate(['code' => $code], $namedRules);
+
+            $customer = Customers_model::whereActivationCode($code)->first();
+            if (!$customer OR !$customer->completeActivation($code))
+                throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
+
+            Auth::login($customer);
+        }
+        catch (Exception $ex) {
+            if (Request::ajax()) throw $ex;
+            else flash()->error($ex->getMessage());
+        }
+    }
+
+    public function getActivationCode()
+    {
+        $param = $this->property('paramCode');
+        if ($param AND $code = $this->param($param))
+            return $code;
+
+        return get('activate');
+    }
+
     protected function sendRegistrationEmail($customer)
     {
         $data = [
             'first_name' => $customer->first_name,
             'last_name' => $customer->last_name,
-            'account_login_link' => $this->controller->pageUrl('account/login'),
+            'account_login_link' => $this->controller->pageUrl($this->property('loginPage')),
         ];
 
         $settingRegistrationEmail = setting('registration_email');
@@ -336,5 +384,36 @@ class Account extends \System\Classes\BaseComponent
         }
 
         return FALSE;
+    }
+
+    protected function sendActivationEmail($customer)
+    {
+        $link = $this->makeActivationUrl($customer->getActivationCode());
+        $data = [
+            'first_name' => $customer->first_name,
+            'last_name' => $customer->last_name,
+            'account_activation_link' => $link,
+        ];
+
+        Mail::send('igniter.user::mail.activation', $data, function ($message) use ($customer) {
+            $message->to($customer->email, $customer->name);
+        });
+    }
+
+    protected function makeActivationUrl($code)
+    {
+        $params = [
+            $this->property('paramName') => $code,
+        ];
+
+        $url = ($pageName = $this->property('activationPage'))
+            ? $this->controller->pageUrl($pageName, $params)
+            : $this->controller->currentPageUrl($params);
+
+        if (strpos($url, $code) === FALSE) {
+            $url .= '?activate='.$code;
+        }
+
+        return $url;
     }
 }

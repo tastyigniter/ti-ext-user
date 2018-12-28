@@ -52,6 +52,7 @@ return [
         'label_password' => 'Password',
         'label_password_confirm' => 'Password Confirm',
         'label_remember' => 'Remember me',
+        'label_activation' => 'Activation Code',
         'label_newsletter' => 'Keep me up-to-date with offers by email.',
         'label_terms' => 'By clicking Register, you agree to the <a target="_blank" href="%s">Terms and Conditions</a> set out by this site, including our Cookie Use.',
         'label_i_agree' => 'I Agree',
@@ -68,6 +69,7 @@ return [
         'alert_expired_login' => 'Session expired, please login',
         'alert_invalid_login' => 'Username and password not found!',
         'alert_account_created' => 'Account created successfully, login below!',
+        'alert_account_activation' => 'An activation email has been sent to your email address.',
 
         'activity_logged_in' => ' <b>logged</b> in.',
         'activity_registered_account' => ' <b>created</b> an account.',
@@ -121,6 +123,7 @@ return [
         'alert_reset_request_success' => 'Password reset request successfully, please check your email on how to proceed.',
         'alert_reset_error' => 'Password reset unsuccessful, email not found or incorrect details entered.',
         'alert_reset_failed' => 'Password reset failed, reset code is either invalid or expired.',
+        'alert_activation_failed' => 'Account activation failed, please try again.',
         'alert_no_email_match' => 'No matching email address',
     ],
     'addressbook' => [
