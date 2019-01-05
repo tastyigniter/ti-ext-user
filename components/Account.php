@@ -108,6 +108,7 @@ class Account extends \System\Classes\BaseComponent
         $this->page['reviewsPage'] = $this->property('reviewsPage');
         $this->page['inboxPage'] = $this->property('inboxPage');
         $this->page['requireRegistrationTerms'] = (bool)$this->property('agreeRegistrationTermsPage');
+        $this->page['canRegister'] = (bool)setting('allow_registration', TRUE);
 
         $this->page['customer'] = $this->customer();
     }
@@ -207,6 +208,9 @@ class Account extends \System\Classes\BaseComponent
     public function onRegister()
     {
         try {
+            if (!(bool)setting('allow_registration', TRUE))
+                throw new ApplicationException(lang('igniter.user::default.login.alert_registration_disabled'));
+
             $data = post();
 
             $rules = [
