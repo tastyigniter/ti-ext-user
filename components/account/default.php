@@ -8,7 +8,7 @@ $customerMessages = $__SELF__->getCustomerMessages();
         <div class="card">
             <div class="card-body">
                 <h4><?= sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name); ?></h4>
-                <?php if (count($customer->address)) { ?>
+                <?php if (!empty($customer->address)) { ?>
                     <a
                         class="edit-address pull-right"
                         href="<?= site_url('account/address/'.$customer->address->getKey()); ?>"
