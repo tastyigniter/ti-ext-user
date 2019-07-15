@@ -72,7 +72,6 @@ return [
         'alert_account_activation' => 'An activation email has been sent to your email address.',
         'alert_registration_disabled' => 'Registration is currently disabled by the site administrator.',
 
-        'activity_logged_in' => ' <b>logged</b> in.',
         'activity_registered_account' => ' <b>created</b> an account.',
     ],
 

@@ -188,10 +188,6 @@ class Account extends \System\Classes\BaseComponent
 
             Event::fire('igniter.user.login', [$this]);
 
-            activity()
-                ->causedBy(Auth::getUser())
-                ->log(lang('igniter.user::default.login.activity_logged_in'));
-
             if ($redirect = input('redirect'))
                 return Redirect::to($this->controller->pageUrl($redirect));
 
@@ -253,8 +249,10 @@ class Account extends \System\Classes\BaseComponent
             }
 
             activity()
+                ->useEvent($customer->getEventNameToUse('created'))
+                ->performedOn($customer)
                 ->causedBy($customer)
-                ->log(lang('igniter.user::default.login.activity_registered_account'));
+                ->log();
 
             $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
 
