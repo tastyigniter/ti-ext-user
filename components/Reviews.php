@@ -48,7 +48,6 @@ class Reviews extends \System\Classes\BaseComponent
 
     public function onRun()
     {
-        $this->page['ordersPage'] = $this->property('ordersPage');
         $this->page['showReviews'] = $showReviews = setting('allow_reviews') == 1;
         $this->page['customerReviews'] = $this->loadReviews();
 
