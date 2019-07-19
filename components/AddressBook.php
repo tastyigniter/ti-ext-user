@@ -96,7 +96,6 @@ class AddressBook extends \System\Classes\BaseComponent
             'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
             'sort' => $this->property('sortOrder', 'date_added desc'),
-//            'customer'  => $customer,
         ]);
     }
 }

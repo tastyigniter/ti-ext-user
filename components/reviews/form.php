@@ -4,17 +4,6 @@
     accept-charset="utf-8"
     data-request="<?= $__SELF__.'::onLeaveReview'; ?>"
 >
-    <input
-        type="hidden"
-        name="location_id"
-        value="<?= $reviewSale->location_id; ?>"
-        <?= set_value('location_id', $reviewSale->location_id); ?>
-    />
-    <input
-        type="hidden"
-        name="customer_id"
-        value="<?= $reviewSale->customer_id; ?>"
-    />
     <div class="col-md-12">
         <div class="form-group">
             <label for="location"><?= lang('igniter.user::default.reviews.label_restaurant'); ?></label>
@@ -36,32 +25,53 @@
                 disabled
             />
         </div>
-        <div class="form-inline">
-            <div class="form-group wrap-horizontal wrap-right">
-                <label for="quality"><?= lang('igniter.user::default.reviews.label_quality'); ?></label>
-                <div
-                    class="rating rating-star"
-                    data-score="<?= $reviewSale->quality; ?>"
-                    data-score-name="rating[quality]"
-                ></div>
+        <div class="d-flex justify-content-center">
+            <div class="form-group flex-fill">
+                <label class="control-label" for="quality"><?= lang('igniter.user::default.reviews.label_quality'); ?></label>
+                <?php foreach ($reviewHints as $key => $hint) { ?>
+                    <label class="custom-control custom-radio">
+                        <input
+                            type="radio"
+                            name="rating[quality]"
+                            id="ratingQuality<?= $key; ?>"
+                            value="<?= $key; ?>"
+                            class="custom-control-input"
+                            <?= $key == $customerReview->quality ? 'checked="checked"' : '' ?>
+                        ><label class="custom-control-label" for="ratingQuality<?= $key; ?>"><?= $hint; ?></label>
+                    </label>
+                <?php } ?>
                 <?= form_error('rating.quality', '<span class="text-danger">', '</span>'); ?>
             </div>
-            <div class="form-group wrap-horizontal wrap-right">
-                <label for="delivery"><?= lang('igniter.user::default.reviews.label_delivery'); ?></label>
-                <div
-                    class="rating rating-star"
-                    data-score="<?= $reviewSale->delivery; ?>"
-                    data-score-name="rating[delivery]"
-                ></div>
+            <div class="form-group flex-fill">
+                <label class="control-label" for="delivery"><?= lang('igniter.user::default.reviews.label_delivery'); ?></label>
+                <?php foreach ($reviewHints as $key => $hint) { ?>
+                    <label class="custom-control custom-radio">
+                        <input
+                            type="radio"
+                            name="rating[delivery]"
+                            id="ratingDelivery<?= $key; ?>"
+                            value="<?= $key; ?>"
+                            class="custom-control-input"
+                            <?= $key == $customerReview->delivery ? 'checked="checked"' : '' ?>
+                        ><label class="custom-control-label" for="ratingDelivery<?= $key; ?>"><?= $hint; ?></label>
+                    </label>
+                <?php } ?>
                 <?= form_error('rating.delivery', '<span class="text-danger">', '</span>'); ?>
             </div>
-            <div class="form-group wrap-horizontal">
-                <label for="service"><?= lang('igniter.user::default.reviews.label_service'); ?></label>
-                <div
-                    class="rating rating-star"
-                    data-score="<?= $reviewSale->service; ?>"
-                    data-score-name="rating[service]"
-                ></div>
+            <div class="form-group flex-fill">
+                <label class="control-label" for="service"><?= lang('igniter.user::default.reviews.label_service'); ?></label>
+                <?php foreach ($reviewHints as $key => $hint) { ?>
+                    <label class="custom-control custom-radio">
+                        <input
+                            type="radio"
+                            name="rating[service]"
+                            id="ratingService<?= $key; ?>"
+                            value="<?= $key; ?>"
+                            class="custom-control-input"
+                            <?= $key == $customerReview->service ? 'checked="checked"' : '' ?>
+                        ><label class="custom-control-label" for="ratingService<?= $key; ?>"><?= $hint; ?></label>
+                    </label>
+                <?php } ?>
                 <?= form_error('rating.service', '<span class="text-danger">', '</span>'); ?>
             </div>
         </div>
@@ -72,7 +82,7 @@
                 id="review-text"
                 rows="5"
                 class="form-control"
-            ><?= set_value('review_text'); ?></textarea>
+            ><?= set_value('review_text', $customerReview->review_text); ?></textarea>
             <?= form_error('review_text', '<span class="text-danger">', '</span>'); ?>
         </div>
     </div>

@@ -18,27 +18,9 @@
                     <td><?= $review->sale_id; ?></td>
                     <td><?= ucwords($review->sale_type); ?></td>
                     <td><?= $review->location->location_name; ?></td>
-                    <td>
-                        <div
-                            class="rating rating-star"
-                            data-score="<?= $review->quality; ?>"
-                            data-readonly="true"
-                        ></div>
-                    </td>
-                    <td>
-                        <div
-                            class="rating rating-star"
-                            data-score="<?= $review->delivery; ?>"
-                            data-readonly="true"
-                        ></div>
-                    </td>
-                    <td>
-                        <div
-                            class="rating rating-star"
-                            data-score="<?= $review->service; ?>"
-                            data-readonly="true"
-                        ></div>
-                    </td>
+                    <td class="text-center"><?= array_get($reviewHints, $review->quality); ?></td>
+                    <td class="text-center"><?= array_get($reviewHints, $review->delivery); ?></td>
+                    <td class="text-center"><?= array_get($reviewHints, $review->service); ?></td>
                     <td><?= day_elapsed($review->date_added); ?></td>
                 </tr>
                 <tr>
