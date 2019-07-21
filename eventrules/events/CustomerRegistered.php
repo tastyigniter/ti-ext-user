@@ -10,8 +10,8 @@ class CustomerRegistered extends BaseEvent
     {
         return [
             'name' => 'Customer Registered Event',
-            'description' => 'A customer is registered',
-            'group' => 'customer'
+            'description' => 'When a customer registers',
+            'group' => 'customer',
         ];
     }
 

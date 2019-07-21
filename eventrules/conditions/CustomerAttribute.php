@@ -26,8 +26,8 @@ class CustomerAttribute extends BaseModelAttributesCondition
             'last_name' => [
                 'label' => 'Last Name',
             ],
-            'username' => [
-                'label' => 'Username',
+            'telephone' => [
+                'label' => 'Telephone',
             ],
             'email' => [
                 'label' => 'Email address',
@@ -46,6 +46,6 @@ class CustomerAttribute extends BaseModelAttributesCondition
             throw new ApplicationException('Error evaluating the customer attribute condition: the customer object is not found in the condition parameters.');
         }
 
-        return parent::evalIsTrue($customer);
+        return $this->evalIsTrue($customer);
     }
 }
