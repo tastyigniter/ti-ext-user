@@ -45,13 +45,15 @@
         </a>
     <?php } ?>
 
-    <a
-        href="<?= site_url($inboxPage); ?>"
-        class="nav-item nav-link <?= ($this->page->getId() == 'account-inbox') ? 'active' : ''; ?>"
-    >
+    <?php if ($inboxPage == 'is enabled') { ?>
+        <a
+            href="<?= site_url($inboxPage); ?>"
+            class="nav-item nav-link <?= ($this->page->getId() == 'account-inbox') ? 'active' : ''; ?>"
+        >
         <span
             class="fa fa-inbox"></span>&nbsp;&nbsp;&nbsp;<?= sprintf(lang('igniter.user::default.text_inbox'), empty($inboxCount) ? '' : $inboxCount); ?>
-    </a>
+        </a>
+    <?php } ?>
     <a
         data-request="session::onLogout"
         class="nav-item nav-link text-danger"

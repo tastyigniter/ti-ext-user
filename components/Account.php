@@ -152,11 +152,6 @@ class Account extends \System\Classes\BaseComponent
         return $this->customer()->reservations()->with('status')->take(10)->get();
     }
 
-    public function getCustomerMessages()
-    {
-        return $this->customer()->messages()->take(10)->get();
-    }
-
     public function loginUrl()
     {
         $currentUrl = str_replace(Request::root(), '', Request::fullUrl());
