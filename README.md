@@ -11,8 +11,6 @@ In the admin user interface you can manage customers and their groups.
 | ResetPassword | `<?= component('resetPassword') ?>` | Allows a user to reset their password if they have forgotten it.               |
 | AddressBook | `<?= component('addressBook') ?>` | Manages the users delivery addresses               |
 | Inbox | `<?= component('inbox') ?>` | Displays a list of user messages on the page               |
-| Orders | `<?= component('orders') ?>` | Displays a list of orders on the page               |
-| Reservations | `<?= component('reservations') ?>` | Displays a list of reservations on the page               |
 | Reviews | `<?= component('reviews') ?>` | Displays a list of user reviews on the page               |
 
 ### Session Component
