@@ -34,9 +34,7 @@ return [
     'label_send_to_staff_group' => 'Send To Staff Group',
     'label_send_to_custom' => 'Send To Email Address',
 
-    'column_id' => 'ID',
     'column_date' => 'Date/Time',
-    'column_status' => 'Status',
     'column_subject' => 'Subject',
 
     'alert_logout_success' => 'You have been logged out successfully.',

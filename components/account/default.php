@@ -54,9 +54,9 @@ $customerReservations = $__SELF__->getCustomerReservations();
                     <table class="table table-striped table-none">
                         <thead>
                         <tr>
-                            <th><?= lang('igniter.user::default.column_id'); ?></th>
+                            <th><?= lang('admin::lang.column_id'); ?></th>
                             <th width="65%" class="text-center">
-                                <?= lang('igniter.user::default.column_status'); ?>
+                                <?= lang('admin::lang.label_status'); ?>
                             </th>
                             <th><?= lang('igniter.user::default.column_date'); ?></th>
                         </tr>
@@ -97,9 +97,9 @@ $customerReservations = $__SELF__->getCustomerReservations();
                     <table class="table table-striped table-none">
                         <thead>
                         <tr>
-                            <th><?= lang('igniter.user::default.column_id'); ?></th>
+                            <th><?= lang('admin::lang.column_id'); ?></th>
                             <th width="65%" class="text-center">
-                                <?= lang('igniter.user::default.column_status'); ?>
+                                <?= lang('admin::lang.label_status'); ?>
                             </th>
                             <th><?= lang('igniter.user::default.column_date'); ?></th>
                         </tr>

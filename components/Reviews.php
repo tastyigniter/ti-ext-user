@@ -135,7 +135,9 @@ class Reviews extends \System\Classes\BaseComponent
      */
     protected function getHints()
     {
-        return array_get(setting('ratings'), 'ratings', []);
+        return array_get(setting('ratings'), 'ratings', [
+            1 => 'Worse', 2 => 'Bad', 3 => 'Good', 4 => 'Average', 5 => 'Excellent',
+        ]);
     }
 
     protected function getReview()
@@ -179,6 +181,6 @@ class Reviews extends \System\Classes\BaseComponent
 
     protected function makeRedirectUrl()
     {
-        return $this->controller->pageUrl($this->property($this->saleTypeParam.'sRedirectPage'));
+        return $this->controller->pageUrl($this->property($this->param('saleType').'sRedirectPage'), ['orderId' => '']);
     }
 }
