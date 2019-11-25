@@ -59,33 +59,25 @@
         </div>
     </div>
 
-    <div class="form-row">
-        <div class="col">
-                    <span class="button-checkbox">
-                        <button
-                            type="button"
-                            class="btn"
-                            data-color="info"
-                            tabindex="7"
-                        >&nbsp;&nbsp;<?= lang('igniter.user::default.settings.button_subscribe'); ?></button>
-                        <input
-                            type="checkbox"
-                            name="newsletter"
-                            id="newsletter"
-                            class="hidden"
-                            value="1"
-                            <?= set_checkbox('newsletter', '1', (bool)$customer->newsletter); ?>
-                        >
-                    </span>
-            <label for="newsletter" class="control-label text-muted">
+    <div class="form-group">
+        <div class="custom-control custom-checkbox">
+            <input
+                type="checkbox"
+                name="newsletter"
+                id="newsletter"
+                class="custom-control-input"
+                value="1"
+                <?= set_checkbox('newsletter', '1', (bool)$customer->newsletter); ?>
+            >
+            <label for="newsletter" class="custom-control-label">
                 <?= lang('igniter.user::default.settings.label_newsletter'); ?>
             </label>
         </div>
         <?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
     </div>
 
-    <div class="my-4">
-        <h4><?= lang('igniter.user::default.settings.text_password_heading'); ?></h4>
+    <div class="my-3">
+        <h5 class="font-weight-normal"><?= lang('igniter.user::default.settings.text_password_heading'); ?></h5>
     </div>
 
     <div class="form-group">
@@ -129,7 +121,7 @@
     <div class="buttons">
         <button
             type="submit"
-            class="btn btn-primary btn-lg"
+            class="btn btn-primary"
         ><?= lang('igniter.user::default.settings.button_save'); ?></button>
     </div>
 </form>

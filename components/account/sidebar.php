@@ -4,10 +4,6 @@
         class="nav-item nav-link <?= ($this->page->getId() == 'account-account') ? 'active font-weight-bold' : 'text-reset'; ?>"
     ><span class="fa fa-user mr-3"></span><?= lang('igniter.user::default.text_account'); ?></a>
     <a
-        href="<?= site_url($detailsPage); ?>"
-        class="nav-item nav-link <?= ($this->page->getId() == 'account-details') ? 'active font-weight-bold' : 'text-reset'; ?>"
-    ><span class="fa fa-cog mr-3"></span><?= lang('igniter.user::default.text_edit_details'); ?></a>
-    <a
         href="<?= site_url($addressPage); ?>"
         class="nav-item nav-link <?= ($this->page->getId() == 'account-address') ? 'active font-weight-bold' : 'text-reset'; ?>"
     ><span class="fa fa-book mr-3"></span><?= lang('igniter.user::default.text_address'); ?></a>

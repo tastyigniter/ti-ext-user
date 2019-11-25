@@ -49,7 +49,6 @@ In the admin user interface you can manage customers and their groups.
 | Property                 | Description              | Example Value | Default Value |
 | ------------------------ | ------------------------ | ------------- | ------------- |
 | accountPage                     | Account page name                  | account/account         |   account/account        |
-| detailsPage                     | Account update page name                  | account/details         |   account/details     |
 | addressPage                     | Address book page name                  | account/address         |   account/address       |
 | ordersPage                     | Orders page name                  | account/orders         |   account/orders        |
 | reservationsPage                     | Reservations page name                  | account/reservations         |   account/reservations        |

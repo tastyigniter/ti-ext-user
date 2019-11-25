@@ -27,12 +27,6 @@ class Account extends \System\Classes\BaseComponent
                 'default' => 'account/account',
                 'options' => [static::class, 'getPageOptions'],
             ],
-            'detailsPage' => [
-                'label' => 'The customer details page',
-                'type' => 'select',
-                'default' => 'account/details',
-                'options' => [static::class, 'getPageOptions'],
-            ],
             'addressPage' => [
                 'label' => 'The customer address page',
                 'type' => 'select',
