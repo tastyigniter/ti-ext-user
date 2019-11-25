@@ -36,9 +36,4 @@
         <?= lang('igniter.user::default.text_reservations'); ?>
     </a>
 
-    <a
-        data-request="session::onLogout"
-        class="nav-item nav-link text-danger"
-    ><span class="fa fa-ban"></span>&nbsp;&nbsp;&nbsp;<?= lang('igniter.user::default.text_logout'); ?>
-    </a>
 </div>
