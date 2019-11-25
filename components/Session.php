@@ -90,8 +90,6 @@ class Session extends BaseComponent
         $allowedGroup = $this->property('security', 'all');
         $isAuthenticated = Auth::check();
         if ($allowedGroup == 'customer' AND !$isAuthenticated) {
-            flash()->danger(lang('igniter.user::default.login.alert_expired_login'));
-
             return FALSE;
         }
 
