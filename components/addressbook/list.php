@@ -1,5 +1,5 @@
 <?php if (count($customerAddresses)) { ?>
-    <div class="list-group">
+    <div class="list-group list-group-flush">
         <?php $index = 0;
         foreach ($customerAddresses as $address) { ?>
             <?php $index++; ?>
