@@ -28,6 +28,12 @@ class Session extends BaseComponent
                 'type' => 'string',
                 'default' => 'all',
             ],
+            'loginPage' => [
+                'label' => 'The account login page',
+                'type' => 'select',
+                'default' => 'account/login',
+                'options' => [static::class, 'getPageOptions'],
+            ],
             'redirectPage' => [
                 'label' => 'Page name to redirect to when access is restricted',
                 'type' => 'select',
@@ -53,6 +59,13 @@ class Session extends BaseComponent
         }
 
         return Auth::getUser();
+    }
+
+    public function loginUrl()
+    {
+        $currentUrl = str_replace(Request::root(), '', Request::fullUrl());
+
+        return $this->controller->pageUrl($this->property('loginPage')).'?redirect='.urlencode($currentUrl);
     }
 
     public function onLogout()
