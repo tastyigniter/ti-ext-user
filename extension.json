@@ -2,7 +2,7 @@
   "code": "igniter.user",
   "name": "User",
   "description": "Management of front-end users (customers) on TastyIgniter.",
-  "version": "v1.2.0",
+  "version": "v1.3.0",
   "author": "SamPoyigi",
   "icon": "fa-user",
   "homepage": "https://github.com/tastyigniter/ti-ext-user"

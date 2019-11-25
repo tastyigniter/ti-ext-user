@@ -19,7 +19,7 @@ class Extension extends \System\Classes\BaseExtension
                 \Igniter\User\EventRules\Actions\SendMailTemplate::class,
             ],
             'conditions' => [
-                \Igniter\User\EventRules\Conditions\CustomerAttribute::class
+                \Igniter\User\EventRules\Conditions\CustomerAttribute::class,
             ],
         ];
     }
@@ -73,7 +73,7 @@ class Extension extends \System\Classes\BaseExtension
 
         \Igniter\EventRules\Classes\EventManager::instance()->registerCallback(function ($manager) {
             $manager->registerGlobalParams([
-                'customer' => Auth::customer()
+                'customer' => Auth::customer(),
             ]);
         });
     }
