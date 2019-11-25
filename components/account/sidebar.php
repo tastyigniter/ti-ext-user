@@ -36,24 +36,6 @@
         <?= lang('igniter.user::default.text_reservations'); ?>
     </a>
 
-    <?php if ((int)setting('allow_reviews', 1)) { ?>
-        <a
-            href="<?= site_url($reviewsPage); ?>"
-            class="nav-item nav-link <?= ($this->page->getId() == 'account-reviews') ? 'active' : ''; ?>"
-        >
-            <span class="fa fa-star"></span>&nbsp;&nbsp;&nbsp;<?= lang('igniter.user::default.text_reviews'); ?>
-        </a>
-    <?php } ?>
-
-    <?php if ($inboxPage == 'is enabled') { ?>
-        <a
-            href="<?= site_url($inboxPage); ?>"
-            class="nav-item nav-link <?= ($this->page->getId() == 'account-inbox') ? 'active' : ''; ?>"
-        >
-        <span
-            class="fa fa-inbox"></span>&nbsp;&nbsp;&nbsp;<?= sprintf(lang('igniter.user::default.text_inbox'), empty($inboxCount) ? '' : $inboxCount); ?>
-        </a>
-    <?php } ?>
     <a
         data-request="session::onLogout"
         class="nav-item nav-link text-danger"
