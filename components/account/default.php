@@ -1,10 +1,10 @@
-<div class="card mb-2">
+<div class="card mb-1">
     <div class="card-body">
         <h5 class="mb-0"><?= sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name); ?></h5>
     </div>
 </div>
 
-<div class="card-group">
+<div class="card-group mb-1">
     <div class="card mr-sm-1">
         <div class="card-body">
             <?php if (!empty($customer->address)) { ?>
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="card ml-sm-1">
+    <div class="card">
         <div class="card-body text-center">
             <p><i class="fa fa-shopping-basket fa-3x text-muted"></i></p>
             <?php if ($__SELF__->cartCount()) { ?>
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<div class="card mt-2">
+<div class="card">
     <div class="card-body">
         <h5 class="font-weight-normal mb-3"><?= lang('igniter.user::default.text_edit_details') ?></h5>
         <?= partial('@settings'); ?>
