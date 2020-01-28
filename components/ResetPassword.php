@@ -145,7 +145,7 @@ class ResetPassword extends BaseComponent
             'account_login_link' => site_url($this->property('loginPage')),
         ];
 
-        Mail::send('igniter.user::mail.password_reset_request', $data, function ($message) use ($customer) {
+        Mail::queue('igniter.user::mail.password_reset_request', $data, function ($message) use ($customer) {
             $message->to($customer->email, $customer->full_name);
         });
     }

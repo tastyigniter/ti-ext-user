@@ -345,13 +345,13 @@ class Account extends \System\Classes\BaseComponent
         is_array($settingRegistrationEmail) OR $settingRegistrationEmail = [];
 
         if (in_array('customer', $settingRegistrationEmail)) {
-            Mail::send('igniter.user::mail.registration', $data, function ($message) use ($customer) {
+            Mail::queue('igniter.user::mail.registration', $data, function ($message) use ($customer) {
                 $message->to($customer->email, $customer->name);
             });
         }
 
         if (in_array('admin', $settingRegistrationEmail)) {
-            Mail::send('igniter.user::mail.registration_alert', $data, function ($message) {
+            Mail::queue('igniter.user::mail.registration_alert', $data, function ($message) {
                 $message->to(setting('site_email'), setting('site_name'));
             });
         }
@@ -379,7 +379,7 @@ class Account extends \System\Classes\BaseComponent
             'account_activation_link' => $link,
         ];
 
-        Mail::send('igniter.user::mail.activation', $data, function ($message) use ($customer) {
+        Mail::queue('igniter.user::mail.activation', $data, function ($message) use ($customer) {
             $message->to($customer->email, $customer->name);
         });
     }
