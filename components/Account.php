@@ -119,12 +119,7 @@ class Account extends \System\Classes\BaseComponent
 
     public function getRegistrationTermsUrl()
     {
-        $termsPageId = $this->property('agreeRegistrationTermsPage');
-        $termsPage = $this->findPage($termsPageId);
-
-        return $this->controller->pageUrl('pages/pages', [
-            'slug' => $termsPage ? $termsPage->permalink_slug : null,
-        ]);
+        return url($this->getPageSlug($this->property('agreeRegistrationTermsPage')));
     }
 
     public function customer()

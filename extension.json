@@ -2,8 +2,12 @@
   "code": "igniter.user",
   "name": "User",
   "description": "Management of front-end users (customers) on TastyIgniter.",
-  "version": "v1.3.1",
+  "version": "v1.3.2",
   "author": "SamPoyigi",
-  "icon": "fa-user",
+  "icon": {
+    "class": "fa fa-user",
+    "color": "#FFF",
+    "backgroundColor": "#3596DA"
+  },
   "homepage": "https://github.com/tastyigniter/ti-ext-user"
 }
