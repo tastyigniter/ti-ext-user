@@ -9,6 +9,19 @@ class Extension extends \System\Classes\BaseExtension
         $this->registerEventGlobalParams();
     }
 
+    public function registerAutomationRules()
+    {
+        return [
+            'events' => [
+                'igniter.user.register' => \Igniter\User\AutomationRules\Events\CustomerRegistered::class,
+            ],
+            'actions' => [],
+            'conditions' => [
+                \Igniter\User\AutomationRules\Conditions\CustomerAttribute::class,
+            ],
+        ];
+    }
+
     public function registerEventRules()
     {
         return [
@@ -68,13 +81,20 @@ class Extension extends \System\Classes\BaseExtension
 
     protected function registerEventGlobalParams()
     {
-        if (!class_exists(\Igniter\EventRules\Classes\EventManager::class))
-            return;
+        if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
+            \Igniter\Automation\Classes\EventManager::instance()->registerCallback(function ($manager) {
+                $manager->registerGlobalParams([
+                    'customer' => Auth::customer(),
+                ]);
+            });
+        }
 
-        \Igniter\EventRules\Classes\EventManager::instance()->registerCallback(function ($manager) {
-            $manager->registerGlobalParams([
-                'customer' => Auth::customer(),
-            ]);
-        });
+        if (class_exists(\Igniter\EventRules\Classes\EventManager::class)) {
+            \Igniter\EventRules\Classes\EventManager::instance()->registerCallback(function ($manager) {
+                $manager->registerGlobalParams([
+                    'customer' => Auth::customer(),
+                ]);
+            });
+        }
     }
 }
