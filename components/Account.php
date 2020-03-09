@@ -225,13 +225,7 @@ class Account extends \System\Classes\BaseComponent
                 flash()->success(lang('igniter.user::default.login.alert_account_created'));
             }
 
-            activity()
-                ->useEvent($customer->getEventNameToUse('created'))
-                ->performedOn($customer)
-                ->causedBy($customer)
-                ->log();
-
-            $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
+            CustomerRegistered::log($customer);
 
             if ($redirectUrl = get('redirect', $redirectUrl))
                 return Redirect::intended($redirectUrl);

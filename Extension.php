@@ -79,6 +79,13 @@ class Extension extends \System\Classes\BaseExtension
         ];
     }
 
+    public function registerActivityTypes()
+    {
+        return [
+            ActivityTypes\CustomerRegistered::class,
+        ];
+    }
+
     protected function registerEventGlobalParams()
     {
         if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
