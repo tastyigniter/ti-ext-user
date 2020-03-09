@@ -8,6 +8,7 @@ use Auth;
 use Cart;
 use Event;
 use Exception;
+use Igniter\User\ActivityTypes\CustomerRegistered;
 use Mail;
 use Main\Traits\HasPageOptions;
 use Redirect;
@@ -214,9 +215,12 @@ class Account extends \System\Classes\BaseComponent
 
             Event::fire('igniter.user.register', [$customer, $data]);
 
+            $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
+
             if ($requireActivation) {
                 $this->sendActivationEmail($customer);
                 flash()->success(lang('igniter.user::default.login.alert_account_activation'));
+                $redirectUrl = $this->controller->pageUrl($this->property('loginPage'));
             }
 
             if (!$requireActivation) {
@@ -306,6 +310,10 @@ class Account extends \System\Classes\BaseComponent
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
 
             Auth::login($customer);
+
+            $redirectUrl = $this->controller->pageUrl($this->property('accountPage'));
+
+            return Redirect::to($redirectUrl);
         }
         catch (Exception $ex) {
             if (Request::ajax()) throw $ex;
