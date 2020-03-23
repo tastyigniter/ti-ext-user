@@ -98,7 +98,7 @@
         <?= form_error('newsletter', '<span class="text-danger">', '</span>'); ?>
     </div>
 
-    <?php if ($requireRegistrationTerms) { ?>
+    <?php if ($requireRegistrationTerms AND $registrationTermsSlug = $account->getRegistrationTermsPageSlug()) { ?>
         <div class="form-group">
             <div class="custom-control custom-checkbox">
                 <input
@@ -109,7 +109,7 @@
                     class="custom-control-input" <?= set_checkbox('terms', '1'); ?>
                 >
                 <label class="custom-control-label" for="agree-terms">
-                    <?= sprintf(lang('igniter.user::default.login.label_terms'), $account->getRegistrationTermsUrl()); ?>
+                    <?= sprintf(lang('igniter.user::default.login.label_terms'), url($registrationTermsSlug)); ?>
                 </label>
             </div>
             <?= form_error('terms', '<span class="text-danger">', '</span>'); ?>

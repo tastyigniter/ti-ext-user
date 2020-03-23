@@ -117,9 +117,14 @@ class Account extends \System\Classes\BaseComponent
         return Cart::total();
     }
 
+    public function getRegistrationTermsPageSlug()
+    {
+        return $this->getStaticPagePermalink($this->property('agreeRegistrationTermsPage'));
+    }
+
     public function getRegistrationTermsUrl()
     {
-        return url($this->getPageSlug($this->property('agreeRegistrationTermsPage')));
+        return url($this->getRegistrationTermsPageSlug());
     }
 
     public function customer()

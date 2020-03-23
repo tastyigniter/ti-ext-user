@@ -5,7 +5,6 @@ namespace Igniter\User\Components;
 use Admin\Models\Customers_model;
 use Admin\Traits\ValidatesForm;
 use ApplicationException;
-use Exception;
 use Mail;
 use Main\Template\Page;
 use Redirect;
@@ -63,56 +62,45 @@ class ResetPassword extends BaseComponent
 
     public function onForgotPassword()
     {
-        try {
-            $namedRules = [
-                ['email', 'lang:igniter.user::default.reset.label_email', 'required|email|between:6,255'],
-            ];
+        $namedRules = [
+            ['email', 'lang:igniter.user::default.reset.label_email', 'required|email|between:6,255'],
+        ];
 
-            $this->validate(post(), $namedRules);
+        $this->validate(post(), $namedRules);
 
-            if (!$customer = Customers_model::whereEmail(post('email'))->first())
-                throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
+        if (!$customer = Customers_model::whereEmail(post('email'))->first())
+            throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
 
-            $link = $this->makeResetUrl($code = $customer->resetPassword());
+        if (!$code = $customer->resetPassword())
+            throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
 
-            $this->sendResetPasswordMail($customer, $code, $link);
+        $link = $this->makeResetUrl($code);
 
-            flash()->success(lang('igniter.user::default.reset.alert_reset_request_success'));
+        $this->sendResetPasswordMail($customer, $code, $link);
 
-            return Redirect::back();
-        }
-        catch (Exception $ex) {
-            flash()->warning($ex->getMessage());
+        flash()->success(lang('igniter.user::default.reset.alert_reset_request_success'));
 
-            return Redirect::back()->withInput();
-        }
+        return Redirect::back();
     }
 
     public function onResetPassword()
     {
-        try {
-            $namedRules = [
-                ['code', 'lang:igniter.user::default.reset.label_code', 'required'],
-                ['password', 'lang:igniter.user::default.reset.label_password', 'required|same:password_confirm'],
-                ['password_confirm', 'lang:igniter.user::default.reset.label_password_confirm', 'required'],
-            ];
+        $namedRules = [
+            ['code', 'lang:igniter.user::default.reset.label_code', 'required'],
+            ['password', 'lang:igniter.user::default.reset.label_password', 'required|same:password_confirm'],
+            ['password_confirm', 'lang:igniter.user::default.reset.label_password_confirm', 'required'],
+        ];
 
-            $this->validate(post(), $namedRules);
+        $this->validate(post(), $namedRules);
 
-            $customer = Customers_model::whereResetCode($code = post('code'))->first();
+        $customer = Customers_model::whereResetCode($code = post('code'))->first();
 
-            if (!$customer OR $customer->completeResetPassword($code, post('password')))
-                throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_failed'));
+        if (!$customer OR $customer->completeResetPassword($code, post('password')))
+            throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_failed'));
 
-            flash()->success(lang('igniter.user::default.reset.alert_reset_success'));
+        flash()->success(lang('igniter.user::default.reset.alert_reset_success'));
 
-            return Redirect::to($this->controller->pageUrl($this->property('loginPage')));
-        }
-        catch (Exception $ex) {
-            flash()->warning($ex->getMessage());
-
-            return Redirect::back()->withInput();
-        }
+        return Redirect::to($this->controller->pageUrl($this->property('loginPage')));
     }
 
     protected function makeResetUrl($code)
