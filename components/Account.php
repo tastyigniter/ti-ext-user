@@ -10,14 +10,13 @@ use Event;
 use Exception;
 use Igniter\User\ActivityTypes\CustomerRegistered;
 use Mail;
-use Main\Traits\HasPageOptions;
 use Redirect;
 use Request;
 
 class Account extends \System\Classes\BaseComponent
 {
     use ValidatesForm;
-    use HasPageOptions;
+    use \Main\Traits\UsesPage;
 
     public function defineProperties()
     {
@@ -26,61 +25,61 @@ class Account extends \System\Classes\BaseComponent
                 'label' => 'The customer dashboard page',
                 'type' => 'select',
                 'default' => 'account/account',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'addressPage' => [
                 'label' => 'The customer address page',
                 'type' => 'select',
                 'default' => 'account/address',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'ordersPage' => [
                 'label' => 'The customer orders page',
                 'type' => 'select',
                 'default' => 'account/orders',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'reservationsPage' => [
                 'label' => 'The customer reservations page',
                 'type' => 'select',
                 'default' => 'account/reservations',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'reviewsPage' => [
                 'label' => 'The customer reviews page',
                 'type' => 'select',
                 'default' => 'account/reviews',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'inboxPage' => [
                 'label' => 'The customer inbox page',
                 'type' => 'select',
                 'default' => 'account/inbox',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'loginPage' => [
                 'label' => 'The account login page',
                 'type' => 'select',
                 'default' => 'account/login',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'activationPage' => [
                 'label' => 'The account registration activation page',
                 'type' => 'select',
                 'default' => 'account/register',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'agreeRegistrationTermsPage' => [
                 'label' => 'Registration Terms',
                 'type' => 'select',
-                'options' => [static::class, 'getPagesOptions'],
+                'options' => [static::class, 'getStaticPageOptions'],
                 'comment' => 'Require customers to agree to terms before an account is registered',
             ],
             'redirectPage' => [
                 'label' => 'Page to redirect to after successful login or registration',
                 'type' => 'select',
                 'default' => 'account/account',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
         ];
     }

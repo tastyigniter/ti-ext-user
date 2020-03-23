@@ -4,14 +4,13 @@ namespace Igniter\User\Components;
 
 use Auth;
 use Event;
-use Main\Traits\HasPageOptions;
 use Redirect;
 use Request;
 use System\Classes\BaseComponent;
 
 class Session extends BaseComponent
 {
-    use HasPageOptions;
+    use \Main\Traits\UsesPage;
 
     public function initialize()
     {
@@ -32,13 +31,13 @@ class Session extends BaseComponent
                 'label' => 'The account login page',
                 'type' => 'select',
                 'default' => 'account/login',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
             'redirectPage' => [
                 'label' => 'Page name to redirect to when access is restricted',
                 'type' => 'select',
                 'default' => 'home',
-                'options' => [static::class, 'getPageOptions'],
+                'options' => [static::class, 'getThemePageOptions'],
             ],
         ];
     }
