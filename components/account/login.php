@@ -68,4 +68,3 @@
     </div>
 
 <?= form_close(); ?>
-<?= component('socialite') ?>
