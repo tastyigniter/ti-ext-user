@@ -8,6 +8,7 @@ use Auth;
 use Cart;
 use Event;
 use Exception;
+use Igniter\Flame\Exception\ValidationException;
 use Igniter\User\ActivityTypes\CustomerRegistered;
 use Mail;
 use Redirect;
@@ -168,7 +169,7 @@ class Account extends \System\Classes\BaseComponent
             if (!Auth::authenticate($credentials, $remember, TRUE))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
-            Event::fire('igniter.user.login', [$this]);
+            Event::fire('igniter.user.login', [$this], TRUE);
 
             if ($redirect = input('redirect'))
                 return Redirect::to($this->controller->pageUrl($redirect));
@@ -176,10 +177,8 @@ class Account extends \System\Classes\BaseComponent
             if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage')))
                 return Redirect::intended($redirectUrl);
         }
-        catch (Exception $ex) {
-            flash()->warning($ex->getMessage());
-
-            return Redirect::back()->withInput();
+        catch (ValidationException $ex) {
+            throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
         }
     }
 
@@ -206,7 +205,9 @@ class Account extends \System\Classes\BaseComponent
 
             $this->validate($data, $rules);
 
-            Event::fire('igniter.user.beforeRegister', [&$data]);
+            $response = Event::fire('igniter.user.beforeRegister', [&$data]);
+            if (!is_null($response))
+                return $response;
 
             $data['customer_group_id'] = $defaultCustomerGroupId = setting('customer_group_id');
             $customerGroup = Customer_groups_model::find($defaultCustomerGroupId);
@@ -238,10 +239,8 @@ class Account extends \System\Classes\BaseComponent
             if ($redirectUrl = get('redirect', $redirectUrl))
                 return Redirect::intended($redirectUrl);
         }
-        catch (Exception $ex) {
-            flash()->warning($ex->getMessage());
-
-            return Redirect::back()->withInput();
+        catch (ValidationException $ex) {
+            throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
         }
     }
 

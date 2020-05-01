@@ -121,6 +121,7 @@
             <button
                 type="submit"
                 class="btn btn-primary btn-block btn-lg"
+                data-attach-loading
             ><?= lang('igniter.user::default.login.button_register'); ?></button>
         </div>
         <div class="col-12 text-center">
