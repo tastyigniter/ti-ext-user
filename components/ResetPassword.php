@@ -63,7 +63,7 @@ class ResetPassword extends BaseComponent
     public function onForgotPassword()
     {
         $namedRules = [
-            ['email', 'lang:igniter.user::default.reset.label_email', 'required|email:filter|between:6,255'],
+            ['email', 'lang:igniter.user::default.reset.label_email', 'required|email:filter|max:96'],
         ];
 
         $this->validate(post(), $namedRules);
