@@ -22,21 +22,6 @@ class Extension extends \System\Classes\BaseExtension
         ];
     }
 
-    public function registerEventRules()
-    {
-        return [
-            'events' => [
-                'igniter.user.register' => \Igniter\User\EventRules\Events\CustomerRegistered::class,
-            ],
-            'actions' => [
-                \Igniter\User\EventRules\Actions\SendMailTemplate::class,
-            ],
-            'conditions' => [
-                \Igniter\User\EventRules\Conditions\CustomerAttribute::class,
-            ],
-        ];
-    }
-
     public function registerComponents()
     {
         return [
