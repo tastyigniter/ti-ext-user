@@ -205,12 +205,10 @@ class Account extends \System\Classes\BaseComponent
 
             $this->validate($data, $rules);
 
-            $response = Event::fire('igniter.user.beforeRegister', [&$data]);
-            if (!is_null($response))
-                return $response;
+            Event::fire('igniter.user.beforeRegister', [&$data]);
 
-            $data['customer_group_id'] = $defaultCustomerGroupId = setting('customer_group_id');
-            $customerGroup = Customer_groups_model::find($defaultCustomerGroupId);
+            $data['customer_group_id'] = setting('customer_group_id');
+            $customerGroup = Customer_groups_model::getDefault();
             $requireActivation = ($customerGroup AND $customerGroup->requiresApproval());
             $autoActivation = !$requireActivation;
 
