@@ -69,6 +69,7 @@ return [
         'alert_account_activation' => 'An activation email has been sent to your email address.',
         'alert_registration_disabled' => 'Registration is currently disabled by the site administrator.',
 
+        'activity_registered_account_title' => 'Customer registered',
         'activity_registered_account' => ' <b>created</b> an account.',
     ],
 

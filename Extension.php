@@ -67,7 +67,7 @@ class Extension extends \System\Classes\BaseExtension
     public function registerActivityTypes()
     {
         return [
-            ActivityTypes\CustomerRegistered::class,
+            ActivityTypes\CustomerRegistered::class => 'customerRegistered',
         ];
     }
 

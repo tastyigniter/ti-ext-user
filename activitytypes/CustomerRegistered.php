@@ -5,21 +5,34 @@ namespace Igniter\User\ActivityTypes;
 use Admin\Models\Customers_model;
 use Igniter\Flame\ActivityLog\Contracts\ActivityInterface;
 use Igniter\Flame\ActivityLog\Models\Activity;
+use Igniter\Flame\Auth\Models\User;
 
 class CustomerRegistered implements ActivityInterface
 {
+    public $type;
+
+    public $subject;
+
+    public $causer;
+
+    public function __construct(string $type, Customers_model $subject, User $causer = null)
+    {
+        $this->type = $type;
+        $this->subject = $subject;
+        $this->causer = $causer;
+    }
 
     public static function log($customer)
     {
-        activity()
-            ->logAs(self::getType())
-            ->withProperties([
-                'customer_id' => $customer->customer_id,
-                'full_name' => $customer->full_name,
-            ])
-            ->performedOn($customer)
-            ->causedBy($customer)
-            ->log();
+        activity()->pushLog(new static('customerRegistered', $customer), [null]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -27,6 +40,7 @@ class CustomerRegistered implements ActivityInterface
      */
     public function getCauser()
     {
+        return $this->causer ?? $this->subject;
     }
 
     /**
@@ -34,6 +48,7 @@ class CustomerRegistered implements ActivityInterface
      */
     public function getSubject()
     {
+        return $this->subject;
     }
 
     /**
@@ -41,29 +56,10 @@ class CustomerRegistered implements ActivityInterface
      */
     public function getProperties()
     {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function getType()
-    {
-        return 'customerRegistered';
-    }
-
-    public static function getUrl(Activity $activity)
-    {
-        $url = 'customers';
-        if ($activity->subject)
-            $url .= '/edit/'.$activity->subject->customer_id;
-
-        return admin_url($url);
-    }
-
-    public static function getMessage(Activity $activity)
-    {
-        return lang('igniter.user::default.login.activity_registered_account');
+        return [
+            'customer_id' => $this->subject->getKey(),
+            'full_name' => $this->subject->full_name,
+        ];
     }
 
     /**
@@ -72,5 +68,24 @@ class CustomerRegistered implements ActivityInterface
     public static function getSubjectModel()
     {
         return Customers_model::class;
+    }
+
+    public static function getTitle(Activity $activity)
+    {
+        return lang('igniter.user::default.login.activity_registered_account_title');
+    }
+
+    public static function getUrl(Activity $activity)
+    {
+        $url = 'customers';
+        if ($activity->subject)
+            $url .= '/edit/'.$activity->subject->getKey();
+
+        return admin_url($url);
+    }
+
+    public static function getMessage(Activity $activity)
+    {
+        return lang('igniter.user::default.login.activity_registered_account');
     }
 }
