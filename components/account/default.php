@@ -27,7 +27,7 @@
         <div class="card-body text-center">
             <p><i class="fa fa-shopping-basket fa-3x text-muted"></i></p>
             <?php if ($__SELF__->cartCount()) { ?>
-                <p><?= sprintf(lang('igniter.user::default.text_cart_summary'), $__SELF__->cartCount(), $__SELF__->cartTotal()); ?></p>
+                <p><?= sprintf(lang('igniter.user::default.text_cart_summary'), $__SELF__->cartCount(), currency_format($__SELF__->cartTotal())); ?></p>
                 <a class="btn btn-primary" href="<?= site_url('checkout/checkout'); ?>">
                     <?= lang('igniter.user::default.text_checkout'); ?>
                 </a>
