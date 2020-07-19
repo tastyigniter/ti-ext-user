@@ -74,6 +74,7 @@ class Account extends \System\Classes\BaseComponent
                 'label' => 'Registration Terms',
                 'type' => 'select',
                 'options' => [static::class, 'getStaticPageOptions'],
+                'placeholder' => 'lang:admin::lang.text_please_select',
                 'comment' => 'Require customers to agree to terms before an account is registered',
             ],
             'redirectPage' => [
@@ -200,7 +201,7 @@ class Account extends \System\Classes\BaseComponent
                 ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
-            if (is_numeric($this->property('registrationTerms')))
+            if ((bool)$this->property('agreeRegistrationTermsPage'))
                 $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
 
             $this->validate($data, $rules);
