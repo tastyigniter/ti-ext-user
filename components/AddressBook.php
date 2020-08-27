@@ -1,4 +1,6 @@
-<?php namespace Igniter\User\Components;
+<?php
+
+namespace Igniter\User\Components;
 
 use Admin\Models\Addresses_model;
 use Admin\Traits\ValidatesForm;

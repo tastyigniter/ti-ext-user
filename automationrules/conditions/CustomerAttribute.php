@@ -1,4 +1,6 @@
-<?php namespace Igniter\User\AutomationRules\Conditions;
+<?php
+
+namespace Igniter\User\AutomationRules\Conditions;
 
 use ApplicationException;
 use Igniter\Automation\Classes\BaseModelAttributesCondition;
