@@ -1,4 +1,6 @@
-<?php namespace Igniter\User\Components;
+<?php
+
+namespace Igniter\User\Components;
 
 use Admin\Models\Customer_groups_model;
 use Admin\Models\Customers_model;

@@ -1,4 +1,6 @@
-<?php namespace Igniter\User;
+<?php
+
+namespace Igniter\User;
 
 use Auth;
 
