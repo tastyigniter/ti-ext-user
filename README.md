@@ -6,12 +6,12 @@ In the admin user interface you can manage customers and their groups.
 ### Components
 | Name     | Page variable                | Description                                      |
 | -------- | ---------------------------- | ------------------------------------------------ |
-| Session | `<?= component('session') ?>` | Manages the logged or guest user's session              |
-| Account | `<?= component('account') ?>` | Provides the sign in form, registration form and update form |
-| ResetPassword | `<?= component('resetPassword') ?>` | Allows a user to reset their password if they have forgotten it.               |
-| AddressBook | `<?= component('addressBook') ?>` | Manages the users delivery addresses               |
-| Inbox | `<?= component('inbox') ?>` | Displays a list of user messages on the page               |
-| Reviews | `<?= component('reviews') ?>` | Displays a list of user reviews on the page               |
+| Session | `@component('session')` | Manages the logged or guest user's session              |
+| Account | `@component('account')` | Provides the sign in form, registration form and update form |
+| ResetPassword | `@component('resetPassword')` | Allows a user to reset their password if they have forgotten it.               |
+| AddressBook | `@component('addressBook')` | Manages the users delivery addresses               |
+| Inbox | `@component('inbox')` | Displays a list of user messages on the page               |
+| Reviews | `@component('reviews')` | Displays a list of user reviews on the page               |
 
 ### Session Component
 
@@ -26,16 +26,24 @@ In the admin user interface you can manage customers and their groups.
 
 | Variable                  | Description                                                  |
 | ------------------------- | ------------------------------------------------------------ |
-| $customer | Instance of the logged user model                                                |
+| `{{ $customer }}` | Instance of the logged user model                                                |
 
 **Example:**
 
 ```
-<?php if ($customer) { ?>
-    <p>Hello <?= $customer->first_name; ?></p>
-<?php } else { ?>
+@if ($customer)
+    <p>Hello {{ $customer->first_name }}</p>
+@else
     <p>Not logged in</p>
-<?php } ?>
+@endif
+
+@auth
+    // The customer is logged in...
+@endauth
+
+@guest
+    // The customer is not logged in...
+@endguest
 ```
 **Logout Example:**
 ```
@@ -62,7 +70,7 @@ In the admin user interface you can manage customers and their groups.
 
 | Variable                  | Description                                                  |
 | ------------------------- | ------------------------------------------------------------ |
-| $customer | Instance of the logged user model                                                |
+| `{{ $customer }}` | Instance of the logged user model                                                |
 
 **Example:**
 
@@ -74,7 +82,7 @@ permalink: /account
 '[account]': { }
 ---
 ...
-<?= component('account'); ?>
+@component('account')
 ...
 ```
 
@@ -87,7 +95,7 @@ permalink: /login
 '[account]': { }
 ---
 ...
-<?= partial('account::login'); ?>
+@partial('account::login')
 ...
 ```
 
@@ -101,7 +109,7 @@ permalink: /register
     agreeRegistrationTermsPage: 12
 ---
 ...
-<?= partial('account::register'); ?>
+@partial('account::register')
 ...
 ```
 
@@ -125,7 +133,7 @@ permalink: /forgot-password/:code?
 '[resetPassword]': { }
 ---
 ...
-<?= component('resetPassword'); ?>
+@component('resetPassword')
 ...
 ```
 
@@ -135,11 +143,11 @@ This extension will fire some global events that can be useful for interacting w
 
 | Event | Description | Parameters |
 | ----- | ----------- | ---------- |
-| igniter.user.beforeAuthenticate | Before the user is attempting to authenticate    |      [ $component, $credentials ]    |
-| igniter.user.beforeRegister | Before the user is attempting to register  |        [ &$postData ]  |
-| igniter.user.login | The user has logged in successfully  |         [ $component ]    |
-| igniter.user.logout | The user has logged out sucessfully  |        [ $customer ] |
-| igniter.user.register | The user has registered successfully |        [ $customer, $postData ]    |
+| `igniter.user.beforeAuthenticate` | Before the user is attempting to authenticate    |      [ $component, $credentials ]    |
+| `igniter.user.beforeRegister` | Before the user is attempting to register  |        [ &$postData ]  |
+| `igniter.user.login` | The user has logged in successfully  |         [ $component ]    |
+| `igniter.user.logout` | The user has logged out sucessfully  |        [ $customer ] |
+| `igniter.user.register` | The user has registered successfully |        [ $customer, $postData ]    |
 
 **Example of hooking an event**
 
