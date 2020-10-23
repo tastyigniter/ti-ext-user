@@ -7,12 +7,14 @@ use Admin\Traits\ValidatesForm;
 use ApplicationException;
 use Mail;
 use Main\Template\Page;
+use Main\Traits\UsesPage;
 use Redirect;
 use System\Classes\BaseComponent;
 
 class ResetPassword extends BaseComponent
 {
     use ValidatesForm;
+    use UsesPage;
 
     public function defineProperties()
     {
@@ -21,16 +23,21 @@ class ResetPassword extends BaseComponent
                 'label' => 'The reset password page',
                 'type' => 'select',
                 'default' => 'account/reset',
+                'options' => [static::class, 'getThemePageOptions'],
+                'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],
             'loginPage' => [
                 'label' => 'The login page',
                 'type' => 'select',
                 'default' => 'account/login',
+                'options' => [static::class, 'getThemePageOptions'],
+                'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],
             'paramName' => [
                 'label' => 'The parameter name used for the password reset code',
                 'type' => 'text',
                 'default' => 'code',
+                'validationRule' => 'required|string',
             ],
         ];
     }

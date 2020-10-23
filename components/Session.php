@@ -23,21 +23,24 @@ class Session extends BaseComponent
     {
         return [
             'security' => [
-                'label' => 'Who can access this page',
-                'type' => 'string',
+                'label' => 'Who can access this page (all, customer or guest)',
+                'type' => 'text',
                 'default' => 'all',
+                'validationRule' => 'required|in:all,customer,guest',
             ],
             'loginPage' => [
                 'label' => 'The account login page',
                 'type' => 'select',
                 'default' => 'account/login',
                 'options' => [static::class, 'getThemePageOptions'],
+                'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],
             'redirectPage' => [
                 'label' => 'Page name to redirect to when access is restricted',
                 'type' => 'select',
                 'default' => 'home',
                 'options' => [static::class, 'getThemePageOptions'],
+                'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],
         ];
     }
