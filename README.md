@@ -10,8 +10,6 @@ In the admin user interface you can manage customers and their groups.
 | Account | `@component('account')` | Provides the sign in form, registration form and update form |
 | ResetPassword | `@component('resetPassword')` | Allows a user to reset their password if they have forgotten it.               |
 | AddressBook | `@component('addressBook')` | Manages the users delivery addresses               |
-| Inbox | `@component('inbox')` | Displays a list of user messages on the page               |
-| Reviews | `@component('reviews')` | Displays a list of user reviews on the page               |
 
 ### Session Component
 

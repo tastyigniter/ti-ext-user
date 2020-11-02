@@ -47,11 +47,6 @@ class Extension extends \System\Classes\BaseExtension
                 'name' => 'lang:igniter.user::default.addressbook.component_title',
                 'description' => 'lang:igniter.user::default.addressbook.component_desc',
             ],
-            'Igniter\User\Components\Inbox' => [
-                'code' => 'accountInbox',
-                'name' => 'lang:igniter.user::default.inbox.component_title',
-                'description' => 'lang:igniter.user::default.inbox.component_desc',
-            ],
         ];
     }
 
