@@ -10,7 +10,7 @@
         value="{{ set_value('address[address_id]', $address->address_id) }}"
     />
     <div class="form-group">
-        <label>@lang('igniter.user::default.account.label_address_1');</label>
+        <label>@lang('igniter.user::default.account.label_address_1')</label>
         <input
             type="text"
             name="address[address_1]"
@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-group">
-        <label>@lang('igniter.user::default.account.label_address_2');</label>
+        <label>@lang('igniter.user::default.account.label_address_2')</label>
         <input
             type="text"
             name="address[address_2]"
@@ -34,39 +34,39 @@
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="form-group">
-                <label>@lang('igniter.user::default.account.label_city');</label>
+                <label>@lang('igniter.user::default.account.label_city')</label>
                 <input
                     type="text"
                     class="form-control"
                     name="address[city]"
                     value="{{ set_value('address[city]', $address->city) }}"
-                    placeholder="@lang('igniter.user::default.account.label_city');"
+                    placeholder="@lang('igniter.user::default.account.label_city')"
                 >
                 {!! form_error('address.city', '<span class="text-danger">', '</span>') !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="form-group">
-                <label>@lang('igniter.user::default.account.label_state');</label>
+                <label>@lang('igniter.user::default.account.label_state')</label>
                 <input
                     type="text"
                     class="form-control"
                     value="{{ set_value('address[state]', $address->state) }}"
                     name="address[state]"
-                    placeholder="@lang('igniter.user::default.account.label_state');"
+                    placeholder="@lang('igniter.user::default.account.label_state')"
                 >
                 {!! form_error('address.state', '<span class="text-danger">', '</span>') !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="form-group">
-                <label>@lang('igniter.user::default.account.label_postcode');</label>
+                <label>@lang('igniter.user::default.account.label_postcode')</label>
                 <input
                     type="text"
                     class="form-control"
                     name="address[postcode]"
                     value="{{ set_value('address[postcode]', $address->postcode) }}"
-                    placeholder="@lang('igniter.user::default.account.label_postcode');"
+                    placeholder="@lang('igniter.user::default.account.label_postcode')"
                 >
                 {!! form_error('address.postcode', '<span class="text-danger">', '</span>') !!}
             </div>
@@ -74,7 +74,7 @@
     </div>
 
     <div class="form-group">
-        <label>@lang('igniter.user::default.account.label_country');</label>
+        <label>@lang('igniter.user::default.account.label_country')</label>
         <select name="address[country_id]" class="form-control">
             @foreach (countries() as $key => $value)
                 <option
@@ -90,10 +90,10 @@
         <button
             type="submit"
             class="btn btn-primary"
-        >@lang('igniter.user::default.account.button_update');</button>
+        >@lang('igniter.user::default.account.button_update')</button>
         <a
             class="btn btn-light"
             href="{{ site_url('account/address') }}"
-        >@lang('igniter.user::default.account.button_back');</a>
+        >@lang('igniter.user::default.account.button_back')</a>
     </div>
 </form>

@@ -38,7 +38,7 @@
     <button
         type="submit"
         class="btn btn-primary btn-block btn-lg"
-    >@lang('igniter.user::default.reset.button_reset');</button>
+    >@lang('igniter.user::default.reset.button_reset')</button>
 </div>
 
 {!! form_close() !!}
