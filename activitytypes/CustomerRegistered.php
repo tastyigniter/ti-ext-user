@@ -3,6 +3,7 @@
 namespace Igniter\User\ActivityTypes;
 
 use Admin\Models\Customers_model;
+use Admin\Models\Staffs_model;
 use Igniter\Flame\ActivityLog\Contracts\ActivityInterface;
 use Igniter\Flame\ActivityLog\Models\Activity;
 use Igniter\Flame\Auth\Models\User;
@@ -24,7 +25,13 @@ class CustomerRegistered implements ActivityInterface
 
     public static function log($customer)
     {
-        activity()->pushLog(new static('customerRegistered', $customer), [null]);
+        $recipients = Staffs_model::isEnabled()
+            ->whereIsSuperUser()
+            ->get()->map(function ($staff) {
+                return $staff->user;
+            })->all();
+
+        activity()->pushLog(new static('customerRegistered', $customer), $recipients);
     }
 
     /**

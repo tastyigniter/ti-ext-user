@@ -70,7 +70,7 @@ return [
         'alert_registration_disabled' => 'Registration is currently disabled by the site administrator.',
 
         'activity_registered_account_title' => 'Customer registered',
-        'activity_registered_account' => ' <b>created</b> an account.',
+        'activity_registered_account' => '<b>:properties.full_name</b> created an account.',
     ],
 
     'session' => [
