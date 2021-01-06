@@ -8,12 +8,14 @@
                 <span class="">
                     <a
                         class="btn btn-outline-default"
-                        href="{{ site_url('account/address', ['addressId' => $address->address_id]) }}"
+                        href="<?= site_url('account/address', ['addressId' => $address->address_id]); ?>"
                     >@lang('igniter.user::default.account.text_edit')</a>
+                    @if ($customer->address_id != $address->address_id)
                     <a
                         class="btn btn-outline-default"
-                        href="{{ site_url('account/address', ['defaultAddressId' => $address->address_id]) }}"
-                    >@lang('igniter.user::default.account.text_set_default')</a>
+                        href="<?= site_url('account/address', ['addressId' => $address->address_id]); ?>?setDefault=1"
+                    >@lang('igniter.user::default.text_set_default')</a>
+                    @endif
                 </span>
             </div>
         @endforeach
