@@ -10,6 +10,10 @@
                         class="btn btn-outline-default"
                         href="{{ site_url('account/address', ['addressId' => $address->address_id]) }}"
                     >@lang('igniter.user::default.account.text_edit')</a>
+                    <a
+                        class="btn btn-outline-default"
+                        href="{{ site_url('account/address', ['defaultAddressId' => $address->address_id]) }}"
+                    >@lang('igniter.user::default.account.text_set_default')</a>
                 </span>
             </div>
         @endforeach

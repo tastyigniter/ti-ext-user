@@ -16,6 +16,7 @@ return [
     'text_order' => 'ORDER NOW',
     'text_checkout' => 'CHECKOUT NOW',
     'text_edit' => 'EDIT',
+    'text_set_default' => 'MAKE DEFAULT',
     'text_default_address' => 'My Default Address',
     'text_no_default_address' => 'You don\'t have a default address',
     'text_no_orders' => 'There are no orders available to show.',

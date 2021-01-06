@@ -15,6 +15,7 @@ class AddressBook extends \System\Classes\BaseComponent
     {
         $this->page['addAddressEventHandler'] = $this->getEventHandler('onLoadAddForm');
         $this->page['submitAddressEventHandler'] = $this->getEventHandler('onSubmit');
+        $this->page['setDefaultAddress'] = $this->setDefaultAddress();
 
         $this->page['customer'] = Auth::customer();
         $this->page['customerAddresses'] = $this->loadAddressBook();
@@ -30,6 +31,27 @@ class AddressBook extends \System\Classes\BaseComponent
         $this->page['address'] = Addresses_model::make();
 
         return ['#address-book' => $this->renderPartial('@form')];
+    }
+
+    public function setDefaultAddress()
+    {
+        if (!is_numeric($this->param('defaultAddressId')))
+            return null;
+
+        $customer = Auth::customer();
+        $defaultAddressId = $this->param('defaultAddressId');
+
+        $address = Addresses_model::find($defaultAddressId);
+
+        if (!$customer OR $address->customer_id != $customer->customer_id)
+            return null;
+
+        $customer->address_id = $defaultAddressId;
+        $customer->save();
+
+        flash()->success(lang('igniter.user::default.account.alert_updated_success'))->now();
+
+        return null;
     }
 
     public function onSubmit()
