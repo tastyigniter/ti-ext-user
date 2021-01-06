@@ -86,7 +86,7 @@ class AddressBook extends \System\Classes\BaseComponent
         if (!$customer OR $address->customer_id != $customer->customer_id)
             return null;
 
-        if (\Request::get('setDefault')=='1') 
+        if (\Request::get('setDefault') == '1') 
             $this->setDefaultAddress($customer, $addressIdParam);
 
         return $address;
