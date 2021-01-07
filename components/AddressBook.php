@@ -13,10 +13,8 @@ class AddressBook extends \System\Classes\BaseComponent
 
     public function onRun()
     {
-        if (\Request::get('setDefault') == '1') {
-            $this->setDefaultAddress();
-
-            return Redirect::back();
+        if ($this->param('setDefault') == '1') {
+            return $this->setDefaultAddress();
         }
 
         $this->page['addAddressEventHandler'] = $this->getEventHandler('onLoadAddForm');
@@ -95,12 +93,14 @@ class AddressBook extends \System\Classes\BaseComponent
         return $address;
     }
 
-    public function setDefaultAddress()
+    protected function setDefaultAddress()
     {
         $customer = Auth::customer();
 
         $customer->address_id = $this->param('addressId');
         $customer->save();
+
+        return Redirect::back();
     }
 
     protected function loadAddressBook()
