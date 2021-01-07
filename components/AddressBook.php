@@ -13,6 +13,11 @@ class AddressBook extends \System\Classes\BaseComponent
 
     public function onRun()
     {
+        if (\Request::get('setDefault') == '1') {
+            $this->setDefaultAddress();
+            return Redirect::back();
+        }
+
         $this->page['addAddressEventHandler'] = $this->getEventHandler('onLoadAddForm');
         $this->page['submitAddressEventHandler'] = $this->getEventHandler('onSubmit');
 
@@ -86,20 +91,15 @@ class AddressBook extends \System\Classes\BaseComponent
         if (!$customer OR $address->customer_id != $customer->customer_id)
             return null;
 
-        if (\Request::get('setDefault') == '1')
-            $this->setDefaultAddress($customer, $addressIdParam);
-
         return $address;
     }
 
-    public function setDefaultAddress($customer, $defaultAddressId)
+    public function setDefaultAddress()
     {
-        $customer->address_id = $defaultAddressId;
+        $customer = Auth::customer();
+        
+        $customer->address_id = $this->param('addressId');
         $customer->save();
-
-        flash()->success(lang('igniter.user::default.account.alert_updated_success'))->now();
-
-        return null;
     }
 
     protected function loadAddressBook()

@@ -1,5 +1,5 @@
 <div id="address-book">
-        @if ($addressIdParam AND \Request::get('setDefault')!='1')
+        @if ($addressIdParam)
                 @partial('@form')
         @else
                 @partial('@list')
