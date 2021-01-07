@@ -15,6 +15,7 @@ class AddressBook extends \System\Classes\BaseComponent
     {
         if (\Request::get('setDefault') == '1') {
             $this->setDefaultAddress();
+
             return Redirect::back();
         }
 
@@ -97,7 +98,7 @@ class AddressBook extends \System\Classes\BaseComponent
     public function setDefaultAddress()
     {
         $customer = Auth::customer();
-        
+
         $customer->address_id = $this->param('addressId');
         $customer->save();
     }
