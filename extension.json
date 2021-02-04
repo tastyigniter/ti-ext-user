@@ -1,1 +1,13 @@
-{"code":"igniter.user","name":"User","description":"Management of front-end users (customers) on TastyIgniter.","version":"v1.5.4","author":"SamPoyigi","icon":{"class":"fa fa-user","color":"#FFF","backgroundColor":"#3596DA"},"homepage":"https:\/\/tastyigniter.com\/marketplace\/item\/igniter-user"}
+{
+  "code": "igniter.user",
+  "name": "User",
+  "description": "Management of front-end users (customers) on TastyIgniter.",
+  "version": "v1.5.5",
+  "author": "SamPoyigi",
+  "icon": {
+    "class": "fa fa-user",
+    "color": "#FFF",
+    "backgroundColor": "#3596DA"
+  },
+  "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
+}
