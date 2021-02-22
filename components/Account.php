@@ -169,7 +169,8 @@ class Account extends \System\Classes\BaseComponent
                 ['remember', 'lang:igniter.user::default.login.label_remember', 'integer'],
             ];
 
-            $this->validate(post(), $namedRules);
+            $data = array_map('trim', post());
+            $this->validate($data, $namedRules);
 
             $remember = (bool)post('remember');
             $credentials = [
@@ -201,7 +202,7 @@ class Account extends \System\Classes\BaseComponent
             if (!(bool)setting('allow_registration', TRUE))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_registration_disabled'));
 
-            $data = post();
+            $data = array_map('trim', post());
 
             $rules = [
                 ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
