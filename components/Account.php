@@ -323,6 +323,8 @@ class Account extends \System\Classes\BaseComponent
             if (!$customer OR !$customer->completeActivation($code))
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
 
+            $this->sendRegistrationEmail($customer);
+
             Auth::login($customer);
 
             $redirectUrl = $this->controller->pageUrl($this->property('accountPage'));
