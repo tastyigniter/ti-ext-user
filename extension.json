@@ -2,7 +2,7 @@
   "code": "igniter.user",
   "name": "User",
   "description": "Management of front-end users (customers) on TastyIgniter.",
-  "version": "v1.5.5",
+  "version": "v1.6.0",
   "author": "SamPoyigi",
   "icon": {
     "class": "fa fa-user",
