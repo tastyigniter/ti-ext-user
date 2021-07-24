@@ -5,16 +5,16 @@ namespace Igniter\User\Components;
 use Admin\Models\Customer_groups_model;
 use Admin\Models\Customers_model;
 use Admin\Traits\ValidatesForm;
-use ApplicationException;
-use Auth;
-use Cart;
-use Event;
 use Exception;
+use Igniter\Flame\Cart\Facades\Cart;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\User\ActivityTypes\CustomerRegistered;
-use Mail;
-use Redirect;
-use Request;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Main\Facades\Auth;
 
 class Account extends \System\Classes\BaseComponent
 {

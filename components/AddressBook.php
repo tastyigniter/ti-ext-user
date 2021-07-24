@@ -4,8 +4,8 @@ namespace Igniter\User\Components;
 
 use Admin\Models\Addresses_model;
 use Admin\Traits\ValidatesForm;
-use Auth;
-use Redirect;
+use Illuminate\Support\Facades\Redirect;
+use Main\Facades\Auth;
 
 class AddressBook extends \System\Classes\BaseComponent
 {

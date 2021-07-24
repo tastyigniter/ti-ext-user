@@ -4,11 +4,11 @@ namespace Igniter\User\Components;
 
 use Admin\Models\Customers_model;
 use Admin\Traits\ValidatesForm;
-use ApplicationException;
-use Mail;
+use Igniter\Flame\Exception\ApplicationException;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Main\Template\Page;
 use Main\Traits\UsesPage;
-use Redirect;
 use System\Classes\BaseComponent;
 
 class ResetPassword extends BaseComponent

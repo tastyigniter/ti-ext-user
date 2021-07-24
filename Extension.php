@@ -2,7 +2,7 @@
 
 namespace Igniter\User;
 
-use Auth;
+use Main\Facades\Auth;
 
 class Extension extends \System\Classes\BaseExtension
 {
