@@ -343,7 +343,7 @@ class Account extends \System\Classes\BaseComponent
         if ($param AND $code = $this->param($param))
             return $code;
 
-        return get('activate');
+        return input('code');
     }
 
     protected function sendRegistrationEmail($customer)
