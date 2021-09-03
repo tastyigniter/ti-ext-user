@@ -31,7 +31,7 @@ class Session extends BaseComponent
             'loginPage' => [
                 'label' => 'The account login page',
                 'type' => 'select',
-                'default' => 'account/login',
+                'default' => 'account'.DIRECTORY_SEPARATOR.'login',
                 'options' => [static::class, 'getThemePageOptions'],
                 'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],

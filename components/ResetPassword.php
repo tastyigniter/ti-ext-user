@@ -22,14 +22,14 @@ class ResetPassword extends BaseComponent
             'resetPage' => [
                 'label' => 'The reset password page',
                 'type' => 'select',
-                'default' => 'account/reset',
+                'default' => 'account'.DIRECTORY_SEPARATOR.'reset',
                 'options' => [static::class, 'getThemePageOptions'],
                 'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],
             'loginPage' => [
                 'label' => 'The login page',
                 'type' => 'select',
-                'default' => 'account/login',
+                'default' => 'account'.DIRECTORY_SEPARATOR.'login',
                 'options' => [static::class, 'getThemePageOptions'],
                 'validationRule' => 'required|regex:/^[a-z0-9\-_\/]+$/i',
             ],
