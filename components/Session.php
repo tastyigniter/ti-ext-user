@@ -76,6 +76,10 @@ class Session extends BaseComponent
 
         Auth::logout();
 
+        session()->invalidate();
+
+        session()->regenerateToken();
+
         if ($user) {
             Event::fire('igniter.user.logout', [$user]);
         }

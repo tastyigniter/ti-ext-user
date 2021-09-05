@@ -182,6 +182,8 @@ class Account extends \System\Classes\BaseComponent
             if (!Auth::authenticate($credentials, $remember, TRUE))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
+            session()->regenerate();
+
             Event::fire('igniter.user.login', [$this], TRUE);
 
             if ($redirect = input('redirect'))
