@@ -1,6 +1,6 @@
 <div class="card mb-1">
     <div class="card-body">
-        <h5 class="mb-0">@auth {!! sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name) !!} @endauth</h5>
+        <h5 class="mb-0">@auth {{ sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name) }} @endauth</h5>
     </div>
 </div>
 
