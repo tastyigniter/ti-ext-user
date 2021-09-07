@@ -2,6 +2,8 @@
 
 namespace Igniter\User;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 use Main\Facades\Auth;
 
 class Extension extends \System\Classes\BaseExtension
@@ -11,6 +13,11 @@ class Extension extends \System\Classes\BaseExtension
         $this->registerEventGlobalParams();
 
         $this->registerRequestRebindHandler();
+    }
+
+    public function boot()
+    {
+        $this->configureRateLimiting();
     }
 
     public function registerAutomationRules()
@@ -102,5 +109,18 @@ class Extension extends \System\Classes\BaseExtension
                 return $app['auth']->getUser();
             });
         });
+    }
+
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('web', function (\Illuminate\Http\Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->getKey() ?: $request->ip());
+        });
+
+        if ($this->app->runningInAdmin())
+            return;
+
+        $this->app->make(\Illuminate\Contracts\Http\Kernel::class)
+            ->appendMiddlewareToGroup('web', \Igniter\User\Middleware\ThrottleRequests::class);
     }
 }
