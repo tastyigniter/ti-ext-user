@@ -9,6 +9,8 @@ class Extension extends \System\Classes\BaseExtension
     public function register()
     {
         $this->registerEventGlobalParams();
+
+        $this->registerRequestRebindHandler();
     }
 
     public function registerAutomationRules()
@@ -85,5 +87,20 @@ class Extension extends \System\Classes\BaseExtension
                 ]);
             });
         }
+    }
+
+    protected function registerRequestRebindHandler()
+    {
+        $this->app->rebinding('request', function ($app, $request) {
+            if ($request instanceof \Dingo\Api\Http\Request)
+                return;
+
+            $request->setUserResolver(function () use ($app, $request) {
+                if ($app->runningInAdmin())
+                    return $app['admin.auth']->getUser();
+
+                return $app['auth']->getUser();
+            });
+        });
     }
 }
