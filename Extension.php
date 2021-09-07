@@ -3,6 +3,7 @@
 namespace Igniter\User;
 
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Main\Facades\Auth;
 
@@ -122,5 +123,21 @@ class Extension extends \System\Classes\BaseExtension
 
         $this->app->make(\Illuminate\Contracts\Http\Kernel::class)
             ->appendMiddlewareToGroup('web', \Igniter\User\Middleware\ThrottleRequests::class);
+
+        Event::listen('igniter.user.beforeThrottleRequest', function ($request, $params) {
+            $handler = str_after($request->header('x-igniter-request-handler'), '::');
+            if (in_array($handler, [
+                'onLogin',
+                'onRegister',
+                'onActivate',
+                'onForgotPassword',
+                'onResetPassword',
+            ])) {
+                $params->maxAttempts = 6;
+                $params->decayMinutes = 1;
+
+                return TRUE;
+            }
+        });
     }
 }
