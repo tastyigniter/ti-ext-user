@@ -103,7 +103,7 @@ class Extension extends \System\Classes\BaseExtension
             if ($request instanceof \Dingo\Api\Http\Request)
                 return;
 
-            $request->setUserResolver(function () use ($app, $request) {
+            $request->setUserResolver(function () use ($app) {
                 if ($app->runningInAdmin())
                     return $app['admin.auth']->getUser();
 
