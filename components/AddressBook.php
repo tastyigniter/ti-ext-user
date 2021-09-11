@@ -111,7 +111,7 @@ class AddressBook extends \System\Classes\BaseComponent
         return $customer->addresses()->listFrontEnd([
             'page' => $this->param('page'),
             'pageLimit' => $this->property('itemsPerPage'),
-            'sort' => $this->property('sortOrder', 'date_added desc'),
+            'sort' => $this->property('sortOrder', 'created_at desc'),
         ]);
     }
 }
