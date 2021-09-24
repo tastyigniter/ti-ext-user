@@ -75,15 +75,13 @@ class ResetPassword extends BaseComponent
 
         $this->validate(post(), $namedRules);
 
-        if (!$customer = Customers_model::whereEmail(post('email'))->first())
-            throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
+        if ($customer = Customers_model::whereEmail(post('email'))->first()) {
+            if (!$code = $customer->resetPassword())
+                throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
 
-        if (!$code = $customer->resetPassword())
-            throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
-
-        $link = $this->makeResetUrl($code);
-
-        $this->sendResetPasswordMail($customer, $code, $link);
+            $link = $this->makeResetUrl($code);
+            $this->sendResetPasswordMail($customer, $code, $link);
+        }
 
         flash()->success(lang('igniter.user::default.reset.alert_reset_request_success'));
 
