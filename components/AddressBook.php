@@ -80,6 +80,23 @@ class AddressBook extends \System\Classes\BaseComponent
         ];
     }
 
+    public function onDelete()
+    {
+        $addressId = post('addressId');
+        if (!$addressId OR !is_numeric($addressId))
+            return;
+
+        if (!$address = Addresses_model::find($addressId))
+            return;
+
+        $address->customer_id = null;
+        $address->save();
+
+        flash()->success(lang('igniter.user::default.account.alert_deleted_success'))->now();
+
+        return redirect()->back();
+    }
+
     protected function getAddress()
     {
         if (!is_numeric($addressIdParam = $this->param('addressId')))
