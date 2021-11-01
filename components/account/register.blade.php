@@ -98,7 +98,7 @@
         {!! form_error('newsletter', '<span class="text-danger">', '</span>') !!}
     </div>
 
-    @if ($requireRegistrationTerms AND $registrationTermsSlug = $account->getRegistrationTermsPageSlug())
+    @if ($requireRegistrationTerms && $registrationTermsSlug = $account->getRegistrationTermsPageSlug())
         <div class="form-group">
             <div class="custom-control custom-checkbox">
                 <input
