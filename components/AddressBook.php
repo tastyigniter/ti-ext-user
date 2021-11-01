@@ -58,7 +58,7 @@ class AddressBook extends \System\Classes\BaseComponent
         if ($id = array_get($data, 'address.address_id'))
             $address = Addresses_model::find($id);
 
-        if (!$address OR $address->customer_id != $customer->customer_id)
+        if (!$address || $address->customer_id != $customer->customer_id)
             $address = Addresses_model::make();
 
         $address->fill(array_get($data, 'address'));
@@ -83,7 +83,7 @@ class AddressBook extends \System\Classes\BaseComponent
     public function onDelete()
     {
         $addressId = post('addressId');
-        if (!$addressId OR !is_numeric($addressId))
+        if (!$addressId || !is_numeric($addressId))
             return;
 
         if (!$address = Addresses_model::find($addressId))
@@ -104,7 +104,7 @@ class AddressBook extends \System\Classes\BaseComponent
 
         $customer = Auth::customer();
         $address = Addresses_model::find($addressIdParam);
-        if (!$customer OR $address->customer_id != $customer->customer_id)
+        if (!$customer || $address->customer_id != $customer->customer_id)
             return null;
 
         return $address;

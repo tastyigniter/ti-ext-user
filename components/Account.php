@@ -225,7 +225,7 @@ class Account extends \System\Classes\BaseComponent
             $data['status'] = TRUE;
             $data['customer_group_id'] = setting('customer_group_id');
             $customerGroup = Customer_groups_model::getDefault();
-            $requireActivation = ($customerGroup AND $customerGroup->requiresApproval());
+            $requireActivation = ($customerGroup && $customerGroup->requiresApproval());
             $autoActivation = !$requireActivation;
 
             $customer = Auth::register(
@@ -285,7 +285,7 @@ class Account extends \System\Classes\BaseComponent
             $this->validate($data, $rules);
 
             $passwordChanged = FALSE;
-            if (strlen(post('old_password')) AND strlen(post('new_password'))) {
+            if (strlen(post('old_password')) && strlen(post('new_password'))) {
                 $data['password'] = post('new_password');
                 $passwordChanged = TRUE;
             }
@@ -323,7 +323,7 @@ class Account extends \System\Classes\BaseComponent
             $this->validate(['code' => $code], $namedRules);
 
             $customer = Customers_model::whereActivationCode($code)->first();
-            if (!$customer OR !$customer->completeActivation($code))
+            if (!$customer || !$customer->completeActivation($code))
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
 
             $this->sendRegistrationEmail($customer);
@@ -343,7 +343,7 @@ class Account extends \System\Classes\BaseComponent
     public function getActivationCode()
     {
         $param = $this->property('paramCode');
-        if ($param AND $code = $this->param($param))
+        if ($param && $code = $this->param($param))
             return $code;
 
         return input('activate');
@@ -358,7 +358,7 @@ class Account extends \System\Classes\BaseComponent
         ];
 
         $settingRegistrationEmail = setting('registration_email');
-        is_array($settingRegistrationEmail) OR $settingRegistrationEmail = [];
+        is_array($settingRegistrationEmail) || $settingRegistrationEmail = [];
 
         if (in_array('customer', $settingRegistrationEmail)) {
             Mail::queue('igniter.user::mail.registration', $data, function ($message) use ($customer) {
