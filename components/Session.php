@@ -14,7 +14,7 @@ class Session extends BaseComponent
 
     public function initialize()
     {
-        if (Request::ajax() AND !$this->checkSecurity()) {
+        if (Request::ajax() && !$this->checkSecurity()) {
             abort(403, 'Access denied');
         }
     }
@@ -95,11 +95,11 @@ class Session extends BaseComponent
     {
         $allowedGroup = $this->property('security', 'all');
         $isAuthenticated = Auth::check();
-        if ($allowedGroup == 'customer' AND !$isAuthenticated) {
+        if ($allowedGroup == 'customer' && !$isAuthenticated) {
             return FALSE;
         }
 
-        if ($allowedGroup == 'guest' AND $isAuthenticated) {
+        if ($allowedGroup == 'guest' && $isAuthenticated) {
             return FALSE;
         }
 

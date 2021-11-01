@@ -100,7 +100,7 @@ class ResetPassword extends BaseComponent
 
         $customer = Customers_model::whereResetCode($code = post('code'))->first();
 
-        if (!$customer OR !$customer->completeResetPassword($code, post('password')))
+        if (!$customer || !$customer->completeResetPassword($code, post('password')))
             throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_failed'));
 
         flash()->success(lang('igniter.user::default.reset.alert_reset_success'));
