@@ -45,7 +45,7 @@ class AddressBook extends \System\Classes\BaseComponent
             ['address.address_2', 'lang:igniter.user::default.account.label_address_2', 'max:128'],
             ['address.city', 'lang:igniter.user::default.account.label_city', 'required|min:2|max:128'],
             ['address.state', 'lang:igniter.user::default.account.label_state', 'max:128'],
-            ['address.postcode', 'lang:igniter.user::default.account.label_postcode', 'min:2|max:11]'],
+            ['address.postcode', 'lang:igniter.user::default.account.label_postcode', 'min:2|max:11'],
             ['address.country_id', 'lang:igniter.user::default.account.label_country', 'required|integer'],
         ];
 
