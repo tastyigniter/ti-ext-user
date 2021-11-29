@@ -223,8 +223,9 @@ class Account extends \System\Classes\BaseComponent
             Event::fire('igniter.user.beforeRegister', [&$data]);
 
             $data['status'] = TRUE;
-            $data['customer_group_id'] = setting('customer_group_id');
+
             $customerGroup = Customer_groups_model::getDefault();
+            $data['customer_group_id'] = $customerGroup->getKey();
             $requireActivation = ($customerGroup && $customerGroup->requiresApproval());
             $autoActivation = !$requireActivation;
 
