@@ -1,0 +1,24 @@
+{
+  "name": "tastyigniter/ti-ext-user",
+  "type": "tastyigniter-extension",
+  "description": "Management of front-end users (customers) on TastyIgniter.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "SamPoyigi",
+      "email": "sam@sampoyigi.com"
+    }
+  ],
+  "extra": {
+    "tastyigniter-extension": {
+      "code": "igniter.user",
+      "name": "User",
+      "icon": {
+        "class": "fa fa-user",
+        "color": "#FFF",
+        "backgroundColor": "#3596DA"
+      },
+      "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
+    }
+  }
+}
