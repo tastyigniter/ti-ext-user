@@ -87,14 +87,6 @@ class Extension extends \System\Classes\BaseExtension
                 ]);
             });
         }
-
-        if (class_exists(\Igniter\EventRules\Classes\EventManager::class)) {
-            \Igniter\EventRules\Classes\EventManager::instance()->registerCallback(function ($manager) {
-                $manager->registerGlobalParams([
-                    'customer' => Auth::customer(),
-                ]);
-            });
-        }
     }
 
     protected function registerRequestRebindHandler()

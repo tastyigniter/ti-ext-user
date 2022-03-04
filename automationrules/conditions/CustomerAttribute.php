@@ -7,7 +7,7 @@ use Igniter\Flame\Exception\ApplicationException;
 
 class CustomerAttribute extends BaseModelAttributesCondition
 {
-    protected $modelClass = \Admin\Models\Customers_model::class;
+    protected $modelClass = \Admin\Models\Customer::class;
 
     protected $modelAttributes;
 

@@ -2,8 +2,7 @@
 
 namespace Igniter\User\ActivityTypes;
 
-use Admin\Models\Customers_model;
-use Admin\Models\Staffs_model;
+use Admin\Models\Customer;
 use Igniter\Flame\ActivityLog\Contracts\ActivityInterface;
 use Igniter\Flame\ActivityLog\Models\Activity;
 use Igniter\Flame\Auth\Models\User;
@@ -16,7 +15,7 @@ class CustomerRegistered implements ActivityInterface
 
     public $causer;
 
-    public function __construct(string $type, Customers_model $subject, User $causer = null)
+    public function __construct(string $type, Customer $subject, User $causer = null)
     {
         $this->type = $type;
         $this->subject = $subject;
@@ -25,7 +24,7 @@ class CustomerRegistered implements ActivityInterface
 
     public static function log($customer)
     {
-        $recipients = Staffs_model::isEnabled()
+        $recipients = User::isEnabled()
             ->whereIsSuperUser()
             ->get()->map(function ($staff) {
                 return $staff->user;
@@ -74,7 +73,7 @@ class CustomerRegistered implements ActivityInterface
      */
     public static function getSubjectModel()
     {
-        return Customers_model::class;
+        return Customer::class;
     }
 
     public static function getTitle(Activity $activity)

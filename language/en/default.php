@@ -31,7 +31,7 @@ return [
     'label_heading' => 'Heading:',
     'label_template' => 'Mail template',
     'label_send_to' => 'Send To',
-    'label_send_to_staff_group' => 'Send To Staff Group',
+    'label_send_to_staff_group' => 'Send To User Group',
     'label_send_to_custom' => 'Send To Email Address',
 
     'column_date' => 'Date/Time',
@@ -41,10 +41,10 @@ return [
 
     'text_send_to_restaurant' => 'Restaurant email address',
     'text_send_to_location' => 'Location email address (if available)',
-    'text_send_to_staff_email' => 'Staff email address (if available)',
+    'text_send_to_staff_email' => 'User email address (if available)',
     'text_send_to_customer_email' => 'Customer email address (if available)',
     'text_send_to_custom' => 'Specific email address',
-    'text_send_to_staff_group' => 'Staff Group',
+    'text_send_to_staff_group' => 'User Group',
 
     'login' => [
         'label_password' => 'Password',
