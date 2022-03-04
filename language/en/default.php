@@ -24,12 +24,6 @@ return [
     'text_no_inbox' => 'There are no messages available to show',
     'text_no_cart_items' => 'There are no menus added in your cart.',
 
-    'text_mail_password_reset' => 'Password reset email to customer',
-    'text_mail_password_reset_request' => 'Password reset request email to customer',
-    'text_mail_registration' => 'Registration email to customer',
-    'text_mail_registration_alert' => 'Registration alert email to admin',
-    'text_mail_activation' => 'Registration activation email to customer',
-
     'text_logout' => 'Logout',
     'text_logged_in' => 'Already have an account? <a href="%s">Login Here</a>',
     'text_logged_out' => 'Welcome back <b>%s</b>, Not You? <a href="javascript:;" data-request="%s">Logout</a>',
@@ -37,7 +31,7 @@ return [
     'label_heading' => 'Heading:',
     'label_template' => 'Mail template',
     'label_send_to' => 'Send To',
-    'label_send_to_staff_group' => 'Send To Staff Group',
+    'label_send_to_staff_group' => 'Send To User Group',
     'label_send_to_custom' => 'Send To Email Address',
 
     'column_date' => 'Date/Time',
@@ -47,11 +41,10 @@ return [
 
     'text_send_to_restaurant' => 'Restaurant email address',
     'text_send_to_location' => 'Location email address (if available)',
-    'text_send_to_staff_email' => 'Staff email address (if available)',
+    'text_send_to_staff_email' => 'User email address (if available)',
     'text_send_to_customer_email' => 'Customer email address (if available)',
     'text_send_to_custom' => 'Specific email address',
-    'text_send_to_staff_group' => 'Staff Group',
-    'text_send_to_customer_group' => 'Customer Group',
+    'text_send_to_staff_group' => 'User Group',
 
     'login' => [
         'label_password' => 'Password',
@@ -145,7 +138,6 @@ return [
 
         'button_subscribe' => 'Subscribe',
         'button_back' => 'Back',
-        'button_delete' => 'Delete account',
         'button_save' => 'Save Details',
 
         'label_first_name' => 'First Name',
@@ -162,7 +154,5 @@ return [
         'error_password' => 'The %s you entered does not match.',
 
         'alert_updated_success' => 'Details updated successfully.',
-        'alert_deleted_success' => 'Account deleted successfully.',
-        'alert_delete_confirm' => 'Are you sure you want to delete your account? This cannot be undone.',
     ],
 ];

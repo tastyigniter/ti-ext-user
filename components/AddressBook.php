@@ -2,7 +2,7 @@
 
 namespace Igniter\User\Components;
 
-use Admin\Models\Addresses_model;
+use Admin\Models\Address;
 use Admin\Traits\ValidatesForm;
 use Illuminate\Support\Facades\Redirect;
 use Main\Facades\Auth;
@@ -31,7 +31,7 @@ class AddressBook extends \System\Classes\BaseComponent
     {
         $this->pageCycle();
 
-        $this->page['address'] = Addresses_model::make();
+        $this->page['address'] = Address::make();
 
         return ['#address-book' => $this->renderPartial('@form')];
     }
@@ -56,10 +56,10 @@ class AddressBook extends \System\Classes\BaseComponent
 
         $address = null;
         if ($id = array_get($data, 'address.address_id'))
-            $address = Addresses_model::find($id);
+            $address = Address::find($id);
 
         if (!$address || $address->customer_id != $customer->customer_id)
-            $address = Addresses_model::make();
+            $address = Address::make();
 
         $address->fill(array_get($data, 'address'));
         $address->customer_id = $customer->customer_id;
@@ -86,7 +86,7 @@ class AddressBook extends \System\Classes\BaseComponent
         if (!$addressId || !is_numeric($addressId))
             return;
 
-        if (!$address = Addresses_model::find($addressId))
+        if (!$address = Address::find($addressId))
             return;
 
         $address->customer_id = null;
@@ -103,7 +103,7 @@ class AddressBook extends \System\Classes\BaseComponent
             return null;
 
         $customer = Auth::customer();
-        $address = Addresses_model::find($addressIdParam);
+        $address = Address::find($addressIdParam);
         if (!$customer || $address->customer_id != $customer->customer_id)
             return null;
 

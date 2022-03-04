@@ -2,7 +2,7 @@
 
 namespace Igniter\User\Components;
 
-use Admin\Models\Customers_model;
+use Admin\Models\Customer;
 use Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\ApplicationException;
 use Illuminate\Support\Facades\Mail;
@@ -75,7 +75,7 @@ class ResetPassword extends BaseComponent
 
         $this->validate(post(), $namedRules);
 
-        if ($customer = Customers_model::whereEmail(post('email'))->first()) {
+        if ($customer = Customer::whereEmail(post('email'))->first()) {
             if (!$code = $customer->resetPassword())
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
 
@@ -98,7 +98,7 @@ class ResetPassword extends BaseComponent
 
         $this->validate(post(), $namedRules);
 
-        $customer = Customers_model::whereResetCode($code = post('code'))->first();
+        $customer = Customer::whereResetCode($code = post('code'))->first();
 
         if (!$customer || !$customer->completeResetPassword($code, post('password')))
             throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_failed'));

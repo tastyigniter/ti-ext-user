@@ -2,8 +2,8 @@
 
 namespace Igniter\User\Components;
 
-use Admin\Models\Customer_groups_model;
-use Admin\Models\Customers_model;
+use Admin\Models\Customer;
+use Admin\Models\CustomerGroup;
 use Admin\Traits\ValidatesForm;
 use Exception;
 use Igniter\Flame\Cart\Facades\Cart;
@@ -226,7 +226,7 @@ class Account extends \System\Classes\BaseComponent
 
             $data['status'] = true;
 
-            $customerGroup = Customer_groups_model::getDefault();
+            $customerGroup = CustomerGroup::getDefault();
             $data['customer_group_id'] = $customerGroup->getKey();
             $requireActivation = ($customerGroup && $customerGroup->requiresApproval());
             $autoActivation = !$requireActivation;
@@ -323,7 +323,7 @@ class Account extends \System\Classes\BaseComponent
 
             $this->validate(['code' => $code], $namedRules);
 
-            $customer = Customers_model::whereActivationCode($code)->first();
+            $customer = Customer::whereActivationCode($code)->first();
             if (!$customer || !$customer->completeActivation($code))
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
 
