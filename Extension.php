@@ -37,22 +37,22 @@ class Extension extends \System\Classes\BaseExtension
     public function registerComponents()
     {
         return [
-            'Igniter\User\Components\Session' => [
+            \Igniter\User\Components\Session::class => [
                 'code' => 'session',
                 'name' => 'lang:igniter.user::default.session.component_title',
                 'description' => 'lang:igniter.user::default.session.component_desc',
             ],
-            'Igniter\User\Components\Account' => [
+            \Igniter\User\Components\Account::class => [
                 'code' => 'account',
                 'name' => 'lang:igniter.user::default.account.component_title',
                 'description' => 'lang:igniter.user::default.account.component_desc',
             ],
-            'Igniter\User\Components\ResetPassword' => [
+            \Igniter\User\Components\ResetPassword::class => [
                 'code' => 'resetPassword',
                 'name' => 'lang:igniter.user::default.reset.component_title',
                 'description' => 'lang:igniter.user::default.reset.component_desc',
             ],
-            'Igniter\User\Components\AddressBook' => [
+            \Igniter\User\Components\AddressBook::class => [
                 'code' => 'accountAddressBook',
                 'name' => 'lang:igniter.user::default.addressbook.component_title',
                 'description' => 'lang:igniter.user::default.addressbook.component_desc',
