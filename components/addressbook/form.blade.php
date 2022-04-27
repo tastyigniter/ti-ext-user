@@ -75,7 +75,7 @@
 
     <div class="form-group">
         <label>@lang('igniter.user::default.account.label_country')</label>
-        <select name="address[country_id]" class="form-control">
+        <select name="address[country_id]" class="form-select">
             @foreach (countries() as $key => $value)
                 <option
                     value="{{ $key }}"

@@ -60,16 +60,16 @@
     </div>
 
     <div class="form-group">
-        <div class="custom-control custom-checkbox">
+        <div class="form-check">
             <input
                 type="checkbox"
                 name="newsletter"
                 id="newsletter"
-                class="custom-control-input"
+                class="form-check-input"
                 value="1"
                 {!! set_checkbox('newsletter', '1', (bool)$customer->newsletter) !!}
             >
-            <label for="newsletter" class="custom-control-label">
+            <label for="newsletter" class="form-check-label">
                 @lang('igniter.user::default.settings.label_newsletter')
             </label>
         </div>

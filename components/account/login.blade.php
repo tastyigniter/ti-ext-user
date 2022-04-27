@@ -15,9 +15,7 @@
             autofocus=""
             required
         />
-        <span class="input-group-addon">
-            <span class="input-group-text">@</span>
-        </span>
+        <span class="input-group-text">@</span>
     </div>
     {!! form_error('email', '<span class="text-danger">', '</span>') !!}
 </div>
@@ -32,24 +30,22 @@
             placeholder="@lang('igniter.user::default.login.label_password')"
             required
         />
-        <span class="input-group-addon">
-            <span class="input-group-text"><i class="fa fa-lock"></i></span>
-        </span>
+        <span class="input-group-text"><i class="fa fa-lock"></i></span>
     </div>
     {!! form_error('password', '<span class="text-danger">', '</span>') !!}
 </div>
 
 <div class="form-group">
-    <div class="custom-control custom-checkbox">
+    <div class="form-check">
         <input
             id="rememberLogin"
             type="checkbox"
             name="newsletter"
             value="1"
-            class="custom-control-input"
+            class="form-check-input"
             {!! set_checkbox('remember', '1') !!}
         >
-        <label class="custom-control-label" for="rememberLogin">
+        <label class="form-check-label" for="rememberLogin">
             @lang('igniter.user::default.login.label_remember')
         </label>
     </div>
