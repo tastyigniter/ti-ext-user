@@ -22,6 +22,6 @@ class ThrottleRequests extends \Illuminate\Routing\Middleware\ThrottleRequests
 
     protected function shouldThrottleRequest($request, $params)
     {
-        return Event::fire('igniter.user.beforeThrottleRequest', [$request, $params], TRUE);
+        return Event::fire('igniter.user.beforeThrottleRequest', [$request, $params], true);
     }
 }

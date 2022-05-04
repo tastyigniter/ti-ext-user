@@ -136,7 +136,7 @@ class Extension extends \System\Classes\BaseExtension
                 $params->maxAttempts = 6;
                 $params->decayMinutes = 1;
 
-                return TRUE;
+                return true;
             }
         });
     }
