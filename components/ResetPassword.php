@@ -121,7 +121,7 @@ class ResetPassword extends BaseComponent
             $url = $this->currentPageUrl($params);
         }
 
-        if (strpos($url, $code) === FALSE) {
+        if (strpos($url, $code) === false) {
             $url .= '?reset='.$code;
         }
 

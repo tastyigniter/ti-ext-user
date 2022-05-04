@@ -96,13 +96,13 @@ class Session extends BaseComponent
         $allowedGroup = $this->property('security', 'all');
         $isAuthenticated = Auth::check();
         if ($allowedGroup == 'customer' && !$isAuthenticated) {
-            return FALSE;
+            return false;
         }
 
         if ($allowedGroup == 'guest' && $isAuthenticated) {
-            return FALSE;
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 }
