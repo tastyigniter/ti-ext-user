@@ -2,12 +2,12 @@
 
 namespace Igniter\User\Components;
 
-use Admin\Models\Address;
-use Admin\Traits\ValidatesForm;
+use Igniter\Admin\Models\Address;
+use Igniter\Admin\Traits\ValidatesForm;
+use Igniter\Main\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Main\Facades\Auth;
 
-class AddressBook extends \System\Classes\BaseComponent
+class AddressBook extends \Igniter\System\Classes\BaseComponent
 {
     use ValidatesForm;
 

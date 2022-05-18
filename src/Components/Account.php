@@ -2,24 +2,24 @@
 
 namespace Igniter\User\Components;
 
-use Admin\Models\Customer;
-use Admin\Models\CustomerGroup;
-use Admin\Traits\ValidatesForm;
 use Exception;
+use Igniter\Admin\Models\Customer;
+use Igniter\Admin\Models\CustomerGroup;
+use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Cart\Facades\Cart;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
+use Igniter\Main\Facades\Auth;
 use Igniter\User\ActivityTypes\CustomerRegistered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
-use Main\Facades\Auth;
 
-class Account extends \System\Classes\BaseComponent
+class Account extends \Igniter\System\Classes\BaseComponent
 {
     use ValidatesForm;
-    use \Main\Traits\UsesPage;
+    use \Igniter\Main\Traits\UsesPage;
 
     public function defineProperties()
     {
@@ -116,7 +116,7 @@ class Account extends \System\Classes\BaseComponent
         $this->page['reviewsPage'] = $this->property('reviewsPage');
         $this->page['inboxPage'] = $this->property('inboxPage');
         $this->page['requireRegistrationTerms'] = (bool)$this->property('agreeRegistrationTermsPage');
-        $this->page['canRegister'] = (bool)setting('allow_registration', TRUE);
+        $this->page['canRegister'] = (bool)setting('allow_registration', true);
 
         $this->page['customer'] = $this->customer();
     }
@@ -179,12 +179,12 @@ class Account extends \System\Classes\BaseComponent
 
             Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
 
-            if (!Auth::authenticate($credentials, $remember, TRUE))
+            if (!Auth::authenticate($credentials, $remember, true))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
             session()->regenerate();
 
-            Event::fire('igniter.user.login', [$this], TRUE);
+            Event::fire('igniter.user.login', [$this], true);
 
             if ($redirect = input('redirect'))
                 return Redirect::to($this->controller->pageUrl($redirect));
@@ -200,7 +200,7 @@ class Account extends \System\Classes\BaseComponent
     public function onRegister()
     {
         try {
-            if (!(bool)setting('allow_registration', TRUE))
+            if (!(bool)setting('allow_registration', true))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_registration_disabled'));
 
             $data = post();
@@ -222,7 +222,7 @@ class Account extends \System\Classes\BaseComponent
 
             Event::fire('igniter.user.beforeRegister', [&$data]);
 
-            $data['status'] = TRUE;
+            $data['status'] = true;
 
             $customerGroup = CustomerGroup::getDefault();
             $data['customer_group_id'] = $customerGroup->getKey();
@@ -285,10 +285,10 @@ class Account extends \System\Classes\BaseComponent
 
             $this->validate($data, $rules);
 
-            $passwordChanged = FALSE;
+            $passwordChanged = false;
             if (strlen(post('old_password')) && strlen(post('new_password'))) {
                 $data['password'] = post('new_password');
-                $passwordChanged = TRUE;
+                $passwordChanged = true;
             }
 
             if (!array_key_exists('newsletter', $data))
@@ -298,7 +298,7 @@ class Account extends \System\Classes\BaseComponent
             $customer->save();
 
             if ($passwordChanged) {
-                Auth::login($customer, TRUE);
+                Auth::login($customer, true);
             }
 
             flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
@@ -377,14 +377,14 @@ class Account extends \System\Classes\BaseComponent
     protected function passwordDoesNotMatch()
     {
         if (!strlen($password = post('old_password')))
-            return FALSE;
+            return false;
 
         $credentials = ['password' => $password];
         if (!Auth::validateCredentials($this->customer(), $credentials)) {
             return 'Password does not match';
         }
 
-        return FALSE;
+        return false;
     }
 
     protected function sendActivationEmail($customer)
@@ -411,7 +411,7 @@ class Account extends \System\Classes\BaseComponent
             ? $this->controller->pageUrl($pageName, $params)
             : $this->controller->currentPageUrl($params);
 
-        if (strpos($url, $code) === FALSE) {
+        if (strpos($url, $code) === false) {
             $url .= '?activate='.$code;
         }
 

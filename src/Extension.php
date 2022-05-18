@@ -2,12 +2,12 @@
 
 namespace Igniter\User;
 
+use Igniter\Main\Facades\Auth;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
-use Main\Facades\Auth;
 
-class Extension extends \System\Classes\BaseExtension
+class Extension extends \Igniter\System\Classes\BaseExtension
 {
     public function register()
     {
@@ -128,7 +128,7 @@ class Extension extends \System\Classes\BaseExtension
                 $params->maxAttempts = 6;
                 $params->decayMinutes = 1;
 
-                return TRUE;
+                return true;
             }
         });
     }
