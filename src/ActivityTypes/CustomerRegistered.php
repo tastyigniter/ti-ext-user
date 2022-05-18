@@ -2,7 +2,7 @@
 
 namespace Igniter\User\ActivityTypes;
 
-use Admin\Models\Customer;
+use Igniter\Admin\Models\Customer;
 use Igniter\Flame\ActivityLog\Contracts\ActivityInterface;
 use Igniter\Flame\ActivityLog\Models\Activity;
 use Igniter\Flame\Auth\Models\User;

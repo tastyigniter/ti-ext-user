@@ -2,24 +2,24 @@
 
 namespace Igniter\User\Components;
 
-use Admin\Models\Customer;
-use Admin\Models\CustomerGroup;
-use Admin\Traits\ValidatesForm;
 use Exception;
+use Igniter\Admin\Models\Customer;
+use Igniter\Admin\Models\CustomerGroup;
+use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Cart\Facades\Cart;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
+use Igniter\Main\Facades\Auth;
 use Igniter\User\ActivityTypes\CustomerRegistered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
-use Main\Facades\Auth;
 
-class Account extends \System\Classes\BaseComponent
+class Account extends \Igniter\System\Classes\BaseComponent
 {
     use ValidatesForm;
-    use \Main\Traits\UsesPage;
+    use \Igniter\Main\Traits\UsesPage;
 
     public function defineProperties()
     {

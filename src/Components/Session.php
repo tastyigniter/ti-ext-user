@@ -2,15 +2,15 @@
 
 namespace Igniter\User\Components;
 
+use Igniter\Main\Facades\Auth;
+use Igniter\System\Classes\BaseComponent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
-use Main\Facades\Auth;
-use System\Classes\BaseComponent;
 
 class Session extends BaseComponent
 {
-    use \Main\Traits\UsesPage;
+    use \Igniter\Main\Traits\UsesPage;
 
     public function initialize()
     {
