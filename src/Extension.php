@@ -2,6 +2,7 @@
 
 namespace Igniter\User;
 
+use Igniter\Igniter;
 use Igniter\Main\Facades\Auth;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
@@ -96,10 +97,10 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                 return;
 
             $request->setUserResolver(function () use ($app) {
-                if ($app->runningInAdmin())
+                if (Igniter::runningInAdmin())
                     return $app['admin.auth']->getUser();
 
-                return $app['auth']->getUser();
+                return $app['auth']->user();
             });
         });
     }
@@ -110,7 +111,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             return Limit::perMinute(60)->by(optional($request->user())->getKey() ?: $request->ip());
         });
 
-        if ($this->app->runningInAdmin())
+        if (Igniter::runningInAdmin())
             return;
 
         $this->app->make(\Illuminate\Contracts\Http\Kernel::class)
