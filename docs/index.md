@@ -21,10 +21,10 @@ In the admin user interface you can manage customers and their groups.
 
 | Name     | Page variable                | Description                                      |
 | -------- | ---------------------------- | ------------------------------------------------ |
-| Session | `@component('session')` | Manages the logged or guest user's session              |
-| Account | `@component('account')` | Provides the sign in form, registration form and update form |
-| ResetPassword | `@component('resetPassword')` | Allows a user to reset their password if they have forgotten it.               |
-| AddressBook | `@component('addressBook')` | Manages the users delivery addresses               |
+| Session | `@componentPartial('session')` | Manages the logged or guest user's session              |
+| Account | `@componentPartial('account')` | Provides the sign in form, registration form and update form |
+| ResetPassword | `@componentPartial('resetPassword')` | Allows a user to reset their password if they have forgotten it.               |
+| AddressBook | `@componentPartial('addressBook')` | Manages the users delivery addresses               |
 
 ### Session Component
 
@@ -97,7 +97,7 @@ permalink: /account
 '[account]': { }
 ---
 ...
-@component('account')
+@componentPartial('account')
 ...
 ```
 
@@ -111,7 +111,7 @@ permalink: /login
 '[account]': { }
 ---
 ...
-@partial('account::login')
+@componentPartial('account::login')
 ...
 ```
 
@@ -126,7 +126,7 @@ permalink: /register
     agreeRegistrationTermsPage: 12
 ---
 ...
-@partial('account::register')
+@componentPartial('account::register')
 ...
 ```
 
@@ -150,7 +150,7 @@ permalink: /forgot-password/:code?
 '[resetPassword]': { }
 ---
 ...
-@component('resetPassword')
+@componentPartial('resetPassword')
 ...
 ```
 

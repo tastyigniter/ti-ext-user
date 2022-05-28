@@ -2,9 +2,9 @@
 
 namespace Igniter\User\Components;
 
-use Igniter\Admin\Models\Customer;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Main\Models\Customer;
 use Igniter\Main\Template\Page;
 use Igniter\Main\Traits\UsesPage;
 use Igniter\System\Classes\BaseComponent;

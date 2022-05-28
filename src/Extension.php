@@ -2,7 +2,7 @@
 
 namespace Igniter\User;
 
-use Igniter\Igniter;
+use Igniter\Flame\Igniter;
 use Igniter\Main\Facades\Auth;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
@@ -13,8 +13,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function register()
     {
         $this->registerEventGlobalParams();
-
-        $this->registerRequestRebindHandler();
+//        $this->registerRequestRebindHandler();
     }
 
     public function boot()
@@ -93,11 +92,8 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     protected function registerRequestRebindHandler()
     {
         $this->app->rebinding('request', function ($app, $request) {
-            if ($request instanceof \Dingo\Api\Http\Request)
-                return;
-
             $request->setUserResolver(function () use ($app) {
-                if (Igniter::runningInAdmin())
+                if (!Igniter::runningInAdmin())
                     return $app['admin.auth']->getUser();
 
                 return $app['auth']->user();

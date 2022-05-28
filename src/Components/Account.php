@@ -3,13 +3,13 @@
 namespace Igniter\User\Components;
 
 use Exception;
-use Igniter\Admin\Models\Customer;
-use Igniter\Admin\Models\CustomerGroup;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Cart\Facades\Cart;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Main\Facades\Auth;
+use Igniter\Main\Models\Customer;
+use Igniter\Main\Models\CustomerGroup;
 use Igniter\User\ActivityTypes\CustomerRegistered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
