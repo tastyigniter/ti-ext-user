@@ -1,5 +1,5 @@
 @if ($__SELF__->resetCode())
-    @partial('@reset')
+    @themePartial('@reset')
 @else
-    @partial('@forgot')
+    @themePartial('@forgot')
 @endif

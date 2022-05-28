@@ -2,10 +2,10 @@
 
 namespace Igniter\User\ActivityTypes;
 
-use Igniter\Admin\Models\Customer;
 use Igniter\Flame\ActivityLog\Contracts\ActivityInterface;
 use Igniter\Flame\ActivityLog\Models\Activity;
 use Igniter\Flame\Auth\Models\User;
+use Igniter\Main\Models\Customer;
 
 class CustomerRegistered implements ActivityInterface
 {

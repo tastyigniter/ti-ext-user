@@ -44,7 +44,7 @@
     <div class="card-body">
         <h5 class="font-weight-normal mb-3">@lang('igniter.user::default.text_edit_details')</h5>
         @auth
-            @partial('@settings')
+            @themePartial('@settings')
         @endauth
     </div>
 </div>

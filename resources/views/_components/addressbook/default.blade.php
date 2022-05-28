@@ -1,7 +1,7 @@
 <div id="address-book">
     @if ($addressIdParam)
-        @partial('@form')
+        @themePartial('@form')
     @else
-        @partial('@list')
+        @themePartial('@list')
     @endif
 </div>
