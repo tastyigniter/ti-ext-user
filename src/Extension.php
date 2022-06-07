@@ -81,7 +81,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     protected function registerEventGlobalParams()
     {
         if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
-            \Igniter\Automation\Classes\EventManager::instance()->registerCallback(function ($manager) {
+            resolve(\Igniter\Automation\Classes\EventManager::class)->registerCallback(function ($manager) {
                 $manager->registerGlobalParams([
                     'customer' => Auth::customer(),
                 ]);
