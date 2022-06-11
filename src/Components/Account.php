@@ -179,7 +179,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
             Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
 
-            if (!Auth::authenticate($credentials, $remember, true))
+            if (!Auth::attempt($credentials, $remember))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
             session()->regenerate();
@@ -215,7 +215,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
                 ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
-            if ((bool)$this->property('agreeRegistrationTermsPage'))
+            if (strlen($this->getRegistrationTermsPageSlug()))
                 $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
 
             $this->validate($data, $rules);
@@ -265,41 +265,20 @@ class Account extends \Igniter\System\Classes\BaseComponent
             return;
 
         try {
-            $data = post();
-
             $rules = [
                 ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
                 ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
-                ['old_password', 'lang:igniter.user::default.settings.label_email', 'sometimes'],
-                ['new_password', 'lang:igniter.user::default.settings.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
-                ['confirm_new_password', 'lang:igniter.user::default.settings.label_password_confirm', 'required_with:old_password'],
                 ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
                 ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
-            $this->validateAfter(function ($validator) {
-                if ($message = $this->passwordDoesNotMatch()) {
-                    $validator->errors()->add('old_password', $message);
-                }
-            });
-
-            $this->validate($data, $rules);
-
-            $passwordChanged = false;
-            if (strlen(post('old_password')) && strlen(post('new_password'))) {
-                $data['password'] = post('new_password');
-                $passwordChanged = true;
-            }
+            $data = $this->validate(post(), $rules);
 
             if (!array_key_exists('newsletter', $data))
                 $data['newsletter'] = 0;
 
-            $customer->fill(array_except($data, ['old_password', 'new_password', 'confirm_new_password']));
+            $customer->fill($data);
             $customer->save();
-
-            if ($passwordChanged) {
-                Auth::login($customer, true);
-            }
 
             flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
 
@@ -310,6 +289,38 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
             return Redirect::back()->withInput();
         }
+    }
+
+    public function onChangePassword()
+    {
+        if (!$customer = $this->customer())
+            return;
+
+        $rules = [
+            ['old_password', 'lang:igniter.user::default.settings.label_password', 'required'],
+            ['new_password', 'lang:igniter.user::default.settings.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
+            ['confirm_new_password', 'lang:igniter.user::default.settings.label_password_confirm', 'required_with:old_password'],
+        ];
+
+        $this->validateAfter(function ($validator) {
+            if ($message = $this->passwordDoesNotMatch()) {
+                $validator->errors()->add('old_password', $message);
+            }
+        });
+
+        $data = $this->validate(post(), $rules);
+
+        $customer->fill(['password' => $data['new_password']]);
+        $customer->save();
+
+        Auth::logout();
+
+        session()->invalidate();
+        session()->regenerateToken();
+
+        flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
+
+        return Redirect::back();
     }
 
     public function onActivate($code = null)
@@ -361,17 +372,11 @@ class Account extends \Igniter\System\Classes\BaseComponent
         $settingRegistrationEmail = setting('registration_email');
         is_array($settingRegistrationEmail) || $settingRegistrationEmail = [];
 
-        if (in_array('customer', $settingRegistrationEmail)) {
-            Mail::queue('igniter.user::mail.registration', $data, function ($message) use ($customer) {
-                $message->to($customer->email, $customer->name);
-            });
-        }
+        if (in_array('customer', $settingRegistrationEmail))
+            Mail::queueTemplate('igniter.user::mail.registration', $data, $customer);
 
-        if (in_array('admin', $settingRegistrationEmail)) {
-            Mail::queue('igniter.user::mail.registration_alert', $data, function ($message) {
-                $message->to(setting('site_email'), setting('site_name'));
-            });
-        }
+        if (in_array('admin', $settingRegistrationEmail))
+            Mail::queueTemplate('igniter.user::mail.registration_alert', $data, [setting('site_email'), setting('site_name')]);
     }
 
     protected function passwordDoesNotMatch()
@@ -396,9 +401,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
             'account_activation_link' => $link,
         ];
 
-        Mail::queue('igniter.user::mail.activation', $data, function ($message) use ($customer) {
-            $message->to($customer->email, $customer->name);
-        });
+        Mail::queueTemplate('igniter.user::mail.activation', $data, $customer);
     }
 
     protected function makeActivationUrl($code)
