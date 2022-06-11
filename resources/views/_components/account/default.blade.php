@@ -1,6 +1,6 @@
 <div class="card mb-1">
     <div class="card-body">
-        <h5 class="mb-0">@auth {{ sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name) }} @endauth</h5>
+        <h5 class="mb-0">@mainauth {{ sprintf(lang('igniter.user::default.text_welcome'), $customer->first_name) }} @endmainauth</h5>
     </div>
 </div>
 
@@ -43,8 +43,8 @@
 <div class="card">
     <div class="card-body">
         <h5 class="font-weight-normal mb-3">@lang('igniter.user::default.text_edit_details')</h5>
-        @auth
-            @themePartial('@settings')
-        @endauth
+        @mainauth
+        @themePartial('@settings')
+        @endmainauth
     </div>
 </div>
