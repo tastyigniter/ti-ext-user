@@ -96,7 +96,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                 if (!Igniter::runningInAdmin())
                     return $app['admin.auth']->getUser();
 
-                return $app['auth']->user();
+                return $app['main.auth']->user();
             });
         });
     }
