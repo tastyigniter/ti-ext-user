@@ -215,7 +215,7 @@ class Account extends \System\Classes\BaseComponent
                 ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
-            if ((bool)$this->property('agreeRegistrationTermsPage'))
+            if (strlen($this->getRegistrationTermsPageSlug()))
                 $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
 
             $this->validate($data, $rules);
