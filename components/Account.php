@@ -270,7 +270,7 @@ class Account extends \System\Classes\BaseComponent
             $rules = [
                 ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
                 ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
-                ['old_password', 'lang:igniter.user::default.settings.label_email', 'sometimes'],
+                ['old_password', 'lang:igniter.user::default.settings.label_old_password', 'required_with:new_password'],
                 ['new_password', 'lang:igniter.user::default.settings.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
                 ['confirm_new_password', 'lang:igniter.user::default.settings.label_password_confirm', 'required_with:old_password'],
                 ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
