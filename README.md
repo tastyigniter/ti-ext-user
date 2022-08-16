@@ -24,4 +24,5 @@ security vulnerabilities.
 
 ### License
 
-TastyIgniter User extension is open-sourced software licensed under the [MIT license](LICENSE).
+TastyIgniter User extension is open-sourced software licensed under
+the [MIT license](https://github.com/tastyigniter/ti-ext-user/LICENSE.md).
