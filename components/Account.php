@@ -86,7 +86,7 @@ class Account extends \System\Classes\BaseComponent
                 'options' => [static::class, 'getStaticPageOptions'],
                 'placeholder' => 'lang:admin::lang.text_please_select',
                 'comment' => 'Require customers to agree to terms before an account is registered',
-                'validationRule' => 'required|integer',
+                'validationRule' => 'integer',
             ],
             'redirectPage' => [
                 'label' => 'Page to redirect to after successful login or registration',
