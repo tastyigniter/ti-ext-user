@@ -165,7 +165,7 @@ class Account extends \System\Classes\BaseComponent
         try {
             $namedRules = [
                 ['email', 'lang:igniter.user::default.settings.label_email', 'required|email:filter|max:96'],
-                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:6|max:32'],
+                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:8|max:40'],
                 ['remember', 'lang:igniter.user::default.login.label_remember', 'integer'],
             ];
 
@@ -271,7 +271,7 @@ class Account extends \System\Classes\BaseComponent
                 ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
                 ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
                 ['old_password', 'lang:igniter.user::default.settings.label_old_password', 'required_with:new_password'],
-                ['new_password', 'lang:igniter.user::default.settings.label_password', 'required_with:old_password|min:6|max:32|same:confirm_new_password'],
+                ['new_password', 'lang:igniter.user::default.settings.label_password', 'required_with:old_password|min:8|max:40|same:confirm_new_password'],
                 ['confirm_new_password', 'lang:igniter.user::default.settings.label_password_confirm', 'required_with:old_password'],
                 ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
                 ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
