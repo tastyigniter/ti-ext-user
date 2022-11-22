@@ -4,7 +4,7 @@ namespace Igniter\User\Components;
 
 use Exception;
 use Igniter\Admin\Traits\ValidatesForm;
-use Igniter\Flame\Cart\Facades\Cart;
+use Igniter\Cart\Facades\Cart;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\ValidationException;
 use Igniter\Main\Facades\Auth;
