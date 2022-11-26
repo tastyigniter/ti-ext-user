@@ -1,6 +1,6 @@
 {
   "name": "tastyigniter/ti-ext-user",
-  "type": "tastyigniter-extension",
+  "type": "tastyigniter-package",
   "description": "Management of front-end users (customers) on TastyIgniter.",
   "license": "MIT",
   "authors": [
