@@ -63,11 +63,11 @@ class Extension extends \System\Classes\BaseExtension
     public function registerMailTemplates()
     {
         return [
-            'igniter.user::mail.password_reset' => 'Password reset email to customer',
-            'igniter.user::mail.password_reset_request' => 'Password reset request email to customer',
-            'igniter.user::mail.registration' => 'Registration email to customer',
-            'igniter.user::mail.registration_alert' => 'Registration email to admin',
-            'igniter.user::mail.activation' => 'Registration activation email to customer',
+            'igniter.user::mail.password_reset' => 'lang:igniter.user::default.text_mail_password_reset',
+            'igniter.user::mail.password_reset_request' => 'lang:igniter.user::default.text_mail_password_reset_request',
+            'igniter.user::mail.registration' => 'lang:igniter.user::default.text_mail_registration',
+            'igniter.user::mail.registration_alert' => 'lang:igniter.user::default.text_mail_registration_alert',
+            'igniter.user::mail.activation' => 'lang:igniter.user::default.text_mail_activation',
         ];
     }
 
@@ -82,14 +82,6 @@ class Extension extends \System\Classes\BaseExtension
     {
         if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
             \Igniter\Automation\Classes\EventManager::instance()->registerCallback(function ($manager) {
-                $manager->registerGlobalParams([
-                    'customer' => Auth::customer(),
-                ]);
-            });
-        }
-
-        if (class_exists(\Igniter\EventRules\Classes\EventManager::class)) {
-            \Igniter\EventRules\Classes\EventManager::instance()->registerCallback(function ($manager) {
                 $manager->registerGlobalParams([
                     'customer' => Auth::customer(),
                 ]);
