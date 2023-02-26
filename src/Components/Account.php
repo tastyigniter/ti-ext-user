@@ -10,7 +10,6 @@ use Igniter\Flame\Exception\ValidationException;
 use Igniter\Main\Facades\Auth;
 use Igniter\Main\Models\Customer;
 use Igniter\Main\Models\CustomerGroup;
-use Igniter\User\ActivityTypes\CustomerRegistered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
@@ -248,8 +247,6 @@ class Account extends \Igniter\System\Classes\BaseComponent
                 Auth::login($customer);
                 flash()->success(lang('igniter.user::default.login.alert_account_created'));
             }
-
-            CustomerRegistered::log($customer);
 
             if ($redirectUrl = get('redirect', $redirectUrl))
                 return Redirect::intended($redirectUrl);

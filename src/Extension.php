@@ -4,6 +4,7 @@ namespace Igniter\User;
 
 use Igniter\Flame\Igniter;
 use Igniter\Main\Facades\Auth;
+use Igniter\Main\Models\Customer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
@@ -19,6 +20,10 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function boot()
     {
         $this->configureRateLimiting();
+
+        Event::listen('igniter.user.register', function (Customer $customer, array $data) {
+            Notifications\CustomerRegisteredNotification::make()->subject($customer)->sendToDatabase();
+        });
     }
 
     public function registerAutomationRules()
@@ -68,13 +73,6 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             'igniter.user::mail.registration' => 'lang:igniter.user::default.text_mail_registration',
             'igniter.user::mail.registration_alert' => 'lang:igniter.user::default.text_mail_registration_alert',
             'igniter.user::mail.activation' => 'lang:igniter.user::default.text_mail_activation',
-        ];
-    }
-
-    public function registerActivityTypes()
-    {
-        return [
-            ActivityTypes\CustomerRegistered::class => 'customerRegistered',
         ];
     }
 
