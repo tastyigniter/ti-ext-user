@@ -22,7 +22,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         $this->configureRateLimiting();
 
         Event::listen('igniter.user.register', function (Customer $customer, array $data) {
-            Notifications\CustomerRegisteredNotification::make()->subject($customer)->sendToDatabase();
+            Notifications\CustomerRegisteredNotification::make()->subject($customer)->broadcast();
         });
     }
 
