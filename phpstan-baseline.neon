@@ -1,0 +1,426 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\AutomationRules\\\\Conditions\\\\CustomerAttribute\\:\\:evalIsTrue\\(\\)\\.$#"
+			count: 1
+			path: src/AutomationRules/Conditions/CustomerAttribute.php
+
+		-
+			message: "#^Class Igniter\\\\Main\\\\Models\\\\Customer not found\\.$#"
+			count: 1
+			path: src/AutomationRules/Conditions/CustomerAttribute.php
+
+		-
+			message: "#^Function array_get not found\\.$#"
+			count: 1
+			path: src/AutomationRules/Conditions/CustomerAttribute.php
+
+		-
+			message: "#^Instantiated class Igniter\\\\Flame\\\\Exception\\\\ApplicationException not found\\.$#"
+			count: 1
+			path: src/AutomationRules/Conditions/CustomerAttribute.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\Account\\:\\:\\$controller\\.$#"
+			count: 8
+			path: src/Components/Account.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\Account\\:\\:\\$page\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\Account\\:\\:getStaticPagePermalink\\(\\)\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\Account\\:\\:param\\(\\)\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\Account\\:\\:property\\(\\)\\.$#"
+			count: 17
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\Account\\:\\:validate\\(\\)\\.$#"
+			count: 5
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\Account\\:\\:validateAfter\\(\\)\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			count: 4
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
+			count: 3
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to method getErrors\\(\\) on an unknown class Igniter\\\\Flame\\\\Exception\\\\ValidationException\\.$#"
+			count: 2
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method attempt\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method check\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method count\\(\\) on an unknown class Igniter\\\\Cart\\\\Facades\\\\Cart\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method getDefault\\(\\) on an unknown class Igniter\\\\Main\\\\Models\\\\CustomerGroup\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method getUser\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method login\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 2
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method logout\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method register\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method total\\(\\) on an unknown class Igniter\\\\Cart\\\\Facades\\\\Cart\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method validateCredentials\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Call to static method whereActivationCode\\(\\) on an unknown class Igniter\\\\Main\\\\Models\\\\Customer\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Caught class Igniter\\\\Flame\\\\Exception\\\\ValidationException not found\\.$#"
+			count: 2
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function array_except not found\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function flash not found\\.$#"
+			count: 6
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function get not found\\.$#"
+			count: 1
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function input not found\\.$#"
+			count: 2
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function lang not found\\.$#"
+			count: 7
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function post not found\\.$#"
+			count: 9
+			path: src/Components/Account.php
+
+		-
+			message: "#^Function setting not found\\.$#"
+			count: 5
+			path: src/Components/Account.php
+
+		-
+			message: "#^Instantiated class Igniter\\\\Flame\\\\Exception\\\\ApplicationException not found\\.$#"
+			count: 5
+			path: src/Components/Account.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:\\$controller\\.$#"
+			count: 1
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:\\$page\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:getEventHandler\\(\\)\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:pageCycle\\(\\)\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:param\\(\\)\\.$#"
+			count: 6
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:property\\(\\)\\.$#"
+			count: 3
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:renderPartial\\(\\)\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:validatePasses\\(\\)\\.$#"
+			count: 1
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to static method customer\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 5
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to static method find\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\Address\\.$#"
+			count: 3
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Call to static method make\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\Address\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Function array_get not found\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Function flash not found\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Function lang not found\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Function post not found\\.$#"
+			count: 2
+			path: src/Components/AddressBook.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\ResetPassword\\:\\:\\$controller\\.$#"
+			count: 2
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\ResetPassword\\:\\:currentPageUrl\\(\\)\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\ResetPassword\\:\\:param\\(\\)\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\ResetPassword\\:\\:property\\(\\)\\.$#"
+			count: 5
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\ResetPassword\\:\\:validate\\(\\)\\.$#"
+			count: 2
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to static method lists\\(\\) on an unknown class Igniter\\\\Main\\\\Template\\\\Page\\.$#"
+			count: 2
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to static method whereEmail\\(\\) on an unknown class Igniter\\\\Main\\\\Models\\\\Customer\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Call to static method whereResetCode\\(\\) on an unknown class Igniter\\\\Main\\\\Models\\\\Customer\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Function flash not found\\.$#"
+			count: 2
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Function get not found\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Function lang not found\\.$#"
+			count: 4
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Function post not found\\.$#"
+			count: 5
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Function site_url not found\\.$#"
+			count: 1
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Instantiated class Igniter\\\\Flame\\\\Exception\\\\ApplicationException not found\\.$#"
+			count: 2
+			path: src/Components/ResetPassword.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\Session\\:\\:\\$controller\\.$#"
+			count: 2
+			path: src/Components/Session.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Components\\\\Session\\:\\:\\$page\\.$#"
+			count: 1
+			path: src/Components/Session.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\Session\\:\\:property\\(\\)\\.$#"
+			count: 3
+			path: src/Components/Session.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			count: 1
+			path: src/Components/Session.php
+
+		-
+			message: "#^Call to static method check\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 2
+			path: src/Components/Session.php
+
+		-
+			message: "#^Call to static method getUser\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 2
+			path: src/Components/Session.php
+
+		-
+			message: "#^Call to static method logout\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Components/Session.php
+
+		-
+			message: "#^Function flash not found\\.$#"
+			count: 1
+			path: src/Components/Session.php
+
+		-
+			message: "#^Function lang not found\\.$#"
+			count: 1
+			path: src/Components/Session.php
+
+		-
+			message: "#^Function post not found\\.$#"
+			count: 1
+			path: src/Components/Session.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Extension\\:\\:\\$app\\.$#"
+			count: 2
+			path: src/Extension.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Notifications\\\\CustomerRegisteredNotification\\:\\:make\\(\\)\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Call to static method customer\\(\\) on an unknown class Igniter\\\\Main\\\\Facades\\\\Auth\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Call to static method runningInAdmin\\(\\) on an unknown class Igniter\\\\Flame\\\\Igniter\\.$#"
+			count: 2
+			path: src/Extension.php
+
+		-
+			message: "#^Function str_after not found\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Parameter \\$customer of anonymous function has invalid type Igniter\\\\Main\\\\Models\\\\Customer\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			count: 1
+			path: src/Middleware/ThrottleRequests.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Notifications\\\\CustomerRegisteredNotification\\:\\:\\$subject\\.$#"
+			count: 2
+			path: src/Notifications/CustomerRegisteredNotification.php
+
+		-
+			message: "#^Call to static method isEnabled\\(\\) on an unknown class Igniter\\\\Admin\\\\Models\\\\User\\.$#"
+			count: 1
+			path: src/Notifications/CustomerRegisteredNotification.php
+
+		-
+			message: "#^Function admin_url not found\\.$#"
+			count: 1
+			path: src/Notifications/CustomerRegisteredNotification.php
+
+		-
+			message: "#^Function lang not found\\.$#"
+			count: 2
+			path: src/Notifications/CustomerRegisteredNotification.php
