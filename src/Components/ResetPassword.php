@@ -76,8 +76,9 @@ class ResetPassword extends BaseComponent
         $this->validate(post(), $namedRules);
 
         if ($customer = Customer::whereEmail(post('email'))->first()) {
-            if (!$code = $customer->resetPassword())
+            if (!$code = $customer->resetPassword()) {
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_error'));
+            }
 
             $link = $this->makeResetUrl($code);
             $this->sendResetPasswordMail($customer, $code, $link);
@@ -100,8 +101,9 @@ class ResetPassword extends BaseComponent
 
         $customer = Customer::whereResetCode($code = post('code'))->first();
 
-        if (!$customer || !$customer->completeResetPassword($code, post('password')))
+        if (!$customer || !$customer->completeResetPassword($code, post('password'))) {
             throw new ApplicationException(lang('igniter.user::default.reset.alert_reset_failed'));
+        }
 
         flash()->success(lang('igniter.user::default.reset.alert_reset_success'));
 
@@ -116,8 +118,7 @@ class ResetPassword extends BaseComponent
 
         if ($pageName = $this->property('resetPage')) {
             $url = $this->controller->pageUrl($pageName, $params);
-        }
-        else {
+        } else {
             $url = $this->currentPageUrl($params);
         }
 

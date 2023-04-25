@@ -14,7 +14,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function register()
     {
         $this->registerEventGlobalParams();
-//        $this->registerRequestRebindHandler();
+        //        $this->registerRequestRebindHandler();
     }
 
     public function boot()
@@ -91,8 +91,9 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     {
         $this->app->rebinding('request', function ($app, $request) {
             $request->setUserResolver(function () use ($app) {
-                if (!Igniter::runningInAdmin())
+                if (!Igniter::runningInAdmin()) {
                     return $app['admin.auth']->getUser();
+                }
 
                 return $app['main.auth']->user();
             });
@@ -105,8 +106,9 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             return Limit::perMinute(60)->by(optional($request->user())->getKey() ?: $request->ip());
         });
 
-        if (Igniter::runningInAdmin())
+        if (Igniter::runningInAdmin()) {
             return;
+        }
 
         $this->app->make(\Illuminate\Contracts\Http\Kernel::class)
             ->appendMiddlewareToGroup('web', \Igniter\User\Middleware\ThrottleRequests::class);

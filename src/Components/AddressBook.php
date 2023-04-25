@@ -49,17 +49,20 @@ class AddressBook extends \Igniter\System\Classes\BaseComponent
             ['address.country_id', 'lang:igniter.user::default.account.label_country', 'required|integer'],
         ];
 
-        if (!$this->validatePasses($data, $rules))
+        if (!$this->validatePasses($data, $rules)) {
             return $this->onLoadAddForm();
+        }
 
         $customer = Auth::customer();
 
         $address = null;
-        if ($id = array_get($data, 'address.address_id'))
+        if ($id = array_get($data, 'address.address_id')) {
             $address = Address::find($id);
+        }
 
-        if (!$address || $address->customer_id != $customer->customer_id)
+        if (!$address || $address->customer_id != $customer->customer_id) {
             $address = Address::make();
+        }
 
         $address->fill(array_get($data, 'address'));
         $address->customer_id = $customer->customer_id;
@@ -67,11 +70,12 @@ class AddressBook extends \Igniter\System\Classes\BaseComponent
 
         flash()->success(lang('igniter.user::default.account.alert_updated_success'))->now();
 
-        if (is_numeric($this->param('addressId')))
+        if (is_numeric($this->param('addressId'))) {
             return Redirect::to($this->controller->pageUrl(
                 $this->property('redirectPage', 'account/address'),
                 ['addressId' => null]
             ));
+        }
 
         $this->pageCycle();
 
@@ -83,11 +87,13 @@ class AddressBook extends \Igniter\System\Classes\BaseComponent
     public function onDelete()
     {
         $addressId = post('addressId');
-        if (!$addressId || !is_numeric($addressId))
+        if (!$addressId || !is_numeric($addressId)) {
             return;
+        }
 
-        if (!$address = Address::find($addressId))
+        if (!$address = Address::find($addressId)) {
             return;
+        }
 
         $address->customer_id = null;
         $address->save();
@@ -99,13 +105,15 @@ class AddressBook extends \Igniter\System\Classes\BaseComponent
 
     protected function getAddress()
     {
-        if (!is_numeric($addressIdParam = $this->param('addressId')))
+        if (!is_numeric($addressIdParam = $this->param('addressId'))) {
             return null;
+        }
 
         $customer = Auth::customer();
         $address = Address::find($addressIdParam);
-        if (!$customer || $address->customer_id != $customer->customer_id)
+        if (!$customer || $address->customer_id != $customer->customer_id) {
             return null;
+        }
 
         return $address;
     }
@@ -122,8 +130,9 @@ class AddressBook extends \Igniter\System\Classes\BaseComponent
 
     protected function loadAddressBook()
     {
-        if (!$customer = Auth::customer())
+        if (!$customer = Auth::customer()) {
             return [];
+        }
 
         return $customer->addresses()->listFrontEnd([
             'page' => $this->param('page'),

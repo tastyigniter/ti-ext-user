@@ -14,8 +14,9 @@ class ThrottleRequests extends \Illuminate\Routing\Middleware\ThrottleRequests
         $params->decayMinutes = $decayMinutes;
         $params->prefix = $prefix;
 
-        if ($this->shouldThrottleRequest($request, $params))
+        if ($this->shouldThrottleRequest($request, $params)) {
             return parent::handle($request, $next, $params->maxAttempts, $params->decayMinutes, $params->prefix);
+        }
 
         return $next($request);
     }
