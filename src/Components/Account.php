@@ -85,7 +85,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
                 'options' => [static::class, 'getStaticPageOptions'],
                 'placeholder' => 'lang:admin::lang.text_please_select',
                 'comment' => 'Require customers to agree to terms before an account is registered',
-                'validationRule' => 'required|integer',
+                'validationRule' => 'integer',
             ],
             'redirectPage' => [
                 'label' => 'Page to redirect to after successful login or registration',
@@ -164,7 +164,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
         try {
             $namedRules = [
                 ['email', 'lang:igniter.user::default.settings.label_email', 'required|email:filter|max:96'],
-                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:6|max:32'],
+                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:8|max:40'],
                 ['remember', 'lang:igniter.user::default.login.label_remember', 'integer'],
             ];
 
@@ -178,7 +178,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
             Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
 
-            if (!Auth::attempt($credentials, $remember))
+            if (!Auth::attempt($credentials, $remember, true))
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
 
             session()->regenerate();

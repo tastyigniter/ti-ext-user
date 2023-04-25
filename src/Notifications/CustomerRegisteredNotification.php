@@ -32,4 +32,9 @@ class CustomerRegisteredNotification extends Notification
     {
         return sprintf(lang('igniter.user::default.login.notify_registered_account'), $this->subject->full_name);
     }
+
+    public function getIcon(): ?string
+    {
+        return 'fa-user';
+    }
 }

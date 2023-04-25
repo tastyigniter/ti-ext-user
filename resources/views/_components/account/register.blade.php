@@ -76,22 +76,24 @@
             class="form-control input-lg"
             value="{{ set_value('telephone') }}"
             name="telephone"
+            data-control="country-code-picker"
+            data-initial-country="gb"
             placeholder="@lang('igniter.user::default.settings.label_telephone')"
         >
         {!! form_error('telephone', '<span class="text-danger">', '</span>') !!}
     </div>
 
     <div class="form-group">
-        <div class="custom-control custom-checkbox">
+        <div class="form-check">
             <input
                 id="newsletter"
                 type="checkbox"
                 name="newsletter"
                 value="1"
-                class="custom-control-input"
+                class="form-check-input"
                 {!! set_checkbox('newsletter', '1') !!}
             >
-            <label class="custom-control-label" for="newsletter">
+            <label class="form-check-label" for="newsletter">
                 @lang('igniter.user::default.login.label_newsletter')
             </label>
         </div>
@@ -100,16 +102,16 @@
 
     @if ($requireRegistrationTerms && $registrationTermsSlug = $account->getRegistrationTermsPageSlug())
         <div class="form-group">
-            <div class="custom-control custom-checkbox">
+            <div class="form-check">
                 <input
                     id="agree-terms"
                     type="checkbox"
                     name="terms"
                     value="1"
-                    class="custom-control-input"
+                    class="form-check-input"
                     {!! set_checkbox('terms', '1') !!}
                 >
-                <label class="custom-control-label" for="agree-terms">
+                <label class="form-check-label" for="agree-terms">
                     {!! sprintf(lang('igniter.user::default.login.label_terms'), url($registrationTermsSlug)) !!}
                 </label>
             </div>

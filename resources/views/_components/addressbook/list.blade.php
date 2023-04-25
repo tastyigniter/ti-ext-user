@@ -4,7 +4,7 @@
             <div
                 class="list-group-item {{ ($customer->address_id == $address->address_id) ? 'list-group-item-info' : '' }}"
             >
-                <address class="text-left">{!! format_address($address) !!}</address>
+                <address class="text-left">{{ format_address($address) }}</address>
                 <span class="">
                     <a
                         class="btn btn-outline-default"

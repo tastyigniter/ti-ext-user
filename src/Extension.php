@@ -42,22 +42,22 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function registerComponents()
     {
         return [
-            'Igniter\User\Components\Session' => [
+            \Igniter\User\Components\Session::class => [
                 'code' => 'session',
                 'name' => 'lang:igniter.user::default.session.component_title',
                 'description' => 'lang:igniter.user::default.session.component_desc',
             ],
-            'Igniter\User\Components\Account' => [
+            \Igniter\User\Components\Account::class => [
                 'code' => 'account',
                 'name' => 'lang:igniter.user::default.account.component_title',
                 'description' => 'lang:igniter.user::default.account.component_desc',
             ],
-            'Igniter\User\Components\ResetPassword' => [
+            \Igniter\User\Components\ResetPassword::class => [
                 'code' => 'resetPassword',
                 'name' => 'lang:igniter.user::default.reset.component_title',
                 'description' => 'lang:igniter.user::default.reset.component_desc',
             ],
-            'Igniter\User\Components\AddressBook' => [
+            \Igniter\User\Components\AddressBook::class => [
                 'code' => 'accountAddressBook',
                 'name' => 'lang:igniter.user::default.addressbook.component_title',
                 'description' => 'lang:igniter.user::default.addressbook.component_desc',
@@ -68,11 +68,11 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function registerMailTemplates()
     {
         return [
-            'igniter.user::mail.password_reset' => 'Password reset email to customer',
-            'igniter.user::mail.password_reset_request' => 'Password reset request email to customer',
-            'igniter.user::mail.registration' => 'Registration email to customer',
-            'igniter.user::mail.registration_alert' => 'Registration email to admin',
-            'igniter.user::mail.activation' => 'Registration activation email to customer',
+            'igniter.user::mail.password_reset' => 'lang:igniter.user::default.text_mail_password_reset',
+            'igniter.user::mail.password_reset_request' => 'lang:igniter.user::default.text_mail_password_reset_request',
+            'igniter.user::mail.registration' => 'lang:igniter.user::default.text_mail_registration',
+            'igniter.user::mail.registration_alert' => 'lang:igniter.user::default.text_mail_registration_alert',
+            'igniter.user::mail.activation' => 'lang:igniter.user::default.text_mail_activation',
         ];
     }
 

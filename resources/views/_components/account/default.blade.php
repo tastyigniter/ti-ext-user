@@ -15,7 +15,7 @@
                         href="{{ site_url('account/address/'.$customer->address->getKey()) }}"
                     >@lang('igniter.user::default.text_edit')</a>
                 </h5>
-                <address class="text-left text-overflow">{!! format_address($customer->address) !!}</address>
+                <address class="text-left text-overflow">{{ format_address($customer->address) }}</address>
             @else
                 <p>@lang('igniter.user::default.text_no_default_address')</p>
             @endif

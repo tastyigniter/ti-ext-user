@@ -24,6 +24,12 @@ return [
     'text_no_inbox' => 'There are no messages available to show',
     'text_no_cart_items' => 'There are no menus added in your cart.',
 
+    'text_mail_password_reset' => 'Password reset email to customer',
+    'text_mail_password_reset_request' => 'Password reset request email to customer',
+    'text_mail_registration' => 'Registration email to customer',
+    'text_mail_registration_alert' => 'Registration alert email to admin',
+    'text_mail_activation' => 'Registration activation email to customer',
+
     'text_logout' => 'Logout',
     'text_logged_in' => 'Already have an account? <a href="%s">Login Here</a>',
     'text_logged_out' => 'Welcome back <b>%s</b>, Not You? <a href="javascript:;" data-request="%s">Logout</a>',
