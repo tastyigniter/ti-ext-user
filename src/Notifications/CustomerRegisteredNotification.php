@@ -22,8 +22,9 @@ class CustomerRegisteredNotification extends Notification
     public function getUrl(): string
     {
         $url = 'customers';
-        if ($this->subject)
+        if ($this->subject) {
             $url .= '/edit/'.$this->subject->getKey();
+        }
 
         return admin_url($url);
     }

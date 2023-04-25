@@ -99,8 +99,9 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
     public function onRun()
     {
-        if ($code = $this->getActivationCode())
+        if ($code = $this->getActivationCode()) {
             $this->onActivate($code);
+        }
 
         $this->prepareVars();
     }
@@ -178,20 +179,22 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
             Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
 
-            if (!Auth::attempt($credentials, $remember, true))
+            if (!Auth::attempt($credentials, $remember, true)) {
                 throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
+            }
 
             session()->regenerate();
 
             Event::fire('igniter.user.login', [$this], true);
 
-            if ($redirect = input('redirect'))
+            if ($redirect = input('redirect')) {
                 return Redirect::to($this->controller->pageUrl($redirect));
+            }
 
-            if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage')))
+            if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage'))) {
                 return Redirect::intended($redirectUrl);
-        }
-        catch (ValidationException $ex) {
+            }
+        } catch (ValidationException $ex) {
             throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
         }
     }
@@ -199,8 +202,9 @@ class Account extends \Igniter\System\Classes\BaseComponent
     public function onRegister()
     {
         try {
-            if (!(bool)setting('allow_registration', true))
+            if (!(bool)setting('allow_registration', true)) {
                 throw new ApplicationException(lang('igniter.user::default.login.alert_registration_disabled'));
+            }
 
             $data = post();
 
@@ -214,8 +218,9 @@ class Account extends \Igniter\System\Classes\BaseComponent
                 ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
             ];
 
-            if (strlen($this->getRegistrationTermsPageSlug()))
+            if (strlen($this->getRegistrationTermsPageSlug())) {
                 $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
+            }
 
             $this->validate($data, $rules);
 
@@ -248,18 +253,19 @@ class Account extends \Igniter\System\Classes\BaseComponent
                 flash()->success(lang('igniter.user::default.login.alert_account_created'));
             }
 
-            if ($redirectUrl = get('redirect', $redirectUrl))
+            if ($redirectUrl = get('redirect', $redirectUrl)) {
                 return Redirect::intended($redirectUrl);
-        }
-        catch (ValidationException $ex) {
+            }
+        } catch (ValidationException $ex) {
             throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
         }
     }
 
     public function onUpdate()
     {
-        if (!$customer = $this->customer())
+        if (!$customer = $this->customer()) {
             return;
+        }
 
         try {
             $rules = [
@@ -271,8 +277,9 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
             $data = $this->validate(post(), $rules);
 
-            if (!array_key_exists('newsletter', $data))
+            if (!array_key_exists('newsletter', $data)) {
                 $data['newsletter'] = 0;
+            }
 
             $customer->fill($data);
             $customer->save();
@@ -280,8 +287,7 @@ class Account extends \Igniter\System\Classes\BaseComponent
             flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
 
             return Redirect::back();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
@@ -290,8 +296,9 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
     public function onChangePassword()
     {
-        if (!$customer = $this->customer())
+        if (!$customer = $this->customer()) {
             return;
+        }
 
         $rules = [
             ['old_password', 'lang:igniter.user::default.settings.label_password', 'required'],
@@ -332,8 +339,9 @@ class Account extends \Igniter\System\Classes\BaseComponent
             $this->validate(['code' => $code], $namedRules);
 
             $customer = Customer::whereActivationCode($code)->first();
-            if (!$customer || !$customer->completeActivation($code))
+            if (!$customer || !$customer->completeActivation($code)) {
                 throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
+            }
 
             $this->sendRegistrationEmail($customer);
 
@@ -342,18 +350,21 @@ class Account extends \Igniter\System\Classes\BaseComponent
             $redirectUrl = $this->controller->pageUrl($this->property('accountPage'));
 
             return Redirect::to($redirectUrl);
-        }
-        catch (Exception $ex) {
-            if (Request::ajax()) throw $ex;
-            else flash()->error($ex->getMessage());
+        } catch (Exception $ex) {
+            if (Request::ajax()) {
+                throw $ex;
+            } else {
+                flash()->error($ex->getMessage());
+            }
         }
     }
 
     public function getActivationCode()
     {
         $param = $this->property('paramCode');
-        if ($param && $code = $this->param($param))
+        if ($param && $code = $this->param($param)) {
             return $code;
+        }
 
         return input('activate');
     }
@@ -369,17 +380,20 @@ class Account extends \Igniter\System\Classes\BaseComponent
         $settingRegistrationEmail = setting('registration_email');
         is_array($settingRegistrationEmail) || $settingRegistrationEmail = [];
 
-        if (in_array('customer', $settingRegistrationEmail))
+        if (in_array('customer', $settingRegistrationEmail)) {
             Mail::queueTemplate('igniter.user::mail.registration', $data, $customer);
+        }
 
-        if (in_array('admin', $settingRegistrationEmail))
+        if (in_array('admin', $settingRegistrationEmail)) {
             Mail::queueTemplate('igniter.user::mail.registration_alert', $data, [setting('site_email'), setting('site_name')]);
+        }
     }
 
     protected function passwordDoesNotMatch()
     {
-        if (!strlen($password = post('old_password')))
+        if (!strlen($password = post('old_password'))) {
             return false;
+        }
 
         $credentials = ['password' => $password];
         if (!Auth::validateCredentials($this->customer(), $credentials)) {
