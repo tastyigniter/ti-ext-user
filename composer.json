@@ -1,29 +1,42 @@
 {
-  "name": "tastyigniter/ti-ext-user",
-  "type": "tastyigniter-package",
-  "description": "Management of front-end users (customers) on TastyIgniter.",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Sam Poyigi",
-      "email": "sam@sampoyigi.com"
+    "name": "tastyigniter/ti-ext-user",
+    "type": "tastyigniter-package",
+    "description": "Management of front-end users (customers) on TastyIgniter.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam Poyigi",
+            "email": "sam@sampoyigi.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Igniter\\User\\": "src/"
+        }
+    },
+    "extra": {
+        "tastyigniter-extension": {
+            "code": "igniter.user",
+            "name": "User",
+            "icon": {
+                "class": "fa fa-user",
+                "color": "#FFF",
+                "backgroundColor": "#3596DA"
+            },
+            "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
+        }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.2",
+        "nunomaduro/larastan": "^2.4.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest": "^2.5",
+        "orchestra/testbench": "^8.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Igniter\\User\\": "src/"
-    }
-  },
-  "extra": {
-    "tastyigniter-extension": {
-      "code": "igniter.user",
-      "name": "User",
-      "icon": {
-        "class": "fa fa-user",
-        "color": "#FFF",
-        "backgroundColor": "#3596DA"
-      },
-      "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
-    }
-  }
 }
