@@ -9,9 +9,22 @@
             "email": "sam@sampoyigi.com"
         }
     ],
+    "require-dev": {
+        "laravel/pint": "^1.2",
+        "nunomaduro/larastan": "^2.4.0",
+        "orchestra/testbench": "^8.5",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "tastyigniter/core": "dev-master",
+        "tastyigniter/ti-ext-automation": "v4.x-dev as 4.0"
+    },
     "autoload": {
         "psr-4": {
             "Igniter\\User\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Igniter\\User\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -26,23 +39,18 @@
             "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
         }
     },
-    "require-dev": {
-        "laravel/pint": "^1.2",
-        "nunomaduro/larastan": "^2.4.0",
-        "pestphp/pest-plugin-laravel": "^2.0",
-        "pestphp/pest": "^2.5",
-        "orchestra/testbench": "^8.5"
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        },
-        "sort-packages": true
-    },
     "scripts": {
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint",
         "static": "vendor/bin/phpstan analyse --ansi --memory-limit 1056M"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "composer/installers": true
+        },
+        "sort-packages": true
     }
 }
