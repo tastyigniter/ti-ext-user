@@ -191,8 +191,7 @@ class Account extends \System\Classes\BaseComponent
 
             if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage')))
                 return Redirect::intended($redirectUrl);
-        }
-        catch (ValidationException $ex) {
+        } catch (ValidationException $ex) {
             throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
         }
     }
@@ -253,8 +252,7 @@ class Account extends \System\Classes\BaseComponent
 
             if ($redirectUrl = get('redirect', $redirectUrl))
                 return Redirect::intended($redirectUrl);
-        }
-        catch (ValidationException $ex) {
+        } catch (ValidationException $ex) {
             throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
         }
     }
@@ -304,8 +302,7 @@ class Account extends \System\Classes\BaseComponent
             flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
 
             return Redirect::back();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             flash()->warning($ex->getMessage());
 
             return Redirect::back()->withInput();
@@ -334,11 +331,24 @@ class Account extends \System\Classes\BaseComponent
             $redirectUrl = $this->controller->pageUrl($this->property('accountPage'));
 
             return Redirect::to($redirectUrl);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             if (Request::ajax()) throw $ex;
             else flash()->error($ex->getMessage());
         }
+    }
+
+    public function onDelete()
+    {
+        if (!$customer = $this->customer())
+            return;
+
+        $customer->delete();
+
+        Auth::logout();
+
+        flash()->success(lang('igniter.user::default.settings.alert_deleted_success'));
+
+        return Redirect::to($this->controller->pageUrl($this->property('loginPage')));
     }
 
     public function getActivationCode()

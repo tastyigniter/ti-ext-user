@@ -120,10 +120,16 @@
         </div>
     </div>
 
-    <div class="buttons">
+    <div class="buttons d-flex justify-content-between">
         <button
             type="submit"
             class="btn btn-primary"
         >@lang('igniter.user::default.settings.button_save')</button>
+        <button
+            type="button"
+            class="btn btn-link text-danger"
+            data-request="{{ $__SELF__.'::onDelete' }}"
+            data-request-confirm="@lang('igniter.user::default.settings.alert_delete_confirm')"
+        >@lang('igniter.user::default.settings.button_delete')</button>
     </div>
 </form>
