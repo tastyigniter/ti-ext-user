@@ -4,10 +4,10 @@ namespace Igniter\User\Components;
 
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Main\Models\Customer;
 use Igniter\Main\Template\Page;
 use Igniter\Main\Traits\UsesPage;
 use Igniter\System\Classes\BaseComponent;
+use Igniter\User\Models\Customer;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
