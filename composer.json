@@ -52,5 +52,6 @@
             "composer/installers": true
         },
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev"
 }

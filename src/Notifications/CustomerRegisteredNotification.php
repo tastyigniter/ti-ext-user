@@ -2,8 +2,8 @@
 
 namespace Igniter\User\Notifications;
 
-use Igniter\Admin\Models\User;
-use Igniter\System\Classes\Notification;
+use Igniter\User\Classes\Notification;
+use Igniter\User\Models\User;
 
 class CustomerRegisteredNotification extends Notification
 {

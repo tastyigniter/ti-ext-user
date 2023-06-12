@@ -2,9 +2,9 @@
 
 namespace Igniter\User\Components;
 
-use Igniter\Admin\Models\Address;
 use Igniter\Admin\Traits\ValidatesForm;
-use Igniter\Main\Facades\Auth;
+use Igniter\User\Facades\Auth;
+use Igniter\User\Models\Address;
 use Illuminate\Support\Facades\Redirect;
 
 class AddressBook extends \Igniter\System\Classes\BaseComponent

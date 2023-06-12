@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\User\Middleware;
+namespace Igniter\User\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Event;
