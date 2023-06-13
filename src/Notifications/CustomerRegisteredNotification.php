@@ -9,7 +9,7 @@ class CustomerRegisteredNotification extends Notification
 {
     public function getRecipients(): array
     {
-        return User::isEnabled()
+        return User::query()->isEnabled()
             ->whereIsSuperUser()
             ->get()->all();
     }
