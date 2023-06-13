@@ -3,6 +3,7 @@
 namespace Igniter\User\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRoleRequest extends FormRequest
 {
@@ -20,7 +21,9 @@ class UserRoleRequest extends FormRequest
     {
         return [
             'code' => ['string', 'between:2,32', 'alpha_dash'],
-            'name' => ['required', 'string', 'between:2,255', 'unique:admin_user_roles'],
+            'name' => ['required', 'string', 'between:2,255',
+                Rule::unique('admin_user_roles')->ignore($this->getRecordId(), 'user_role_id'),
+            ],
             'permissions' => ['required', 'array'],
             'permissions.*' => ['required', 'integer'],
         ];

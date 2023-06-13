@@ -3,6 +3,7 @@
 namespace Igniter\User\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -28,8 +29,12 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'between:2,255'],
-            'email' => ['required', 'max:96', 'email:filter', 'unique:admin_users,email'],
-            'username' => ['required', 'alpha_dash', 'between:2,32', 'unique:admin_users,username'],
+            'email' => ['required', 'max:96', 'email:filter',
+                Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
+            ],
+            'username' => ['required', 'alpha_dash', 'between:2,32',
+                Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
+            ],
             'password' => ['sometimes', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
             'status' => ['boolean'],
             'language_id' => ['nullable', 'integer'],
