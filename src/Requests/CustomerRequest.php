@@ -3,6 +3,7 @@
 namespace Igniter\User\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CustomerRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class CustomerRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'between:1,48'],
             'last_name' => ['required', 'string', 'between:1,48'],
-            'email' => ['required', 'email:filter', 'max:96', 'unique:customers,email'],
+            'email' => ['required', 'email:filter', 'max:96', Rule::unique('customers')->ignore($this->getRecordId(), 'customer_id')],
             'password' => ['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:_confirm_password'],
             'telephone' => ['sometimes', 'string'],
             'newsletter' => ['sometimes', 'required', 'boolean'],

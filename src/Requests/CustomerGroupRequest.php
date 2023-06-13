@@ -3,6 +3,7 @@
 namespace Igniter\User\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CustomerGroupRequest extends FormRequest
 {
@@ -18,7 +19,9 @@ class CustomerGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'group_name' => ['required', 'string', 'between:2,32'],
+            'group_name' => ['required', 'string', 'between:2,32',
+                Rule::unique('customer_groups')->ignore($this->getRecordId(), 'customer_group_id'),
+            ],
             'approval' => ['required', 'boolean'],
             'description' => ['string', 'between:2,512'],
         ];

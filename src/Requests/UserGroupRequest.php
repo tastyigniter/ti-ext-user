@@ -3,6 +3,7 @@
 namespace Igniter\User\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserGroupRequest extends FormRequest
 {
@@ -21,7 +22,9 @@ class UserGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_group_name' => ['required', 'string', 'between:2,255', 'unique:admin_user_groups'],
+            'user_group_name' => ['required', 'string', 'between:2,255',
+                Rule::unique('admin_user_groups')->ignore($this->getRecordId(), 'user_group_id'),
+            ],
             'description' => ['string'],
             'auto_assign' => ['required', 'boolean'],
             'auto_assign_mode' => ['required_if:auto_assign,true', 'integer', 'max:2'],
