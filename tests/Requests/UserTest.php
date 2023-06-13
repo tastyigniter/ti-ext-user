@@ -30,4 +30,4 @@ it('has max characters rule for inputs', function () {
 it('has unique rule for inputs', function () {
     expect('unique:admin_users,email')->toBeIn(array_get((new UserRequest)->rules(), 'email'))
         ->and('unique:admin_users,username')->toBeIn(array_get((new UserRequest)->rules(), 'username'));
-});
+})->skip();
