@@ -58,6 +58,6 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('users', 'system');
+        AdminMenu::setContext('settings', 'system');
     }
 }
