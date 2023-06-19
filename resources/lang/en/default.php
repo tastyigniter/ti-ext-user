@@ -39,7 +39,7 @@ return [
     'text_permission_user_groups' => 'Manage user groups',
     'text_permission_staffs' => 'Create, edit and delete administrators',
 
-    'text_side_menu_user' => 'Staff',
+    'text_side_menu_user' => 'Staff members',
     'text_side_menu_customer' => 'Customers',
     'text_side_menu_customer_group' => 'Groups',
     'text_side_menu_user_group' => 'Groups',
@@ -215,12 +215,12 @@ return [
     ],
 
     'staff' => [
-        'text_title' => 'User',
-        'text_form_name' => 'User',
+        'text_title' => 'Staff members',
+        'text_form_name' => 'Staff member',
         'text_filter_search' => 'Search by location, name or email.',
         'text_filter_role' => 'View all roles',
         'text_filter_group' => 'View all groups',
-        'text_empty' => 'There are no users available.',
+        'text_empty' => 'There are no staff members available.',
         'text_roles_scope_groups' => 'Scope, Roles and Groups',
         'text_sale_permission_global_access' => 'Global Access',
         'text_sale_permission_groups' => 'Groups',

@@ -7,6 +7,7 @@ use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Widgets\Menu;
 use Igniter\Flame\Igniter;
+use Igniter\Local\Models\Location;
 use Igniter\System\Models\Settings;
 use Igniter\System\Template\Extension\BladeExtension;
 use Igniter\User\Console\Commands\AllocatorCommand;
@@ -81,6 +82,10 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         });
 
         $this->registerAdminUserPanel();
+
+        Location::extend(function ($model) {
+            $model->relation['morphedByMany']['users'] = [User::class, 'name' => 'locationable'];
+        });
     }
 
     public function registerAutomationRules()
@@ -167,8 +172,8 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                 'user' => [
                     'label' => 'lang:igniter.user::default.text_tab_user',
                     'description' => 'lang:igniter.user::default.text_tab_desc_user',
-                    'icon' => 'fa fa-user',
-                    'priority' => 3,
+                    'icon' => 'fa fa-users-gear',
+                    'priority' => 2,
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/user'),
                     'form' => 'igniter.user::/models/usersettings',
