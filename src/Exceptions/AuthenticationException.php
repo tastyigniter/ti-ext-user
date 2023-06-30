@@ -2,6 +2,7 @@
 
 namespace Igniter\User\Exceptions;
 
+use Igniter\Admin\Facades\AdminHelper;
 use Illuminate\Auth\AuthenticationException as Exception;
 
 class AuthenticationException extends Exception

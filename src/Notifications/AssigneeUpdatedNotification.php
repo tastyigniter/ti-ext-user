@@ -45,7 +45,7 @@ class AssigneeUpdatedNotification extends Notification
 
         $causerName = ($user = auth()->user())
             ? $user->full_name
-            : lang('igniter::system.notifications.activity_system');
+            : lang('igniter::admin.text_system');
 
         $assigneeName = '';
         if ($this->subject->assignee) {

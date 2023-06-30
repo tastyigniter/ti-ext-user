@@ -11,14 +11,19 @@ class Notifications extends \Igniter\Admin\Classes\AdminController
     public $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\Notification::class,
-            'title' => 'lang:igniter::system.notifications.text_title',
-            'emptyMessage' => 'lang:igniter::system.notifications.text_empty',
+            'title' => 'lang:igniter.user::default.notifications.text_title',
+            'emptyMessage' => 'lang:igniter.user::default.notifications.text_empty',
             'defaultSort' => ['updated_at', 'DESC'],
             'configFile' => 'notification',
         ],
     ];
 
     protected $requiredPermissions = 'Admin.Notifications';
+
+    public static function getSlug()
+    {
+        return 'notifications';
+    }
 
     public function onMarkAsRead()
     {

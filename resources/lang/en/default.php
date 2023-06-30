@@ -327,4 +327,12 @@ return [
         'alert_customer_not_active' => "Cannot login user '%s' until activated.",
         'alert_customer_payment_profile_not_found' => 'Customer payment profile not found!',
     ],
+
+    'notifications' => [
+        'text_title' => 'Notifications',
+        'text_filter_search' => 'Search notifications...',
+        'text_empty' => 'There are no notifications available.',
+
+        'button_mark_as_read' => 'Mark all as read',
+    ],
 ];
