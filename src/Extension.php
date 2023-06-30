@@ -2,10 +2,9 @@
 
 namespace Igniter\User;
 
-use Igniter\Admin\Classes\MenuItem;
+use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
-use Igniter\Admin\Widgets\Menu;
 use Igniter\Flame\Igniter;
 use Igniter\Local\Models\Location;
 use Igniter\System\Models\Settings;
@@ -75,7 +74,6 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function boot()
     {
         $this->configureRateLimiting();
-        $this->defineMainMenuEventListeners();
 
         Event::listen('igniter.user.register', function (Customer $customer, array $data) {
             Notifications\CustomerRegisteredNotification::make()->subject($customer)->broadcast();
@@ -295,23 +293,6 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         });
     }
 
-    protected function defineMainMenuEventListeners()
-    {
-        Menu::extend(function (Menu $menu) {
-            $menu->bindEvent('menu.getUnreadCount', function (MenuItem $item, User $user) {
-                if ($item->itemName === 'notifications') {
-                    return $user->unreadNotifications()->count();
-                }
-            });
-
-            $menu->bindEvent('menu.markAsRead', function (MenuItem $item, User $user) {
-                if ($item->itemName === 'notifications') {
-                    return $user->unreadNotifications()->update(['read_at' => now()]);
-                }
-            });
-        });
-    }
-
     protected function registerAdminUserPanel()
     {
         if (!Igniter::runningInAdmin()) {
@@ -320,21 +301,28 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
         AdminMenu::registerCallback(function (Navigation $manager) {
             $manager->registerMainItems([
-                'notifications' => [
-                    'label' => 'lang:igniter::admin.text_activity_title',
-                    'icon' => 'fa-bell',
-                    'type' => 'dropdown',
-                    'priority' => 15,
-                    'options' => [\Igniter\User\Classes\UserPanel::class, 'listNotifications'],
-                    'partial' => 'notifications.latest',
-                    'permission' => 'Admin.Notifications',
-                ],
-                'user' => [
-                    'type' => 'partial',
-                    'path' => 'user_menu',
-                    'priority' => 999,
-                    'options' => [\Igniter\User\Classes\UserPanel::class, 'listMenuLinks'],
-                ],
+                MainMenuItem::widget('notifications', \Igniter\User\MainMenuWidgets\NotificationList::class)
+                    ->priority(15)
+                    ->permission('Admin.Notifications'),
+                MainMenuItem::widget('user', \Igniter\User\MainMenuWidgets\UserPanel::class)
+                    ->mergeConfig([
+                        'links' => [
+                            'account' => [
+                                'label' => 'igniter::admin.text_edit_details',
+                                'iconCssClass' => 'fa fa-user fa-fw',
+                                'url' => admin_url('users/account'),
+                                'priority' => 10,
+                            ],
+                            'logout' => [
+                                'label' => 'igniter::admin.text_logout',
+                                'cssClass' => 'text-danger',
+                                'iconCssClass' => 'fa fa-power-off fa-fw',
+                                'url' => admin_url('logout'),
+                                'priority' => 999,
+                            ],
+                        ],
+                    ])
+                    ->priority(999),
             ]);
         });
     }

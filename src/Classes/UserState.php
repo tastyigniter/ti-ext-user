@@ -24,7 +24,6 @@ class UserState
 
     protected $defaultStateConfig = [
         'status' => 1,
-        'isAway' => false,
         'awayMessage' => null,
         'updatedAt' => null,
         'clearAfterMinutes' => 0,
@@ -42,12 +41,32 @@ class UserState
 
     public function isAway()
     {
-        return (bool)$this->getConfig('isAway');
+        return $this->getStatus() !== static::ONLINE_STATUS;
+    }
+
+    public function isOnline()
+    {
+        return $this->getStatus() === static::ONLINE_STATUS;
+    }
+
+    public function isIdle()
+    {
+        return $this->getStatus() === static::BACK_SOON_STATUS;
     }
 
     public function getStatus()
     {
         return (int)$this->getConfig('status');
+    }
+
+    public function getStatusName()
+    {
+        $status = $this->getStatus();
+        if ($status === static::CUSTOM_STATUS) {
+            return $this->getMessage();
+        }
+
+        return array_get(static::getStatusDropdownOptions(), $status);
     }
 
     public function getMessage()
@@ -75,11 +94,6 @@ class UserState
             ->addMinutes($this->getClearAfterMinutes());
     }
 
-    public function getStatusColorName()
-    {
-        return $this->isAway() ? 'danger' : 'success';
-    }
-
     public static function getStatusDropdownOptions()
     {
         return [
@@ -104,11 +118,14 @@ class UserState
     //
     //
 
-    public function updateState(array $state = [])
+    public function updateState(string $status, string $message, int $clearAfterMinutes = 30)
     {
-        $state = array_merge($this->defaultStateConfig, $state);
-
-        UserPreference::onUser()->set(self::USER_PREFERENCE_KEY, $state);
+        UserPreference::onUser()->set(self::USER_PREFERENCE_KEY, array_merge($this->defaultStateConfig, [
+            'status' => $status,
+            'updatedAt' => now(),
+            'awayMessage' => e($message),
+            'clearAfterMinutes' => $clearAfterMinutes,
+        ]));
 
         $this->stateConfigCache = null;
     }

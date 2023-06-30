@@ -246,7 +246,7 @@ class Customer extends AuthUserModel
         $model->fill($attributes);
         $model->save();
 
-        if ($activate) {
+        if ($activate && !$model->is_activated) {
             $model->completeActivation($model->getActivationCode());
         }
 
