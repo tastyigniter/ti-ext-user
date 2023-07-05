@@ -208,13 +208,6 @@ class User extends AuthUserModel
     // Location
     //
 
-    public function hasLocationAccess($location)
-    {
-        return $this->locations->contains(function ($model) use ($location) {
-            return $model->location_id === $location->location_id;
-        });
-    }
-
     public function mailGetRecipients($type)
     {
         return [
