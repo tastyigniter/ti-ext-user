@@ -50,6 +50,10 @@ class Users extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'user',
     ];
 
+    public $locationConfig = [
+        'addAbsenceConstraint' => FALSE,
+    ];
+
     protected $requiredPermissions = 'Admin.Staffs';
 
     public static function getSlug()
