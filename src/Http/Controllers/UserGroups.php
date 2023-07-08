@@ -59,7 +59,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
     {
         parent::__construct();
 
-        AdminMenu::setContext('settings', 'system');
+        AdminMenu::setContext('users', 'system');
     }
 
     public function formAfterSave()
