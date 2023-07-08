@@ -51,7 +51,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     ];
 
     public $locationConfig = [
-        'addAbsenceConstraint' => FALSE,
+        'addAbsenceConstraint' => false,
     ];
 
     protected $requiredPermissions = 'Admin.Staffs';
