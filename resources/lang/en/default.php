@@ -54,6 +54,8 @@ return [
     'label_send_to' => 'Send To',
     'label_send_to_staff_group' => 'Send To User Group',
     'label_send_to_custom' => 'Send To Email Address',
+    'label_allow_registration' => 'Allow customer registration',
+    'label_registration_email' => 'Send Registration Email',
 
     'column_date' => 'Date/Time',
     'column_subject' => 'Subject',
