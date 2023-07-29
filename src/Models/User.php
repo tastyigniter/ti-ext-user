@@ -257,7 +257,7 @@ class User extends AuthUserModel
 
     protected function sendInviteGetTemplateCode(): string
     {
-        return 'igniter.admin::_mail.invite';
+        return 'igniter.user::mail.invite';
     }
 
     /**
