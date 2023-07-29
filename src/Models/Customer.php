@@ -219,7 +219,7 @@ class Customer extends AuthUserModel
 
     protected function sendInviteGetTemplateCode(): string
     {
-        return 'igniter.admin::_mail.invite_customer';
+        return 'igniter.user::mail.invite_customer';
     }
 
     public function mailGetRecipients($type)
