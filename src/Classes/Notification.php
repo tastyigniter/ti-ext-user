@@ -19,11 +19,11 @@ class Notification extends BaseNotification implements ShouldQueue
 
     protected string $message = '';
 
-    protected string|null $url = null;
+    protected ?string $url = null;
 
-    protected string|null $icon = null;
+    protected ?string $icon = null;
 
-    protected string|null $iconColor = null;
+    protected ?string $iconColor = null;
 
     public static function make(array $parameters = []): static
     {
