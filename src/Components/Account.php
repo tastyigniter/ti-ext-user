@@ -2,18 +2,15 @@
 
 namespace Igniter\User\Components;
 
-use Exception;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Cart\Facades\Cart;
 use Igniter\Flame\Exception\ApplicationException;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\User\Facades\Auth;
 use Igniter\User\Models\Customer;
 use Igniter\User\Models\CustomerGroup;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
 
 class Account extends \Igniter\System\Classes\BaseComponent
 {
@@ -162,102 +159,94 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
     public function onLogin()
     {
-        try {
-            $namedRules = [
-                ['email', 'lang:igniter.user::default.settings.label_email', 'required|email:filter|max:96'],
-                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:8|max:40'],
-                ['remember', 'lang:igniter.user::default.login.label_remember', 'integer'],
-            ];
+        $namedRules = [
+            ['email', 'lang:igniter.user::default.settings.label_email', 'required|email:filter|max:96'],
+            ['password', 'lang:igniter.user::default.login.label_password', 'required|min:8|max:40'],
+            ['remember', 'lang:igniter.user::default.login.label_remember', 'integer'],
+        ];
 
-            $this->validate(post(), $namedRules);
+        $this->validate(post(), $namedRules);
 
-            $remember = (bool)post('remember');
-            $credentials = [
-                'email' => post('email'),
-                'password' => post('password'),
-            ];
+        $remember = (bool)post('remember');
+        $credentials = [
+            'email' => post('email'),
+            'password' => post('password'),
+        ];
 
-            Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
+        Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
 
-            if (!Auth::attempt($credentials, $remember, true)) {
-                throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
-            }
+        if (!Auth::attempt($credentials, $remember, true)) {
+            throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
+        }
 
-            session()->regenerate();
+        session()->regenerate();
 
-            Event::fire('igniter.user.login', [$this], true);
+        Event::fire('igniter.user.login', [$this], true);
 
-            if ($redirect = input('redirect')) {
-                return Redirect::to($this->controller->pageUrl($redirect));
-            }
+        if ($redirect = input('redirect')) {
+            return Redirect::to($this->controller->pageUrl($redirect));
+        }
 
-            if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage'))) {
-                return Redirect::intended($redirectUrl);
-            }
-        } catch (ValidationException $ex) {
-            throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
+        if ($redirectUrl = $this->controller->pageUrl($this->property('redirectPage'))) {
+            return Redirect::intended($redirectUrl);
         }
     }
 
     public function onRegister()
     {
-        try {
-            if (!(bool)setting('allow_registration', true)) {
-                throw new ApplicationException(lang('igniter.user::default.login.alert_registration_disabled'));
-            }
+        if (!(bool)setting('allow_registration', true)) {
+            throw new ApplicationException(lang('igniter.user::default.login.alert_registration_disabled'));
+        }
 
-            $data = post();
+        $data = post();
 
-            $rules = [
-                ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
-                ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
-                ['email', 'lang:igniter.user::default.settings.label_email', 'required|email:filter|max:96|unique:customers,email'],
-                ['password', 'lang:igniter.user::default.login.label_password', 'required|min:6|max:32|same:password_confirm'],
-                ['password_confirm', 'lang:igniter.user::default.login.label_password_confirm', 'required'],
-                ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
-                ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
-            ];
+        $rules = [
+            ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
+            ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
+            ['email', 'lang:igniter.user::default.settings.label_email', 'required|email:filter|max:96|unique:customers,email'],
+            ['password', 'lang:igniter.user::default.login.label_password', 'required|min:6|max:32|same:password_confirm'],
+            ['password_confirm', 'lang:igniter.user::default.login.label_password_confirm', 'required'],
+            ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
+            ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
+        ];
 
-            if (strlen($this->getRegistrationTermsPageSlug())) {
-                $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
-            }
+        if (strlen($this->getRegistrationTermsPageSlug())) {
+            $rules[] = ['terms', 'lang:igniter.user::default.login.label_i_agree', 'required|integer'];
+        }
 
-            $this->validate($data, $rules);
+        $this->validate($data, $rules);
 
-            Event::fire('igniter.user.beforeRegister', [&$data]);
+        Event::fire('igniter.user.beforeRegister', [&$data]);
 
-            $data['status'] = true;
+        $data['status'] = true;
 
-            $customerGroup = CustomerGroup::getDefault();
-            $data['customer_group_id'] = $customerGroup->getKey();
-            $requireActivation = ($customerGroup && $customerGroup->requiresApproval());
-            $autoActivation = !$requireActivation;
+        $customerGroup = CustomerGroup::getDefault();
+        $data['customer_group_id'] = $customerGroup->getKey();
+        $requireActivation = ($customerGroup && $customerGroup->requiresApproval());
+        $autoActivation = !$requireActivation;
 
-            $customer = Auth::register(
-                array_except($data, ['password_confirm', 'terms']), $autoActivation
-            );
+        $customer = Auth::register(
+            array_except($data, ['password_confirm', 'terms']), $autoActivation
+        );
 
-            Event::fire('igniter.user.register', [$customer, $data]);
+        Event::fire('igniter.user.register', [$customer, $data]);
 
-            $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
+        $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
 
-            if ($requireActivation) {
-                $this->sendActivationEmail($customer);
-                flash()->success(lang('igniter.user::default.login.alert_account_activation'));
-                $redirectUrl = $this->controller->pageUrl($this->property('loginPage'));
-            }
+        if ($requireActivation) {
+            $this->sendActivationEmail($customer);
+            flash()->success(lang('igniter.user::default.login.alert_account_activation'));
+            $redirectUrl = $this->controller->pageUrl($this->property('loginPage'));
+        }
 
-            if (!$requireActivation) {
-                $this->sendRegistrationEmail($customer);
-                Auth::login($customer);
-                flash()->success(lang('igniter.user::default.login.alert_account_created'));
-            }
+        if (!$requireActivation) {
+            $this->sendRegistrationEmail($customer);
+            Auth::login($customer);
+            flash()->success(lang('igniter.user::default.login.alert_account_created'));
+        }
 
-            if ($redirectUrl = get('redirect', $redirectUrl)) {
-                return Redirect::intended($redirectUrl);
-            }
-        } catch (ValidationException $ex) {
-            throw new ApplicationException(implode(PHP_EOL, $ex->getErrors()->all()));
+        if ($redirectUrl = get('redirect', $redirectUrl)) {
+            return Redirect::intended($redirectUrl);
         }
     }
 
@@ -267,31 +256,25 @@ class Account extends \Igniter\System\Classes\BaseComponent
             return;
         }
 
-        try {
-            $rules = [
-                ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
-                ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
-                ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
-                ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
-            ];
+        $rules = [
+            ['first_name', 'lang:igniter.user::default.settings.label_first_name', 'required|between:1,48'],
+            ['last_name', 'lang:igniter.user::default.settings.label_last_name', 'required|between:1,48'],
+            ['telephone', 'lang:igniter.user::default.settings.label_telephone', 'required'],
+            ['newsletter', 'lang:igniter.user::default.login.label_subscribe', 'integer'],
+        ];
 
-            $data = $this->validate(post(), $rules);
+        $data = $this->validate(post(), $rules);
 
-            if (!array_key_exists('newsletter', $data)) {
-                $data['newsletter'] = 0;
-            }
-
-            $customer->fill($data);
-            $customer->save();
-
-            flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
-
-            return Redirect::back();
-        } catch (Exception $ex) {
-            flash()->warning($ex->getMessage());
-
-            return Redirect::back()->withInput();
+        if (!array_key_exists('newsletter', $data)) {
+            $data['newsletter'] = 0;
         }
+
+        $customer->fill($data);
+        $customer->save();
+
+        flash()->success(lang('igniter.user::default.settings.alert_updated_success'));
+
+        return Redirect::back();
     }
 
     public function onChangePassword()
@@ -329,34 +312,26 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
     public function onActivate($code = null)
     {
-        try {
-            $code = post('code', $code);
+        $code = post('code', $code);
 
-            $namedRules = [
-                ['code', 'lang:igniter.user::default.login.label_activation', 'required'],
-            ];
+        $namedRules = [
+            ['code', 'lang:igniter.user::default.login.label_activation', 'required'],
+        ];
 
-            $this->validate(['code' => $code], $namedRules);
+        $this->validate(['code' => $code], $namedRules);
 
-            $customer = Customer::whereActivationCode($code)->first();
-            if (!$customer || !$customer->completeActivation($code)) {
-                throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
-            }
-
-            $this->sendRegistrationEmail($customer);
-
-            Auth::login($customer);
-
-            $redirectUrl = $this->controller->pageUrl($this->property('accountPage'));
-
-            return Redirect::to($redirectUrl);
-        } catch (Exception $ex) {
-            if (Request::ajax()) {
-                throw $ex;
-            } else {
-                flash()->error($ex->getMessage());
-            }
+        $customer = Customer::whereActivationCode($code)->first();
+        if (!$customer || !$customer->completeActivation($code)) {
+            throw new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed'));
         }
+
+        $this->sendRegistrationEmail($customer);
+
+        Auth::login($customer);
+
+        $redirectUrl = $this->controller->pageUrl($this->property('accountPage'));
+
+        return Redirect::to($redirectUrl);
     }
 
     public function getActivationCode()
