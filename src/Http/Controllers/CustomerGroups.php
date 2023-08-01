@@ -19,6 +19,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter.user::default.customer_groups.text_empty',
             'defaultSort' => ['customer_group_id', 'DESC'],
             'configFile' => 'customergroup',
+            'back' => 'customers',
         ],
     ];
 
@@ -40,7 +41,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:admin::lang.form.preview_title',
-            'redirect' => 'customer_groups',
+            'back' => 'customer_groups',
         ],
         'delete' => [
             'redirect' => 'customer_groups',

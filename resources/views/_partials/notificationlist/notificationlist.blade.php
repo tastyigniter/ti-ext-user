@@ -2,14 +2,15 @@
   id="{{ $this->getId() }}"
   class="nav-item dropdown"
 >
-  <a
-    class="nav-link"
-    data-bs-toggle="dropdown"
-    data-bs-auto-close="outside"
-    data-bs-display="static"
-  >
-    <i class="fa fa-bell" role="button"></i>
-    <span @class([
+    <a
+        href="#"
+        class="nav-link"
+        data-bs-toggle="dropdown"
+        data-bs-auto-close="outside"
+        data-bs-display="static"
+    >
+        <i class="fa fa-bell" role="button"></i>
+        <span @class([
       'badge text-bg-danger',
       'hide' => !$unreadCount,
     ])>&nbsp;</span>

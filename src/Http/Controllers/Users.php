@@ -42,7 +42,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'users',
+            'back' => 'users',
         ],
         'delete' => [
             'redirect' => 'users',

@@ -57,9 +57,9 @@
             </div>
             <div class="modal-footer text-right">
                 <button
-                  type="button"
-                  class="btn btn-link"
-                  data-bs-dismiss="modal"
+                    type="button"
+                    class="btn btn-link fw-bold text-decoration-none"
+                    data-bs-dismiss="modal"
                 >@lang('igniter::admin.button_close')</button>
                 <button
                   type="submit"

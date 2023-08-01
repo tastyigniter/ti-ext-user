@@ -18,6 +18,7 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter.user::default.user_roles.text_empty',
             'defaultSort' => ['user_role_id', 'DESC'],
             'configFile' => 'userrole',
+            'back' => 'users',
         ],
     ];
 
@@ -39,7 +40,7 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'user_roles',
+            'back' => 'user_roles',
         ],
         'delete' => [
             'redirect' => 'user_roles',

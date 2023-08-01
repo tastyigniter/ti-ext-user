@@ -74,7 +74,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
             throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_status'));
         }
 
-        $this->userState->updateState($validated['status'], $validated['message'], $validated['clear_after']);
+        $this->userState->updateState($validated['status'], $validated['message'] ?? '', $validated['clear_after']);
 
         return [
             '~#'.$this->getId() => $this->render(),
