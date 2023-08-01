@@ -8,7 +8,7 @@
                 <span class="">
                     <a
                         class="btn btn-outline-default"
-                        href="{{ site_url('account/address', ['addressId' => $address->address_id]) }}"
+                        href="{{ page_url('account/address', ['addressId' => $address->address_id]) }}"
                     >@lang('igniter.user::default.account.text_edit')</a>
                     <button
                         type="button"

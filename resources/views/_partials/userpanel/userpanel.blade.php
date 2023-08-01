@@ -29,9 +29,6 @@
         >
           <i @class([
             'fa fa-circle fa-fw',
-            'text-success' => $userIsOnline,
-            'text-danger' => $userIsAway && !$userIsIdle,
-            'text-warning' => $userIsIdle
           ])></i>
           {{ lang($userStatusName ?: 'igniter::admin.text_set_status') }}
         </button>

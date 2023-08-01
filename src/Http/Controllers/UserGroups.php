@@ -19,6 +19,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
             'emptyMessage' => 'lang:igniter.user::default.user_groups.text_empty',
             'defaultSort' => ['user_group_id', 'DESC'],
             'configFile' => 'usergroup',
+            'back' => 'users',
         ],
     ];
 
@@ -40,7 +41,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
         ],
         'preview' => [
             'title' => 'lang:igniter::admin.form.preview_title',
-            'redirect' => 'user_groups',
+            'back' => 'user_groups',
         ],
         'delete' => [
             'redirect' => 'user_groups',
