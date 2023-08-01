@@ -2,12 +2,12 @@
 
 namespace Igniter\User\Http\Controllers;
 
+use function flash;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Facades\Auth;
-use function flash;
 use function lang;
 use function post;
 
