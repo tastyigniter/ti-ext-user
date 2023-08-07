@@ -40,7 +40,6 @@
                     value="{{ set_value('telephone', $customer->telephone) }}"
                     name="telephone"
                     data-control="country-code-picker"
-                    placeholder="@lang('igniter.user::default.settings.label_telephone')"
                 >
                 {!! form_error('telephone', '<span class="text-danger">', '</span>') !!}
             </div>
