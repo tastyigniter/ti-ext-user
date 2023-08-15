@@ -51,6 +51,7 @@ return [
     'text_send_to_customer_email' => 'Customer email address (if available)',
     'text_send_to_custom' => 'Specific email address',
     'text_send_to_staff_group' => 'Staff Group',
+    'text_send_to_customer_group' => 'Customer Group',
 
     'login' => [
         'label_password' => 'Password',
