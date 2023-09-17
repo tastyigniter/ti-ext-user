@@ -5,10 +5,10 @@ namespace Igniter\User\Components;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Cart\Facades\Cart;
 use Igniter\Flame\Exception\ApplicationException;
+use Igniter\User\Actions\LoginUser;
+use Igniter\User\Actions\RegisterUser;
 use Igniter\User\Facades\Auth;
 use Igniter\User\Models\Customer;
-use Igniter\User\Models\CustomerGroup;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
@@ -167,21 +167,13 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
         $this->validate(post(), $namedRules);
 
-        $remember = (bool)post('remember');
-        $credentials = [
-            'email' => post('email'),
-            'password' => post('password'),
-        ];
-
-        Event::fire('igniter.user.beforeAuthenticate', [$this, $credentials]);
-
-        if (!Auth::attempt($credentials, $remember, true)) {
-            throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
-        }
-
-        session()->regenerate();
-
-        Event::fire('igniter.user.login', [$this], true);
+        resolve(LoginUser::class, [
+            'credentials' => [
+                'email' => post('email'),
+                'password' => post('password'),
+            ],
+            'remember' => (bool)post('remember'),
+        ])->handle();
 
         if ($redirect = input('redirect')) {
             return Redirect::to($this->controller->pageUrl($redirect));
@@ -216,34 +208,25 @@ class Account extends \Igniter\System\Classes\BaseComponent
 
         $this->validate($data, $rules);
 
-        Event::fire('igniter.user.beforeRegister', [&$data]);
+        $action = resolve(RegisterUser::class);
+        $customer = $action->handle(array_except($data, ['password_confirm', 'terms']));
 
-        $data['status'] = true;
-
-        $customerGroup = CustomerGroup::getDefault();
-        $data['customer_group_id'] = $customerGroup->getKey();
-        $requireActivation = ($customerGroup && $customerGroup->requiresApproval());
-        $autoActivation = !$requireActivation;
-
-        $customer = Auth::register(
-            array_except($data, ['password_confirm', 'terms']), $autoActivation
-        );
-
-        Event::fire('igniter.user.register', [$customer, $data]);
-
-        $redirectUrl = $this->controller->pageUrl($this->property('redirectPage'));
-
-        if ($requireActivation) {
-            $this->sendActivationEmail($customer);
-            flash()->success(lang('igniter.user::default.login.alert_account_activation'));
-            $redirectUrl = $this->controller->pageUrl($this->property('loginPage'));
+        if ($customer->is_activated) {
+            $action->notifyRegistered(['account_login_link' => page_url($this->property('loginPage'))]);
+        } else {
+            $action->notifyActivated([
+                'account_activation_link' => $this->makeActivationUrl($customer->getActivationCode()),
+            ]);
         }
 
-        if (!$requireActivation) {
-            $this->sendRegistrationEmail($customer);
-            Auth::login($customer);
-            flash()->success(lang('igniter.user::default.login.alert_account_created'));
-        }
+        $redirectUrl = $customer->is_activated
+            ? $this->controller->pageUrl($this->property('redirectPage'))
+            : $this->controller->pageUrl($this->property('loginPage'));
+
+        flash()->success(lang($customer->is_activated
+            ? 'igniter.user::default.login.alert_account_created'
+            : 'igniter.user::default.login.alert_account_activation'
+        ));
 
         if ($redirectUrl = get('redirect', $redirectUrl)) {
             return Redirect::intended($redirectUrl);
