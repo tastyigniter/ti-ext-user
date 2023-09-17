@@ -11,8 +11,8 @@ use Igniter\System\Models\Concerns\Defaultable;
  */
 class CustomerGroup extends Model
 {
-    use HasFactory;
     use Defaultable;
+    use HasFactory;
 
     /**
      * @var string The database table name

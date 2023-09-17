@@ -19,10 +19,10 @@ use Igniter\User\Models\Concerns\SendsInvite;
 class User extends AuthUserModel
 {
     use HasFactory;
+    use Locationable;
     use Purgeable;
     use SendsInvite;
     use SendsMailTemplate;
-    use Locationable;
     use Switchable;
 
     const LOCATIONABLE_RELATION = 'locations';

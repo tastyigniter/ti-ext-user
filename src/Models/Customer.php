@@ -18,10 +18,10 @@ use Igniter\User\Models\Concerns\SendsInvite;
  */
 class Customer extends AuthUserModel
 {
-    use Purgeable;
-    use SendsMailTemplate;
-    use SendsInvite;
     use HasFactory;
+    use Purgeable;
+    use SendsInvite;
+    use SendsMailTemplate;
     use Switchable;
 
     /**
