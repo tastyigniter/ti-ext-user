@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Redirect;
 
 class Account extends \Igniter\System\Classes\BaseComponent
 {
-    use ValidatesForm;
     use \Igniter\Main\Traits\UsesPage;
+    use ValidatesForm;
 
     public function defineProperties()
     {

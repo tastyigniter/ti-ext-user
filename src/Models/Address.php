@@ -12,9 +12,9 @@ use Igniter\User\Models\Concerns\HasCustomer;
  */
 class Address extends Model
 {
-    use HasFactory;
     use HasCountry;
     use HasCustomer;
+    use HasFactory;
 
     /**
      * @var string The database table name

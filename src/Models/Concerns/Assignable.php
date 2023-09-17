@@ -131,7 +131,6 @@ trait Assignable
 
     /**
      * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param null $assignedTo
      * @return mixed
      */
     public function scopeFilterAssignedTo($query, $assignedTo = null)
