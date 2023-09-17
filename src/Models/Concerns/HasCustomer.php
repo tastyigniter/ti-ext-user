@@ -38,7 +38,7 @@ trait HasCustomer
 
     protected function customerIsSingleRelationType(): bool
     {
-        $relationType = $this->getRelationType($this->getCountryRelationName());
+        $relationType = $this->getRelationType($this->getCustomerRelationName());
 
         return in_array($relationType, ['hasOne', 'belongsTo', 'morphOne']);
     }
