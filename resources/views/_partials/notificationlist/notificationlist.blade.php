@@ -15,7 +15,7 @@
       'hide' => !$unreadCount,
     ])>&nbsp;</span>
   </a>
-  <ul class="dropdown-menu overflow-hidden">
+  <ul class="dropdown-menu dropdown-menu-end">
     <li class="dropdown-header">
       <div class="d-flex justify-content-between">
         <div class="flex-fill">@lang('igniter.user::default.notifications.text_title')</div>
