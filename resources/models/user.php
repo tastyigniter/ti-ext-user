@@ -100,7 +100,6 @@ $config['list']['columns'] = [
         'label' => 'lang:igniter::admin.label_email',
         'type' => 'text',
         'searchable' => true,
-        'invisible' => true,
     ],
     'user_group_name' => [
         'label' => 'lang:igniter.user::default.staff.column_group',
