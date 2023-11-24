@@ -128,6 +128,8 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     public function registerMailTemplates()
     {
         return [
+            'igniter.user::mail.admin_password_reset' => 'lang:igniter.user::default.text_mail_admin_password_reset',
+            'igniter.user::mail.admin_password_reset_request' => 'lang:igniter.user::default.text_mail_admin_password_reset_request',
             'igniter.user::mail.password_reset' => 'lang:igniter.user::default.text_mail_password_reset',
             'igniter.user::mail.password_reset_request' => 'lang:igniter.user::default.text_mail_password_reset_request',
             'igniter.user::mail.registration' => 'lang:igniter.user::default.text_mail_registration',
