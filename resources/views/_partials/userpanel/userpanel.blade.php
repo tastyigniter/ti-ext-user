@@ -15,8 +15,8 @@
         <img class="rounded-circle" src="{{ $avatarUrl.'&s=64' }}" alt="">
       </div>
       <div class="pb-3 text-center">
-        <div class="text-uppercase">{{ $userName }}</div>
-        <div class="text-muted">{{ $roleName }}</div>
+        <div class="h5 mb-0">{{ $userName }}</div>
+        <div class="text-muted small">{{ $roleName }}</div>
         <button
           @class([
             'btn btn-sm mt-2 px-3 rounded-4',
