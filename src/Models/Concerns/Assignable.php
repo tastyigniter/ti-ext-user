@@ -67,7 +67,7 @@ trait Assignable
         return $this->updateAssignTo($group);
     }
 
-    public function updateAssignTo(UserGroup $group = null, User $assignee = null)
+    public function updateAssignTo(?UserGroup $group = null, ?User $assignee = null)
     {
         if (is_null($group)) {
             $group = $this->assignee_group;
