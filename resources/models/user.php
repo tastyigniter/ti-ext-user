@@ -82,7 +82,7 @@ $config['list']['columns'] = [
     ],
     'impersonate' => [
         'type' => 'button',
-        'iconCssClass' => 'fa fa-user',
+        'iconCssClass' => 'fa fa-user-secret',
         'permissions' => 'Admin.Impersonate',
         'attributes' => [
             'class' => 'btn btn-outline-secondary',
