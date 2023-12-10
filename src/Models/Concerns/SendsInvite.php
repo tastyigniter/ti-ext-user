@@ -15,8 +15,8 @@ trait SendsInvite
 
         static::saved(function (Model $model) {
             $model->restorePurgedValues();
-            if ($model->send_invite && $templateCode = $model->sendInviteGetTemplateCode()) {
-                $model->sendInvite($templateCode);
+            if ($model->send_invite) {
+                $model->sendInvite();
             }
         });
     }
@@ -29,15 +29,18 @@ trait SendsInvite
         ));
     }
 
-    public function sendInvite(string $templateCode)
+    public function sendInvite()
     {
-        $this->bindEventOnce('model.mailGetData', function ($view, $recipientType) use ($templateCode) {
-            if ($view === $templateCode) {
-                $this->newQuery()->update([
-                    'reset_code' => $inviteCode = $this->generateResetCode(),
-                    'invited_at' => now(),
-                ]);
+        $templateCode = $this->sendInviteGetTemplateCode();
 
+        $this->newQuery()->where($this->getKeyName(), $this->getKey())->update([
+            'reset_code' => $inviteCode = $this->generateResetCode(),
+            'reset_time' => now(),
+            'invited_at' => now(),
+        ]);
+
+        $this->bindEventOnce('model.mailGetData', function ($view, $recipientType) use ($templateCode, $inviteCode) {
+            if ($view === $templateCode) {
                 return ['invite_code' => $inviteCode];
             }
         });
