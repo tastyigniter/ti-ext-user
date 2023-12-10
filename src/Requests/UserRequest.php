@@ -37,6 +37,7 @@ class UserRequest extends FormRequest
             ],
             'password' => ['sometimes', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
             'status' => ['boolean'],
+            'super_user' => ['boolean'],
             'language_id' => ['nullable', 'integer'],
             'user_role_id' => ['sometimes', 'required', 'integer'],
             'groups' => ['sometimes', 'required', 'array'],

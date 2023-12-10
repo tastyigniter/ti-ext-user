@@ -36,6 +36,6 @@ trait HasAuthentication
             $ability = implode(',', $ability);
         }
 
-        return app(Gate::class)->authorize($ability);
+        return app(Gate::class)->inspect($ability)->allowed();
     }
 }
