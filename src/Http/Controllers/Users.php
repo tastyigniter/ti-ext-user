@@ -74,7 +74,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
 
     public function account()
     {
-        $this->asExtension('LocationAwareController')->setConfig(['applyScopeOnFormQuery' => false]);
+        $this->asExtension('LocationAwareController')?->setConfig(['applyScopeOnFormQuery' => false]);
 
         $this->asExtension('FormController')->edit('account', $this->getUser()->getKey());
 
@@ -83,7 +83,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
 
     public function account_onSave()
     {
-        $this->asExtension('LocationAwareController')->setConfig(['applyScopeOnFormQuery' => false]);
+        $this->asExtension('LocationAwareController')?->setConfig(['applyScopeOnFormQuery' => false]);
 
         $result = $this->asExtension('FormController')->edit_onSave('account', $this->currentUser->user_id);
 
