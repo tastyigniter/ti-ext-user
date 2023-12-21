@@ -3,12 +3,17 @@
 namespace Igniter\User\Models\Concerns;
 
 use Igniter\Flame\Database\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait HasCustomer
 {
     public function scopeApplyCustomer(Builder $query, $customerId): Builder
     {
+        if ($customerId instanceof Model) {
+            $customerId = $customerId->getKey();
+        }
+
         $qualifiedColumnName = $this->getCustomerRelationObject()->getQualifiedForeignKeyName();
 
         if ($this->customerIsSingleRelationType()) {
