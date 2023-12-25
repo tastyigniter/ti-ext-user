@@ -3,7 +3,6 @@
 namespace Igniter\User\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
-use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
 
