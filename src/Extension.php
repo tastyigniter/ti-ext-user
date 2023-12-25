@@ -210,6 +210,10 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                 'label' => 'igniter.user::default.text_permission_staffs',
                 'group' => 'user',
             ],
+            'Admin.DeleteStaffs' => [
+                'label' => 'igniter.user::default.text_permission_delete_staffs',
+                'group' => 'user',
+            ],
         ];
     }
 

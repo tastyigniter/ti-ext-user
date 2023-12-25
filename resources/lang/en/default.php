@@ -39,7 +39,8 @@ return [
     'text_permission_impersonate_staff' => 'Ability to impersonate staff',
     'text_permission_impersonate_customers' => 'Ability to impersonate customers',
     'text_permission_user_groups' => 'Manage user groups',
-    'text_permission_staffs' => 'Create, edit and delete administrators',
+    'text_permission_staffs' => 'Create and edit administrators',
+    'text_permission_delete_staffs' => 'Ability to delete administrators',
 
     'text_side_menu_user' => 'Staff members',
     'text_side_menu_customer' => 'Customers',
