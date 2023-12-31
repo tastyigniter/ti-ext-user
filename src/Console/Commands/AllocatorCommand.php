@@ -17,13 +17,13 @@ class AllocatorCommand extends Command
      */
     public function handle(): void
     {
-        if (!$availableSlotCount = AllocatorCommand::countAvailableSlot()) {
+        if (!$availableSlotCount = self::countAvailableSlot()) {
             return;
         }
 
         AssignableLog::getUnAssignedQueue($availableSlotCount)
             ->lazy()
-            ->each(fn ($assignableLog) => AllocateAssignable::dispatch($assignableLog));
+            ->each(fn($assignableLog) => AllocateAssignable::dispatch($assignableLog));
     }
 
     public static function addSlot($slot)
