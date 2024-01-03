@@ -105,14 +105,7 @@ return [
         'notify_registered_account' => '<b>%s</b> created an account.',
     ],
 
-    'session' => [
-        'component_title' => 'Session Component',
-        'component_desc' => 'Adds auth session to a page and restricts page access.',
-    ],
-
     'account' => [
-        'component_title' => 'Account Component',
-        'component_desc' => 'Displays account dashboard',
         'text_heading' => 'Address Book',
         'text_my_account' => 'My Account',
         'text_edit_heading' => 'Address Book Edit',
@@ -135,9 +128,6 @@ return [
         'alert_deleted_success' => 'Address deleted successfully.',
     ],
     'reset' => [
-        'component_title' => 'Password Reset Component',
-        'component_desc' => 'Displays password reset form',
-
         'text_heading' => 'Account Password Reset',
         'text_summary' => 'Email address you use to log in to your account We\'ll send you an email with a new password.',
 
@@ -156,13 +146,7 @@ return [
         'alert_activation_failed' => 'Account activation failed, please try again.',
         'alert_no_email_match' => 'No matching email address',
     ],
-    'addressbook' => [
-        'component_title' => 'Account Address Book Component',
-        'component_desc' => 'Displays and manages account address book',
-    ],
     'settings' => [
-        'component_title' => 'Account Settings Component',
-        'component_desc' => 'Manages account settings',
         'text_heading' => 'My Details',
         'text_details' => 'Edit your details',
         'text_password_heading' => 'Change Password',
