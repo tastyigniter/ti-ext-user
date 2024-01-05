@@ -104,6 +104,9 @@ class Account extends \System\Classes\BaseComponent
             $this->onActivate($code);
 
         $this->prepareVars();
+
+        if ($this->page->getId() === $this->property('loginPage'))
+            $this->setIntendedUrl();
     }
 
     public function prepareVars()
@@ -426,5 +429,13 @@ class Account extends \System\Classes\BaseComponent
         }
 
         return $url;
+    }
+
+    protected function setIntendedUrl()
+    {
+        $previousUrl = url()->previous();
+        if (!session()->has('url.intended') && $previousUrl && $previousUrl !== url()->current()) {
+            session(['url.intended' => $previousUrl]);
+        }
     }
 }
