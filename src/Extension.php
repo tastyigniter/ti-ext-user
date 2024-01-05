@@ -8,7 +8,7 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Flame\Igniter;
 use Igniter\Local\Models\Location;
 use Igniter\System\Models\Settings;
-use Igniter\System\Template\Extension\BladeExtension;
+use Igniter\User\Classes\BladeExtension;
 use Igniter\User\Console\Commands\AllocatorCommand;
 use Igniter\User\Console\Commands\ClearUserStateCommand;
 use Igniter\User\Facades\Auth;
@@ -64,6 +64,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         AliasLoader::getInstance()->alias('Auth', \Igniter\User\Facades\Auth::class);
         AliasLoader::getInstance()->alias('AdminAuth', \Igniter\User\Facades\AdminAuth::class);
 
+        $this->registerBladeDirectives();
         $this->registerSystemSettings();
         $this->registerEventGlobalParams();
 
@@ -258,7 +259,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     protected function registerBladeDirectives()
     {
         $this->callAfterResolving('blade.compiler', function ($compiler, $app) {
-            (new BladeExtension())($compiler);
+            (new BladeExtension())->register();
         });
     }
 

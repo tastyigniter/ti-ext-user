@@ -2,7 +2,7 @@
 
 namespace Igniter\User\Actions;
 
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 
@@ -17,7 +17,7 @@ class LoginUser
         Event::fire('igniter.user.beforeAuthenticate', [$this, $this->credentials]);
 
         if (!Auth::attempt($this->credentials, $this->remember)) {
-            throw new ApplicationException(lang('igniter.user::default.login.alert_invalid_login'));
+            throw FlashException::error(lang('igniter.user::default.login.alert_invalid_login'));
         }
 
         session()->regenerate();

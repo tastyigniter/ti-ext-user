@@ -2,14 +2,16 @@
 
 namespace Igniter\User\Classes;
 
+use Illuminate\Support\Facades\Blade;
+
 class BladeExtension
 {
-    public function __invoke($compiler)
+    public function register()
     {
-        $compiler->directive('mainauth', [$this, 'compilesMainAuth']);
-        $compiler->directive('endmainauth', [$this, 'compilesEndMainAuth']);
-        $compiler->directive('adminauth', [$this, 'compilesAdminAuth']);
-        $compiler->directive('endadminauth', [$this, 'compilesEndAdminAuth']);
+        Blade::directive('mainauth', [$this, 'compilesMainAuth']);
+        Blade::directive('endmainauth', [$this, 'compilesEndMainAuth']);
+        Blade::directive('adminauth', [$this, 'compilesAdminAuth']);
+        Blade::directive('endadminauth', [$this, 'compilesEndAdminAuth']);
     }
 
     public function compilesMainAuth($expression)
