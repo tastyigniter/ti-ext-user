@@ -90,6 +90,11 @@ class Users extends \Igniter\Admin\Classes\AdminController
         $usernameChanged = $this->currentUser->username != post('User[username]');
         $passwordChanged = strlen(post('User[password]'));
         $languageChanged = $this->currentUser->language != post('User[language_id]');
+        $emailChanged = $this->currentUser->email != post('User[email]');
+        if ($emailChanged) {
+            AdminAuth::logout();
+            return redirect('/admin/login');
+        }
         if ($usernameChanged || $passwordChanged || $languageChanged) {
             $this->currentUser->reload()->reloadRelations();
             AdminAuth::login($this->currentUser, true);
