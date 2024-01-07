@@ -100,27 +100,27 @@ class Users extends \Igniter\Admin\Classes\AdminController
 
     public function index_onDelete()
     {
-        if (!$this->getUser()->hasPermission('Admin.DeleteStaffs')) {
-            throw new FlashException(lang('igniter::admin.alert_user_restricted'));
-        }
+        throw_unless($this->authorize('Admin.DeleteStaffs'),
+            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+        );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\ListController::class)->index_onDelete();
     }
 
     public function edit_onDelete($context, $recordId)
     {
-        if (!$this->getUser()->hasPermission('Admin.DeleteStaffs')) {
-            throw new FlashException(lang('igniter::admin.alert_user_restricted'));
-        }
+        throw_unless($this->authorize('Admin.DeleteStaffs'),
+            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+        );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\FormController::class)->edit_onDelete($context, $recordId);
     }
 
     public function onImpersonate($context, $recordId = null)
     {
-        if (!AdminAuth::user()->hasPermission('Admin.Impersonate')) {
-            throw new FlashException(lang('igniter.user::default.staff.alert_login_restricted'));
-        }
+        throw_unless($this->authorize('Admin.Impersonate'),
+            FlashException::error(lang('igniter.user::default.staff.alert_login_restricted'))
+        );
 
         $id = post('recordId', $recordId);
         if ($user = $this->formFindModelObject((int)$id)) {

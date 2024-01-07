@@ -3,10 +3,10 @@
 namespace Igniter\User\Models;
 
 use Carbon\Carbon;
-use Exception;
 use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\System\Models\Concerns\Switchable;
 use Igniter\System\Traits\SendsMailTemplate;
@@ -101,7 +101,7 @@ class Customer extends AuthUserModel
             return;
         }
 
-        throw new Exception(sprintf(
+        throw new SystemException(sprintf(
             lang('igniter.user::default.customers.alert_customer_not_active'), $this->email
         ));
     }

@@ -5,6 +5,7 @@ namespace Igniter\User\Auth\Models;
 use Carbon\Carbon;
 use Exception;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Models\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -253,7 +254,7 @@ class User extends Model implements Authenticatable
     public function completeActivation($activationCode)
     {
         if ($this->is_activated) {
-            throw new Exception('User is already active!');
+            throw new SystemException('User is already active!');
         }
 
         if ($activationCode == $this->activation_code) {

@@ -68,7 +68,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         Gate::after(function ($user, $ability) {
             if (Igniter::isAdminUser($user)) {
-                return $user->hasPermission($ability) === true ? true : null;
+                return $user->hasAnyPermission($ability) === true ? true : null;
             }
         });
     }

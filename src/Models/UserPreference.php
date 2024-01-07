@@ -2,8 +2,8 @@
 
 namespace Igniter\User\Models;
 
-use Exception;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Facades\AdminAuth;
 
 class UserPreference extends Model
@@ -42,7 +42,7 @@ class UserPreference extends Model
     {
         $user = AdminAuth::getUser();
         if (!$user) {
-            throw new Exception(lang('igniter::admin.alert_user_not_logged'));
+            throw new SystemException(lang('igniter::admin.alert_user_not_logged'));
         }
 
         return $user;

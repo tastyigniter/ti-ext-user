@@ -3,7 +3,7 @@
 namespace Igniter\User\MainMenuWidgets;
 
 use Igniter\Admin\Traits\ValidatesForm;
-use Igniter\Flame\Exception\ApplicationException;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Html\HtmlFacade;
 use Igniter\User\Classes\UserState;
 use Igniter\User\Models\User;
@@ -70,9 +70,9 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
             'clear_after' => 'required_if:status,'.UserState::CUSTOM_STATUS.'|integer',
         ]);
 
-        if ($validated['status'] < 1 && !strlen($validated['message'])) {
-            throw new ApplicationException(lang('igniter::admin.side_menu.alert_invalid_status'));
-        }
+        throw_if($validated['status'] < 1 && !strlen($validated['message']),
+            FlashException::error(lang('igniter::admin.side_menu.alert_invalid_status'))
+        );
 
         $this->userState->updateState($validated['status'], $validated['message'] ?? '', $validated['clear_after']);
 

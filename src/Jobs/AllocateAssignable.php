@@ -3,6 +3,7 @@
 namespace Igniter\User\Jobs;
 
 use Exception;
+use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Console\Commands\AllocatorCommand;
 use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\Concerns\Assignable;
@@ -52,7 +53,7 @@ class AllocateAssignable implements ShouldQueue
             AllocatorCommand::addSlot($this->assignableLog->getKey());
 
             if (!$assignee = $this->assignableLog->assignee_group->findAvailableAssignee()) {
-                throw new Exception(lang('igniter.user::default.user_groups.alert_no_available_assignee'));
+                throw new SystemException(lang('igniter.user::default.user_groups.alert_no_available_assignee'));
             }
 
             $this->assignableLog->assignable->assignTo($assignee);

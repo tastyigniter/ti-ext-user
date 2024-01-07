@@ -80,8 +80,8 @@ class PermissionManager
 
     public function checkPermission($permissions, $checkPermissions, $checkAll)
     {
-        $matched = false;
         foreach ($checkPermissions as $permission) {
+            $matched = false;
             if ($this->checkPermissionStartsWith($permission, $permissions)
                 || $this->checkPermissionEndsWith($permission, $permissions)
                 || $this->checkPermissionMatches($permission, $permissions)
