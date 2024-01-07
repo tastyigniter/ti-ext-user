@@ -101,46 +101,6 @@ parameters:
 			path: src/Auth/CustomerGuard.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:afterLogin\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:beforeLogin\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:checkRememberToken\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:fireEvent\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:updateRememberToken\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Manager.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$activated_at\\.$#"
 			count: 1
 			path: src/Auth/Models/User.php
@@ -269,111 +229,6 @@ parameters:
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Classes/UserState.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Facades\\\\Cart\\:\\:count\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Cart\\\\Facades\\\\Cart\\:\\:total\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:check\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getUser\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:login\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:logout\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:validateCredentials\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Customer\\:\\:whereActivationCode\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
-			count: 3
-			path: src/Components/Account.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\AddressBook\\:\\:pageCycle\\(\\)\\.$#"
-			count: 2
-			path: src/Components/AddressBook.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:customer\\(\\)\\.$#"
-			count: 5
-			path: src/Components/AddressBook.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Address\\:\\:find\\(\\)\\.$#"
-			count: 3
-			path: src/Components/AddressBook.php
-
-		-
-			message: "#^Call to an undefined method Igniter\\\\User\\\\Components\\\\ResetPassword\\:\\:currentPageUrl\\(\\)\\.$#"
-			count: 1
-			path: src/Components/ResetPassword.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Main\\\\Template\\\\Page\\:\\:lists\\(\\)\\.$#"
-			count: 2
-			path: src/Components/ResetPassword.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Customer\\:\\:whereEmail\\(\\)\\.$#"
-			count: 1
-			path: src/Components/ResetPassword.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Customer\\:\\:whereResetCode\\(\\)\\.$#"
-			count: 1
-			path: src/Components/ResetPassword.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
-			count: 1
-			path: src/Components/ResetPassword.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:check\\(\\)\\.$#"
-			count: 2
-			path: src/Components/Session.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getUser\\(\\)\\.$#"
-			count: 2
-			path: src/Components/Session.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:logout\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Session.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Components/Session.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Console\\\\Commands\\\\ClearUserStateCommand\\:\\:\\$defaultStateConfig\\.$#"
@@ -516,11 +371,6 @@ parameters:
 			path: src/Http/Controllers/Customers.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:impersonate\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/Customers.php
@@ -597,11 +447,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:stopImpersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/Users.php
 

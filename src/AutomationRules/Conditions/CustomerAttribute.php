@@ -2,8 +2,8 @@
 
 namespace Igniter\User\AutomationRules\Conditions;
 
+use Igniter\Automation\AutomationException;
 use Igniter\Automation\Classes\BaseModelAttributesCondition;
-use Igniter\Flame\Exception\ApplicationException;
 
 class CustomerAttribute extends BaseModelAttributesCondition
 {
@@ -45,7 +45,7 @@ class CustomerAttribute extends BaseModelAttributesCondition
     public function isTrue(&$params)
     {
         if (!$customer = array_get($params, 'customer')) {
-            throw new ApplicationException('Error evaluating the customer attribute condition: the customer object is not found in the condition parameters.');
+            throw new AutomationException('Error evaluating the customer attribute condition: the customer object is not found in the condition parameters.');
         }
 
         return $this->evalIsTrue($customer);

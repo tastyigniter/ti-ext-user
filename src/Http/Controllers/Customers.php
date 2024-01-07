@@ -4,8 +4,7 @@ namespace Igniter\User\Http\Controllers;
 
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
-use Igniter\Flame\Exception\ApplicationException;
-use Igniter\User\Facades\AdminAuth;
+use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\Auth;
 
 use function flash;
@@ -71,9 +70,9 @@ class Customers extends \Igniter\Admin\Classes\AdminController
 
     public function onImpersonate($context, $recordId = null)
     {
-        if (!AdminAuth::user()->hasPermission('Admin.ImpersonateCustomers')) {
-            throw new ApplicationException(lang('igniter.user::default.customers.alert_login_restricted'));
-        }
+        throw_unless($this->authorize('Admin.ImpersonateCustomers'),
+            FlashException::error(lang('igniter.user::default.customers.alert_login_restricted'))
+        );
 
         $id = post('recordId', $recordId);
         if ($customer = $this->formFindModelObject((int)$id)) {

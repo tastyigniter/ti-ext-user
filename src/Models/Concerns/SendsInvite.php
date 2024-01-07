@@ -3,7 +3,6 @@
 namespace Igniter\User\Models\Concerns;
 
 use Igniter\Flame\Database\Model;
-use Igniter\Flame\Exception\SystemException;
 
 trait SendsInvite
 {
@@ -23,7 +22,7 @@ trait SendsInvite
 
     protected function sendInviteGetTemplateCode(): string
     {
-        throw new SystemException(sprintf(
+        throw new \LogicException(sprintf(
             'The model [%s] must implement a sendInviteGetTemplateCode() method.',
             get_class($this)
         ));
