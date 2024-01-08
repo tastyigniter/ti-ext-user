@@ -8,6 +8,13 @@ use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
+
+    protected function getRecordId()
+    {
+         $slugName = ($slug = $this->route('slug'))
+            ? str_after($slug, '/') : null;
+         return $slugName == 'account' ? AdminAuth::id() : $slugName;
+    }
     public function attributes()
     {
         return [
@@ -31,10 +38,10 @@ class UserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'between:2,255'],
             'email' => ['required', 'max:96', 'email:filter',
-                Rule::unique('admin_users')->ignore(AdminAuth::id(), 'user_id'),
+                Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
             'username' => ['required', 'alpha_dash', 'between:2,32',
-                Rule::unique('admin_users')->ignore(AdminAuth::id(), 'user_id'),
+                Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
             'password' => ['sometimes', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
             'status' => ['boolean'],
