@@ -16,16 +16,12 @@ class AssigneeController extends ControllerAction
      *      'applyScopeOnListQuery'  => true',
      *      'applyScopeOnFormQuery'  => true',
      *  ];
-     * @var array
      */
-    public $assigneeConfig;
+    public array $assigneeConfig;
 
-    public $requiredProperties = [];
+    public array $requiredProperties = [];
 
-    /**
-     * @var array Required controller configuration array keys
-     */
-    protected $requiredConfig = [];
+    protected array $requiredConfig = [];
 
     /**
      * Assignee Controller constructor.
@@ -38,7 +34,7 @@ class AssigneeController extends ControllerAction
     {
         parent::__construct($controller);
 
-        $this->assigneeConfig = $controller->assigneeConfig;
+        $this->assigneeConfig = $controller->assigneeConfig ?? [];
 
         // Build configuration
         $this->setConfig($controller->assigneeConfig, $this->requiredConfig);
