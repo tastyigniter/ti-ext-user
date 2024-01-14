@@ -16,7 +16,6 @@ class AssigneeController extends ControllerAction
      *      'applyScopeOnListQuery'  => true',
      *      'applyScopeOnFormQuery'  => true',
      *  ];
-     * @var array
      */
     public array $assigneeConfig;
 
