@@ -50,7 +50,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'user',
     ];
 
-    public $locationConfig = [
+    public array $locationConfig = [
         'addAbsenceConstraint' => false,
     ];
 
@@ -95,6 +95,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
             AdminAuth::logout();
             return redirect('/logout');
         }
+
         if ($usernameChanged || $languageChanged) {
             $this->currentUser->reload()->reloadRelations();
             AdminAuth::login($this->currentUser, true);

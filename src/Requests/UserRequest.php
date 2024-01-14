@@ -8,13 +8,6 @@ use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
-
-    protected function getRecordId()
-    {
-         $slugName = ($slug = $this->route('slug'))
-            ? str_after($slug, '/') : null;
-         return $slugName == 'account' ? AdminAuth::id() : $slugName;
-    }
     public function attributes()
     {
         return [
@@ -53,5 +46,13 @@ class UserRequest extends FormRequest
             'groups.*' => ['integer'],
             'locations.*' => ['integer'],
         ];
+    }
+
+    protected function getRecordId(): string
+    {
+        $slugName = ($slug = $this->route('slug'))
+            ? str_after($slug, '/') : null;
+
+        return $slugName == 'account' ? AdminAuth::id() : $slugName;
     }
 }
