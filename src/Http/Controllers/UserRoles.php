@@ -6,12 +6,12 @@ use Igniter\Admin\Facades\AdminMenu;
 
 class UserRoles extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\UserRole::class,
             'title' => 'lang:igniter.user::default.user_roles.text_title',
@@ -22,7 +22,7 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter.user::default.user_roles.text_form_name',
         'model' => \Igniter\User\Models\UserRole::class,
         'request' => \Igniter\User\Requests\UserRoleRequest::class,
@@ -48,7 +48,7 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'userrole',
     ];
 
-    protected $requiredPermissions = 'Admin.Staffs';
+    protected null|string|array $requiredPermissions = 'Admin.Staffs';
 
     public static function getSlug()
     {

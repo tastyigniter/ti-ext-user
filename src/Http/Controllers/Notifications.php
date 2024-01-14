@@ -4,11 +4,11 @@ namespace Igniter\User\Http\Controllers;
 
 class Notifications extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\Notification::class,
             'title' => 'lang:igniter.user::default.notifications.text_title',
@@ -18,7 +18,7 @@ class Notifications extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    protected $requiredPermissions = 'Admin.Notifications';
+    protected null|string|array $requiredPermissions = 'Admin.Notifications';
 
     public static function getSlug()
     {

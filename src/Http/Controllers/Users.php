@@ -8,13 +8,13 @@ use Igniter\User\Facades\AdminAuth;
 
 class Users extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
         \Igniter\Local\Http\Actions\LocationAwareController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\User::class,
             'title' => 'lang:igniter.user::default.staff.text_title',
@@ -24,7 +24,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter.user::default.staff.text_form_name',
         'model' => \Igniter\User\Models\User::class,
         'request' => \Igniter\User\Requests\UserRequest::class,
@@ -54,7 +54,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
         'addAbsenceConstraint' => false,
     ];
 
-    protected $requiredPermissions = 'Admin.Staffs';
+    protected null|string|array $requiredPermissions = 'Admin.Staffs';
 
     public static function getSlug()
     {
