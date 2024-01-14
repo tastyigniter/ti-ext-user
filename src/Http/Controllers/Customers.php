@@ -13,12 +13,12 @@ use function post;
 
 class Customers extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\Customer::class,
             'title' => 'lang:igniter.user::default.customers.text_title',
@@ -28,7 +28,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter.user::default.customers.text_form_name',
         'model' => \Igniter\User\Models\Customer::class,
         'request' => \Igniter\User\Requests\CustomerRequest::class,
@@ -54,7 +54,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'customer',
     ];
 
-    protected $requiredPermissions = 'Admin.Customers';
+    protected null|string|array $requiredPermissions = 'Admin.Customers';
 
     public static function getSlug()
     {

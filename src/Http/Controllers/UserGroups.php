@@ -7,12 +7,12 @@ use Igniter\User\Models\UserGroup;
 
 class UserGroups extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\UserGroup::class,
             'title' => 'lang:igniter.user::default.user_groups.text_title',
@@ -23,7 +23,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter.user::default.user_groups.text_form_name',
         'model' => \Igniter\User\Models\UserGroup::class,
         'request' => \Igniter\User\Requests\UserGroupRequest::class,
@@ -49,7 +49,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'usergroup',
     ];
 
-    protected $requiredPermissions = 'Admin.StaffGroups';
+    protected null|string|array $requiredPermissions = 'Admin.StaffGroups';
 
     public static function getSlug()
     {

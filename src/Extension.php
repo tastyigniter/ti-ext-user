@@ -74,6 +74,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     public function boot()
     {
+        $this->defineRoutes();
         $this->configureRateLimiting();
 
         Event::listen('igniter.user.register', function (Customer $customer, array $data) {
@@ -100,7 +101,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         ];
     }
 
-    public function registerMailTemplates()
+    public function registerMailTemplates(): array
     {
         return [
             'igniter.user::mail.admin_password_reset' => 'lang:igniter.user::default.text_mail_admin_password_reset',
@@ -115,7 +116,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         ];
     }
 
-    public function registerNavigation()
+    public function registerNavigation(): array
     {
         return [
             'customers' => [
@@ -158,7 +159,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         });
     }
 
-    public function registerPermissions()
+    public function registerPermissions(): array
     {
         return [
             'Admin.CustomerGroups' => [
@@ -192,7 +193,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         ];
     }
 
-    public function registerFormWidgets()
+    public function registerFormWidgets(): array
     {
         return [
             \Igniter\User\FormWidgets\PermissionEditor::class => [
@@ -305,6 +306,17 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                     ])
                     ->priority(999),
             ]);
+        });
+    }
+
+    protected function defineRoutes()
+    {
+        if (app()->routesAreCached()) {
+            return;
+        }
+
+        Route::group([], function ($router) {
+            (new Classes\RouteRegistrar($router))->all();
         });
     }
 }

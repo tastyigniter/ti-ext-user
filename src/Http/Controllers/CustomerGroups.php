@@ -7,12 +7,12 @@ use Igniter\User\Models\CustomerGroup;
 
 class CustomerGroups extends \Igniter\Admin\Classes\AdminController
 {
-    public $implement = [
+    public array $implement = [
         \Igniter\Admin\Http\Actions\ListController::class,
         \Igniter\Admin\Http\Actions\FormController::class,
     ];
 
-    public $listConfig = [
+    public array $listConfig = [
         'list' => [
             'model' => \Igniter\User\Models\CustomerGroup::class,
             'title' => 'lang:igniter.user::default.customer_groups.text_title',
@@ -23,7 +23,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
         ],
     ];
 
-    public $formConfig = [
+    public array $formConfig = [
         'name' => 'lang:igniter.user::default.customer_groups.text_form_name',
         'model' => \Igniter\User\Models\CustomerGroup::class,
         'request' => \Igniter\User\Requests\CustomerGroupRequest::class,
@@ -49,7 +49,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
         'configFile' => 'customergroup',
     ];
 
-    protected $requiredPermissions = 'Admin.CustomerGroups';
+    protected null|string|array $requiredPermissions = 'Admin.CustomerGroups';
 
     public static function getSlug()
     {
