@@ -6,7 +6,6 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\Auth;
-
 use function flash;
 use function lang;
 use function post;
@@ -71,7 +70,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
     public function onImpersonate($context, $recordId = null)
     {
         throw_unless($this->authorize('Admin.ImpersonateCustomers'),
-            FlashException::error(lang('igniter.user::default.customers.alert_login_restricted'))
+            new FlashException(lang('igniter.user::default.customers.alert_login_restricted'))
         );
 
         $id = post('recordId', $recordId);
