@@ -5,10 +5,10 @@ namespace Igniter\User\Http\Controllers;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
-use Igniter\Flame\Exception\ValidationException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 class Login extends AdminController
 {
@@ -69,7 +69,7 @@ class Login extends AdminController
         ]);
 
         if (!AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
-            throw new ValidationException(['username' => lang('igniter::admin.login.alert_login_failed')]);
+            throw ValidationException::withMessages(['username' => lang('igniter::admin.login.alert_login_failed')]);
         }
 
         session()->regenerate();
@@ -89,7 +89,7 @@ class Login extends AdminController
 
         if ($user = User::whereEmail($data['email'])->first()) {
             if (!$user->resetPassword()) {
-                throw new ValidationException(['email' => lang('igniter::admin.login.alert_failed_reset')]);
+                throw ValidationException::withMessages(['email' => lang('igniter::admin.login.alert_failed_reset')]);
             }
             $data = [
                 'staff_name' => $user->name,
@@ -119,7 +119,7 @@ class Login extends AdminController
         $user = User::whereResetCode($code)->first();
 
         if (!$user || !$user->completeResetPassword($data['code'], $data['password'])) {
-            throw new ValidationException(['password' => lang('igniter::admin.login.alert_failed_reset')]);
+            throw ValidationException::withMessages(['password' => lang('igniter::admin.login.alert_failed_reset')]);
         }
 
         Mail::queueTemplate('igniter.user::mail.admin_password_reset', [
