@@ -50,31 +50,31 @@ trait GuardHelpers
      */
     public function impersonate($user)
     {
-        $oldSession = $this->session->get($this->getName());
-        $oldUser = !empty($oldSession[0]) ? $this->getById($oldSession[0]) : false;
+        $oldUserId = $this->session->get($this->getName()) ?? 0;
+        $oldUser = !empty($oldUserId) ? $this->getById($oldUserId) : null;
 
         $user->fireEvent('model.auth.beforeImpersonate', [$oldUser]);
         $this->login($user);
 
         if (!$this->isImpersonator()) {
-            $this->session->put($this->getName().'_impersonate', $oldSession);
+            $this->session->put($this->getName().'_impersonate', $oldUserId);
         }
     }
 
     public function stopImpersonate()
     {
-        $currentSession = $this->session->get($this->getName());
-        $currentUser = !empty($currentSession[0]) ? $this->getById($currentSession[0]) : false;
+        $currentUserId = $this->session->get($this->getName()) ?? 0;
+        $currentUser = !empty($currentUserId) ? $this->getById($currentUserId) : null;
 
-        $oldSession = $this->session->pull($this->getName().'_impersonate');
-        $oldUser = !empty($oldSession[0]) ? $this->getById($oldSession[0]) : false;
+        $oldUserId = $this->session->pull($this->getName().'_impersonate');
+        $oldUser = !empty($oldUserId) ? $this->getById($oldUserId) : null;
 
-        if ($currentUser) {
-            $currentUser->fireEvent('model.auth.afterImpersonate', [$oldUser]);
-        }
+        $currentUser?->fireEvent('model.auth.afterImpersonate', [$oldUser]);
 
-        if ($oldSession) {
-            $this->session->put($this->getName(), $oldSession);
+        $this->session->remove($this->getName());
+
+        if ($oldUser) {
+            $this->login($oldUser);
         }
     }
 
@@ -85,15 +85,11 @@ trait GuardHelpers
 
     public function getImpersonator()
     {
-        $impersonateArray = $this->session->get($this->getName().'_impersonate');
-
         // Check supplied session/cookie is an array (user id, persist code)
-        if (!is_array($impersonateArray) || count($impersonateArray) !== 2) {
+        if (!$userId = $this->session->get($this->getName().'_impersonate')) {
             return false;
         }
 
-        $id = $impersonateArray[0];
-
-        return $this->getById($id);
+        return $this->getById($userId);
     }
 }
