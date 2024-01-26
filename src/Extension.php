@@ -5,6 +5,7 @@ namespace Igniter\User;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Igniter;
 use Igniter\Local\Models\Location;
 use Igniter\System\Models\Settings;
@@ -85,6 +86,10 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
         Location::extend(function ($model) {
             $model->relation['morphedByMany']['users'] = [User::class, 'name' => 'locationable'];
+        });
+
+        Template::registerHook('endBody', function () {
+            return view('igniter.user::_partials.impersonate_banner');
         });
     }
 
