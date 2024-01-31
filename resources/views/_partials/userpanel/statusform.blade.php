@@ -11,7 +11,7 @@
         >
             <div class="modal-body">
                 <div class="form-group">
-                    <select class="form-select" name="status">
+                    <select data-control="selectlist" name="status">
                         @foreach($statuses as $key => $column)
                             <option
                               value="{{ $key }}"
