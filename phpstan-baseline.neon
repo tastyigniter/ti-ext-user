@@ -271,6 +271,11 @@ parameters:
 			path: src/Extension.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:registerHook\\(\\)\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:customer\\(\\)\\.$#"
 			count: 1
 			path: src/Extension.php
@@ -452,16 +457,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:check\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/LogUserLastSeen.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getId\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/LogUserLastSeen.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Middleware/LogUserLastSeen.php
 

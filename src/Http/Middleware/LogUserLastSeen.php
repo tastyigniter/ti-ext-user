@@ -13,11 +13,16 @@ class LogUserLastSeen
     public function handle($request, Closure $next)
     {
         if (Igniter::hasDatabase() && AdminAuth::check()) {
-            $cacheKey = 'is-online-user-'.AdminAuth::getId();
-            $expireAt = Carbon::now()->addMinutes(2);
-            Cache::remember($cacheKey, $expireAt, function () {
-                return AdminAuth::user()->updateLastSeen(Carbon::now()->addMinutes(5));
-            });
+            foreach (['admin.auth', 'main.auth'] as $authAlias) {
+                $authService = resolve($authAlias);
+                if ($authService->check()) {
+                    $cacheKey = 'is-online-'.str_replace('.', '-', $authAlias).'-user-'.$authService->getId();
+                    $expireAt = Carbon::now()->addMinutes(2);
+                    Cache::remember($cacheKey, $expireAt, function () use ($authService) {
+                        return $authService->user()->updateLastSeen(Carbon::now());
+                    });
+                }
+            }
         }
 
         return $next($request);
