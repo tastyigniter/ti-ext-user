@@ -68,6 +68,8 @@ class PermissionManager
                 ? strtolower($permission->group)
                 : 'Undefined group';
 
+            $permission->group ??= $group;
+
             if (!array_key_exists($group, $grouped)) {
                 $grouped[$group] = [];
             }
