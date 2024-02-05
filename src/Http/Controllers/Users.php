@@ -107,7 +107,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public function index_onDelete()
     {
         throw_unless($this->authorize('Admin.DeleteStaffs'),
-            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted'))
         );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\ListController::class)->index_onDelete();
@@ -116,7 +116,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public function edit_onDelete($context, $recordId)
     {
         throw_unless($this->authorize('Admin.DeleteStaffs'),
-            FlashException::error(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted'))
         );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\FormController::class)->edit_onDelete($context, $recordId);
@@ -125,7 +125,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public function onImpersonate($context, $recordId = null)
     {
         throw_unless($this->authorize('Admin.Impersonate'),
-            FlashException::error(lang('igniter.user::default.staff.alert_login_restricted'))
+            new FlashException(lang('igniter.user::default.staff.alert_login_restricted'))
         );
 
         $id = post('recordId', $recordId);

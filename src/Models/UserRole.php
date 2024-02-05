@@ -21,9 +21,6 @@ class UserRole extends Model
      */
     protected $primaryKey = 'user_role_id';
 
-    /**
-     * @var array The model table column to convert to dates on insert/update
-     */
     public $timestamps = true;
 
     public $relation = [

@@ -71,7 +71,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         ]);
 
         throw_if($validated['status'] < 1 && !strlen($validated['message']),
-            FlashException::error(lang('igniter::admin.side_menu.alert_invalid_status'))
+            new FlashException(lang('igniter::admin.side_menu.alert_invalid_status'))
         );
 
         $this->userState->updateState($validated['status'], $validated['message'] ?? '', $validated['clear_after']);

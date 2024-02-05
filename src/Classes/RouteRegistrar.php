@@ -16,7 +16,7 @@ class RouteRegistrar
     public function all()
     {
         $this->router
-            ->middleware('igniter')
+            ->middleware(config('igniter-routes.middleware', []))
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->group(function (Router $router) {

@@ -51,6 +51,8 @@ return [
     'text_logout' => 'Logout',
     'text_logged_in' => 'Already have an account? <a href="%s">Login Here</a>',
     'text_logged_out' => 'Welcome back <b>%s</b>, Not You? <a href="javascript:;" data-request="%s">Logout</a>',
+    'text_impersonating_user' => 'Impersonating user',
+    'text_leave' => 'Leave',
 
     'label_heading' => 'Heading:',
     'label_template' => 'Mail template',
@@ -71,6 +73,7 @@ return [
     'text_send_to_customer_email' => 'Customer email address (if available)',
     'text_send_to_custom' => 'Specific email address',
     'text_send_to_staff_group' => 'User Group',
+    'text_send_to_customer_group' => 'Customer Group',
     'text_tab_user' => 'Customer registration',
     'text_tab_desc_user' => 'Configure registration email confirmation ...',
 
@@ -153,6 +156,7 @@ return [
 
         'button_subscribe' => 'Subscribe',
         'button_back' => 'Back',
+        'button_delete' => 'Delete account',
         'button_save' => 'Save Details',
 
         'label_first_name' => 'First Name',
@@ -169,6 +173,8 @@ return [
         'error_password' => 'The %s you entered does not match.',
 
         'alert_updated_success' => 'Details updated successfully.',
+        'alert_deleted_success' => 'Account deleted successfully.',
+        'alert_delete_confirm' => 'Are you sure you want to delete your account? This cannot be undone.',
     ],
 
     'user_groups' => [
