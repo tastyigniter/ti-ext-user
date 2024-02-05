@@ -3,6 +3,7 @@
 namespace Igniter\User\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
@@ -45,5 +46,13 @@ class UserRequest extends FormRequest
             'groups.*' => ['integer'],
             'locations.*' => ['integer'],
         ];
+    }
+
+    protected function getRecordId(): string
+    {
+        $slugName = ($slug = $this->route('slug'))
+            ? str_after($slug, '/') : null;
+
+        return $slugName == 'account' ? AdminAuth::id() : $slugName;
     }
 }
