@@ -93,6 +93,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
         $emailChanged = $this->currentUser->email != post('User[email]');
         if ($emailChanged || $passwordChanged) {
             AdminAuth::logout();
+
             return redirect('/logout');
         }
 
