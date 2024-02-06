@@ -9,6 +9,7 @@ use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\System\Models\Concerns\Switchable;
+use Igniter\System\Models\Country;
 use Igniter\System\Traits\SendsMailTemplate;
 use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Models\Concerns\SendsInvite;
@@ -170,6 +171,9 @@ class Customer extends AuthUserModel
 
         $idsToKeep = [];
         foreach ($addresses as $address) {
+            if (!array_key_exists('country_id', $address))
+                $address['country_id'] = Country::getDefaultKey();
+
             $customerAddress = $this->addresses()->updateOrCreate(
                 array_only($address, ['address_id']),
                 array_except($address, ['address_id', 'customer_id'])
