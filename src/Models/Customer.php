@@ -171,8 +171,9 @@ class Customer extends AuthUserModel
 
         $idsToKeep = [];
         foreach ($addresses as $address) {
-            if (!array_key_exists('country_id', $address))
+            if (!array_key_exists('country_id', $address)) {
                 $address['country_id'] = Country::getDefaultKey();
+            }
 
             $customerAddress = $this->addresses()->updateOrCreate(
                 array_only($address, ['address_id']),
