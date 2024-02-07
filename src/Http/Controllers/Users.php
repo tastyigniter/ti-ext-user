@@ -135,6 +135,8 @@ class Users extends \Igniter\Admin\Classes\AdminController
             AdminAuth::impersonate($user);
             flash()->success(sprintf(lang('igniter.user::default.customers.alert_impersonate_success'), $user->name));
         }
+
+        return $this->redirect('dashboard');
     }
 
     public function listExtendQuery($query)
