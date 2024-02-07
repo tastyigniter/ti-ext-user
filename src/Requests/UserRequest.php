@@ -48,7 +48,7 @@ class UserRequest extends FormRequest
         ];
     }
 
-    protected function getRecordId(): string
+    protected function getRecordId(): ?string
     {
         $slugName = ($slug = $this->route('slug'))
             ? str_after($slug, '/') : null;
