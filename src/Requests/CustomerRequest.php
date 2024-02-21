@@ -38,11 +38,12 @@ class CustomerRequest extends FormRequest
             'newsletter' => ['sometimes', 'required', 'boolean'],
             'customer_group_id' => ['required', 'integer'],
             'status' => ['required', 'boolean'],
+            'addresses.*.address_id' => ['nullable', 'integer'],
             'addresses.*.address_1' => ['required', 'string', 'min:3', 'max:255'],
-            'addresses.*.address_2' => ['string'],
-            'addresses.*.city' => ['required', 'string', 'min:2', 'max:255'],
-            'addresses.*.state' => ['string', 'max:255'],
-            'addresses.*.postcode' => ['string'],
+            'addresses.*.address_2' => ['nullable', 'string'],
+            'addresses.*.city' => ['nullable', 'string', 'min:2', 'max:255'],
+            'addresses.*.state' => ['nullable', 'string', 'max:255'],
+            'addresses.*.postcode' => ['nullable', 'string'],
         ];
     }
 }

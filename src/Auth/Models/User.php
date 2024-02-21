@@ -3,7 +3,6 @@
 namespace Igniter\User\Auth\Models;
 
 use Carbon\Carbon;
-use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Models\Notification;
@@ -126,7 +125,7 @@ class User extends Model implements Authenticatable
 
     public function updateLastSeen($expireAt)
     {
-        return $this->update(['last_seen' => $expireAt]);
+        return $this->updateQuietly(['last_seen' => $expireAt]);
     }
 
     //
