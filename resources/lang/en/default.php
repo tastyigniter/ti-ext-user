@@ -49,8 +49,6 @@ return [
     'text_side_menu_user_role' => 'Roles',
 
     'text_logout' => 'Logout',
-    'text_logged_in' => 'Already have an account? <a href="%s">Login Here</a>',
-    'text_logged_out' => 'Welcome back <b>%s</b>, Not You? <a href="javascript:;" data-request="%s">Logout</a>',
     'text_impersonating_user' => 'Impersonating user',
     'text_leave' => 'Leave',
 
