@@ -36,7 +36,7 @@ trait HasCustomer
 
     protected function getCustomerRelationObject(): Relation
     {
-        $relationName = $this->locationableRelationName();
+        $relationName = $this->getCustomerRelationName();
 
         return $this->{$relationName}();
     }

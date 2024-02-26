@@ -13,7 +13,7 @@ class UserGuard extends \Illuminate\Auth\SessionGuard
 
     public function isSuperUser()
     {
-        return $this->user()->isSuperUser();
+        return $this->user()?->isSuperUser();
     }
 
     /**
@@ -29,7 +29,7 @@ class UserGuard extends \Illuminate\Auth\SessionGuard
      */
     public function locations()
     {
-        return $this->user()->locations;
+        return $this->user()?->locations;
     }
 
     //
@@ -43,22 +43,22 @@ class UserGuard extends \Illuminate\Auth\SessionGuard
 
     public function getUserName()
     {
-        return $this->user()->username;
+        return $this->user()?->username;
     }
 
     public function getUserEmail()
     {
-        return $this->user()->email;
+        return $this->user()?->email;
     }
 
     public function getStaffName()
     {
-        return $this->user()->name;
+        return $this->user()?->name;
     }
 
     public function getStaffEmail()
     {
-        return $this->user()->email;
+        return $this->user()?->email;
     }
 
     public function register(array $attributes, $activate = false)
