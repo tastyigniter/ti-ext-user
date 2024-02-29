@@ -37,8 +37,7 @@ class AllocatorCommand extends Command
             $slots[$item] = true;
         }
 
-        params()->set('allocator_slots', $slots);
-        params()->save();
+        setting()->setPref('allocator_slots', $slots);
     }
 
     public static function removeSlot($slot)
@@ -47,8 +46,7 @@ class AllocatorCommand extends Command
 
         unset($slots[$slot]);
 
-        params()->set('allocator_slots', $slots);
-        params()->save();
+        setting()->setPref('allocator_slots', $slots);
     }
 
     protected static function countAvailableSlot()

@@ -70,7 +70,7 @@ class UserGroup extends Model
 
     public static function syncAutoAssignStatus()
     {
-        params()->set('allocator_is_enabled',
+        setting()->setPref('allocator_is_enabled',
             self::query()->where('auto_assign', 1)->exists()
         );
     }
