@@ -21,10 +21,10 @@ In the admin user interface you can manage customers and their groups.
 
 | Name     | Page variable                | Description                                      |
 | -------- | ---------------------------- | ------------------------------------------------ |
-| Session | `@componentPartial('session')` | Manages the logged or guest user's session              |
-| Account | `@componentPartial('account')` | Provides the sign in form, registration form and update form |
-| ResetPassword | `@componentPartial('resetPassword')` | Allows a user to reset their password if they have forgotten it.               |
-| AddressBook | `@componentPartial('addressBook')` | Manages the users delivery addresses               |
+| Session | `@themeComponent('session')` | Manages the logged or guest user's session              |
+| Account | `@themeComponent('account')` | Provides the sign in form, registration form and update form |
+| ResetPassword | `@themeComponent('resetPassword')` | Allows a user to reset their password if they have forgotten it.               |
+| AddressBook | `@themeComponent('addressBook')` | Manages the users delivery addresses               |
 
 ### Session Component
 
@@ -97,7 +97,7 @@ permalink: /account
 '[account]': { }
 ---
 ...
-@componentPartial('account')
+@themeComponent('account')
 ...
 ```
 
@@ -111,7 +111,7 @@ permalink: /login
 '[account]': { }
 ---
 ...
-@componentPartial('account::login')
+@themeComponent('account::login')
 ...
 ```
 
@@ -126,7 +126,7 @@ permalink: /register
     agreeRegistrationTermsPage: 12
 ---
 ...
-@componentPartial('account::register')
+@themeComponent('account::register')
 ...
 ```
 
@@ -150,7 +150,7 @@ permalink: /forgot-password/:code?
 '[resetPassword]': { }
 ---
 ...
-@componentPartial('resetPassword')
+@themeComponent('resetPassword')
 ...
 ```
 
