@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\System\Models\Concerns\Switchable;
@@ -184,6 +185,29 @@ class Customer extends AuthUserModel
         }
 
         $this->addresses()->whereNotIn('address_id', $idsToKeep)->delete();
+    }
+
+    public function saveDefaultAddress(string|int $addressId)
+    {
+        throw_unless($this?->addresses()->find($addressId),
+            new ApplicationException('Address not found or does not belong to the customer')
+        );
+
+        $this->address_id = $addressId;
+        $this->save();
+
+        return $this;
+    }
+
+    public function deleteCustomerAddress(string|int $addressId)
+    {
+        throw_unless($address = $this?->addresses()->find($addressId),
+            new ApplicationException('Address not found or does not belong to the customer')
+        );
+
+        $address->delete();
+
+        return $address;
     }
 
     /**
