@@ -1,59 +1,59 @@
 {
-    "name": "tastyigniter/ti-ext-user",
-    "type": "tastyigniter-package",
-    "description": "Management of front-end users (customers) on TastyIgniter.",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Sam Poyigi",
-            "email": "sam@sampoyigi.com"
-        }
-    ],
-    "require": {
-        "tastyigniter/core": "dev-master",
-        "tastyigniter/ti-ext-automation": "*"
+  "name": "tastyigniter/ti-ext-user",
+  "type": "tastyigniter-package",
+  "description": "Management of front-end users (customers) on TastyIgniter.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sam Poyigi",
+      "email": "sam@sampoyigi.com"
+    }
+  ],
+  "require": {
+    "tastyigniter/core": "dev-master",
+    "tastyigniter/ti-ext-automation": "v4.x-dev as 4.0"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.2",
+    "nunomaduro/larastan": "^2.4.0",
+    "orchestra/testbench": "^8.5",
+    "pestphp/pest-plugin-laravel": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Igniter\\User\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Igniter\\User\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "tastyigniter-extension": {
+      "code": "igniter.user",
+      "name": "User",
+      "icon": {
+        "class": "fa fa-user",
+        "color": "#FFF",
+        "backgroundColor": "#3596DA"
+      },
+      "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/pest --coverage",
+    "format": "vendor/bin/pint",
+    "static": "vendor/bin/phpstan analyse --ansi --memory-limit 1056M"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "php-http/discovery": true,
+      "composer/installers": true
     },
-    "require-dev": {
-        "laravel/pint": "^1.2",
-        "nunomaduro/larastan": "^2.4.0",
-        "orchestra/testbench": "^8.5",
-        "pestphp/pest-plugin-laravel": "^2.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Igniter\\User\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Igniter\\User\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "tastyigniter-extension": {
-            "code": "igniter.user",
-            "name": "User",
-            "icon": {
-                "class": "fa fa-user",
-                "color": "#FFF",
-                "backgroundColor": "#3596DA"
-            },
-            "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint",
-        "static": "vendor/bin/phpstan analyse --ansi --memory-limit 1056M"
-    },
-    "config": {
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "php-http/discovery": true,
-            "composer/installers": true
-        },
-        "sort-packages": true
-    },
-    "minimum-stability": "dev"
+    "sort-packages": true
+  },
+  "minimum-stability": "dev"
 }
