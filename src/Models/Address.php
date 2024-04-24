@@ -46,6 +46,8 @@ class Address extends Model
 
     protected array $queryModifierSorts = ['address_id asc', 'address_id desc'];
 
+    protected $forceDeleting = false;
+
     public static function createOrUpdateFromRequest($address)
     {
         return self::updateOrCreate(
@@ -61,5 +63,33 @@ class Address extends Model
     public function getFormattedAddressAttribute($value)
     {
         return format_address($this->toArray(), false);
+    }
+
+    public function forceDelete()
+    {
+        $this->forceDeleting = true;
+
+        return tap($this->delete(), function ($deleted) {
+            $this->forceDeleting = false;
+        });
+    }
+
+    protected function performDeleteOnModel()
+    {
+        if ($this->forceDeleting) {
+            return tap($this->setKeysForSaveQuery($this->newModelQuery())->forceDelete(), function () {
+                $this->exists = false;
+            });
+        }
+
+        $query = $this->setKeysForSaveQuery($this->newModelQuery());
+
+        $columns = ['customer_id' => null];
+
+        $query->update($columns);
+
+        $this->syncOriginalAttributes(array_keys($columns));
+
+        return $this->runSoftDelete();
     }
 }
