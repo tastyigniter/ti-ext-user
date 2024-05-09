@@ -34,6 +34,7 @@ return [
     'text_mail_invite' => 'Invite email to staff to access the TastyIgniter Admin',
     'text_mail_invite_customer' => 'Invite email to customer to place an order',
 
+    'text_permission_group' => 'User',
     'text_permission_customer_groups' => 'Manage customer groups',
     'text_permission_customers' => 'Create, edit and delete customers',
     'text_permission_impersonate_staff' => 'Ability to impersonate staff',

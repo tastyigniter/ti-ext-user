@@ -169,31 +169,31 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         return [
             'Admin.CustomerGroups' => [
                 'label' => 'igniter.user::default.text_permission_customer_groups',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
             'Admin.Customers' => [
                 'label' => 'igniter.user::default.text_permission_customers',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
             'Admin.Impersonate' => [
                 'label' => 'igniter.user::default.text_permission_impersonate_staff',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
             'Admin.ImpersonateCustomers' => [
                 'label' => 'igniter.user::default.text_permission_impersonate_customers',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
             'Admin.StaffGroups' => [
                 'label' => 'igniter.user::default.text_permission_user_groups',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
             'Admin.Staffs' => [
                 'label' => 'igniter.user::default.text_permission_staffs',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
             'Admin.DeleteStaffs' => [
                 'label' => 'igniter.user::default.text_permission_delete_staffs',
-                'group' => 'user',
+                'group' => 'igniter.user::default.text_permission_group',
             ],
         ];
     }
