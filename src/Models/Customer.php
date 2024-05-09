@@ -284,4 +284,9 @@ class Customer extends AuthUserModel
 
         return $model;
     }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'main.users.'.$this->getKey();
+    }
 }

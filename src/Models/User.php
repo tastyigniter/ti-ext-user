@@ -328,4 +328,9 @@ class User extends AuthUserModel
 
         return $user->reload();
     }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'admin.users.'.$this->getKey();
+    }
 }
