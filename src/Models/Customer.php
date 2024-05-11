@@ -14,6 +14,7 @@ use Igniter\System\Models\Country;
 use Igniter\System\Traits\SendsMailTemplate;
 use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Models\Concerns\SendsInvite;
+use Illuminate\Support\Facades\Mail;
 
 /**
  * Customer Model Class
@@ -161,6 +162,15 @@ class Customer extends AuthUserModel
         $this->save();
 
         return $resetCode;
+    }
+
+    public function sendResetPasswordMail(array $vars = [])
+    {
+        Mail::queueTemplate('igniter.user::mail.password_reset_request', array_merge([
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'reset_code' => $this->reset_code,
+        ], $vars), $this);
     }
 
     public function saveAddresses($addresses)
