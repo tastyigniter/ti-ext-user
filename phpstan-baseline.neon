@@ -11,6 +11,21 @@ parameters:
 			path: src/Actions/LoginUser.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getUser\\(\\)\\.$#"
+			count: 1
+			path: src/Actions/LogoutUser.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:logout\\(\\)\\.$#"
+			count: 1
+			path: src/Actions/LogoutUser.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
+			count: 1
+			path: src/Actions/LogoutUser.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Actions\\\\RegisterUser\\:\\:\\$loginPage\\.$#"
 			count: 1
 			path: src/Actions/RegisterUser.php
@@ -567,7 +582,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$first_name\\.$#"
-			count: 2
+			count: 3
 			path: src/Models/Customer.php
 
 		-
@@ -587,7 +602,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$last_name\\.$#"
-			count: 2
+			count: 3
 			path: src/Models/Customer.php
 
 		-
@@ -597,7 +612,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$reset_code\\.$#"
-			count: 1
+			count: 2
 			path: src/Models/Customer.php
 
 		-
@@ -647,6 +662,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Customer\\:\\:whereIsEnabled\\(\\)\\.$#"
+			count: 1
+			path: src/Models/Customer.php
+
+		-
+			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Customer.php
 
