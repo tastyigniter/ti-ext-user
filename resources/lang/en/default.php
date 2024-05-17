@@ -92,7 +92,6 @@ return [
         'button_terms_agree' => 'I Agree',
         'button_subscribe' => 'Subscribe',
         'button_login' => 'Login',
-        'button_register' => 'Register',
 
         'error_email_exist' => 'The Email address already has an account, please log in',
 
@@ -109,7 +108,6 @@ return [
 
     'account' => [
         'text_heading' => 'Address Book',
-        'text_my_account' => 'My Account',
         'text_edit_heading' => 'Address Book Edit',
         'text_no_address' => 'You don\'t have any stored address(s)',
         'text_edit' => 'EDIT',
