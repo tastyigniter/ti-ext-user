@@ -65,7 +65,11 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
 
     public function index_onSetDefault()
     {
-        if (CustomerGroup::updateDefault(post('default'))) {
+        $data = $this->validate(post(), [
+            'default' => 'required|integer|exists:'.CustomerGroup::class.',customer_group_id',
+        ]);
+
+        if (CustomerGroup::updateDefault($data['default'])) {
             flash()->success(sprintf(lang('admin::lang.alert_success'), lang('igniter.user::default.customer_groups.alert_set_default')));
         }
 
