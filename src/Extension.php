@@ -78,17 +78,17 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         $this->defineRoutes();
         $this->configureRateLimiting();
 
-        Event::listen('igniter.user.register', function (Customer $customer, array $data) {
+        Event::listen('igniter.user.register', function(Customer $customer, array $data) {
             Notifications\CustomerRegisteredNotification::make()->subject($customer)->broadcast();
         });
 
         $this->registerAdminUserPanel();
 
-        Location::extend(function ($model) {
+        Location::extend(function($model) {
             $model->relation['morphedByMany']['users'] = [User::class, 'name' => 'locationable'];
         });
 
-        Template::registerHook('endBody', function () {
+        Template::registerHook('endBody', function() {
             return view('igniter.user::_partials.impersonate_banner');
         });
     }
@@ -135,7 +135,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             'system' => [
                 'child' => [
                     'users' => [
-                        'priority' => 0,
+                        'priority' => 1,
                         'class' => 'users',
                         'href' => admin_url('users'),
                         'title' => lang('igniter.user::default.text_side_menu_user'),
@@ -148,7 +148,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     public function registerSystemSettings()
     {
-        Settings::registerCallback(function (Settings $manager) {
+        Settings::registerCallback(function(Settings $manager) {
             $manager->registerSettingItems('core', [
                 'user' => [
                     'label' => 'lang:igniter.user::default.text_tab_user',
@@ -211,7 +211,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     protected function registerEventGlobalParams()
     {
         if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
-            resolve(\Igniter\Automation\Classes\EventManager::class)->registerCallback(function ($manager) {
+            resolve(\Igniter\Automation\Classes\EventManager::class)->registerCallback(function($manager) {
                 $manager->registerGlobalParams([
                     'customer' => Auth::customer(),
                 ]);
@@ -221,8 +221,8 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     protected function registerRequestRebindHandler()
     {
-        $this->app->rebinding('request', function ($app, $request) {
-            $request->setUserResolver(function () use ($app) {
+        $this->app->rebinding('request', function($app, $request) {
+            $request->setUserResolver(function() use ($app) {
                 if (!Igniter::runningInAdmin()) {
                     return $app['admin.auth']->getUser();
                 }
@@ -234,7 +234,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     protected function configureRateLimiting()
     {
-        RateLimiter::for('web', function (\Illuminate\Http\Request $request) {
+        RateLimiter::for('web', function(\Illuminate\Http\Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->getKey() ?: $request->ip());
         });
 
@@ -245,7 +245,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         $this->app->make(\Illuminate\Contracts\Http\Kernel::class)
             ->appendMiddlewareToGroup('web', \Igniter\User\Http\Middleware\ThrottleRequests::class);
 
-        Event::listen('igniter.user.beforeThrottleRequest', function ($request, $params) {
+        Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) {
             $handler = str_after($request->header('x-igniter-request-handler'), '::');
             if (in_array($handler, [
                 'onLogin',
@@ -264,18 +264,18 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     protected function registerBladeDirectives()
     {
-        $this->callAfterResolving('blade.compiler', function ($compiler, $app) {
+        $this->callAfterResolving('blade.compiler', function($compiler, $app) {
             (new BladeExtension())->register();
         });
     }
 
     protected function registerGuards(): void
     {
-        $this->app->singleton('main.auth', function () {
+        $this->app->singleton('main.auth', function() {
             return resolve('auth')->guard(config('igniter-auth.guards.web', 'web'));
         });
 
-        $this->app->singleton('admin.auth', function () {
+        $this->app->singleton('admin.auth', function() {
             return resolve('auth')->guard(config('igniter-auth.guards.admin', 'web'));
         });
     }
@@ -286,7 +286,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             return;
         }
 
-        AdminMenu::registerCallback(function (Navigation $manager) {
+        AdminMenu::registerCallback(function(Navigation $manager) {
             $manager->registerMainItems([
                 MainMenuItem::widget('notifications', \Igniter\User\MainMenuWidgets\NotificationList::class)
                     ->priority(15)
@@ -320,7 +320,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             return;
         }
 
-        Route::group([], function ($router) {
+        Route::group([], function($router) {
             (new Classes\RouteRegistrar($router))->all();
         });
     }
