@@ -130,7 +130,7 @@ class Customer extends AuthUserModel
 
     public function listAddresses()
     {
-        return $this->addresses()->get()->groupBy(function ($address) {
+        return $this->addresses()->get()->groupBy(function($address) {
             return $address->getKey();
         });
     }
@@ -228,32 +228,24 @@ class Customer extends AuthUserModel
      */
     public function saveCustomerGuestOrder()
     {
-        $query = false;
+        $update = ['customer_id' => $this->customer_id];
 
-        if (is_numeric($this->customer_id) && !empty($this->email)) {
-            $customer_id = $this->customer_id;
-            $customer_email = $this->email;
-            $update = ['customer_id' => $customer_id];
+        Reservation::where('email', $this->email)
+            ->whereNull('customer_id')
+            ->orWhere('customer_id', 0)
+            ->update($update);
 
-            Order::where('email', $customer_email)->update($update);
-            if ($orders = Order::where('email', $customer_email)->get()) {
-                foreach ($orders as $row) {
-                    if (empty($row['order_id'])) {
-                        continue;
-                    }
+        Order::where('email', $this->email)
+            ->whereNull('customer_id')
+            ->orWhere('customer_id', 0)
+            ->update($update);
 
-                    if ($row['order_type'] == '1' && !empty($row['address_id'])) {
-                        Address::where('address_id', $row['address_id'])->update($update);
-                    }
-                }
-            }
+        Address::whereIn('address_id', Order::where('email', $this->email)
+            ->whereNotNull('address_id')
+            ->pluck('address_id')->all()
+        )->update($update);
 
-            Reservation::where('email', $customer_email)->update($update);
-
-            $query = true;
-        }
-
-        return $query;
+        return true;
     }
 
     protected function sendInviteGetTemplateCode(): string
