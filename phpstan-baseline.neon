@@ -577,7 +577,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$email\\.$#"
-			count: 3
+			count: 6
 			path: src/Models/Customer.php
 
 		-
@@ -656,7 +656,7 @@ parameters:
 			path: src/Models/Customer.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Address\\:\\:where\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Address\\:\\:whereIn\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Customer.php
 
