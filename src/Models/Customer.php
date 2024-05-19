@@ -130,7 +130,7 @@ class Customer extends AuthUserModel
 
     public function listAddresses()
     {
-        return $this->addresses()->get()->groupBy(function($address) {
+        return $this->addresses()->get()->groupBy(function ($address) {
             return $address->getKey();
         });
     }
