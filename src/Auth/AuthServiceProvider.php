@@ -44,14 +44,14 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function configureAuthGuards()
     {
-        Auth::resolved(function ($auth) {
-            $auth->extend('igniter-admin', function ($app, $name, array $config) use ($auth) {
+        Auth::resolved(function($auth) {
+            $auth->extend('igniter-admin', function($app, $name, array $config) use ($auth) {
                 return $this->createGuard(UserGuard::class, $name, $config, $auth);
             });
         });
 
-        Auth::resolved(function ($auth) {
-            $auth->extend('igniter-customer', function ($app, $name, array $config) use ($auth) {
+        Auth::resolved(function($auth) {
+            $auth->extend('igniter-customer', function($app, $name, array $config) use ($auth) {
                 return $this->createGuard(CustomerGuard::class, $name, $config, $auth);
             });
         });
@@ -59,14 +59,14 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function configureAuthProvider()
     {
-        Auth::provider('igniter', function ($app, $config) {
+        Auth::provider('igniter', function($app, $config) {
             return new UserProvider($config);
         });
     }
 
     protected function configureGateCallback()
     {
-        Gate::after(function ($user, $ability) {
+        Gate::after(function($user, $ability) {
             if (Igniter::isAdminUser($user)) {
                 return $user->hasAnyPermission($ability) === true ? true : null;
             }

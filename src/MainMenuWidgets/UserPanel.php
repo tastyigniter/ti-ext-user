@@ -88,7 +88,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         NavigationExtendUserMenuLinksEvent::dispatch($items);
 
         return $items
-            ->mapWithKeys(function ($item, $code) {
+            ->mapWithKeys(function($item, $code) {
                 $item = array_merge([
                     'priority' => 999,
                     'label' => null,
@@ -108,7 +108,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
                     $code => (object)$item,
                 ];
             })
-            ->filter(function ($item) {
+            ->filter(function($item) {
                 return !($permission = array_get($item, 'permission')) || $this->user->hasPermission($permission);
             })
             ->sortBy('priority');

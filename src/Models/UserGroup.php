@@ -54,7 +54,7 @@ class UserGroup extends Model
         return self::select('user_group_id', 'user_group_name', 'description')
             ->get()
             ->keyBy('user_group_id')
-            ->map(function ($model) {
+            ->map(function($model) {
                 return [$model->user_group_name, $model->description];
             });
     }
@@ -93,7 +93,7 @@ class UserGroup extends Model
      */
     public function listAssignees()
     {
-        return $this->users->filter(function (User $user) {
+        return $this->users->filter(function(User $user) {
             return $user->isEnabled() && $user->canAssignTo();
         })->values();
     }
@@ -113,7 +113,7 @@ class UserGroup extends Model
 
         $logs = $query->pluck('assign_value', 'assignee_id');
 
-        $assignees = $this->listAssignees()->map(function (User $model) use ($logs) {
+        $assignees = $this->listAssignees()->map(function(User $model) use ($logs) {
             $model->assign_value = $logs[$model->getKey()] ?? 0;
 
             return $model;

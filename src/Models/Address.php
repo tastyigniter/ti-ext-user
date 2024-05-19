@@ -69,7 +69,7 @@ class Address extends Model
     {
         $this->forceDeleting = true;
 
-        return tap($this->delete(), function ($deleted) {
+        return tap($this->delete(), function($deleted) {
             $this->forceDeleting = false;
         });
     }
@@ -77,7 +77,7 @@ class Address extends Model
     protected function performDeleteOnModel()
     {
         if ($this->forceDeleting) {
-            return tap($this->setKeysForSaveQuery($this->newModelQuery())->forceDelete(), function () {
+            return tap($this->setKeysForSaveQuery($this->newModelQuery())->forceDelete(), function() {
                 $this->exists = false;
             });
         }

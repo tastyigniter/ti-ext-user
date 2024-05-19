@@ -48,7 +48,7 @@ class PermissionManager
             $this->registerPermissions($owner, $permissionBundle);
         }
 
-        usort($this->permissions, function ($a, $b) {
+        usort($this->permissions, function($a, $b) {
             if ($a->priority == $b->priority) {
                 return 0;
             }
