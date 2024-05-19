@@ -22,7 +22,7 @@ class ClearUserStateCommand extends Command
             ->where('value->status', UserState::CUSTOM_STATUS)
             ->where('value->clearAfterMinutes', '!=', 0)
             ->get()
-            ->each(function ($preference) {
+            ->each(function($preference) {
                 $state = json_decode($preference->value);
                 if (!$state->clearAfterMinutes) {
                     return true;

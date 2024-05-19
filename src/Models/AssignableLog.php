@@ -185,7 +185,7 @@ class AssignableLog extends Model
      */
     public function scopeWhereHasAutoAssignGroup($query)
     {
-        return $query->whereHas('assignee_group', function (Builder $query) {
+        return $query->whereHas('assignee_group', function(Builder $query) {
             $query->where('auto_assign', 1);
         });
     }

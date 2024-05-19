@@ -43,7 +43,7 @@ class AssigneeController extends ControllerAction
             'assigneeApplyScope',
         ]);
 
-        $this->controller->bindEvent('controller.beforeRemap', function () {
+        $this->controller->bindEvent('controller.beforeRemap', function() {
             if (!$this->controller->getUser()) {
                 return;
             }
@@ -78,7 +78,7 @@ class AssigneeController extends ControllerAction
         if (isset($this->controller->widgets['toolbar'])) {
             $toolbarWidget = $this->controller->widgets['toolbar'];
             if ($toolbarWidget instanceof Toolbar) {
-                $toolbarWidget->bindEvent('toolbar.extendButtons', function () use ($toolbarWidget) {
+                $toolbarWidget->bindEvent('toolbar.extendButtons', function() use ($toolbarWidget) {
                     $toolbarWidget->removeButton('delete');
                 });
             }
@@ -88,7 +88,7 @@ class AssigneeController extends ControllerAction
     protected function assigneeBindListsEvents()
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\ListController::class)) {
-            Event::listen('admin.list.extendQuery', function ($listWidget, $query) {
+            Event::listen('admin.list.extendQuery', function($listWidget, $query) {
                 if (!(bool)$this->getConfig('applyScopeOnListQuery', true)) {
                     return;
                 }
@@ -96,7 +96,7 @@ class AssigneeController extends ControllerAction
                 $this->assigneeApplyScope($query);
             });
 
-            Event::listen('admin.filter.extendScopesBefore', function ($widget) {
+            Event::listen('admin.filter.extendScopesBefore', function($widget) {
                 if (!$this->controller->getUser()->hasRestrictedAssignableScope()) {
                     return;
                 }
@@ -109,7 +109,7 @@ class AssigneeController extends ControllerAction
     protected function assigneeBindFormEvents()
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\FormController::class)) {
-            $this->controller->bindEvent('admin.controller.extendFormQuery', function ($query) {
+            $this->controller->bindEvent('admin.controller.extendFormQuery', function($query) {
                 if (!(bool)$this->getConfig('applyScopeOnFormQuery', true)) {
                     return;
                 }
@@ -117,7 +117,7 @@ class AssigneeController extends ControllerAction
                 $this->assigneeApplyScope($query);
             });
 
-            Event::listen('admin.form.extendFields', function (Form $widget) {
+            Event::listen('admin.form.extendFields', function(Form $widget) {
                 if (!is_a($widget->getController(), get_class($this->controller))) {
                     return;
                 }

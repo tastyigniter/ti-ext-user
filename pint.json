@@ -13,6 +13,10 @@
     "self_accessor": false,
     "phpdoc_separation": false,
     "phpdoc_align": false,
+    "function_declaration": {
+      "closure_function_spacing": "none",
+      "closure_fn_spacing": "none"
+    },
     "no_trailing_comma_in_singleline": false,
     "single_space_around_construct": false,
     "phpdoc_trim_consecutive_blank_line_separation": true,

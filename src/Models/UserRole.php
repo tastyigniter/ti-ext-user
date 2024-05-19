@@ -43,7 +43,7 @@ class UserRole extends Model
         return self::select('user_role_id', 'name', 'description')
             ->get()
             ->keyBy('user_role_id')
-            ->map(function ($model) {
+            ->map(function($model) {
                 return [$model->name, $model->description];
             });
     }

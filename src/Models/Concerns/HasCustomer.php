@@ -20,7 +20,7 @@ trait HasCustomer
             return $query->where($qualifiedColumnName, $customerId);
         }
 
-        return $query->whereHas($this->getCustomerRelationName(), function (Builder $query) use ($qualifiedColumnName, $customerId) {
+        return $query->whereHas($this->getCustomerRelationName(), function(Builder $query) use ($qualifiedColumnName, $customerId) {
             return $query->where($qualifiedColumnName, $customerId);
         });
     }

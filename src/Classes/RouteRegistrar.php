@@ -19,7 +19,7 @@ class RouteRegistrar
             ->middleware(config('igniter-routes.middleware', []))
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
-            ->group(function (Router $router) {
+            ->group(function(Router $router) {
                 $router->any('/', [Login::class, 'index'])->name('igniter.admin');
                 $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
                 $router->any('/login/reset/{slug?}', [Login::class, 'reset'])->name('igniter.admin.reset');

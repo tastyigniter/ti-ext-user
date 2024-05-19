@@ -12,7 +12,7 @@ trait Assignable
 {
     public static function bootAssignable()
     {
-        static::extend(function (self $model) {
+        static::extend(function(self $model) {
             $model->relation['belongsTo']['assignee'] = [\Igniter\User\Models\User::class];
             $model->relation['belongsTo']['assignee_group'] = [\Igniter\User\Models\UserGroup::class];
             $model->relation['morphMany']['assignable_logs'] = [
@@ -26,7 +26,7 @@ trait Assignable
             ]);
         });
 
-        self::saved(function (self $model) {
+        self::saved(function(self $model) {
             $model->performOnAssignableAssigned();
         });
     }
@@ -189,7 +189,7 @@ trait Assignable
      */
     public function scopeWhereHasAutoAssignGroup($query)
     {
-        return $query->whereHas('assignee_group', function (Builder $query) {
+        return $query->whereHas('assignee_group', function(Builder $query) {
             $query->where('auto_assign', 1);
         });
     }

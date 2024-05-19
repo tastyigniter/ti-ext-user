@@ -14,7 +14,7 @@ class Notification extends DatabaseNotification
 
     protected static function booted(): void
     {
-        static::created(function (self $model) {
+        static::created(function(self $model) {
             if (is_subclass_of($model->type, CriticalNotification::class)) {
                 $model->notifiable->notifications()
                     ->where('type', $model->type)
