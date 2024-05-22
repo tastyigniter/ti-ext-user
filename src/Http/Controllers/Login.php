@@ -92,7 +92,7 @@ class Login extends AdminController
             }
 
             $user->mailSendResetPasswordRequest([
-                'reset_link' => admin_url('login/reset?code='.$user->reset_code)
+                'reset_link' => admin_url('login/reset?code='.$user->reset_code),
             ]);
         }
 
