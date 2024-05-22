@@ -6,7 +6,6 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\Auth;
-
 use function flash;
 use function lang;
 use function post;
@@ -66,6 +65,24 @@ class Customers extends \Igniter\Admin\Classes\AdminController
         parent::__construct();
 
         AdminMenu::setContext('customers');
+    }
+
+    public function index_onDelete()
+    {
+        throw_unless($this->authorize('Admin.DeleteCustomers'),
+            new FlashException(lang('igniter::admin.alert_user_restricted'))
+        );
+
+        return $this->asExtension(\Igniter\Admin\Http\Actions\ListController::class)->index_onDelete();
+    }
+
+    public function edit_onDelete($context, $recordId)
+    {
+        throw_unless($this->authorize('Admin.DeleteCustomers'),
+            new FlashException(lang('igniter::admin.alert_user_restricted'))
+        );
+
+        return $this->asExtension(\Igniter\Admin\Http\Actions\FormController::class)->edit_onDelete($context, $recordId);
     }
 
     public function onImpersonate($context, $recordId = null)

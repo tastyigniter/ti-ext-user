@@ -20,30 +20,22 @@ trait SendsInvite
         });
     }
 
-    protected function sendInviteGetTemplateCode(): string
+    public function mailSendInvite(array $vars = [])
     {
         throw new \LogicException(sprintf(
-            'The model [%s] must implement a sendInviteGetTemplateCode() method.',
+            'The model [%s] must implement a sendsInviteGetTemplateCode() method.',
             get_class($this)
         ));
     }
 
     public function sendInvite()
     {
-        $templateCode = $this->sendInviteGetTemplateCode();
-
         $this->newQuery()->where($this->getKeyName(), $this->getKey())->update([
             'reset_code' => $inviteCode = $this->generateResetCode(),
             'reset_time' => now(),
             'invited_at' => now(),
         ]);
 
-        $this->bindEventOnce('model.mailGetData', function($view, $recipientType) use ($templateCode, $inviteCode) {
-            if ($view === $templateCode) {
-                return ['invite_code' => $inviteCode];
-            }
-        });
-
-        $this->mailSend($templateCode);
+        $this->mailSendInvite(['invite_code' => $inviteCode]);
     }
 }

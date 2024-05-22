@@ -145,18 +145,6 @@ class User extends AuthUserModel
         return $this->super_user == 1;
     }
 
-    /**
-     * Reset a user password,
-     */
-    public function resetPassword()
-    {
-        $this->reset_code = $resetCode = $this->generateResetCode();
-        $this->reset_time = Carbon::now();
-        $this->save();
-
-        return $resetCode;
-    }
-
     //
     // Permissions
     //
@@ -210,9 +198,15 @@ class User extends AuthUserModel
 
     public function mailGetRecipients($type)
     {
-        return [
-            [$this->email, $this->name],
-        ];
+        return match ($type) {
+            'staff' => [
+                [$this->email, $this->full_name],
+            ],
+            'admin' => [
+                [setting('site_email'), setting('site_name')]
+            ],
+            default => [],
+        };
     }
 
     public function mailGetData()
@@ -255,9 +249,27 @@ class User extends AuthUserModel
     // Helpers
     //
 
-    protected function sendInviteGetTemplateCode(): string
+    protected function mailSendInvite(array $vars = [])
     {
-        return 'igniter.user::mail.invite';
+        $this->mailSend('igniter.user::mail.invite', 'staff', $vars);
+    }
+
+    public function mailSendResetPasswordRequest(array $vars = [])
+    {
+        $vars = array_merge([
+            'reset_link' => null,
+        ], $vars);
+
+        $this->mailSend('igniter.user::mail.admin_password_reset_request', 'staff', $vars);
+    }
+
+    public function mailSendResetPassword(array $vars = [])
+    {
+        $vars = array_merge([
+            'login_link' => null,
+        ], $vars);
+
+        $this->mailSend('igniter.user::mail.admin_password_reset', 'staff', $vars);
     }
 
     /**
