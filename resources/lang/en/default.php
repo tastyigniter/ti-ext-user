@@ -36,12 +36,13 @@ return [
 
     'text_permission_group' => 'User',
     'text_permission_customer_groups' => 'Manage customer groups',
-    'text_permission_customers' => 'Create, edit and delete customers',
-    'text_permission_impersonate_staff' => 'Ability to impersonate staff',
+    'text_permission_customers' => 'Create and manage customers',
+    'text_permission_impersonate_staff' => 'Ability to impersonate staff members',
     'text_permission_impersonate_customers' => 'Ability to impersonate customers',
     'text_permission_user_groups' => 'Manage user groups',
-    'text_permission_staffs' => 'Create and edit administrators',
-    'text_permission_delete_staffs' => 'Ability to delete administrators',
+    'text_permission_staffs' => 'Create and manage staff members',
+    'text_permission_delete_staffs' => 'Ability to delete staff members',
+    'text_permission_delete_customers' => 'Ability to delete customers',
 
     'text_side_menu_user' => 'Staff members',
     'text_side_menu_customer' => 'Customers',

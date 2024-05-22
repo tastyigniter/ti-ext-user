@@ -44,7 +44,10 @@ class Address extends Model
         'customer' => 'applyCustomer',
     ];
 
-    protected array $queryModifierSorts = ['address_id asc', 'address_id desc'];
+    protected array $queryModifierSorts = [
+        'address_id asc', 'address_id desc',
+        'created_at asc', 'created_at desc',
+    ];
 
     protected $forceDeleting = false;
 

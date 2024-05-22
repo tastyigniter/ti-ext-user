@@ -2,7 +2,6 @@
 
 namespace Igniter\User\Models;
 
-use Carbon\Carbon;
 use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
@@ -14,7 +13,6 @@ use Igniter\System\Models\Country;
 use Igniter\System\Traits\SendsMailTemplate;
 use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Models\Concerns\SendsInvite;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * Customer Model Class
@@ -145,34 +143,6 @@ class Customer extends AuthUserModel
         return $this->pluckDates('created_at');
     }
 
-    /**
-     * Reset a customer password,
-     * new password is sent to registered email
-     *
-     * @return string Reset code
-     */
-    public function resetPassword()
-    {
-        if (!$this->enabled()) {
-            return false;
-        }
-
-        $this->reset_code = $resetCode = $this->generateResetCode();
-        $this->reset_time = Carbon::now();
-        $this->save();
-
-        return $resetCode;
-    }
-
-    public function sendResetPasswordMail(array $vars = [])
-    {
-        Mail::queueTemplate('igniter.user::mail.password_reset_request', array_merge([
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'reset_code' => $this->reset_code,
-        ], $vars), $this);
-    }
-
     public function saveAddresses($addresses)
     {
         $customerId = $this->getKey();
@@ -248,16 +218,68 @@ class Customer extends AuthUserModel
         return true;
     }
 
-    protected function sendInviteGetTemplateCode(): string
+    public function mailSendInvite(array $vars = [])
     {
-        return 'igniter.user::mail.invite_customer';
+        $this->mailSend('igniter.user::mail.invite_customer', 'customer', $vars);
+    }
+
+    public function mailSendResetPasswordRequest(array $vars = [])
+    {
+        $vars = array_merge([
+            'reset_link' => null,
+            'account_login_link' => null,
+        ], $vars);
+
+        $this->mailSend('igniter.user::mail.password_reset_request', 'customer', $vars);
+    }
+
+    public function mailSendResetPassword(array $vars = [])
+    {
+        $vars = array_merge([
+            'account_login_link' => null,
+        ], $vars);
+
+        $this->mailSend('igniter.user::mail.password_reset', 'customer', $vars);
+    }
+
+    public function mailSendRegistration(array $vars = [])
+    {
+        $vars = array_merge([
+            'account_login_link' => null,
+        ], $vars);
+
+        $settingRegistrationEmail = setting('registration_email');
+        is_array($settingRegistrationEmail) || $settingRegistrationEmail = [];
+
+        if (in_array('customer', $settingRegistrationEmail)) {
+            $this->mailSend('igniter.user::mail.registration', 'customer', $vars);
+        }
+
+        if (in_array('admin', $settingRegistrationEmail)) {
+            $this->mailSend('igniter.user::mail.registration_alert', 'admin', $vars);
+        }
+    }
+
+    public function mailSendEmailVerification(array $data)
+    {
+        $data = array_merge([
+            'account_activation_link' => null,
+        ], $data);
+
+        return $this->customer->mailSend('igniter.user::mail.activation', 'customer', $data);
     }
 
     public function mailGetRecipients($type)
     {
-        return [
-            [$this->email, $this->full_name],
-        ];
+        return match ($type) {
+            'customer' => [
+                [$this->email, $this->full_name],
+            ],
+            'admin' => [
+                [setting('site_email'), setting('site_name')]
+            ],
+            default => [],
+        };
     }
 
     public function mailGetData()

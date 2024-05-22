@@ -26,11 +26,6 @@ parameters:
 			path: src/Actions/LogoutUser.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Actions\\\\RegisterUser\\:\\:\\$loginPage\\.$#"
-			count: 1
-			path: src/Actions/RegisterUser.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:login\\(\\)\\.$#"
 			count: 2
 			path: src/Actions/RegisterUser.php
@@ -48,11 +43,6 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 2
-			path: src/Actions/RegisterUser.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
-			count: 3
 			path: src/Actions/RegisterUser.php
 
 		-
@@ -147,12 +137,12 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$reset_code\\.$#"
-			count: 3
+			count: 4
 			path: src/Auth/Models/User.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$reset_time\\.$#"
-			count: 3
+			count: 4
 			path: src/Auth/Models/User.php
 
 		-
@@ -376,11 +366,6 @@ parameters:
 			path: src/Http/Controllers/Login.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
-			count: 2
-			path: src/Http/Controllers/Login.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isImpersonator\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/Logout.php
@@ -571,6 +556,11 @@ parameters:
 			path: src/Models/Customer.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$customer\\.$#"
+			count: 1
+			path: src/Models/Customer.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$customer_id\\.$#"
 			count: 1
 			path: src/Models/Customer.php
@@ -582,7 +572,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$first_name\\.$#"
-			count: 3
+			count: 2
 			path: src/Models/Customer.php
 
 		-
@@ -602,21 +592,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$last_name\\.$#"
-			count: 3
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$password\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$reset_code\\.$#"
 			count: 2
 			path: src/Models/Customer.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$reset_time\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$password\\.$#"
 			count: 1
 			path: src/Models/Customer.php
 
@@ -662,11 +642,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Customer\\:\\:whereIsEnabled\\(\\)\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Mail\\:\\:queueTemplate\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Customer.php
 
@@ -736,6 +711,11 @@ parameters:
 			path: src/Models/User.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$full_name\\.$#"
+			count: 1
+			path: src/Models/User.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$language\\.$#"
 			count: 2
 			path: src/Models/User.php
@@ -752,21 +732,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$name\\.$#"
-			count: 5
+			count: 4
 			path: src/Models/User.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$password\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$reset_code\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$reset_time\\.$#"
 			count: 1
 			path: src/Models/User.php
 

@@ -7,7 +7,6 @@ use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class Login extends AdminController
@@ -91,11 +90,10 @@ class Login extends AdminController
             if (!$user->resetPassword()) {
                 throw ValidationException::withMessages(['email' => lang('igniter::admin.login.alert_failed_reset')]);
             }
-            $data = [
-                'staff_name' => $user->name,
-                'reset_link' => admin_url('login/reset?code='.$user->reset_code),
-            ];
-            Mail::queueTemplate('igniter.user::mail.admin_password_reset_request', $data, $user);
+
+            $user->mailSendResetPasswordRequest([
+                'reset_link' => admin_url('login/reset?code='.$user->reset_code)
+            ]);
         }
 
         flash()->success(lang('igniter::admin.login.alert_email_sent'));
@@ -122,9 +120,7 @@ class Login extends AdminController
             throw ValidationException::withMessages(['password' => lang('igniter::admin.login.alert_failed_reset')]);
         }
 
-        Mail::queueTemplate('igniter.user::mail.admin_password_reset', [
-            'staff_name' => $user->name,
-        ], $user);
+        $user->mailSendResetPassword(['login_link' => admin_url('login')]);
 
         flash()->success(lang('igniter::admin.login.alert_success_reset'));
 

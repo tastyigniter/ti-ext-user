@@ -158,6 +158,18 @@ class User extends Model implements Authenticatable
     //
 
     /**
+     * Reset a user password,
+     */
+    public function resetPassword()
+    {
+        $this->reset_code = $resetCode = $this->generateResetCode();
+        $this->reset_time = Carbon::now();
+        $this->save();
+
+        return $resetCode;
+    }
+
+    /**
      * Generate a unique hash for this order.
      * @return string
      */

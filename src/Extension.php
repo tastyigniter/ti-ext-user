@@ -175,6 +175,10 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                 'label' => 'igniter.user::default.text_permission_customers',
                 'group' => 'igniter.user::default.text_permission_group',
             ],
+            'Admin.DeleteCustomers' => [
+                'label' => 'igniter.user::default.text_permission_delete_customers',
+                'group' => 'igniter.user::default.text_permission_group',
+            ],
             'Admin.Impersonate' => [
                 'label' => 'igniter.user::default.text_permission_impersonate_staff',
                 'group' => 'igniter.user::default.text_permission_group',
