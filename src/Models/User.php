@@ -203,7 +203,7 @@ class User extends AuthUserModel
                 [$this->email, $this->full_name],
             ],
             'admin' => [
-                [setting('site_email'), setting('site_name')]
+                [setting('site_email'), setting('site_name')],
             ],
             default => [],
         };
