@@ -72,7 +72,7 @@ Auth::logout();
 
 #### Using the `LoginUser` action class
 
-For a streamlined approach to authenticating customers in TastyIgniter, you can utilize the `\Igniter\User\Actions\LoginUser` action class. This class mirrors the authentication process used by the default login form. It also dispatches two key events — `igniter.user.beforeAuthenticate` and `igniter.user.login` — which can be used to hook into the login process for custom behavior or integrations.
+For a streamlined approach to authenticating customers in TastyIgniter, you can use the `\Igniter\User\Actions\LoginUser` action class. This class mirrors the authentication process used by the default login form. It also dispatches two key events — `igniter.user.beforeAuthenticate` and `igniter.user.login` — which can be used to hook into the login process for custom behavior or integrations.
 
 ```php
 use Igniter\User\Actions\LoginUser;
@@ -146,7 +146,7 @@ AdminAuth::register($staffData);
 
 #### Using the `RegisterUser` action class
 
-For a streamlined approach to registering customers in TastyIgniter, you can utilize the `\Igniter\User\Actions\RegisterUser` action class. This class mirrors the registration process used by the default registration form. It also dispatches two key events — `igniter.user.beforeRegister` and `igniter.user.register` — which can be used to hook into the registration process for custom behavior or integrations.
+For a streamlined approach to registering customers in TastyIgniter, you can use the `\Igniter\User\Actions\RegisterUser` action class. This class mirrors the registration process used by the default registration form. It also dispatches two key events — `igniter.user.beforeRegister` and `igniter.user.register` — which can be used to hook into the registration process for custom behavior or integrations.
 
 ```php
 use Igniter\User\Actions\RegisterUser;
@@ -206,7 +206,7 @@ To complete the password reset process, you can use the `completeResetPassword` 
 
 ```php
 $customer = Customer::where('email', 'email@domain.tld')->first();
-$customer->completeResetPassword($resetCode, 'newpassword');
+$customer->completeResetPassword($resetCode, 'new-password');
 ```
 
 Using the `mailSendResetPassword` method, you can send a password changed email to the customer.
@@ -240,7 +240,7 @@ To complete the password reset process, you can use the `completeResetPassword` 
 
 ```php
 $user = User::where('email', 'admin@domain.tld')->first();
-$user->completeResetPassword($resetCode, 'newpassword');
+$user->completeResetPassword($resetCode, 'new-password');
 ```
 
 Using the `mailSendResetPassword` method, you can send a password changed email to the staff member.
