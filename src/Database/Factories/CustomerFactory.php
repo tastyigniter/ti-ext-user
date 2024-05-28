@@ -18,6 +18,7 @@ class CustomerFactory extends Factory
             'newsletter' => $this->faker->boolean(),
             'address_id' => $this->faker->numberBetween(1, 9999),
             'customer_group_id' => $this->faker->numberBetween(1, 9999),
+            'status' => '1',
             'is_activated' => $this->faker->boolean(),
             'ip_address' => $this->faker->ipv6(),
         ];

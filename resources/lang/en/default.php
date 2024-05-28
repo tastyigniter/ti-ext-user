@@ -74,6 +74,8 @@ return [
     'text_send_to_custom' => 'Specific email address',
     'text_send_to_staff_group' => 'User Group',
     'text_send_to_customer_group' => 'Customer Group',
+    'text_send_to_all_staff' => 'All Staff members',
+    'text_send_to_all_customer' => 'All Customers',
     'text_tab_user' => 'Customer registration',
     'text_tab_desc_user' => 'Configure registration email confirmation ...',
 
