@@ -25,7 +25,7 @@ class UserFactory extends Factory
 
     public function superUser(): self
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function(array $attributes) {
             return [
                 'super_user' => true,
             ];
