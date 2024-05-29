@@ -22,4 +22,13 @@ class UserFactory extends Factory
             'status' => $this->faker->boolean(),
         ];
     }
+
+    public function superUser(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'super_user' => true,
+            ];
+        });
+    }
 }
