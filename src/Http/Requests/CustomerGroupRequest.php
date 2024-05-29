@@ -1,6 +1,6 @@
 <?php
 
-namespace Igniter\User\Requests;
+namespace Igniter\User\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;

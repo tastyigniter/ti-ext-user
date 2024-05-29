@@ -2,7 +2,7 @@
 
 namespace Tests\Requests;
 
-use Igniter\User\Requests\CustomerGroupRequest;
+use Igniter\User\Http\Requests\CustomerGroupRequest;
 
 it('has rules for group_name field', function() {
     $rules = array_get((new CustomerGroupRequest)->rules(), 'group_name');

@@ -2,7 +2,7 @@
 
 namespace Tests\Requests;
 
-use Igniter\User\Requests\CustomerRequest;
+use Igniter\User\Http\Requests\CustomerRequest;
 
 it('has rules for first_name field', function() {
     $rules = array_get((new CustomerRequest)->rules(), 'first_name');

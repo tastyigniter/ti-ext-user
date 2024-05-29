@@ -2,7 +2,7 @@
 
 namespace Tests\Requests;
 
-use Igniter\User\Requests\UserGroupRequest;
+use Igniter\User\Http\Requests\UserGroupRequest;
 
 it('has required rule for inputs', function() {
     expect('required')->toBeIn(array_get((new UserGroupRequest)->rules(), 'user_group_name'))

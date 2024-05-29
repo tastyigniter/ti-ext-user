@@ -27,7 +27,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.staff.text_form_name',
         'model' => \Igniter\User\Models\User::class,
-        'request' => \Igniter\User\Requests\UserRequest::class,
+        'request' => \Igniter\User\Http\Requests\UserRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'users/edit/{user_id}',
