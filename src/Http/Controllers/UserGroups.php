@@ -26,7 +26,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.user_groups.text_form_name',
         'model' => \Igniter\User\Models\UserGroup::class,
-        'request' => \Igniter\User\Requests\UserGroupRequest::class,
+        'request' => \Igniter\User\Http\Requests\UserGroupRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'user_groups/edit/{user_group_id}',

@@ -2,7 +2,7 @@
 
 namespace Tests\Requests;
 
-use Igniter\User\Requests\UserRequest;
+use Igniter\User\Http\Requests\UserRequest;
 
 it('has required rule for inputs', function() {
     expect('required')->toBeIn(array_get((new UserRequest)->rules(), 'name'))

@@ -158,7 +158,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/user'),
                     'form' => 'igniter.user::/models/usersettings',
-                    'request' => \Igniter\User\Requests\UserSettingsRequest::class,
+                    'request' => \Igniter\User\Http\Requests\UserSettingsRequest::class,
                 ],
             ]);
         });
