@@ -125,7 +125,9 @@ class User extends Model implements Authenticatable
 
     public function updateLastSeen($expireAt)
     {
-        return $this->updateQuietly(['last_seen' => $expireAt]);
+        $this->newQuery()
+            ->whereKey($this->getKey())
+            ->update(['last_seen' => $expireAt]);
     }
 
     //

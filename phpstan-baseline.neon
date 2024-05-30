@@ -91,6 +91,16 @@ parameters:
 			path: src/Auth/CustomerGuard.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:afterLogin\\(\\)\\.$#"
+			count: 1
+			path: src/Auth/CustomerGuard.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:beforeLogin\\(\\)\\.$#"
+			count: 1
+			path: src/Auth/CustomerGuard.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:fireEvent\\(\\)\\.$#"
 			count: 1
 			path: src/Auth/CustomerGuard.php
@@ -172,6 +182,16 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$username\\.$#"
+			count: 1
+			path: src/Auth/UserGuard.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:afterLogin\\(\\)\\.$#"
+			count: 1
+			path: src/Auth/UserGuard.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:beforeLogin\\(\\)\\.$#"
 			count: 1
 			path: src/Auth/UserGuard.php
 
@@ -461,11 +481,6 @@ parameters:
 			path: src/Http/Controllers/Users.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:check\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/LogUserLastSeen.php
-
-		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Middleware/ThrottleRequests.php
@@ -541,6 +556,11 @@ parameters:
 			path: src/Models/AssignableLog.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$user_id\\.$#"
+			count: 1
+			path: src/Models/AssignableLog.php
+
+		-
 			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:whereHas\\(\\)\\.$#"
 			count: 1
 			path: src/Models/AssignableLog.php
@@ -593,6 +613,11 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
 			count: 2
+			path: src/Models/Customer.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$last_login\\.$#"
+			count: 1
 			path: src/Models/Customer.php
 
 		-
@@ -907,26 +932,21 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignable\\.$#"
-			count: 1
+			count: 4
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee\\.$#"
-			count: 1
+			count: 3
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$assignee_group\\.$#"
-			count: 1
+			count: 2
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$object\\.$#"
-			count: 1
-			path: src/Notifications/AssigneeUpdatedNotification.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$full_name\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$user\\.$#"
 			count: 1
 			path: src/Notifications/AssigneeUpdatedNotification.php
 

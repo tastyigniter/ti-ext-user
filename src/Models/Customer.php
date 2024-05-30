@@ -107,6 +107,12 @@ class Customer extends AuthUserModel
         ));
     }
 
+    public function afterLogin()
+    {
+        $this->last_login = now();
+        $this->saveQuietly();
+    }
+
     public function extendUserQuery($query)
     {
         $query->isEnabled();

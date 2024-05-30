@@ -3,9 +3,19 @@
 namespace Igniter\User\Auth;
 
 use Igniter\User\Auth\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 trait GuardHelpers
 {
+    public function login(AuthenticatableContract $user, $remember = false)
+    {
+        $user->beforeLogin();
+
+        parent::login($user, $remember);
+
+        $user->afterLogin();
+    }
+
     /**
      * @return \Illuminate\Contracts\Auth\Authenticatable|\Igniter\User\Auth\Models\User
      */

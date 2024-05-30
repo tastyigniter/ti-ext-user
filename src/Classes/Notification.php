@@ -71,7 +71,17 @@ class Notification extends BaseNotification implements ShouldQueue
 
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
-        return new BroadcastMessage($this->toArray($notifiable));
+        return new BroadcastMessage(array_map('strip_tags', $this->toArray($notifiable)));
+    }
+
+    public function databaseType(object $notifiable): string
+    {
+        return $this->getAlias();
+    }
+
+    public function broadcastType(): string
+    {
+        return $this->getAlias();
     }
 
     public function getRecipients(): array
@@ -144,5 +154,10 @@ class Notification extends BaseNotification implements ShouldQueue
     public function getIconColor(): ?string
     {
         return $this->iconColor;
+    }
+
+    public function getAlias(): string
+    {
+        return get_class($this);
     }
 }

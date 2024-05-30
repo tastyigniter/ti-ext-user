@@ -2,6 +2,7 @@
 
 namespace Igniter\User\Models\Concerns;
 
+use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
@@ -25,20 +26,6 @@ trait Assignable
                 'assignee_updated_at' => 'datetime',
             ]);
         });
-
-        self::saved(function(self $model) {
-            $model->performOnAssignableAssigned();
-        });
-    }
-
-    protected function performOnAssignableAssigned()
-    {
-        if (
-            $this->wasChanged('status_id')
-            && strlen($this->assignee_group_id)
-        ) {
-            AssignableLog::createLog($this);
-        }
     }
 
     //
@@ -49,25 +36,23 @@ trait Assignable
      * @param \Igniter\User\Models\User $assignee
      * @return bool
      */
-    public function assignTo($assignee)
+    public function assignTo($assignee, ?User $user = null)
     {
-        if (is_null($this->assignee_group)) {
-            return false;
-        }
+        throw_if(is_null($this->assignee_group), new FlashException('Assignee group is not set'));
 
-        return $this->updateAssignTo($this->assignee_group, $assignee);
+        return $this->updateAssignTo($this->assignee_group, $assignee, $user);
     }
 
     /**
      * @param \Igniter\User\Models\UserGroup $group
      * @return bool
      */
-    public function assignToGroup($group)
+    public function assignToGroup($group, ?User $user = null)
     {
-        return $this->updateAssignTo($group);
+        return $this->updateAssignTo($group, null, $user);
     }
 
-    public function updateAssignTo(?UserGroup $group = null, ?User $assignee = null)
+    public function updateAssignTo(?UserGroup $group = null, ?User $assignee = null, ?User $user = null)
     {
         if (is_null($group)) {
             $group = $this->assignee_group;
@@ -91,19 +76,20 @@ trait Assignable
 
         $this->save();
 
-        $log = AssignableLog::createLog($this);
+        $log = AssignableLog::createLog($this, $user);
 
         $this->fireSystemEvent('admin.assignable.assigned', [$log]);
 
         return $log;
     }
 
-    public function isAssignedToStaffGroup($staff)
+    public function cannotAssignToStaff($staff)
     {
-        return $staff
-            ->groups()
-            ->whereKey($this->assignee_group_id)
+        return $this->assignable_logs()
+            ->where('user_id', $staff->getKey())
+            ->where('assignee_group_id', $this->assignee_group_id)
             ->exists();
+
     }
 
     public function hasAssignTo()

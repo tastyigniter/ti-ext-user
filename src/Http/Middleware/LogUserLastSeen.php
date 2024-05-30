@@ -5,14 +5,13 @@ namespace Igniter\User\Http\Middleware;
 use Carbon\Carbon;
 use Closure;
 use Igniter\Flame\Igniter;
-use Igniter\User\Facades\AdminAuth;
 use Illuminate\Support\Facades\Cache;
 
 class LogUserLastSeen
 {
     public function handle($request, Closure $next)
     {
-        if (Igniter::hasDatabase() && AdminAuth::check()) {
+        if (Igniter::hasDatabase()) {
             foreach (['admin.auth', 'main.auth'] as $authAlias) {
                 $authService = resolve($authAlias);
                 if ($authService->check()) {
