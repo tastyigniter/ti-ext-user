@@ -10,12 +10,18 @@ class AssigneeUpdatedNotification extends Notification
     public function getRecipients(): array
     {
         $recipients = [];
-        foreach ($this->subject->assignable->listGroupAssignees() as $assignee) {
-            if (auth()->user() && $assignee->getKey() === auth()->user()->getKey()) {
-                continue;
-            }
+        if (!$this->subject->assignee && $this->subject->assignee_group) {
+            foreach ($this->subject->assignable->listGroupAssignees() as $assignee) {
+                if (auth()->user() && $assignee->getKey() === auth()->user()->getKey()) {
+                    continue;
+                }
 
-            $recipients[] = $assignee;
+                $recipients[] = $assignee;
+            }
+        }
+
+        if ($this->subject->assignee) {
+            $recipients[] = $this->subject->assignee;
         }
 
         return $recipients;
@@ -23,40 +29,39 @@ class AssigneeUpdatedNotification extends Notification
 
     public function getTitle(): string
     {
-        $context = $this->subject instanceof Order ? 'orders' : 'reservations';
-
-        return lang('igniter::admin.'.$context.'.notify_assigned_title');
+        return $this->subject->assignable instanceof Order
+            ? lang('igniter.cart::default.orders.notify_assigned_title')
+            : lang('igniter.reservation::default.notify_assigned_title');
     }
 
     public function getUrl(): string
     {
-        $url = $this->subject instanceof Order ? 'orders' : 'reservations';
-        if ($this->subject) {
-            $url .= '/edit/'.$this->subject->getKey();
-        }
+        $url = $this->subject->assignable instanceof Order ? 'orders' : 'reservations';
+        $url .= '/edit/'.$this->subject->assignable->getKey();
 
         return admin_url($url);
     }
 
     public function getMessage(): string
     {
-        $context = $this->subject instanceof Order ? 'orders' : 'reservations';
-        $lang = lang('igniter::admin.'.$context.'.notify_assigned');
+        $lang = $this->subject->assignable instanceof Order
+            ? lang('igniter.cart::default.orders.notify_assigned')
+            : lang('igniter.reservation::default.notify_assigned');
 
-        $causerName = ($user = auth()->user())
-            ? $user->full_name
+        $causerName = $this->subject->user
+            ? $this->subject->user->full_name
             : lang('igniter::admin.text_system');
 
         $assigneeName = '';
         if ($this->subject->assignee) {
-            $assigneeName = $this->subject->assignee->full_name;
+            $assigneeName = lang('igniter::admin.text_you');
         } elseif ($this->subject->assignee_group) {
             $assigneeName = $this->subject->assignee_group->user_group_name;
         }
 
         return sprintf($lang,
             $causerName,
-            optional($this->subject->object)->getKey(),
+            $this->subject->assignable->getKey(),
             $assigneeName,
         );
     }
@@ -64,5 +69,10 @@ class AssigneeUpdatedNotification extends Notification
     public function getIcon(): ?string
     {
         return 'fa-clipboard-user';
+    }
+
+    public function getAlias(): string
+    {
+        return 'assignee-updated';
     }
 }

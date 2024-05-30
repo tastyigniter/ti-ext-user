@@ -38,4 +38,9 @@ class CustomerRegisteredNotification extends Notification
     {
         return 'fa-user';
     }
+
+    public function getAlias(): string
+    {
+        return 'customer-registered';
+    }
 }
