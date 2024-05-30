@@ -32,6 +32,7 @@ class AssignableLog extends Model
 
     public $relation = [
         'belongsTo' => [
+            'user' => \Igniter\User\Models\User::class,
             'assignee' => \Igniter\User\Models\User::class,
             'assignee_group' => \Igniter\User\Models\UserGroup::class,
             'status' => \Igniter\Admin\Models\Status::class,
@@ -45,6 +46,7 @@ class AssignableLog extends Model
         'assignable_id' => 'integer',
         'assignee_group_id' => 'integer',
         'assignee_id' => 'integer',
+        'user_id' => 'integer',
         'status_id' => 'integer',
     ];
 
@@ -53,7 +55,7 @@ class AssignableLog extends Model
      * @return static|bool
      * @throws \Exception
      */
-    public static function createLog($assignable)
+    public static function createLog($assignable, $user = null)
     {
         $attributes = [
             'assignable_type' => $assignable->getMorphClass(),
@@ -68,6 +70,7 @@ class AssignableLog extends Model
             'assignee_id' => $assignable->assignee_id,
         ]));
 
+        $model->user_id = $user?->getKey();
         $model->status_id = $assignable->status_id;
 
         $assignable->newQuery()->where($assignable->getKeyName(), $assignable->getKey())->update([

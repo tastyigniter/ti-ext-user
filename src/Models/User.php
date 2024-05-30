@@ -120,17 +120,14 @@ class User extends AuthUserModel
     // Events
     //
 
-    public function beforeLogin()
+    public function afterLogin()
     {
         app('translator.localization')->setSessionLocale(
             optional($this->language)->code ?? app()->getLocale()
         );
-    }
 
-    public function afterLogin()
-    {
         $this->last_login = Carbon::now();
-        $this->save();
+        $this->saveQuietly();
     }
 
     public function extendUserQuery($query)

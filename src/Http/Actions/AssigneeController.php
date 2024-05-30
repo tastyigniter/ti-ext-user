@@ -137,7 +137,7 @@ class AssigneeController extends ControllerAction
                 }
 
                 $user = $this->controller->getUser();
-                if (!$assignable->isAssignedToStaffGroup($user)) {
+                if ($assignable->cannotAssignToStaff($user)) {
                     return;
                 }
 
