@@ -3,6 +3,7 @@
 namespace Igniter\User\Database\Factories;
 
 use Igniter\Flame\Database\Factories\Factory;
+use Igniter\System\Models\Country;
 
 class AddressFactory extends Factory
 {
@@ -16,7 +17,7 @@ class AddressFactory extends Factory
             'city' => $this->faker->city,
             'state' => $this->faker->state,
             'postcode' => $this->faker->postcode,
-            'country_id' => $this->faker->numberBetween(1, 999),
+            'country_id' => Country::factory(),
         ];
     }
 }
