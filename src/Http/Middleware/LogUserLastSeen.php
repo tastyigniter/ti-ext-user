@@ -16,9 +16,9 @@ class LogUserLastSeen
                 $authService = resolve($authAlias);
                 if ($authService->check()) {
                     $cacheKey = 'is-online-'.str_replace('.', '-', $authAlias).'-user-'.$authService->getId();
-                    $expireAt = Carbon::now()->addMinutes(2);
+                    $expireAt = Carbon::now()->addMinutes(5);
                     Cache::remember($cacheKey, $expireAt, function() use ($authService) {
-                        return $authService->user()->updateLastSeen(Carbon::now());
+                        return $authService->user()->updateLastSeen(Carbon::now()) ?? true;
                     });
                 }
             }
