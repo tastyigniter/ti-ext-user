@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
-    use HasApiTokens, Notifiable, Authenticatable;
+    use Authenticatable, HasApiTokens, Notifiable;
 
     const REMEMBER_TOKEN_NAME = 'remember_token';
 
