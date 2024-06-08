@@ -62,7 +62,9 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
 
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        $plain = $credentials['password'];
+        if (is_null($plain = $credentials['password'])) {
+            return false;
+        }
 
         // Backward compatibility to turn SHA1 passwords to BCrypt
         if ($user->hasShaPassword($plain)) {
@@ -70,6 +72,17 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         }
 
         return Hash::check($plain, $user->getAuthPassword());
+    }
+
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
+    {
+        if (!Hash::needsRehash($user->getAuthPassword()) && !$force) {
+            return;
+        }
+
+        $user->forceFill([
+            $user->getAuthPasswordName() => Hash::make($credentials['password']),
+        ])->save();
     }
 
     public function register(array $attributes, $activate = false)
