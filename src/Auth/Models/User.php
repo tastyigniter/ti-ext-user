@@ -6,14 +6,14 @@ use Carbon\Carbon;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Models\Notification;
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model implements Authenticatable
+class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, Authenticatable;
 
     const REMEMBER_TOKEN_NAME = 'remember_token';
 
@@ -41,58 +41,6 @@ class User extends Model implements Authenticatable
             // Password has changed, log out all users
             $this->attributes['remember_token'] = null;
         }
-    }
-
-    /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-        return $this->getKeyName();
-    }
-
-    /**
-     * Get the unique identifier for the user.
-     *
-     * @return mixed
-     */
-    public function getAuthIdentifier()
-    {
-        $name = $this->getAuthIdentifierName();
-
-        return $this->attributes[$name];
-    }
-
-    /**
-     * Get the password for the user.
-     *
-     * @return string
-     */
-    public function getAuthPassword()
-    {
-        return $this->attributes['password'];
-    }
-
-    /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string
-     */
-    public function getRememberToken()
-    {
-        return $this->attributes[$this->getRememberTokenName()];
-    }
-
-    /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param string $value
-     */
-    public function setRememberToken($value)
-    {
-        $this->attributes[$this->getRememberTokenName()] = $value;
     }
 
     /**
@@ -238,11 +186,6 @@ class User extends Model implements Authenticatable
         }
 
         return true;
-    }
-
-    public function getReminderEmail()
-    {
-        return $this->email;
     }
 
     //
