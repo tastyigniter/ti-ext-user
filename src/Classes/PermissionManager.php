@@ -21,6 +21,7 @@ class PermissionManager
     protected static $permissionDefaults = [
         'code' => null,
         'label' => null,
+        'group' => 'Undefined group',
         'description' => null,
         'priority' => 999,
     ];
@@ -176,7 +177,6 @@ class PermissionManager
             $permission = (object)array_merge(self::$permissionDefaults, array_merge([
                 'code' => $code,
                 'owner' => $owner,
-                'group' => 'Undefined group',
             ], $definition));
 
             $this->permissions[] = $permission;
