@@ -124,12 +124,12 @@ $customerData = [
     'password' => 'password',
 ];
 
-Auth::register($customerData);
+Auth::getProvider()->register($customerData);
 ```
 
 ### Creating a staff member
 
-To create a staff member, you can use the `\Igniter\User\Facades\AdminAuth::register` method. The `register` method accepts an array of staff member data and a boolean value to indicate if the staff member should be activated. The method returns the created staff member model.
+To create a staff member, you can use the `\Igniter\User\Auth\UserProvider::register` method. The `register` method accepts an array of staff member data and a boolean value to indicate if the staff member should be activated. The method returns the created staff member model.
 
 ```php
 use Igniter\User\Facades\AdminAuth;
@@ -141,7 +141,7 @@ $staffData = [
     'password' => 'password',
 ];
 
-AdminAuth::register($staffData);
+AdminAuth::getProvider()->register($staffData);
 ```
 
 #### Using the `RegisterUser` action class

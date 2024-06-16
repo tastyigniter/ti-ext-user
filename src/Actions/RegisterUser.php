@@ -22,7 +22,7 @@ class RegisterUser
         $requireActivation = $customerGroup?->requiresApproval();
         $autoActivation = !$requireActivation;
 
-        $customer = Auth::register($data, $autoActivation);
+        $customer = Auth::getProvider()->register($data, $autoActivation);
 
         Event::fire('igniter.user.register', [$customer, $data]);
 

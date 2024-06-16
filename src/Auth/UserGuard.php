@@ -60,9 +60,4 @@ class UserGuard extends \Illuminate\Auth\SessionGuard
     {
         return $this->user()?->email;
     }
-
-    public function register(array $attributes, $activate = false)
-    {
-        return $this->getProvider()->register($attributes, $activate);
-    }
 }
