@@ -2,7 +2,6 @@
 
 namespace Igniter\User\Models;
 
-use Carbon\Carbon;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Local\Models\Concerns\Locationable;
@@ -12,6 +11,7 @@ use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Classes\PermissionManager;
 use Igniter\User\Classes\UserState;
 use Igniter\User\Models\Concerns\SendsInvite;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Users Model Class
@@ -40,7 +40,7 @@ class User extends AuthUserModel
 
     protected $appends = ['full_name'];
 
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
         'user_role_id' => 'integer',
@@ -126,8 +126,9 @@ class User extends AuthUserModel
             optional($this->language)->code ?? app()->getLocale()
         );
 
-        $this->last_login = Carbon::now();
-        $this->saveQuietly();
+        $this->query()
+            ->whereKey($this->getKey())
+            ->update(['last_login' => now()]);
     }
 
     public function extendUserQuery($query)
@@ -313,7 +314,7 @@ class User extends AuthUserModel
         $user->name = array_get($attributes, 'name');
         $user->email = array_get($attributes, 'email');
         $user->username = array_get($attributes, 'username');
-        $user->password = array_get($attributes, 'password');
+        $user->password = Hash::make(array_get($attributes, 'password'));
         $user->language_id = array_get($attributes, 'language_id');
         $user->user_role_id = array_get($attributes, 'user_role_id');
         $user->super_user = array_get($attributes, 'super_user', false);

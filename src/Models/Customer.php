@@ -37,7 +37,7 @@ class Customer extends AuthUserModel
 
     protected $guarded = ['reset_code', 'activation_code', 'remember_token'];
 
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'remember_token'];
 
     public $timestamps = true;
 

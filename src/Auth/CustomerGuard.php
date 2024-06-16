@@ -58,18 +58,4 @@ class CustomerGuard extends \Illuminate\Auth\SessionGuard
     {
         return $this->user->customer_group_id;
     }
-
-    /**
-     * Registers a user by giving the required credentials
-     *
-     * @param array $credentials
-     *
-     * @param bool $activate
-     * @return \Igniter\User\Models\Customer
-     * @throws \Exception
-     */
-    public function register(array $attributes, $activate = false)
-    {
-        return $this->getProvider()->register($attributes, $activate);
-    }
 }
