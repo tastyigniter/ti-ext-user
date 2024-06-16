@@ -67,11 +67,23 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         }
 
         // Backward compatibility to turn SHA1 passwords to BCrypt
-        if ($user->hasShaPassword($plain)) {
-            $user->updateHashPassword($plain);
+        if ($this->hasShaPassword($user, $credentials)) {
+            $user->forceFill([
+                $user->getAuthPasswordName() => Hash::make($credentials['password']),
+                'salt' => null,
+            ])->save();
         }
 
         return Hash::check($plain, $user->getAuthPassword());
+    }
+
+    public function hasShaPassword(Authenticatable $user, array $credentials)
+    {
+        if (is_null($user->salt)) {
+            return false;
+        }
+
+        return $user->password === sha1($user->salt.sha1($user->salt.sha1($credentials['password'])));
     }
 
     public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)

@@ -47,17 +47,19 @@
                     </div>
                 @endempty
                 <div class="form-group">
-                    <div class="pull-left">
-                        <a
-                            class="btn btn-light"
-                            href="{{ admin_url('login') }}"
-                        >@lang('igniter::admin.login.text_back_to_login')</a>
-                    </div>
                     <button
                         type="submit"
-                        class="btn btn-primary pull-right"
+                        class="btn btn-primary w-100"
                         data-attach-loading=""
                     >@lang('igniter::admin.login.button_reset_password')</button>
+                </div>
+
+                <div class="form-group">
+                    <p class="reset-password text-right">
+                        <a
+                            href="{{ admin_url('login') }}"
+                        >@lang('igniter::admin.login.text_back_to_login')</a>
+                    </p>
                 </div>
                 {!! form_close() !!}
             </div>
