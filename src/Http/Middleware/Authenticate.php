@@ -3,7 +3,6 @@
 namespace Igniter\User\Http\Middleware;
 
 use Closure;
-use Illuminate\Auth\AuthenticationException;
 
 class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
 {
@@ -15,20 +14,16 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
      * @param string[] ...$guards
      * @return mixed
      *
-     * @throws \Igniter\User\Exceptions\AuthenticationException
+     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        try {
-            $guard = config('igniter-auth.guards.admin');
+        $guard = config('igniter-auth.guards.admin');
 
-            if (!empty($guard)) {
-                $guards[] = $guard;
-            }
-
-            return parent::handle($request, $next, ...$guards);
-        } catch (AuthenticationException $e) {
-            throw new \Igniter\User\Exceptions\AuthenticationException(lang('igniter::admin.alert_user_not_logged_in'), $e->guards());
+        if (!empty($guard)) {
+            $guards[] = $guard;
         }
+
+        return parent::handle($request, $next, ...$guards);
     }
 }
