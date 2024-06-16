@@ -68,14 +68,14 @@ class Login extends AdminController
         ]);
 
         if (!AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
-            throw ValidationException::withMessages(['username' => lang('igniter::admin.login.alert_login_failed')]);
+            throw ValidationException::withMessages(['email' => lang('igniter::admin.login.alert_login_failed')]);
         }
 
         session()->regenerate();
 
-        return $this->createResponse(($redirectUrl = input('redirect'))
+        return ($redirectUrl = input('redirect'))
             ? AdminHelper::redirect($redirectUrl)
-            : AdminHelper::redirectIntended('dashboard'));
+            : AdminHelper::redirectIntended('dashboard');
     }
 
     public function onRequestResetPassword()
@@ -98,7 +98,7 @@ class Login extends AdminController
 
         flash()->success(lang('igniter::admin.login.alert_email_sent'));
 
-        return $this->createResponse(AdminHelper::redirect('login'));
+        return AdminHelper::redirect('login');
     }
 
     public function onResetPassword()
@@ -124,7 +124,7 @@ class Login extends AdminController
 
         flash()->success(lang('igniter::admin.login.alert_success_reset'));
 
-        return $this->createResponse(AdminHelper::redirect('login'));
+        return AdminHelper::redirect('login');
     }
 
     protected function createResponse($redirectResponse): array

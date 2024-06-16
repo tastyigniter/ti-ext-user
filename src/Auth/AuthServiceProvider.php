@@ -3,6 +3,7 @@
 namespace Igniter\User\Auth;
 
 use Igniter\Flame\Igniter;
+use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +41,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->configureAuthProvider();
 
         $this->configureGateCallback();
+
+        $this->app->booted(function() {
+            (new Middleware)->redirectGuestsTo(
+                fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.login' : 'igniter.theme.account.login'),
+                fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.dashboard' : 'igniter.theme.account.account'),
+            );
+        });
     }
 
     protected function configureAuthGuards()
