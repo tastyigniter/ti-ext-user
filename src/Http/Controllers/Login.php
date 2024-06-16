@@ -126,11 +126,4 @@ class Login extends AdminController
 
         return AdminHelper::redirect('login');
     }
-
-    protected function createResponse($redirectResponse): array
-    {
-        return request()->ajax()
-            ? ['X_IGNITER_REDIRECT' => $redirectResponse->getTargetUrl()]
-            : $redirectResponse;
-    }
 }

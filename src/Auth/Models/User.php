@@ -8,6 +8,7 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
@@ -63,27 +64,6 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     // Password
     //
 
-    public function hasShaPassword($plainPassword)
-    {
-        if (!isset($this->attributes['salt']) || is_null($this->attributes['salt'])) {
-            return false;
-        }
-
-        $salt = $this->attributes['salt'];
-        $hashedPassword = $this->attributes['password'];
-        $shaPassword = sha1($salt.sha1($salt.sha1($plainPassword)));
-
-        return $hashedPassword === $shaPassword;
-    }
-
-    public function updateHashPassword($hashedPassword)
-    {
-        $this->password = $hashedPassword;
-        $this->salt = null;
-
-        return $this->save();
-    }
-
     //
     // Reset
     //
@@ -136,7 +116,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
             return false;
         }
 
-        $this->password = $password;
+        $this->password = Hash::make($password);
         $this->reset_time = null;
         $this->reset_code = null;
 
