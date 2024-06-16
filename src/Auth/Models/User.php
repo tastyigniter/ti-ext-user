@@ -8,7 +8,6 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
@@ -19,29 +18,11 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 
     protected static $resetExpiration = 1440;
 
-    public function beforeLogin()
-    {
-    }
+    public function beforeLogin() {}
 
-    public function afterLogin()
-    {
-    }
+    public function afterLogin() {}
 
-    public function extendUserQuery($query)
-    {
-    }
-
-    public function setPasswordAttribute($value)
-    {
-        if ($this->exists && empty($value)) {
-            unset($this->attributes['password']);
-        } else {
-            $this->attributes['password'] = Hash::make($value);
-
-            // Password has changed, log out all users
-            $this->attributes['remember_token'] = null;
-        }
-    }
+    public function extendUserQuery($query) {}
 
     /**
      * Get the column name for the "remember me" token.
