@@ -26,13 +26,13 @@ parameters:
 			path: src/Actions/LogoutUser.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:login\\(\\)\\.$#"
-			count: 2
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getProvider\\(\\)\\.$#"
+			count: 1
 			path: src/Actions/RegisterUser.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:register\\(\\)\\.$#"
-			count: 1
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:login\\(\\)\\.$#"
+			count: 2
 			path: src/Actions/RegisterUser.php
 
 		-
@@ -47,6 +47,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:refresh\\(\\)\\.$#"
+			count: 1
+			path: src/Auth/AuthServiceProvider.php
+
+		-
+			message: "#^Method Illuminate\\\\Foundation\\\\Configuration\\\\Middleware\\:\\:redirectGuestsTo\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/Auth/AuthServiceProvider.php
 
@@ -106,16 +111,6 @@ parameters:
 			path: src/Auth/CustomerGuard.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\UserProvider\\:\\:register\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/CustomerGuard.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$credentials$#"
-			count: 1
-			path: src/Auth/CustomerGuard.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$activated_at\\.$#"
 			count: 1
 			path: src/Auth/Models/User.php
@@ -132,7 +127,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$password\\.$#"
-			count: 2
+			count: 1
 			path: src/Auth/Models/User.php
 
 		-
@@ -148,11 +143,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$reset_time\\.$#"
 			count: 4
-			path: src/Auth/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$salt\\.$#"
-			count: 1
 			path: src/Auth/Models/User.php
 
 		-
@@ -201,9 +191,14 @@ parameters:
 			path: src/Auth/UserGuard.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\UserProvider\\:\\:register\\(\\)\\.$#"
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$password\\.$#"
 			count: 1
-			path: src/Auth/UserGuard.php
+			path: src/Auth/UserProvider.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$salt\\.$#"
+			count: 1
+			path: src/Auth/UserProvider.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$timestamps\\.$#"
@@ -222,21 +217,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:forceFill\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/UserProvider.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:hasShaPassword\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: src/Auth/UserProvider.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:save\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/UserProvider.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:updateHashPassword\\(\\)\\.$#"
 			count: 1
 			path: src/Auth/UserProvider.php
 
@@ -752,11 +737,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$language_id\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$last_login\\.$#"
 			count: 1
 			path: src/Models/User.php
 
