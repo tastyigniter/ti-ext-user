@@ -69,6 +69,10 @@ class Customer extends AuthUserModel
         'reset_time' => 'datetime',
     ];
 
+    protected $attributes = [
+        'last_location_area' => '',
+    ];
+
     public static function getDropdownOptions()
     {
         return static::whereIsEnabled()->selectRaw('customer_id, concat(first_name, " ", last_name) as name')->dropdown('name');
