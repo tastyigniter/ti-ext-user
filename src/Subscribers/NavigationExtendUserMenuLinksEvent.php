@@ -9,9 +9,7 @@ class NavigationExtendUserMenuLinksEvent
 {
     use EventDispatchable;
 
-    public function __construct(public Collection $links)
-    {
-    }
+    public function __construct(public Collection $links) {}
 
     public static function eventName()
     {

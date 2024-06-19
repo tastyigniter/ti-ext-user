@@ -9,9 +9,7 @@ use Illuminate\Routing\Router;
 
 class RouteRegistrar
 {
-    public function __construct(protected Router $router)
-    {
-    }
+    public function __construct(protected Router $router) {}
 
     public function all()
     {

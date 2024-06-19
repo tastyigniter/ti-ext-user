@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Event;
 
 class LoginUser
 {
-    public function __construct(public array $credentials, public bool $remember = true)
-    {
-    }
+    public function __construct(public array $credentials, public bool $remember = true) {}
 
     public function handle()
     {
