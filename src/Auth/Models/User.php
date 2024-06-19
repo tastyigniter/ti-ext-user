@@ -19,17 +19,11 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 
     protected static $resetExpiration = 1440;
 
-    public function beforeLogin()
-    {
-    }
+    public function beforeLogin() {}
 
-    public function afterLogin()
-    {
-    }
+    public function afterLogin() {}
 
-    public function extendUserQuery($query)
-    {
-    }
+    public function extendUserQuery($query) {}
 
     /**
      * Get the column name for the "remember me" token.
