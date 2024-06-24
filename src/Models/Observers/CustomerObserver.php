@@ -27,4 +27,9 @@ class CustomerObserver
             $customer->saveAddresses(array_get($customer->getAttributes(), 'addresses', []));
         }
     }
+
+    public function deleting(Customer $customer)
+    {
+        $customer->addresses()->delete();
+    }
 }

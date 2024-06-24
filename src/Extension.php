@@ -4,16 +4,20 @@ namespace Igniter\User;
 
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
+use Igniter\Admin\DashboardWidgets\Charts;
+use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Igniter;
 use Igniter\Local\Models\Location;
+use Igniter\System\Contracts\StickyNotification;
 use Igniter\System\Models\Settings;
 use Igniter\User\Classes\BladeExtension;
 use Igniter\User\Console\Commands\AllocatorCommand;
 use Igniter\User\Console\Commands\ClearUserStateCommand;
 use Igniter\User\Facades\Auth;
 use Igniter\User\Models\Customer;
+use Igniter\User\Models\Notification;
 use Igniter\User\Models\Observers\CustomerObserver;
 use Igniter\User\Models\Observers\UserObserver;
 use Igniter\User\Models\User;
@@ -21,6 +25,7 @@ use Igniter\User\Subscribers\AssigneeUpdatedSubscriber;
 use Igniter\User\Subscribers\ConsoleSubscriber;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +88,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         });
 
         $this->registerAdminUserPanel();
+        $this->extendDashboardChartsDatasets();
 
         Location::extend(function($model) {
             $model->relation['morphedByMany']['users'] = [User::class, 'name' => 'locationable'];
@@ -90,6 +96,33 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
         Template::registerHook('endBody', function() {
             return view('igniter.user::_partials.impersonate_banner');
+        });
+
+        Event::listen(NotificationSent::class, function(NotificationSent $event) {
+            if ($event->response instanceof Notification && is_subclass_of($event->notification, StickyNotification::class)) {
+                $event->notifiable->notifications()
+                    ->where('type', method_exists($event->notification, 'databaseType')
+                        ? $event->notification->databaseType($event->notifiable)
+                        : get_class($event->notification))
+                    ->where('id', '!=', $event->response->getKey())
+                    ->delete();
+            }
+        });
+
+        Statistics::registerCards(function() {
+            return [
+                'customer' => [
+                    'label' => 'lang:igniter::admin.dashboard.text_total_customer',
+                    'icon' => ' text-info fa fa-4x fa-users',
+                    'valueFrom' => function(string $cardCode, $start, $end, $callback): int {
+                        $query = Customer::query();
+
+                        $callback($query);
+
+                        return $query->count();
+                    }
+                ],
+            ];
         });
     }
 
@@ -326,6 +359,25 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
         Route::group([], function($router) {
             (new Classes\RouteRegistrar($router))->all();
+        });
+    }
+
+    protected function extendDashboardChartsDatasets()
+    {
+        Charts::extend(function($charts) {
+            $charts->bindEvent('charts.extendDatasets', function() use ($charts) {
+                $charts->addDataset('reports', [
+                    'sets' => [
+                        'customers' => [
+                            'label' => 'lang:igniter.user::default.text_charts_customers',
+                            'color' => '#4DB6AC',
+                            'model' => Customer::class,
+                            'column' => 'created_at',
+                            'priority' => 10,
+                        ],
+                    ],
+                ]);
+            });
         });
     }
 }
