@@ -23,6 +23,7 @@ return [
     'text_no_reservations' => 'There are no reservations available to show.',
     'text_no_inbox' => 'There are no messages available to show',
     'text_no_cart_items' => 'There are no menus added in your cart.',
+    'text_charts_customers' => 'Customers',
 
     'text_mail_admin_password_reset' => 'Password reset email to admin',
     'text_mail_admin_password_reset_request' => 'Password reset request email to admin',
