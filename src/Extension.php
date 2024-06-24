@@ -120,7 +120,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                         $callback($query);
 
                         return $query->count();
-                    }
+                    },
                 ],
             ];
         });
