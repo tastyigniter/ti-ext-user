@@ -87,7 +87,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             Notifications\CustomerRegisteredNotification::make()->subject($customer)->broadcast();
         });
 
-        $this->registerAdminUserPanel();
+        $this->registerUserPanelAndNotificationsAdminMenus();
         $this->extendDashboardChartsDatasets();
 
         Location::extend(function($model) {
@@ -317,7 +317,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         });
     }
 
-    protected function registerAdminUserPanel()
+    protected function registerUserPanelAndNotificationsAdminMenus()
     {
         if (!Igniter::runningInAdmin()) {
             return;
