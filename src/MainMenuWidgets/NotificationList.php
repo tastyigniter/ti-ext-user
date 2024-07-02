@@ -15,7 +15,16 @@ class NotificationList extends \Igniter\Admin\Classes\BaseMainMenuWidget
     {
         $user = $this->getController()->getUser();
         $this->vars['unreadCount'] = $user->unreadNotifications()->count();
+    }
+
+    public function onDropdownOptions()
+    {
+        $user = $this->getController()->getUser();
         $this->vars['notifications'] = $user->notifications()->get();
+
+        return [
+            '#'.$this->getId('options') => $this->makePartial('notificationlist/items'),
+        ];
     }
 
     public function onMarkAsRead()
