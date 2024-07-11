@@ -158,7 +158,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     {
         return [
             'customers' => [
-                'priority' => 100,
+                'priority' => 30,
                 'class' => 'customers',
                 'icon' => 'fa-user',
                 'href' => admin_url('customers'),
@@ -168,7 +168,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             'system' => [
                 'child' => [
                     'users' => [
-                        'priority' => 1,
+                        'priority' => 20,
                         'class' => 'users',
                         'href' => admin_url('users'),
                         'title' => lang('igniter.user::default.text_side_menu_user'),
@@ -366,15 +366,13 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     {
         Charts::extend(function($charts) {
             $charts->bindEvent('charts.extendDatasets', function() use ($charts) {
-                $charts->addDataset('reports', [
-                    'sets' => [
-                        'customers' => [
-                            'label' => 'lang:igniter.user::default.text_charts_customers',
-                            'color' => '#4DB6AC',
-                            'model' => Customer::class,
-                            'column' => 'created_at',
-                            'priority' => 10,
-                        ],
+                $charts->addDataset('reports', 'sets', [
+                    'customers' => [
+                        'label' => 'lang:igniter.user::default.text_charts_customers',
+                        'color' => '#4DB6AC',
+                        'model' => Customer::class,
+                        'column' => 'created_at',
+                        'priority' => 10,
                     ],
                 ]);
             });
