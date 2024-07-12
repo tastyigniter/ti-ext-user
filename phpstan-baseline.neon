@@ -146,11 +146,6 @@ parameters:
 			path: src/Auth/Models/User.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\MorphMany\\:\\:latest\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/Models/User.php
-
-		-
 			message: "#^Access to an undefined property Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:\\$email\\.$#"
 			count: 2
 			path: src/Auth/UserGuard.php
@@ -241,12 +236,12 @@ parameters:
 			path: src/Console/Commands/ClearUserStateCommand.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$id\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$id\\.$#"
 			count: 1
 			path: src/Console/Commands/ClearUserStateCommand.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$value\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$value\\.$#"
 			count: 1
 			path: src/Console/Commands/ClearUserStateCommand.php
 
@@ -267,6 +262,11 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:rebinding\\(\\)\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getKey\\(\\)\\.$#"
 			count: 1
 			path: src/Extension.php
 
@@ -516,11 +516,6 @@ parameters:
 			path: src/Models/Address.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\Address\\:\\:runSoftDelete\\(\\)\\.$#"
-			count: 1
-			path: src/Models/Address.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\Relation\\:\\:getQualifiedForeignKeyName\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Address.php
@@ -536,12 +531,12 @@ parameters:
 			path: src/Models/AssignableLog.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$status_id\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$status_id\\.$#"
 			count: 1
 			path: src/Models/AssignableLog.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\|Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$user_id\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$user_id\\.$#"
 			count: 1
 			path: src/Models/AssignableLog.php
 
@@ -551,7 +546,7 @@ parameters:
 			path: src/Models/AssignableLog.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:whereUnAssigned\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\User\\\\Models\\\\AssignableLog\\)\\>\\:\\:whereUnAssigned\\(\\)\\.$#"
 			count: 1
 			path: src/Models/AssignableLog.php
 
@@ -686,22 +681,17 @@ parameters:
 			path: src/Models/CustomerGroup.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Notification\\:\\:\\$notifiable\\.$#"
-			count: 1
-			path: src/Models/Notification.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Notification\\:\\:\\$type\\.$#"
-			count: 1
-			path: src/Models/Notification.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
 			count: 1
 			path: src/Models/Observers/CustomerObserver.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/Models/Observers/CustomerObserver.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\Customer\\:\\:addresses\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Observers/CustomerObserver.php
 
@@ -783,6 +773,11 @@ parameters:
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$username\\.$#"
 			count: 2
+			path: src/Models/User.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Support\\\\Optional\\:\\:\\$code\\.$#"
+			count: 1
 			path: src/Models/User.php
 
 		-
@@ -931,8 +926,8 @@ parameters:
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
-			count: 1
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Factory\\:\\:user\\(\\)\\.$#"
+			count: 2
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
@@ -941,6 +936,6 @@ parameters:
 			path: src/Notifications/CustomerRegisteredNotification.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:isEnabled\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Igniter\\\\User\\\\Models\\\\User\\>\\:\\:isEnabled\\(\\)\\.$#"
 			count: 1
 			path: src/Notifications/CustomerRegisteredNotification.php
