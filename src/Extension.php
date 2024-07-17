@@ -366,7 +366,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     {
         Charts::extend(function($charts) {
             $charts->bindEvent('charts.extendDatasets', function() use ($charts) {
-                $charts->addDataset('reports', 'sets', [
+                $charts->mergeDataset('reports', 'sets', [
                     'customers' => [
                         'label' => 'lang:igniter.user::default.text_charts_customers',
                         'color' => '#4DB6AC',
