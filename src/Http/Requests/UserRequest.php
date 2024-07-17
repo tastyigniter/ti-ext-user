@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
             'username' => ['required', 'alpha_dash', 'between:2,32',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
-            'password' => ['sometimes', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
+            'password' => ['nullable', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
             'status' => ['boolean'],
             'super_user' => ['boolean'],
             'language_id' => ['nullable', 'integer'],
