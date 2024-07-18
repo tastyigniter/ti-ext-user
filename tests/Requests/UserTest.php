@@ -14,7 +14,7 @@ it('has required rule for inputs', function() {
 });
 
 it('has sometimes rule for inputs', function() {
-    expect('sometimes')->toBeIn(array_get((new UserRequest)->rules(), 'password'))
+    expect('nullable')->toBeIn(array_get((new UserRequest)->rules(), 'password'))
         ->and('sometimes')->toBeIn(array_get((new UserRequest)->rules(), 'user_role_id'))
         ->and('sometimes')->toBeIn(array_get((new UserRequest)->rules(), 'groups'));
 });
