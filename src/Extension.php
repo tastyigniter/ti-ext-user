@@ -302,7 +302,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     protected function registerBladeDirectives()
     {
         $this->callAfterResolving('blade.compiler', function($compiler, $app) {
-            (new BladeExtension())->register();
+            (new BladeExtension)->register();
         });
     }
 
