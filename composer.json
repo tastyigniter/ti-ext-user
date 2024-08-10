@@ -11,13 +11,12 @@
   ],
   "require": {
     "spatie/laravel-activitylog": "^4.8",
-    "tastyigniter/core": "^v4.0@beta",
-    "tastyigniter/ti-ext-automation": "^v4.0@beta"
+    "tastyigniter/core": "^v4.0@beta"
   },
   "require-dev": {
     "laravel/pint": "^1.2",
     "larastan/larastan": "^2.4.0",
-    "sampoyigi/testbench": "^1.0",
+    "sampoyigi/testbench": "dev-main as 1.0",
     "pestphp/pest-plugin-laravel": "^2.0"
   },
   "autoload": {
