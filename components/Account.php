@@ -434,7 +434,7 @@ class Account extends \System\Classes\BaseComponent
     protected function setIntendedUrl()
     {
         $previousUrl = url()->previous();
-        if (!session()->has('url.intended') && $previousUrl && $previousUrl !== url()->current() && str_starts_with($previousUrl, url())) {
+        if (!session()->has('url.intended') && $previousUrl && $previousUrl !== url()->current() && str_starts_with($previousUrl, url('/'))) {
             session(['url.intended' => $previousUrl]);
         }
     }
