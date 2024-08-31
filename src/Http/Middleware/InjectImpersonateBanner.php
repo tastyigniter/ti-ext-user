@@ -16,8 +16,9 @@ class InjectImpersonateBanner
             return $response;
         }
 
-        if (!Auth::check() || !Auth::isImpersonator())
+        if (!Auth::check() || !Auth::isImpersonator()) {
             return $response;
+        }
 
         $this->injectBanner($response);
 
@@ -29,7 +30,7 @@ class InjectImpersonateBanner
         $content = $response->getContent();
         $banner = view('igniter.user::_partials.impersonate_banner')->render();
         $pos = strripos($content, '</body>');
-        if (false !== $pos) {
+        if ($pos !== false) {
             $content = substr($content, 0, $pos).$banner.substr($content, $pos);
         } else {
             $content .= $banner;
