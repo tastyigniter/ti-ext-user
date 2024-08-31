@@ -76,6 +76,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
         Route::pushMiddlewareToGroup('igniter:admin', \Igniter\User\Http\Middleware\Authenticate::class);
         Route::pushMiddlewareToGroup('igniter:admin', \Igniter\User\Http\Middleware\LogUserLastSeen::class);
+        Route::pushMiddlewareToGroup('igniter', \Igniter\User\Http\Middleware\InjectImpersonateBanner::class);
     }
 
     public function boot()
@@ -95,7 +96,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         });
 
         Template::registerHook('endBody', function() {
-            return view('igniter.user::_partials.impersonate_banner');
+            return view('igniter.user::_partials.admin_impersonate_banner');
         });
 
         Event::listen(NotificationSent::class, function(NotificationSent $event) {

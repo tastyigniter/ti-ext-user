@@ -11,14 +11,18 @@ class LogoutUser
     {
         $user = Auth::getUser();
 
-        Auth::logout();
+        if (Auth::isImpersonator()) {
+            Auth::stopImpersonate();
+        } else {
+            Auth::logout();
 
-        session()->invalidate();
+            session()->invalidate();
 
-        session()->regenerateToken();
+            session()->regenerateToken();
 
-        if ($user) {
-            Event::fire('igniter.user.logout', [$user]);
+            if ($user) {
+                Event::fire('igniter.user.logout', [$user]);
+            }
         }
 
         flash()->success(lang('igniter.user::default.alert_logout_success'));
