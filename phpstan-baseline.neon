@@ -16,7 +16,17 @@ parameters:
 			path: src/Actions/LogoutUser.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\)\\.$#"
+			count: 1
+			path: src/Actions/LogoutUser.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:logout\\(\\)\\.$#"
+			count: 1
+			path: src/Actions/LogoutUser.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:stopImpersonate\\(\\)\\.$#"
 			count: 1
 			path: src/Actions/LogoutUser.php
 
@@ -464,6 +474,16 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:stopImpersonate\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/Users.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:check\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Middleware/InjectImpersonateBanner.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Middleware/InjectImpersonateBanner.php
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
