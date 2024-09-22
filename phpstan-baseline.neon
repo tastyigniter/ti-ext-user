@@ -561,11 +561,6 @@ parameters:
 			path: src/Models/AssignableLog.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Query\\\\Builder\\:\\:whereHas\\(\\)\\.$#"
-			count: 1
-			path: src/Models/AssignableLog.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\User\\\\Models\\\\AssignableLog\\)\\>\\:\\:whereUnAssigned\\(\\)\\.$#"
 			count: 1
 			path: src/Models/AssignableLog.php
