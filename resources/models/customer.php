@@ -187,7 +187,7 @@ $config['form']['tabs'] = [
                 'condition' => 'unchecked',
             ],
         ],
-        '_confirm_password' => [
+        'confirm_password' => [
             'label' => 'lang:igniter.user::default.customers.label_confirm_password',
             'type' => 'password',
             'span' => 'right',

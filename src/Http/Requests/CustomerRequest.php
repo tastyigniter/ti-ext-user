@@ -23,7 +23,7 @@ class CustomerRequest extends FormRequest
             'addresses.*.postcode' => lang('igniter.user::default.customers.label_postcode'),
             'addresses.*.country_id' => lang('igniter.user::default.customers.label_country'),
             'password' => lang('igniter.user::default.customers.label_password'),
-            '_confirm_password' => lang('igniter.user::default.customers.label_confirm_password'),
+            'confirm_password' => lang('igniter.user::default.customers.label_confirm_password'),
         ];
     }
 
@@ -33,7 +33,7 @@ class CustomerRequest extends FormRequest
             'first_name' => ['required', 'string', 'between:1,48'],
             'last_name' => ['required', 'string', 'between:1,48'],
             'email' => ['required', 'email:filter', 'max:96', Rule::unique('customers')->ignore($this->getRecordId(), 'customer_id')],
-            'password' => ['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:_confirm_password'],
+            'password' => ['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:confirm_password'],
             'telephone' => ['nullable', 'string'],
             'newsletter' => ['nullable', 'required', 'boolean'],
             'customer_group_id' => ['required', 'integer'],

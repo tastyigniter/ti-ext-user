@@ -11,7 +11,6 @@ use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Classes\PermissionManager;
 use Igniter\User\Classes\UserState;
 use Igniter\User\Models\Concerns\SendsInvite;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Users Model Class
@@ -43,6 +42,7 @@ class User extends AuthUserModel
     protected $hidden = ['password', 'remember_token'];
 
     protected $casts = [
+        'password' => 'hashed',
         'user_role_id' => 'integer',
         'sale_permission' => 'integer',
         'language_id' => 'integer',
@@ -314,7 +314,7 @@ class User extends AuthUserModel
         $user->name = array_get($attributes, 'name');
         $user->email = array_get($attributes, 'email');
         $user->username = array_get($attributes, 'username');
-        $user->password = Hash::make(array_get($attributes, 'password'));
+        $user->password = array_get($attributes, 'password');
         $user->language_id = array_get($attributes, 'language_id');
         $user->user_role_id = array_get($attributes, 'user_role_id');
         $user->super_user = array_get($attributes, 'super_user', false);

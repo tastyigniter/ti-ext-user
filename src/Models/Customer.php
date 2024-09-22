@@ -59,6 +59,7 @@ class Customer extends AuthUserModel
 
     protected $casts = [
         'customer_id' => 'integer',
+        'password' => 'hashed',
         'address_id' => 'integer',
         'customer_group_id' => 'integer',
         'newsletter' => 'boolean',

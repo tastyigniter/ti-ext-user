@@ -12,7 +12,7 @@ class InjectImpersonateBanner
     {
         $response = $next($request);
 
-        if (Igniter::runningInAdmin()) {
+        if (!$request->routeIs('igniter.theme.*') || Igniter::runningInAdmin()) {
             return $response;
         }
 
