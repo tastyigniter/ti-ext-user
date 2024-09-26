@@ -40,7 +40,7 @@
         <input
             id="rememberLogin"
             type="checkbox"
-            name="newsletter"
+            name="remember"
             value="1"
             class="form-check-input"
             {!! set_checkbox('remember', '1') !!}
