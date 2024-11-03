@@ -27,6 +27,8 @@ class UserFactory extends Factory
     {
         return $this->state(function(array $attributes) {
             return [
+                'is_activated' => true,
+                'status' => true,
                 'super_user' => true,
             ];
         });

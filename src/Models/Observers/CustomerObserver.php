@@ -19,7 +19,7 @@ class CustomerObserver
             return;
         }
 
-        if ($customer->status && !$customer->is_activated) {
+        if ($customer->status && is_null($customer->is_activated)) {
             $customer->completeActivation($customer->getActivationCode());
         }
 
