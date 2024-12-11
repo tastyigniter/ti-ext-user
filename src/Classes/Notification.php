@@ -25,9 +25,9 @@ class Notification extends BaseNotification implements ShouldQueue
 
     protected ?string $iconColor = null;
 
-    public static function make(array $parameters = []): static
+    public static function make(): static
     {
-        return app(static::class, $parameters);
+        return app(static::class, func_get_args());
     }
 
     public function broadcast(array $users = []): static

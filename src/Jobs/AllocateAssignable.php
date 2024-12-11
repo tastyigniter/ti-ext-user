@@ -76,10 +76,6 @@ class AllocateAssignable implements ShouldQueue
 
     protected function waitInSecondsAfterAttempt(int $attempt)
     {
-        if ($attempt > 3) {
-            return 1000;
-        }
-
-        return 10 ** $attempt;
+        return $attempt >= 3 ? 1000 : 10 ** $attempt;
     }
 }

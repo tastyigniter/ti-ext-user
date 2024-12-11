@@ -75,9 +75,9 @@ Auth::logout();
 For a streamlined approach to authenticating customers in TastyIgniter, you can use the `\Igniter\User\Actions\LoginUser` action class. This class mirrors the authentication process used by the default login form. It also dispatches two key events — `igniter.user.beforeAuthenticate` and `igniter.user.login` — which can be used to hook into the login process for custom behavior or integrations.
 
 ```php
-use Igniter\User\Actions\LoginUser;
+use Igniter\User\Actions\LoginCustomer;
 
-$loginUser = new LoginUser($credentials, $remember);
+$loginUser = new LoginCustomer($credentials, $remember);
 $loginUser->handle();
 ```
 
@@ -149,7 +149,7 @@ AdminAuth::getProvider()->register($staffData);
 For a streamlined approach to registering customers in TastyIgniter, you can use the `\Igniter\User\Actions\RegisterUser` action class. This class mirrors the registration process used by the default registration form. It also dispatches two key events — `igniter.user.beforeRegister` and `igniter.user.register` — which can be used to hook into the registration process for custom behavior or integrations.
 
 ```php
-use Igniter\User\Actions\RegisterUser;
+use Igniter\User\Actions\RegisterCustomer;
 
 $data = [
     'first_name' => 'John',
@@ -158,7 +158,7 @@ $data = [
     'password' => 'password',
 ];
 
-$registerUser = new RegisterUser();
+$registerUser = new RegisterCustomer();
 $customer = $registerUser->handle($data);
 
 if ($customer->is_activated) {
@@ -175,9 +175,9 @@ if ($customer->is_activated) {
 The `activate` method can be used to activate a customer account.
 
 ```php
-use Igniter\User\Actions\RegisterUser;
+use Igniter\User\Actions\RegisterCustomer;
 
-$registerUser = new RegisterUser();
+$registerUser = new RegisterCustomer();
 $registerUser->activate();
 
 $registerUser->sendRegisteredMail(['account_login_link' => page_url('account.login')]);

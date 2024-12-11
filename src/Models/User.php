@@ -123,7 +123,7 @@ class User extends AuthUserModel
     public function afterLogin()
     {
         app('translator.localization')->setSessionLocale(
-            optional($this->language)->code ?? app()->getLocale()
+            optional($this->language)->code ?? app()->getLocale(),
         );
 
         $this->query()
@@ -310,33 +310,32 @@ class User extends AuthUserModel
 
     public function register(array $attributes, $activate = false)
     {
-        $user = new static;
-        $user->name = array_get($attributes, 'name');
-        $user->email = array_get($attributes, 'email');
-        $user->username = array_get($attributes, 'username');
-        $user->password = array_get($attributes, 'password');
-        $user->language_id = array_get($attributes, 'language_id');
-        $user->user_role_id = array_get($attributes, 'user_role_id');
-        $user->super_user = array_get($attributes, 'super_user', false);
-        $user->status = array_get($attributes, 'status', true);
-        $user->save();
+        $this->name = array_get($attributes, 'name');
+        $this->email = array_get($attributes, 'email');
+        $this->username = array_get($attributes, 'username');
+        $this->password = array_get($attributes, 'password');
+        $this->language_id = array_get($attributes, 'language_id');
+        $this->user_role_id = array_get($attributes, 'user_role_id');
+        $this->super_user = array_get($attributes, 'super_user', false);
+        $this->status = array_get($attributes, 'status', true);
+        $this->save();
 
         if ($activate) {
-            $user->completeActivation($user->getActivationCode());
+            $this->completeActivation($this->getActivationCode());
         }
 
         // Prevents subsequent saves to this model object
-        $user->password = null;
+        $this->password = null;
 
         if (array_key_exists('groups', $attributes)) {
-            $user->groups()->attach($attributes['groups']);
+            $this->groups()->attach($attributes['groups']);
         }
 
         if (array_key_exists('locations', $attributes)) {
-            $user->locations()->attach($attributes['locations']);
+            $this->locations()->attach($attributes['locations']);
         }
 
-        return $user->reload();
+        return $this->reload();
     }
 
     public function receivesBroadcastNotificationsOn()

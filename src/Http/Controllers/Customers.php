@@ -71,7 +71,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
     public function index_onDelete()
     {
         throw_unless($this->authorize('Admin.DeleteCustomers'),
-            new FlashException(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted')),
         );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\ListController::class)->index_onDelete();
@@ -80,7 +80,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
     public function edit_onDelete($context, $recordId)
     {
         throw_unless($this->authorize('Admin.DeleteCustomers'),
-            new FlashException(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted')),
         );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\FormController::class)->edit_onDelete($context, $recordId);
@@ -89,7 +89,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
     public function onImpersonate($context, $recordId = null)
     {
         throw_unless($this->authorize('Admin.ImpersonateCustomers'),
-            new FlashException(lang('igniter.user::default.customers.alert_login_restricted'))
+            new FlashException(lang('igniter.user::default.customers.alert_login_restricted')),
         );
 
         $id = post('recordId', $recordId);
@@ -104,7 +104,7 @@ class Customers extends \Igniter\Admin\Classes\AdminController
     {
         if ($customer = $this->formFindModelObject((int)$recordId)) {
             $customer->completeActivation($customer->getActivationCode());
-            flash()->success(sprintf(lang('igniter.user::default.customers.alert_activation_success'), $customer->full_name));
+            flash()->success(lang('igniter.user::default.customers.alert_activation_success'));
         }
 
         return $this->redirectBack();
@@ -117,17 +117,6 @@ class Customers extends \Igniter\Admin\Classes\AdminController
                 'class' => 'btn btn-success pull-right',
                 'data-request' => 'onActivate',
             ]);
-        }
-    }
-
-    public function formAfterSave($model)
-    {
-        if (!$model->group || $model->group->requiresApproval()) {
-            return;
-        }
-
-        if ($this->status && !$this->is_activated) {
-            $model->completeActivation($model->getActivationCode());
         }
     }
 }

@@ -249,25 +249,12 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     protected function registerEventGlobalParams()
     {
         if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
-            resolve(\Igniter\Automation\Classes\EventManager::class)->registerCallback(function($manager) {
+            resolve(\Igniter\Automation\Classes\EventManager::class)->registerCallback(function(\Igniter\Automation\Classes\EventManager $manager) {
                 $manager->registerGlobalParams([
                     'customer' => Auth::customer(),
                 ]);
             });
         }
-    }
-
-    protected function registerRequestRebindHandler()
-    {
-        $this->app->rebinding('request', function($app, $request) {
-            $request->setUserResolver(function() use ($app) {
-                if (!Igniter::runningInAdmin()) {
-                    return $app['admin.auth']->getUser();
-                }
-
-                return $app['main.auth']->user();
-            });
-        });
     }
 
     protected function configureRateLimiting()

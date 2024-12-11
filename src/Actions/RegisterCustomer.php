@@ -8,13 +8,13 @@ use Igniter\User\Models\Customer;
 use Igniter\User\Models\CustomerGroup;
 use Illuminate\Support\Facades\Event;
 
-class RegisterUser
+class RegisterCustomer
 {
     public Customer $customer;
 
     public function handle(array $data = []): Customer
     {
-        Event::fire('igniter.user.beforeRegister', [&$data]);
+        Event::dispatch('igniter.user.beforeRegister', [&$data]);
 
         $customerGroup = CustomerGroup::getDefault();
         $data['customer_group_id'] = $customerGroup?->getKey();
@@ -24,7 +24,7 @@ class RegisterUser
 
         $customer = Auth::getProvider()->register($data, $autoActivation);
 
-        Event::fire('igniter.user.register', [$customer, $data]);
+        Event::dispatch('igniter.user.register', [$customer, $data]);
 
         if ($autoActivation) {
             Auth::login($customer);
@@ -35,11 +35,11 @@ class RegisterUser
 
     public function activate(string $code)
     {
-        throw_unless($customer = Customer::whereActivationCode($code)->first(),
-            new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed')));
+        throw_unless($customer = Customer::whereActivationCode($code)->first(), new ApplicationException(
+            lang('igniter.user::default.reset.alert_activation_failed'),
+        ));
 
-        throw_unless($customer->completeActivation($code),
-            new ApplicationException(lang('igniter.user::default.reset.alert_activation_failed')));
+        throw_unless($customer->completeActivation($code), new ApplicationException('User is already active!'));
 
         Auth::login($customer);
 

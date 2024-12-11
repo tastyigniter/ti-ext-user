@@ -15,12 +15,10 @@ class CustomerObserver
     {
         $customer->restorePurgedValues();
 
-        if (!$customer->exists) {
-            return;
-        }
-
-        if ($customer->status && is_null($customer->is_activated)) {
-            $customer->completeActivation($customer->getActivationCode());
+        if ($customer->group && !$customer->group->requiresApproval()) {
+            if ($customer->status && is_null($customer->is_activated)) {
+                $customer->completeActivation($customer->getActivationCode());
+            }
         }
 
         if (array_key_exists('addresses', $customer->getAttributes())) {

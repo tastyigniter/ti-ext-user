@@ -87,10 +87,7 @@ class Login extends AdminController
         ]);
 
         if ($user = User::whereEmail($data['email'])->first()) {
-            if (!$user->resetPassword()) {
-                throw ValidationException::withMessages(['email' => lang('igniter::admin.login.alert_failed_reset')]);
-            }
-
+            $user->resetPassword();
             $user->mailSendResetPasswordRequest([
                 'reset_link' => admin_url('login/reset?code='.$user->reset_code),
             ]);

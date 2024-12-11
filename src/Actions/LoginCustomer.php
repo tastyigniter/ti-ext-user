@@ -5,21 +5,22 @@ namespace Igniter\User\Actions;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Session;
 
-class LoginUser
+class LoginCustomer
 {
     public function __construct(public array $credentials, public bool $remember = true) {}
 
     public function handle()
     {
-        Event::fire('igniter.user.beforeAuthenticate', [$this, $this->credentials]);
+        Event::dispatch('igniter.user.beforeAuthenticate', [$this, $this->credentials]);
 
         if (!Auth::attempt($this->credentials, $this->remember)) {
             throw new FlashException(lang('igniter.user::default.login.alert_invalid_login'));
         }
 
-        session()->regenerate();
+        Session::regenerate();
 
-        Event::fire('igniter.user.login', [$this], true);
+        Event::dispatch('igniter.user.login', [$this], true);
     }
 }

@@ -44,13 +44,11 @@ class AssigneeController extends ControllerAction
         ]);
 
         $this->controller->bindEvent('controller.beforeRemap', function() {
-            if (!$this->controller->getUser()) {
-                return;
+            if ($this->controller->getUser()) {
+                $this->assigneeBindToolbarEvents();
+                $this->assigneeBindListsEvents();
+                $this->assigneeBindFormEvents();
             }
-
-            $this->assigneeBindToolbarEvents();
-            $this->assigneeBindListsEvents();
-            $this->assigneeBindFormEvents();
         });
     }
 
@@ -89,19 +87,15 @@ class AssigneeController extends ControllerAction
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\ListController::class)) {
             Event::listen('admin.list.extendQuery', function($listWidget, $query) {
-                if (!(bool)$this->getConfig('applyScopeOnListQuery', true)) {
-                    return;
+                if ($this->getConfig('applyScopeOnListQuery', true)) {
+                    $this->assigneeApplyScope($query);
                 }
-
-                $this->assigneeApplyScope($query);
             });
 
             Event::listen('admin.filter.extendScopesBefore', function($widget) {
-                if (!$this->controller->getUser()->hasRestrictedAssignableScope()) {
-                    return;
+                if ($this->controller->getUser()->hasRestrictedAssignableScope()) {
+                    unset($widget->scopes['assignee']);
                 }
-
-                unset($widget->scopes['assignee']);
             });
         }
     }
@@ -110,38 +104,25 @@ class AssigneeController extends ControllerAction
     {
         if ($this->controller->isClassExtendedWith(\Igniter\Admin\Http\Actions\FormController::class)) {
             $this->controller->bindEvent('admin.controller.extendFormQuery', function($query) {
-                if (!(bool)$this->getConfig('applyScopeOnFormQuery', true)) {
-                    return;
+                if ($this->getConfig('applyScopeOnFormQuery', true)) {
+                    $this->assigneeApplyScope($query);
                 }
-
-                $this->assigneeApplyScope($query);
             });
 
             Event::listen('admin.form.extendFields', function(Form $widget) {
-                if (!is_a($widget->getController(), get_class($this->controller))) {
-                    return;
-                }
-
-                if (!in_array(Assignable::class, class_uses_recursive(get_class($widget->model)))) {
-                    return;
-                }
-
                 $assignable = $widget->model;
-                if (!$assignable->hasAssignToGroup() || $assignable->hasAssignTo()) {
-                    return;
-                }
-
-                // Let the allocator handle assignment when auto assign is enabled
-                if ($assignable->assignee_group->autoAssignEnabled()) {
-                    return;
-                }
-
                 $user = $this->controller->getUser();
-                if ($assignable->cannotAssignToStaff($user)) {
-                    return;
-                }
 
-                $assignable->assignTo($user);
+                if (
+                    is_a($widget->getController(), get_class($this->controller))
+                    && in_array(Assignable::class, class_uses_recursive(get_class($widget->model)))
+                    && $assignable->hasAssignToGroup()
+                    && !$assignable->hasAssignTo()
+                    && !$assignable->assignee_group->autoAssignEnabled()
+                    && !$assignable->cannotAssignToStaff($user)
+                ) {
+                    $assignable->assignTo($user);
+                }
             });
         }
     }

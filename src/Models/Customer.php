@@ -85,7 +85,7 @@ class Customer extends AuthUserModel
 
     public function getFullNameAttribute($value)
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->getCustomerName();
     }
 
     public function getEmailAttribute($value)
@@ -108,7 +108,7 @@ class Customer extends AuthUserModel
         }
 
         throw new SystemException(sprintf(
-            lang('igniter.user::default.customers.alert_customer_not_active'), $this->email
+            lang('igniter.user::default.customers.alert_customer_not_active'), $this->email,
         ));
     }
 
@@ -169,7 +169,7 @@ class Customer extends AuthUserModel
 
             $customerAddress = $this->addresses()->updateOrCreate(
                 array_only($address, ['address_id']),
-                array_except($address, ['address_id', 'customer_id'])
+                array_except($address, ['address_id', 'customer_id']),
             );
 
             $idsToKeep[] = $customerAddress->getKey();
@@ -181,7 +181,7 @@ class Customer extends AuthUserModel
     public function saveDefaultAddress(string|int $addressId)
     {
         throw_unless($this?->addresses()->find($addressId),
-            new ApplicationException('Address not found or does not belong to the customer')
+            new ApplicationException('Address not found or does not belong to the customer'),
         );
 
         $this->address_id = $addressId;
@@ -193,7 +193,7 @@ class Customer extends AuthUserModel
     public function deleteCustomerAddress(string|int $addressId)
     {
         throw_unless($address = $this?->addresses()->find($addressId),
-            new ApplicationException('Address not found or does not belong to the customer')
+            new ApplicationException('Address not found or does not belong to the customer'),
         );
 
         $address->delete();
@@ -223,7 +223,7 @@ class Customer extends AuthUserModel
 
         Address::whereIn('address_id', Order::where('email', $this->email)
             ->whereNotNull('address_id')
-            ->pluck('address_id')->all()
+            ->pluck('address_id')->all(),
         )->update($update);
 
         return true;
@@ -277,7 +277,7 @@ class Customer extends AuthUserModel
             'account_activation_link' => null,
         ], $data);
 
-        return $this->customer->mailSend('igniter.user::mail.activation', 'customer', $data);
+        return $this->mailSend('igniter.user::mail.activation', 'customer', $data);
     }
 
     public function mailGetRecipients($type)
@@ -309,10 +309,6 @@ class Customer extends AuthUserModel
         $model = new static;
         $model->fill($attributes);
         $model->save();
-
-        if ($activate && !$model->is_activated) {
-            $model->completeActivation($model->getActivationCode());
-        }
 
         // Prevents subsequent saves to this model object
         $model->password = null;

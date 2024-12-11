@@ -83,10 +83,10 @@ trait Assignable
         return $log;
     }
 
-    public function cannotAssignToStaff($staff)
+    public function cannotAssignToStaff($user)
     {
         return $this->assignable_logs()
-            ->where('user_id', $staff->getKey())
+            ->where('user_id', $user->getKey())
             ->where('assignee_group_id', $this->assignee_group_id)
             ->exists();
 

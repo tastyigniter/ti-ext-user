@@ -6,7 +6,7 @@ use Igniter\System\Classes\ExtensionManager;
 
 class PermissionManager
 {
-    protected $permissions;
+    protected $permissions = [];
 
     /**
      * @var array A cache of permissions.
@@ -65,9 +65,7 @@ class PermissionManager
         $grouped = [];
 
         foreach ($this->listPermissions() as $permission) {
-            $group = isset($permission->group)
-                ? strtolower($permission->group)
-                : 'Undefined group';
+            $group = strtolower(strlen($permission->group) ? $permission->group : 'Undefined group');
 
             $permission->group ??= $group;
 
@@ -106,34 +104,38 @@ class PermissionManager
 
     protected function checkPermissionStartsWith($permission, $permissions)
     {
-        if (strlen($permission) > 1 && ends_with($permission, '*')) {
-            $checkPermission = substr($permission, 0, -1);
+        $checkPermission = (strlen($permission) > 1 && ends_with($permission, '*'))
+            ? substr($permission, 0, -1) : $permission;
 
-            foreach ($permissions as $groupPermission => $permitted) {
-                // Let's make sure the available permission starts with our permission
-                if ($checkPermission != $groupPermission
-                    && starts_with($groupPermission, $checkPermission)
-                    && $permitted == 1
-                ) {
-                    return true;
-                }
+        foreach ($permissions as $groupPermission => $permitted) {
+            $groupPermission = (strlen($groupPermission) > 1 && ends_with($groupPermission, '*'))
+                ? substr($groupPermission, 0, -1) : $groupPermission;
+
+            // Let's make sure the available permission starts with our permission
+            if ($checkPermission != $groupPermission
+                && (starts_with($groupPermission, $checkPermission) || starts_with($checkPermission, $groupPermission))
+                && $permitted == 1
+            ) {
+                return true;
             }
         }
     }
 
     protected function checkPermissionEndsWith($permission, $permissions)
     {
-        if (strlen($permission) > 1 && starts_with($permission, '*')) {
-            $checkPermission = substr($permission, 1);
+        $checkPermission = (strlen($permission) > 1 && starts_with($permission, '*'))
+            ? substr($permission, 1) : $permission;
 
-            foreach ($permissions as $groupPermission => $permitted) {
-                // Let's make sure the available permission ends with our permission
-                if ($checkPermission != $groupPermission
-                    && ends_with($groupPermission, $checkPermission)
-                    && $permitted == 1
-                ) {
-                    return true;
-                }
+        foreach ($permissions as $groupPermission => $permitted) {
+            $groupPermission = (strlen($groupPermission) > 1 && starts_with($groupPermission, '*'))
+                ? substr($groupPermission, 1) : $groupPermission;
+
+            // Let's make sure the available permission ends with our permission
+            if ($checkPermission != $groupPermission
+                && (ends_with($groupPermission, $checkPermission) || ends_with($checkPermission, $groupPermission))
+                && $permitted == 1
+            ) {
+                return true;
             }
         }
     }
@@ -141,18 +143,7 @@ class PermissionManager
     protected function checkPermissionMatches($permission, $permissions)
     {
         foreach ($permissions as $groupPermission => $permitted) {
-            if ((strlen($groupPermission) > 1) && ends_with($groupPermission, '*')) {
-                $checkMergedPermission = substr($groupPermission, 0, -1);
-
-                // Let's make sure the our permission starts with available permission
-                if ($checkMergedPermission != $permission
-                    && starts_with($permission, $checkMergedPermission)
-                    && $permitted == 1
-                ) {
-                    return true;
-                }
-            } // Match permissions explicitly.
-            elseif ($permission == $groupPermission && $permitted == 1) {
+            if ($permission == $groupPermission && $permitted == 1) {
                 return true;
             }
         }
@@ -164,10 +155,6 @@ class PermissionManager
 
     public function registerPermissions($owner, array $definitions)
     {
-        if (!$this->permissions) {
-            $this->permissions = [];
-        }
-
         foreach ($definitions as $code => $definition) {
             if (!isset($definition['label']) && isset($definition['description'])) {
                 $definition['label'] = $definition['description'];

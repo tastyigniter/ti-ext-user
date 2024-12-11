@@ -4,6 +4,7 @@ namespace Igniter\User\Notifications;
 
 use Igniter\Cart\Models\Order;
 use Igniter\User\Classes\Notification;
+use Igniter\User\Facades\AdminAuth;
 
 class AssigneeUpdatedNotification extends Notification
 {
@@ -12,7 +13,7 @@ class AssigneeUpdatedNotification extends Notification
         $recipients = [];
         if (!$this->subject->assignee && $this->subject->assignee_group) {
             foreach ($this->subject->assignable->listGroupAssignees() as $assignee) {
-                if (auth()->user() && $assignee->getKey() === auth()->user()->getKey()) {
+                if (AdminAuth::user() && $assignee->getKey() === AdminAuth::user()->getKey()) {
                     continue;
                 }
 
@@ -48,9 +49,7 @@ class AssigneeUpdatedNotification extends Notification
             ? lang('igniter.cart::default.orders.notify_assigned')
             : lang('igniter.reservation::default.notify_assigned');
 
-        $causerName = $this->subject->user
-            ? $this->subject->user->full_name
-            : lang('igniter::admin.text_system');
+        $causerName = $this->subject->user ? $this->subject->user->full_name : lang('igniter::admin.text_system');
 
         $assigneeName = '';
         if ($this->subject->assignee) {

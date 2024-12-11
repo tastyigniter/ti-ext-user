@@ -4,6 +4,7 @@ namespace Igniter\User\Http\Middleware;
 
 use Igniter\Flame\Igniter;
 use Igniter\User\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Symfony\Component\HttpFoundation\Response;
 
 class InjectImpersonateBanner
@@ -28,7 +29,7 @@ class InjectImpersonateBanner
     protected function injectBanner(Response $response): void
     {
         $content = $response->getContent();
-        $banner = view('igniter.user::_partials.impersonate_banner')->render();
+        $banner = View::make('igniter.user::_partials.impersonate_banner')->render();
         $pos = strripos($content, '</body>');
         if ($pos !== false) {
             $content = substr($content, 0, $pos).$banner.substr($content, $pos);

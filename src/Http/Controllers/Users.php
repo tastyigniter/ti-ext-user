@@ -108,7 +108,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public function index_onDelete()
     {
         throw_unless($this->authorize('Admin.DeleteStaffs'),
-            new FlashException(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted')),
         );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\ListController::class)->index_onDelete();
@@ -117,7 +117,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public function edit_onDelete($context, $recordId)
     {
         throw_unless($this->authorize('Admin.DeleteStaffs'),
-            new FlashException(lang('igniter::admin.alert_user_restricted'))
+            new FlashException(lang('igniter::admin.alert_user_restricted')),
         );
 
         return $this->asExtension(\Igniter\Admin\Http\Actions\FormController::class)->edit_onDelete($context, $recordId);
@@ -126,14 +126,14 @@ class Users extends \Igniter\Admin\Classes\AdminController
     public function onImpersonate($context, $recordId = null)
     {
         throw_unless($this->authorize('Admin.Impersonate'),
-            new FlashException(lang('igniter.user::default.staff.alert_login_restricted'))
+            new FlashException(lang('igniter.user::default.staff.alert_login_restricted')),
         );
 
         $id = post('recordId', $recordId);
         if ($user = $this->formFindModelObject((int)$id)) {
             AdminAuth::stopImpersonate();
             AdminAuth::impersonate($user);
-            flash()->success(sprintf(lang('igniter.user::default.customers.alert_impersonate_success'), $user->name));
+            flash()->success(sprintf(lang('igniter.user::default.staff.alert_impersonate_success'), $user->name));
         }
 
         return $this->redirect('dashboard');
@@ -159,13 +159,6 @@ class Users extends \Igniter\Admin\Classes\AdminController
             $form->removeField('user_role_id');
             $form->removeField('status');
             $form->removeField('super_user');
-        }
-    }
-
-    public function formAfterSave($model)
-    {
-        if ($this->status && !$this->is_activated) {
-            $model->completeActivation($model->getActivationCode());
         }
     }
 }

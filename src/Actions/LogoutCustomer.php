@@ -4,8 +4,9 @@ namespace Igniter\User\Actions;
 
 use Igniter\User\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Session;
 
-class LogoutUser
+class LogoutCustomer
 {
     public function handle()
     {
@@ -16,12 +17,12 @@ class LogoutUser
         } else {
             Auth::logout();
 
-            session()->invalidate();
+            Session::invalidate();
 
-            session()->regenerateToken();
+            Session::regenerateToken();
 
             if ($user) {
-                Event::fire('igniter.user.logout', [$user]);
+                Event::dispatch('igniter.user.logout', [$user]);
             }
         }
 

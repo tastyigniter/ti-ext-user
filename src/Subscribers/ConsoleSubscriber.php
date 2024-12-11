@@ -3,7 +3,7 @@
 namespace Igniter\User\Subscribers;
 
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class ConsoleSubscriber
 {

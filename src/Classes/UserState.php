@@ -120,7 +120,7 @@ class UserState
 
     public function updateState(string $status, string $message, int $clearAfterMinutes = 30)
     {
-        UserPreference::onUser()->set(self::USER_PREFERENCE_KEY, array_merge($this->defaultStateConfig, [
+        UserPreference::onUser($this->user)->set(self::USER_PREFERENCE_KEY, array_merge($this->defaultStateConfig, [
             'status' => $status,
             'updatedAt' => now(),
             'awayMessage' => e($message),
@@ -130,7 +130,7 @@ class UserState
         $this->stateConfigCache = null;
     }
 
-    protected function getConfig($key = null, $default = null)
+    public function getConfig($key = null, $default = null)
     {
         if (is_null($this->stateConfigCache)) {
             $this->stateConfigCache = $this->loadConfigFromPreference();

@@ -23,18 +23,15 @@ class ClearUserStateCommand extends Command
             ->where('value->clearAfterMinutes', '!=', 0)
             ->get()
             ->each(function($preference) {
-                $state = json_decode($preference->value);
-                if (!$state->clearAfterMinutes) {
-                    return true;
-                }
-
-                if (now()->lessThan(make_carbon($state->updatedAt)->addMinutes($state->clearAfterMinutes))) {
+                $clearAfterMinutes = $preference->value['clearAfterMinutes'] ?? 0;
+                $updatedAt = $preference->value['updatedAt'] ?? null;
+                if (!$clearAfterMinutes || now()->lessThan(make_carbon($updatedAt)->addMinutes($clearAfterMinutes))) {
                     return true;
                 }
 
                 UserPreference::query()
                     ->where('id', $preference->id)
-                    ->update(['value' => json_encode((new static)->defaultStateConfig)]);
+                    ->update(['value' => json_encode((new UserState)->getConfig())]);
             });
     }
 }

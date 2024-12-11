@@ -14,7 +14,10 @@ class UserRoleFactory extends Factory
             'code' => $this->faker->slug(2),
             'name' => $this->faker->sentence(2),
             'description' => $this->faker->paragraph(),
-            'permissions' => [$this->faker->numberBetween(1, 99)],
+            'permissions' => [
+                'Admin.Dashboard' => 1,
+                'Admin.Users' => 1,
+            ],
         ];
     }
 }

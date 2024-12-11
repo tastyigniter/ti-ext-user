@@ -26,7 +26,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         ]);
 
         $this->user = $this->getController()->getUser();
-        $this->userState = UserState::forUser();
+        $this->userState = UserState::forUser($this->user);
     }
 
     public function render()
@@ -71,7 +71,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         ]);
 
         throw_if($validated['status'] < 1 && !strlen($validated['message']),
-            new FlashException(lang('igniter::admin.side_menu.alert_invalid_status'))
+            new FlashException(lang('igniter::admin.side_menu.alert_invalid_status')),
         );
 
         $this->userState->updateState($validated['status'], $validated['message'] ?? '', $validated['clear_after']);
