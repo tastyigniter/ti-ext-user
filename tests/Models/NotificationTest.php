@@ -4,6 +4,7 @@ namespace Igniter\User\Tests\Models;
 
 use Igniter\User\Models\Notification;
 use Igniter\User\Models\User;
+use Illuminate\Database\Eloquent\Prunable;
 
 it('can get title attribute', function() {
     $notification = new Notification;
@@ -53,4 +54,11 @@ it('can prune notifications', function() {
     $query = (new Notification)->prunable();
 
     expect($query->toSql())->toContain('`read_at` is not null and `read_at` <= ?');
+});
+
+it('configures automation logs correctly', function() {
+    $model = new Notification;
+
+    expect(class_uses_recursive($model))
+        ->toHaveKey(Prunable::class);
 });

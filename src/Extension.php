@@ -125,6 +125,8 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                 ],
             ];
         });
+
+        Igniter::prunableModel(Notification::class);
     }
 
     public function registerAutomationRules()
