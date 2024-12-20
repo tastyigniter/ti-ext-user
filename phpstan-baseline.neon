@@ -3,57 +3,42 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:attempt\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/LoginUser.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 2
-			path: src/Actions/LoginUser.php
+			path: src/Actions/LoginCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getUser\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/LogoutUser.php
+			path: src/Actions/LogoutCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/LogoutUser.php
+			path: src/Actions/LogoutCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:logout\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/LogoutUser.php
+			path: src/Actions/LogoutCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:stopImpersonate\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/LogoutUser.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Actions/LogoutUser.php
+			path: src/Actions/LogoutCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getProvider\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/RegisterUser.php
+			path: src/Actions/RegisterCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:login\\(\\)\\.$#"
 			count: 2
-			path: src/Actions/RegisterUser.php
+			path: src/Actions/RegisterCustomer.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\Customer\\:\\:whereActivationCode\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/RegisterUser.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 2
-			path: src/Actions/RegisterUser.php
+			path: src/Actions/RegisterCustomer.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:refresh\\(\\)\\.$#"
@@ -241,22 +226,7 @@ parameters:
 			path: src/Classes/UserState.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Console\\\\Commands\\\\ClearUserStateCommand\\:\\:\\$defaultStateConfig\\.$#"
-			count: 1
-			path: src/Console/Commands/ClearUserStateCommand.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$id\\.$#"
-			count: 1
-			path: src/Console/Commands/ClearUserStateCommand.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/Console/Commands/ClearUserStateCommand.php
-
-		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Console/Commands/ClearUserStateCommand.php
 
@@ -269,11 +239,6 @@ parameters:
 			message: "#^Access to an undefined property Faker\\\\Generator\\:\\:\\$state\\.$#"
 			count: 1
 			path: src/Database/Factories/AddressFactory.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:rebinding\\(\\)\\.$#"
-			count: 1
-			path: src/Extension.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getKey\\(\\)\\.$#"
@@ -319,16 +284,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/CustomerGroups.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Http\\\\Controllers\\\\Customers\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Http\\\\Controllers\\\\Customers\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Http\\\\Controllers\\\\Customers\\:\\:formFindModelObject\\(\\)\\.$#"
@@ -404,16 +359,6 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/UserRoles.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Http\\\\Controllers\\\\Users\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Http\\\\Controllers\\\\Users\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$email\\.$#"
@@ -576,11 +521,6 @@ parameters:
 			path: src/Models/Customer.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$customer\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$customer_id\\.$#"
 			count: 1
 			path: src/Models/Customer.php
@@ -592,7 +532,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$first_name\\.$#"
-			count: 2
+			count: 1
 			path: src/Models/Customer.php
 
 		-
@@ -607,7 +547,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
-			count: 2
+			count: 1
 			path: src/Models/Customer.php
 
 		-
@@ -617,7 +557,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$last_name\\.$#"
-			count: 2
+			count: 1
 			path: src/Models/Customer.php
 
 		-
@@ -696,6 +636,11 @@ parameters:
 			path: src/Models/CustomerGroup.php
 
 		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$group\\.$#"
+			count: 1
+			path: src/Models/Observers/CustomerObserver.php
+
+		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
 			count: 1
 			path: src/Models/Observers/CustomerObserver.php
@@ -709,6 +654,16 @@ parameters:
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\Customer\\:\\:addresses\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Observers/CustomerObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$is_activated\\.$#"
+			count: 1
+			path: src/Models/Observers/UserObserver.php
+
+		-
+			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$status\\.$#"
+			count: 1
+			path: src/Models/Observers/UserObserver.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\User\\:\\:groups\\(\\)\\.$#"
@@ -831,11 +786,6 @@ parameters:
 			path: src/Models/User.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$assign_value\\.$#"
 			count: 1
 			path: src/Models/UserGroup.php
@@ -941,7 +891,7 @@ parameters:
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Factory\\:\\:user\\(\\)\\.$#"
+			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
 			count: 2
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
