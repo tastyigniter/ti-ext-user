@@ -2,7 +2,7 @@
 
 namespace Igniter\User\Classes;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\User\Http\Controllers\Login;
 use Igniter\User\Http\Controllers\Logout;
 use Illuminate\Routing\Router;

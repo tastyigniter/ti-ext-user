@@ -8,7 +8,7 @@ use Igniter\Admin\DashboardWidgets\Charts;
 use Igniter\Admin\DashboardWidgets\Statistics;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\Local\Models\Location;
 use Igniter\System\Contracts\StickyNotification;
 use Igniter\System\Models\Settings;

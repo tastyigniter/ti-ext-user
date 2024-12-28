@@ -2,7 +2,7 @@
 
 namespace Igniter\User\Auth;
 
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -85,7 +85,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $guard = new $guardClass($name,
             $auth->createUserProvider($config['provider']),
-            $this->app['session.store']
+            $this->app['session.store'],
         );
 
         $guard->setCookieJar($this->app['cookie']);

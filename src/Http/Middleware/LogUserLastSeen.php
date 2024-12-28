@@ -4,7 +4,7 @@ namespace Igniter\User\Http\Middleware;
 
 use Carbon\Carbon;
 use Closure;
-use Igniter\Flame\Igniter;
+use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Support\Facades\Cache;
 
 class LogUserLastSeen
