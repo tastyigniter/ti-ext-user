@@ -46,6 +46,16 @@ parameters:
 			path: src/Auth/AuthServiceProvider.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:isAdminUser\\(\\)\\.$#"
+			count: 1
+			path: src/Auth/AuthServiceProvider.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:runningInAdmin\\(\\)\\.$#"
+			count: 2
+			path: src/Auth/AuthServiceProvider.php
+
+		-
 			message: "#^Method Illuminate\\\\Foundation\\\\Configuration\\\\Middleware\\:\\:redirectGuestsTo\\(\\) invoked with 2 parameters, 1 required\\.$#"
 			count: 1
 			path: src/Auth/AuthServiceProvider.php
@@ -216,6 +226,11 @@ parameters:
 			path: src/Auth/UserProvider.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:adminUri\\(\\)\\.$#"
+			count: 1
+			path: src/Classes/RouteRegistrar.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
 			count: 1
 			path: src/Classes/UserState.php
@@ -253,6 +268,16 @@ parameters:
 		-
 			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:registerHook\\(\\)\\.$#"
 			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:prunableModel\\(\\)\\.$#"
+			count: 1
+			path: src/Extension.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:runningInAdmin\\(\\)\\.$#"
+			count: 2
 			path: src/Extension.php
 
 		-
@@ -421,6 +446,11 @@ parameters:
 			path: src/Http/Controllers/Users.php
 
 		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:runningInAdmin\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Middleware/InjectImpersonateBanner.php
+
+		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:check\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Middleware/InjectImpersonateBanner.php
@@ -429,6 +459,11 @@ parameters:
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Middleware/InjectImpersonateBanner.php
+
+		-
+			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:hasDatabase\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Middleware/LogUserLastSeen.php
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
