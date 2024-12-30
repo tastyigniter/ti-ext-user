@@ -33,7 +33,7 @@ it('loads customer group preview page', function() {
 });
 
 it('sets a default customer group', function() {
-    CustomerGroup::$defaultModels = [];
+    CustomerGroup::clearDefaultModel();
     $customerGroup = CustomerGroup::factory()->create();
 
     actingAsSuperUser()
