@@ -1,3 +1,10 @@
+<p align="center">
+    <a href="https://github.com/tastyigniter/ti-ext-user/actions"><img src="https://github.com/tastyigniter/ti-ext-user/actions/workflows/pipeline.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://packagist.org/packages/tastyigniter/ti-ext-user"><img src="https://img.shields.io/packagist/dt/tastyigniter/ti-ext-user" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/tastyigniter/ti-ext-user"><img src="https://img.shields.io/packagist/v/tastyigniter/ti-ext-user" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/tastyigniter/ti-ext-user"><img src="https://img.shields.io/packagist/l/tastyigniter/ti-ext-user" alt="License"></a>
+</p>
+
 ## Introduction
 
 The TastyIgniter user extension is a fundamental part of the TastyIgniter platform, providing comprehensive user management capabilities. It allows administrators to manage front-end users (customers) and staff members, handle authentication, registration, password reset, email verification, and user impersonation.
