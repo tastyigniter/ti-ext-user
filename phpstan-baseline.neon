@@ -1,38 +1,13 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:attempt\\(\\)\\.$#"
-			count: 1
-			path: src/Actions/LoginCustomer.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getUser\\(\\)\\.$#"
+			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Actions/LogoutCustomer.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\UserProvider\\:\\:register\\(\\)\\.$#"
 			count: 1
-			path: src/Actions/LogoutCustomer.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:logout\\(\\)\\.$#"
-			count: 1
-			path: src/Actions/LogoutCustomer.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:stopImpersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Actions/LogoutCustomer.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:getProvider\\(\\)\\.$#"
-			count: 1
-			path: src/Actions/RegisterCustomer.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:login\\(\\)\\.$#"
-			count: 2
 			path: src/Actions/RegisterCustomer.php
 
 		-
@@ -43,16 +18,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:refresh\\(\\)\\.$#"
 			count: 1
-			path: src/Auth/AuthServiceProvider.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:isAdminUser\\(\\)\\.$#"
-			count: 1
-			path: src/Auth/AuthServiceProvider.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:runningInAdmin\\(\\)\\.$#"
-			count: 2
 			path: src/Auth/AuthServiceProvider.php
 
 		-
@@ -226,16 +191,6 @@ parameters:
 			path: src/Auth/UserProvider.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:adminUri\\(\\)\\.$#"
-			count: 1
-			path: src/Classes/RouteRegistrar.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
-			count: 1
-			path: src/Classes/UserState.php
-
-		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 1
 			path: src/Classes/UserState.php
@@ -261,27 +216,7 @@ parameters:
 			path: src/Extension.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:registerCallback\\(\\)\\.$#"
-			count: 1
-			path: src/Extension.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:registerHook\\(\\)\\.$#"
-			count: 1
-			path: src/Extension.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:prunableModel\\(\\)\\.$#"
-			count: 1
-			path: src/Extension.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:runningInAdmin\\(\\)\\.$#"
-			count: 2
-			path: src/Extension.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:customer\\(\\)\\.$#"
+			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:customer\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Extension.php
 
@@ -306,49 +241,9 @@ parameters:
 			path: src/Http/Controllers/CustomerGroups.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/CustomerGroups.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Http\\\\Controllers\\\\Customers\\:\\:formFindModelObject\\(\\)\\.$#"
 			count: 2
 			path: src/Http/Controllers/Customers.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setButton\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:impersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:stopImpersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Customers.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\Template\\:\\:setTitle\\(\\)\\.$#"
-			count: 2
-			path: src/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:attempt\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Login.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\)\\.$#"
-			count: 2
-			path: src/Http/Controllers/Login.php
 
 		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\User\\:\\:whereEmail\\(\\)\\.$#"
@@ -361,29 +256,14 @@ parameters:
 			path: src/Http/Controllers/Login.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isImpersonator\\(\\)\\.$#"
+			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\) \\(void\\) is used\\.$#"
+			count: 2
+			path: src/Http/Controllers/Login.php
+
+		-
+			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isImpersonator\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Http/Controllers/Logout.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:logout\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Logout.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:stopImpersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Logout.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/UserGroups.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/UserRoles.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$email\\.$#"
@@ -416,64 +296,19 @@ parameters:
 			path: src/Http/Controllers/Users.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\Admin\\\\Facades\\\\AdminMenu\\:\\:setContext\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:impersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isSuperUser\\(\\)\\.$#"
+			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isSuperUser\\(\\) \\(void\\) is used\\.$#"
 			count: 3
 			path: src/Http/Controllers/Users.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:login\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:logout\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:stopImpersonate\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:runningInAdmin\\(\\)\\.$#"
+			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Http/Middleware/InjectImpersonateBanner.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:check\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/InjectImpersonateBanner.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/InjectImpersonateBanner.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\Flame\\\\Support\\\\Facades\\\\Igniter\\:\\:hasDatabase\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/LogUserLastSeen.php
 
 		-
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Middleware/ThrottleRequests.php
-
-		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:id\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Requests/UserRequest.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$assignable\\.$#"
@@ -876,11 +711,6 @@ parameters:
 			path: src/Models/UserPreference.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:getUser\\(\\)\\.$#"
-			count: 1
-			path: src/Models/UserPreference.php
-
-		-
 			message: "#^Call to an undefined static method Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:applyItemAndUser\\(\\)\\.$#"
 			count: 1
 			path: src/Models/UserPreference.php
@@ -926,8 +756,8 @@ parameters:
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
-			message: "#^Call to an undefined static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:user\\(\\)\\.$#"
-			count: 2
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Auth\\\\Authenticatable\\:\\:getKey\\(\\)\\.$#"
+			count: 1
 			path: src/Notifications/AssigneeUpdatedNotification.php
 
 		-
