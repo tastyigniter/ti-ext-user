@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getUserEmail()
  * @method static string getStaffName()
  * @method static string getStaffEmail()
- * @method static \Illuminate\Contracts\Auth\Authenticatable|\Igniter\User\Auth\Models\User|null user()
+ * @method static \Igniter\User\Auth\Models\User|\Illuminate\Contracts\Auth\Authenticatable|null user()
  * @method static int|string|null id()
  * @method static bool once(array $credentials = [])
  * @method static \Illuminate\Contracts\Auth\Authenticatable|false onceUsingId(mixed $id)
