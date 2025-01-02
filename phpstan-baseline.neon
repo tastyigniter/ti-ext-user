@@ -256,11 +256,6 @@ parameters:
 			path: src/Http/Controllers/Login.php
 
 		-
-			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isLogged\\(\\) \\(void\\) is used\\.$#"
-			count: 2
-			path: src/Http/Controllers/Login.php
-
-		-
 			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isImpersonator\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Http/Controllers/Logout.php
@@ -293,11 +288,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
 			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\AdminAuth\\:\\:isSuperUser\\(\\) \\(void\\) is used\\.$#"
-			count: 3
 			path: src/Http/Controllers/Users.php
 
 		-
