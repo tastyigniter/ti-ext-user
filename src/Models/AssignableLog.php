@@ -11,6 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * AssignableLog Model Class
+ *
+ * @property int $id
+ * @property string $assignable_type
+ * @property int $assignable_id
+ * @property int|null $assignee_id
+ * @property int|null $assignee_group_id
+ * @property int|null $user_id
+ * @property int|null $status_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @mixin \Igniter\Flame\Database\Model
  */
 class AssignableLog extends Model
 {

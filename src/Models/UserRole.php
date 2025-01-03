@@ -7,6 +7,19 @@ use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use InvalidArgumentException;
 
+/**
+ * UserRole Model Class
+ *
+ * @property int $user_role_id
+ * @property string $name
+ * @property string|null $code
+ * @property string|null $description
+ * @property mixed|null $permissions
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $staff_count
+ * @mixin \Igniter\Flame\Database\Model
+ */
 class UserRole extends Model
 {
     use HasFactory;

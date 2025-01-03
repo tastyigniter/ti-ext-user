@@ -7,6 +7,18 @@ use Igniter\Flame\Database\Model;
 
 /**
  * UserGroup Model Class
+ *
+ * @property int $user_group_id
+ * @property string $user_group_name
+ * @property string $description
+ * @property bool|null $auto_assign
+ * @property int|null $auto_assign_mode
+ * @property int|null $auto_assign_limit
+ * @property bool|null $auto_assign_availability
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $staff_count
+ * @mixin \Igniter\Flame\Database\Model
  */
 class UserGroup extends Model
 {
@@ -71,7 +83,7 @@ class UserGroup extends Model
     public static function syncAutoAssignStatus()
     {
         setting()->setPref('allocator_is_enabled',
-            self::query()->where('auto_assign', 1)->exists()
+            self::query()->where('auto_assign', 1)->exists(),
         );
     }
 

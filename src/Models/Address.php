@@ -9,6 +9,19 @@ use Igniter\User\Models\Concerns\HasCustomer;
 
 /**
  * Address Model Class
+ *
+ * @property int $address_id
+ * @property int|null $customer_id
+ * @property string $address_1
+ * @property string|null $address_2
+ * @property string|null $city
+ * @property string|null $state
+ * @property string|null $postcode
+ * @property int $country_id
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @property-read mixed $formatted_address
+ * @mixin \Igniter\Flame\Database\Model
  */
 class Address extends Model
 {
@@ -55,7 +68,7 @@ class Address extends Model
     {
         return self::updateOrCreate(
             array_only($address, ['customer_id', 'address_id']),
-            $address
+            $address,
         );
     }
 

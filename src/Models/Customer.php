@@ -16,6 +16,36 @@ use Igniter\User\Models\Concerns\SendsInvite;
 
 /**
  * Customer Model Class
+ *
+ * @property int $customer_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property string $password
+ * @property string|null $telephone
+ * @property int|null $address_id
+ * @property bool|null $newsletter
+ * @property int $customer_group_id
+ * @property string|null $ip_address
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property bool $status
+ * @property string|null $reset_code
+ * @property \Illuminate\Support\Carbon|null $reset_time
+ * @property string|null $activation_code
+ * @property string|null $remember_token
+ * @property bool|null $is_activated
+ * @property \Illuminate\Support\Carbon|null $activated_at
+ * @property \Illuminate\Support\Carbon|null $last_login
+ * @property string|null $last_seen
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $invited_at
+ * @property string $last_location_area
+ * @property-read mixed $full_name
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Igniter\User\Models\Notification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\Api\Models\Token> $tokens
+ * @property-read int|null $tokens_count
+ * @mixin \Igniter\Flame\Database\Model
  */
 class Customer extends AuthUserModel
 {

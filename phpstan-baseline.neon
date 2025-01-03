@@ -96,16 +96,6 @@ parameters:
 			path: src/Auth/Models/User.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$password\\.$#"
-			count: 1
-			path: src/Auth/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$remember_token\\.$#"
-			count: 1
-			path: src/Auth/Models/User.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$reset_code\\.$#"
 			count: 4
 			path: src/Auth/Models/User.php
@@ -196,11 +186,6 @@ parameters:
 			path: src/Classes/UserState.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$id\\.$#"
-			count: 1
-			path: src/Console/Commands/ClearUserStateCommand.php
-
-		-
 			message: "#^Access to an undefined property Faker\\\\Generator\\:\\:\\$secondaryAddress\\.$#"
 			count: 1
 			path: src/Database/Factories/AddressFactory.php
@@ -212,11 +197,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Support\\\\Optional\\:\\:getKey\\(\\)\\.$#"
-			count: 1
-			path: src/Extension.php
-
-		-
-			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:customer\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Extension.php
 
@@ -261,22 +241,7 @@ parameters:
 			path: src/Http/Controllers/Logout.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$email\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$language\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$user_id\\.$#"
-			count: 1
-			path: src/Http/Controllers/Users.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$username\\.$#"
 			count: 1
 			path: src/Http/Controllers/Users.php
 
@@ -311,21 +276,6 @@ parameters:
 			path: src/Jobs/AllocateAssignable.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$assignee_id\\.$#"
-			count: 1
-			path: src/Jobs/AllocateAssignable.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$avatar_url\\.$#"
-			count: 1
-			path: src/MainMenuWidgets/UserPanel.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$name\\.$#"
-			count: 1
-			path: src/MainMenuWidgets/UserPanel.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$role\\.$#"
 			count: 1
 			path: src/MainMenuWidgets/UserPanel.php
@@ -351,21 +301,6 @@ parameters:
 			path: src/Models/Address.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$assignable_type\\.$#"
-			count: 1
-			path: src/Models/AssignableLog.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$status_id\\.$#"
-			count: 1
-			path: src/Models/AssignableLog.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$user_id\\.$#"
-			count: 1
-			path: src/Models/AssignableLog.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<static\\(Igniter\\\\User\\\\Models\\\\AssignableLog\\)\\>\\:\\:whereUnAssigned\\(\\)\\.$#"
 			count: 1
 			path: src/Models/AssignableLog.php
@@ -376,52 +311,7 @@ parameters:
 			path: src/Models/Customer.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$address_id\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$customer_id\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$email\\.$#"
-			count: 6
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$first_name\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$full_name\\.$#"
-			count: 2
-			path: src/Models/Customer.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$group\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$last_login\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$last_name\\.$#"
-			count: 1
-			path: src/Models/Customer.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$password\\.$#"
 			count: 1
 			path: src/Models/Customer.php
 
@@ -476,16 +366,6 @@ parameters:
 			path: src/Models/Customer.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\CustomerGroup\\:\\:\\$approval\\.$#"
-			count: 1
-			path: src/Models/CustomerGroup.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\CustomerGroup\\:\\:\\$group_name\\.$#"
-			count: 1
-			path: src/Models/CustomerGroup.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\CustomerGroup\\:\\:customers\\(\\)\\.$#"
 			count: 1
 			path: src/Models/CustomerGroup.php
@@ -501,29 +381,9 @@ parameters:
 			path: src/Models/Observers/CustomerObserver.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Models/Observers/CustomerObserver.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\Customer\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/Models/Observers/CustomerObserver.php
-
-		-
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\Customer\\:\\:addresses\\(\\)\\.$#"
 			count: 1
 			path: src/Models/Observers/CustomerObserver.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$is_activated\\.$#"
-			count: 1
-			path: src/Models/Observers/UserObserver.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/Models/Observers/UserObserver.php
 
 		-
 			message: "#^Call to an undefined method Igniter\\\\User\\\\Models\\\\User\\:\\:groups\\(\\)\\.$#"
@@ -541,33 +401,8 @@ parameters:
 			path: src/Models/User.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$email\\.$#"
-			count: 5
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$full_name\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$language\\.$#"
 			count: 2
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$language_id\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$name\\.$#"
-			count: 4
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$password\\.$#"
-			count: 1
 			path: src/Models/User.php
 
 		-
@@ -576,33 +411,8 @@ parameters:
 			path: src/Models/User.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$sale_permission\\.$#"
-			count: 3
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$status\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$super_user\\.$#"
-			count: 2
-			path: src/Models/User.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$user\\.$#"
 			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$user_role_id\\.$#"
-			count: 1
-			path: src/Models/User.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\User\\:\\:\\$username\\.$#"
-			count: 2
 			path: src/Models/User.php
 
 		-
@@ -651,21 +461,6 @@ parameters:
 			path: src/Models/UserGroup.php
 
 		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserGroup\\:\\:\\$auto_assign\\.$#"
-			count: 1
-			path: src/Models/UserGroup.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserGroup\\:\\:\\$auto_assign_limit\\.$#"
-			count: 1
-			path: src/Models/UserGroup.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserGroup\\:\\:\\$auto_assign_mode\\.$#"
-			count: 1
-			path: src/Models/UserGroup.php
-
-		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserGroup\\:\\:\\$users\\.$#"
 			count: 2
 			path: src/Models/UserGroup.php
@@ -687,16 +482,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Auth\\\\Models\\\\User\\:\\:\\$user_id\\.$#"
-			count: 1
-			path: src/Models/UserPreference.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$item\\.$#"
-			count: 1
-			path: src/Models/UserPreference.php
-
-		-
-			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\UserPreference\\:\\:\\$user_id\\.$#"
 			count: 1
 			path: src/Models/UserPreference.php
 

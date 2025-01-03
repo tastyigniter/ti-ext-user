@@ -8,6 +8,16 @@ use Igniter\System\Models\Concerns\Defaultable;
 
 /**
  * CustomerGroup Model Class
+ *
+ * @property int $customer_group_id
+ * @property string $group_name
+ * @property string|null $description
+ * @property bool $approval
+ * @property bool $is_default
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $customer_count
+ * @mixin \Igniter\Flame\Database\Model
  */
 class CustomerGroup extends Model
 {

@@ -11,6 +11,19 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * User Model Class
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $email_verified_at
+ * @property string $password
+ * @property string|null $remember_token
+ * @property string|null $created_at
+ * @property string|null $updated_at
+ * @mixin \Igniter\Flame\Database\Model
+ */
 class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
     use Authenticatable, HasApiTokens, Notifiable;

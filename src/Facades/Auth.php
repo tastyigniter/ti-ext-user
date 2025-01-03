@@ -5,7 +5,7 @@ namespace Igniter\User\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static void customer()
+ * @method static \Igniter\User\Models\Customer|\Illuminate\Contracts\Auth\Authenticatable|null customer()
  * @method static void isLogged()
  * @method static void getId()
  * @method static void getFullName()
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void getTelephone()
  * @method static void getAddressId()
  * @method static void getGroupId()
- * @method static \Illuminate\Contracts\Auth\Authenticatable|null user()
+ * @method static \Illuminate\Contracts\Auth\Authenticatable|\Igniter\User\Auth\Models\User|null user()
  * @method static int|string|null id()
  * @method static bool once(array $credentials = [])
  * @method static \Illuminate\Contracts\Auth\Authenticatable|false onceUsingId(mixed $id)

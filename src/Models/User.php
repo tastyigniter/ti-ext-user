@@ -14,6 +14,38 @@ use Igniter\User\Models\Concerns\SendsInvite;
 
 /**
  * Users Model Class
+ *
+ * @property int $user_id
+ * @property string $name
+ * @property string|null $email
+ * @property int|null $user_role_id
+ * @property int|null $language_id
+ * @property bool $status
+ * @property int $sale_permission
+ * @property string $username
+ * @property string $password
+ * @property bool|null $super_user
+ * @property string|null $reset_code
+ * @property \Illuminate\Support\Carbon|null $reset_time
+ * @property string|null $activation_code
+ * @property string|null $remember_token
+ * @property bool|null $is_activated
+ * @property \Illuminate\Support\Carbon|null $activated_at
+ * @property \Illuminate\Support\Carbon|null $last_login
+ * @property string|null $last_seen
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $invited_at
+ * @property int|null $vendor_id
+ * @property-read mixed $avatar_url
+ * @property-read mixed $full_name
+ * @property-read mixed $staff_email
+ * @property-read mixed $staff_name
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Igniter\User\Models\Notification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\Api\Models\Token> $tokens
+ * @property-read int|null $tokens_count
+ * @mixin \Igniter\Flame\Database\Model
  */
 class User extends AuthUserModel
 {

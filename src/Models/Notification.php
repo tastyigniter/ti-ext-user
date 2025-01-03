@@ -7,6 +7,25 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Notifications\DatabaseNotification;
 
+/**
+ * Notification Model
+ *
+ * @property string $id
+ * @property string $type
+ * @property string $notifiable_type
+ * @property int $notifiable_id
+ * @property array $data
+ * @property \Illuminate\Support\Carbon|null $read_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $icon
+ * @property-read mixed $icon_color
+ * @property-read mixed $message
+ * @property-read mixed $title
+ * @property-read mixed $url
+ * @property-read \Illuminate\Database\Eloquent\Model|\Igniter\Flame\Database\Model $notifiable
+ * @mixin \Igniter\Flame\Database\Model
+ */
 class Notification extends DatabaseNotification
 {
     use Prunable;

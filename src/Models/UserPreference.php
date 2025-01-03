@@ -6,6 +6,15 @@ use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Facades\AdminAuth;
 
+/**
+ * UserPreference Model
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $item
+ * @property array $value
+ * @mixin \Igniter\Flame\Database\Model
+ */
 class UserPreference extends Model
 {
     /**
