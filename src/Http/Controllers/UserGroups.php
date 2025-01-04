@@ -5,6 +5,10 @@ namespace Igniter\User\Http\Controllers;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\User\Models\UserGroup;
 
+/**
+ * @mixin \Igniter\Admin\Http\Actions\ListController
+ * @mixin \Igniter\Admin\Http\Actions\FormController
+ */
 class UserGroups extends \Igniter\Admin\Classes\AdminController
 {
     public array $implement = [

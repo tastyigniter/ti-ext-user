@@ -6,11 +6,14 @@ use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Facades\Template;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\Auth;
-
 use function flash;
 use function lang;
 use function post;
 
+/**
+ * @mixin \Igniter\Admin\Http\Actions\ListController
+ * @mixin \Igniter\Admin\Http\Actions\FormController
+ */
 class Customers extends \Igniter\Admin\Classes\AdminController
 {
     public array $implement = [

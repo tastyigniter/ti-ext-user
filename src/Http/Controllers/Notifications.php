@@ -2,6 +2,9 @@
 
 namespace Igniter\User\Http\Controllers;
 
+/**
+ * @mixin \Igniter\Admin\Http\Actions\ListController
+ */
 class Notifications extends \Igniter\Admin\Classes\AdminController
 {
     public array $implement = [

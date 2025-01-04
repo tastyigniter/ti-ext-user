@@ -216,13 +216,18 @@ parameters:
 			path: src/Http/Actions/AssigneeController.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\User\\\\Http\\\\Controllers\\\\CustomerGroups\\:\\:refreshList\\(\\)\\.$#"
+			message: "#^Access to an undefined property Igniter\\\\Flame\\\\Database\\\\Model\\:\\:\\$full_name\\.$#"
 			count: 1
-			path: src/Http/Controllers/CustomerGroups.php
+			path: src/Http/Controllers/Customers.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\User\\\\Http\\\\Controllers\\\\Customers\\:\\:formFindModelObject\\(\\)\\.$#"
-			count: 2
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:completeActivation\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Controllers/Customers.php
+
+		-
+			message: "#^Call to an undefined method Igniter\\\\Flame\\\\Database\\\\Model\\:\\:getActivationCode\\(\\)\\.$#"
+			count: 1
 			path: src/Http/Controllers/Customers.php
 
 		-
@@ -246,12 +251,12 @@ parameters:
 			path: src/Http/Controllers/Users.php
 
 		-
-			message: "#^Call to an undefined method Igniter\\\\User\\\\Http\\\\Controllers\\\\Users\\:\\:formFindModelObject\\(\\)\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Controllers/Users.php
 
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:reloadRelations\\(\\)\\.$#"
+			message: "#^Variable \\$user in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Http/Controllers/Users.php
 
@@ -259,11 +264,6 @@ parameters:
 			message: "#^Result of static method Igniter\\\\User\\\\Facades\\\\Auth\\:\\:isImpersonator\\(\\) \\(void\\) is used\\.$#"
 			count: 1
 			path: src/Http/Middleware/InjectImpersonateBanner.php
-
-		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Event\\:\\:fire\\(\\)\\.$#"
-			count: 1
-			path: src/Http/Middleware/ThrottleRequests.php
 
 		-
 			message: "#^Access to an undefined property Igniter\\\\User\\\\Models\\\\AssignableLog\\:\\:\\$assignable\\.$#"

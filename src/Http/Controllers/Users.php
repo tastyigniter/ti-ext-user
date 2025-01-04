@@ -5,7 +5,12 @@ namespace Igniter\User\Http\Controllers;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
 
+/**
+ * @mixin \Igniter\Admin\Http\Actions\ListController
+ * @mixin \Igniter\Admin\Http\Actions\FormController
+ */
 class Users extends \Igniter\Admin\Classes\AdminController
 {
     public array $implement = [
@@ -130,6 +135,7 @@ class Users extends \Igniter\Admin\Classes\AdminController
         );
 
         $id = post('recordId', $recordId);
+        /** @var User $user */
         if ($user = $this->formFindModelObject((int)$id)) {
             AdminAuth::stopImpersonate();
             AdminAuth::impersonate($user);
