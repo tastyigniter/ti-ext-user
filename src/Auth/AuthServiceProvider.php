@@ -3,6 +3,7 @@
 namespace Igniter\User\Auth;
 
 use Igniter\Flame\Support\Facades\Igniter;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -20,6 +21,11 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/auth.php', 'igniter-auth');
+
+        $this->registerGuards();
+
+        AliasLoader::getInstance()->alias('Auth', \Igniter\User\Facades\Auth::class);
+        AliasLoader::getInstance()->alias('AdminAuth', \Igniter\User\Facades\AdminAuth::class);
     }
 
     /**
@@ -47,6 +53,17 @@ class AuthServiceProvider extends ServiceProvider
                 fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.login' : 'igniter.theme.account.login'),
                 fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.dashboard' : 'igniter.theme.account.account'),
             );
+        });
+    }
+
+    protected function registerGuards(): void
+    {
+        $this->app->singleton('main.auth', function() {
+            return resolve('auth')->guard(config('igniter-auth.guards.web', 'web'));
+        });
+
+        $this->app->singleton('admin.auth', function() {
+            return resolve('auth')->guard(config('igniter-auth.guards.admin', 'web'));
         });
     }
 

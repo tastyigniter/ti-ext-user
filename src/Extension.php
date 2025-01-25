@@ -24,7 +24,6 @@ use Igniter\User\Models\User;
 use Igniter\User\Subscribers\AssigneeUpdatedSubscriber;
 use Igniter\User\Subscribers\ConsoleSubscriber;
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
@@ -64,11 +63,6 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
         $this->registerConsoleCommand('igniter.assignable.allocator', AllocatorCommand::class);
         $this->registerConsoleCommand('igniter.user-state.clear', ClearUserStateCommand::class);
-
-        $this->registerGuards();
-
-        AliasLoader::getInstance()->alias('Auth', \Igniter\User\Facades\Auth::class);
-        AliasLoader::getInstance()->alias('AdminAuth', \Igniter\User\Facades\AdminAuth::class);
 
         $this->registerBladeDirectives();
         $this->registerSystemSettings();
@@ -293,17 +287,6 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     {
         $this->callAfterResolving('blade.compiler', function($compiler, $app) {
             (new BladeExtension)->register();
-        });
-    }
-
-    protected function registerGuards(): void
-    {
-        $this->app->singleton('main.auth', function() {
-            return resolve('auth')->guard(config('igniter-auth.guards.web', 'web'));
-        });
-
-        $this->app->singleton('admin.auth', function() {
-            return resolve('auth')->guard(config('igniter-auth.guards.admin', 'web'));
         });
     }
 

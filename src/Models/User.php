@@ -350,6 +350,7 @@ class User extends AuthUserModel
         $this->user_role_id = array_get($attributes, 'user_role_id');
         $this->super_user = array_get($attributes, 'super_user', false);
         $this->status = array_get($attributes, 'status', true);
+        $this->is_activated = $activate ? false : null; // Set to false to prevent auto activation in observer
         $this->save();
 
         if ($activate) {
