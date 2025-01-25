@@ -8,9 +8,9 @@ use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Reservation\Models\Reservation;
+use Igniter\System\Models\Concerns\SendsMailTemplate;
 use Igniter\System\Models\Concerns\Switchable;
 use Igniter\System\Models\Country;
-use Igniter\System\Traits\SendsMailTemplate;
 use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Models\Concerns\SendsInvite;
 
