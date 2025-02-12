@@ -186,7 +186,7 @@ class User extends AuthUserModel
 
     public function hasPermission($permissions, $checkAll = true)
     {
-        // Bail out if the user is a super user
+        // Bail out if the user is a superuser
         if ($this->isSuperUser()) {
             return true;
         }
