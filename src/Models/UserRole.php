@@ -18,6 +18,7 @@ use InvalidArgumentException;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $staff_count
+ * @method static UserRole first()
  * @mixin \Igniter\Flame\Database\Model
  */
 class UserRole extends Model

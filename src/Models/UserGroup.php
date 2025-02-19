@@ -18,6 +18,7 @@ use Igniter\Flame\Database\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $staff_count
+ * @method static UserGroup first()
  * @mixin \Igniter\Flame\Database\Model
  */
 class UserGroup extends Model
