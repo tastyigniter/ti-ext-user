@@ -79,9 +79,9 @@ it('configures gate callback correctly', function() {
     $serviceProvider->boot();
 });
 
-//it('creates guard with correct configuration', function () {
+// it('creates guard with correct configuration', function () {
 //    $serviceProvider = new AuthServiceProvider($this->app);
 //    $guard = $serviceProvider->createGuard(UserGuard::class, 'igniter - admin', [], Auth::guard());
 //
 //    expect($guard)->toBeInstanceOf(UserGuard::class);
-//});
+// });
