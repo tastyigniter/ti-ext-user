@@ -45,7 +45,7 @@ use Igniter\User\Models\Concerns\SendsInvite;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\Api\Models\Token> $tokens
  * @property-read int|null $tokens_count
- * @property \Illuminate\Database\Eloquent\Collection<int, \Igniter\User\Models\UserGroup> $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\User\Models\UserGroup> $groups
  * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany groups()
  * @mixin \Igniter\Flame\Database\Model
  */

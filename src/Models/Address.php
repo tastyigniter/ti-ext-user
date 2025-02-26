@@ -2,10 +2,12 @@
 
 namespace Igniter\User\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\System\Models\Concerns\HasCountry;
 use Igniter\User\Models\Concerns\HasCustomer;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Address Model Class
@@ -21,6 +23,7 @@ use Igniter\User\Models\Concerns\HasCustomer;
  * @property string|null $created_at
  * @property string|null $updated_at
  * @property-read mixed $formatted_address
+ * @method static Builder<static>|LengthAwarePaginator listFrontEnd(array $options = [])
  * @mixin \Igniter\Flame\Database\Model
  */
 class Address extends Model

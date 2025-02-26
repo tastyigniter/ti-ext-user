@@ -3,7 +3,9 @@
 namespace Igniter\User\Models;
 
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
+use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
@@ -44,7 +46,11 @@ use Igniter\User\Models\Concerns\SendsInvite;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Igniter\User\Models\Notification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\Api\Models\Token> $tokens
+ * @property-read Address $address
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Address> $addresses
  * @property-read int|null $tokens_count
+ * @method static HasMany|Address addresses()
+ * @method static Builder|Customer listFrontEnd(array $options = [])
  * @mixin \Igniter\Flame\Database\Model
  */
 class Customer extends AuthUserModel
