@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\User\Facades\AdminAuth;
@@ -9,12 +11,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Route;
 use Illuminate\Validation\ValidationException;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->route = new Route('GET', 'login', ['as' => 'igniter.admin.login']);
     $this->route->parameters = ['slug' => ''];
 });
 
-it('loads login page if not logged in', function() {
+it('loads login page if not logged in', function(): void {
     $this->route->action = [];
     request()->setRouteResolver(fn() => $this->route);
 
@@ -23,7 +25,7 @@ it('loads login page if not logged in', function() {
     expect($response)->toBeInstanceOf(RedirectResponse::class);
 });
 
-it('redirects to dashboard if already logged in', function() {
+it('redirects to dashboard if already logged in', function(): void {
     AdminAuth::shouldReceive('isLogged')->andReturnTrue();
     AdminAuth::shouldReceive('isImpersonator')->andReturnFalse();
     AdminAuth::shouldReceive('check')->andReturnTrue();
@@ -35,7 +37,7 @@ it('redirects to dashboard if already logged in', function() {
         ->and((new Login)->checkUser())->toBeTrue();
 });
 
-it('renders login view if not logged in and on login route', function() {
+it('renders login view if not logged in and on login route', function(): void {
     request()->setRouteResolver(fn() => $this->route);
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
     AdminAuth::shouldReceive('isImpersonator')->andReturnFalse();
@@ -45,7 +47,7 @@ it('renders login view if not logged in and on login route', function() {
     expect($response)->toBeString();
 });
 
-it('renders reset password view', function() {
+it('renders reset password view', function(): void {
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
     AdminAuth::shouldReceive('isImpersonator')->andReturnFalse();
 
@@ -54,7 +56,7 @@ it('renders reset password view', function() {
     expect($response)->toBeString();
 });
 
-it('redirects reset password to dashboard if already logged in', function() {
+it('redirects reset password to dashboard if already logged in', function(): void {
     AdminAuth::shouldReceive('isLogged')->andReturnTrue();
 
     $response = (new Login)->reset();
@@ -62,7 +64,7 @@ it('redirects reset password to dashboard if already logged in', function() {
     expect($response)->toBeInstanceOf(RedirectResponse::class);
 });
 
-it('resets password successfully', function() {
+it('resets password successfully', function(): void {
     $user = User::factory()->create();
     request()->request->set('email', $user->email);
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
@@ -74,7 +76,7 @@ it('resets password successfully', function() {
         ->message->toBe(lang('igniter::admin.login.alert_email_sent'));
 });
 
-it('fails to reset password with invalid code', function() {
+it('fails to reset password with invalid code', function(): void {
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
     AdminAuth::shouldReceive('isImpersonator')->andReturnFalse();
     request()->merge(['code' => 'invalid_code']);
@@ -86,7 +88,7 @@ it('fails to reset password with invalid code', function() {
         ->message->toBe(lang('igniter::admin.login.alert_failed_reset'));
 });
 
-it('logs in successfully with valid credentials', function() {
+it('logs in successfully with valid credentials', function(): void {
     $data = ['email' => 'test@example.com', 'password' => 'password'];
     request()->request->add($data);
     AdminAuth::shouldReceive('attempt')->with($data, true)->andReturn(true);
@@ -96,7 +98,7 @@ it('logs in successfully with valid credentials', function() {
     expect($response->getTargetUrl())->toBe('http://localhost/admin/dashboard');
 });
 
-it('logs in successfully with valid credentials and redirects to custom url', function() {
+it('logs in successfully with valid credentials and redirects to custom url', function(): void {
     $data = ['email' => 'test@example.com', 'password' => 'password'];
     request()->request->add($data);
     request()->merge(['redirect' => 'orders']);
@@ -107,7 +109,7 @@ it('logs in successfully with valid credentials and redirects to custom url', fu
     expect($response->getTargetUrl())->toBe('http://localhost/admin/orders');
 });
 
-it('fails to log in with invalid credentials', function() {
+it('fails to log in with invalid credentials', function(): void {
     $data = ['email' => 'test@example.com', 'password' => 'wrong_password'];
     request()->request->add($data);
     AdminAuth::shouldReceive('attempt')->with($data, true)->andReturnFalse();
@@ -117,7 +119,7 @@ it('fails to log in with invalid credentials', function() {
     (new Login)->onLogin();
 });
 
-it('resets password successfully with valid code', function() {
+it('resets password successfully with valid code', function(): void {
     User::factory()->create([
         'reset_code' => 'valid_code',
         'reset_time' => now()->subMinutes(5),
@@ -132,7 +134,7 @@ it('resets password successfully with valid code', function() {
         ->message->toBe(lang('igniter::admin.login.alert_success_reset'));
 });
 
-it('resets password fails if code does not match', function() {
+it('resets password fails if code does not match', function(): void {
     User::factory()->create([
         'reset_code' => 'valid_code',
         'reset_time' => now()->subMinutes(5),

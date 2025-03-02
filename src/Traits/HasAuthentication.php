@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Traits;
 
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Models\User;
 use Illuminate\Contracts\Auth\Access\Gate;
 
 /**
@@ -10,17 +13,14 @@ use Illuminate\Contracts\Auth\Access\Gate;
  */
 trait HasAuthentication
 {
-    /**
-     * @var \Igniter\User\Models\User Stores the logged in admin user model.
-     */
-    protected $currentUser;
+    protected null|User $currentUser;
 
     public function checkUser()
     {
         return AdminAuth::check();
     }
 
-    public function setUser($currentUser)
+    public function setUser($currentUser): void
     {
         $this->currentUser = $currentUser;
     }

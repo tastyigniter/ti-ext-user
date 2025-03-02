@@ -1,23 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\MainMenuWidgets;
 
-class NotificationList extends \Igniter\Admin\Classes\BaseMainMenuWidget
+use Igniter\Admin\Classes\BaseMainMenuWidget;
+use Override;
+
+class NotificationList extends BaseMainMenuWidget
 {
-    public function render()
+    #[Override]
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('notificationlist/notificationlist');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $user = $this->getController()->getUser();
         $this->vars['unreadCount'] = $user->unreadNotifications()->count();
     }
 
-    public function onDropdownOptions()
+    public function onDropdownOptions(): array
     {
         $user = $this->getController()->getUser();
         $this->vars['notifications'] = $user->notifications()->get();
@@ -27,7 +33,7 @@ class NotificationList extends \Igniter\Admin\Classes\BaseMainMenuWidget
         ];
     }
 
-    public function onMarkAsRead()
+    public function onMarkAsRead(): array
     {
         $user = $this->getController()->getUser();
 

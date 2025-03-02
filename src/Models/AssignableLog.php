@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
 use Carbon\Carbon;
+use Igniter\Admin\Models\Status;
 use Igniter\Cart\Models\Order;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Igniter\Reservation\Models\Reservation;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +25,18 @@ use Illuminate\Support\Facades\DB;
  * @property int|null $status_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @mixin \Igniter\Flame\Database\Model
+ * @property-read Model $assignable
+ * @property-read null|Model $assignee_group
+ * @method static Builder<static>|AssignableLog query()
+ * @method static Builder<static>|AssignableLog applyAssignable(Model $assignable)
+ * @method static Builder<static>|AssignableLog whereAssignTo(int|string $assigneeId)
+ * @method static Builder<static>|AssignableLog whereAssignToGroup(int|string $assigneeGroupId)
+ * @method static Builder<static>|AssignableLog whereInAssignToGroup(array $assigneeGroupIds)
+ * @method static Builder<static>|AssignableLog whereUnAssigned()
+ * @method static Builder<static>|AssignableLog whereHasAutoAssignGroup()
+ * @method static Builder<static>|AssignableLog applyLoadBalancedScope(int|string $limit)
+ * @method static Builder<static>|AssignableLog applyRoundRobinScope()
+ * @mixin Model
  */
 class AssignableLog extends Model
 {
@@ -43,10 +58,10 @@ class AssignableLog extends Model
 
     public $relation = [
         'belongsTo' => [
-            'user' => \Igniter\User\Models\User::class,
-            'assignee' => \Igniter\User\Models\User::class,
-            'assignee_group' => \Igniter\User\Models\UserGroup::class,
-            'status' => \Igniter\Admin\Models\Status::class,
+            'user' => User::class,
+            'assignee' => User::class,
+            'assignee_group' => UserGroup::class,
+            'status' => Status::class,
         ],
         'morphTo' => [
             'assignable' => [],
@@ -61,12 +76,7 @@ class AssignableLog extends Model
         'status_id' => 'integer',
     ];
 
-    /**
-     * @param \Igniter\Flame\Database\Model|mixed $assignable
-     * @return static|bool
-     * @throws \Exception
-     */
-    public static function createLog($assignable, $user = null)
+    public static function createLog(Order|Reservation $assignable, ?Model $user = null): self
     {
         $attributes = [
             'assignable_type' => $assignable->getMorphClass(),
@@ -77,6 +87,7 @@ class AssignableLog extends Model
 
         self::query()->where($attributes)->delete();
 
+        /** @var AssignableLog $model */
         $model = self::query()->firstOrNew(array_merge($attributes, [
             'assignee_id' => $assignable->assignee_id,
         ]));
@@ -93,10 +104,7 @@ class AssignableLog extends Model
         return $model;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public static function getUnAssignedQueue($limit)
+    public static function getUnAssignedQueue($limit): Builder
     {
         return self::query()
             ->whereUnAssigned()
@@ -105,7 +113,7 @@ class AssignableLog extends Model
             ->limit($limit);
     }
 
-    public function isForOrder()
+    public function isForOrder(): bool
     {
         return $this->assignable_type === Order::make()->getMorphClass();
     }
@@ -114,25 +122,16 @@ class AssignableLog extends Model
     //
     //
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @param \Igniter\Flame\Database\Model $assignable
-     * @return mixed
-     */
-    public function scopeApplyAssignable($query, $assignable)
+    public function scopeApplyAssignable(Builder $query, Model $assignable): void
     {
-        return $query
+        $query
             ->where('assignable_type', $assignable->getMorphClass())
             ->where('assignable_id', $assignable->getKey());
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeApplyRoundRobinScope($query)
+    public function scopeApplyRoundRobinScope(Builder $query): void
     {
-        return $query
+        $query
             ->select('assignee_id')
             ->selectRaw('MAX(created_at) as assign_value')
             ->whereIn('status_id', setting('processing_order_status', []))
@@ -141,13 +140,9 @@ class AssignableLog extends Model
             ->orderBy('assign_value', 'asc');
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeApplyLoadBalancedScope($query, $limit)
+    public function scopeApplyLoadBalancedScope(Builder $query, string $limit): void
     {
-        return $query
+        $query
             ->select('assignee_id')
             ->selectRaw('COUNT(assignee_id)/'.DB::getPdo()->quote($limit).' as assign_value')
             ->whereIn('status_id', setting('processing_order_status', []))
@@ -157,49 +152,29 @@ class AssignableLog extends Model
             ->havingRaw('assign_value < 1');
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeWhereUnAssigned($query)
+    public function scopeWhereUnAssigned(Builder $query): void
     {
-        return $query->whereNotNull('assignee_group_id')->whereNull('assignee_id');
+        $query->whereNotNull('assignee_group_id')->whereNull('assignee_id');
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeWhereAssignTo($query, $assigneeId)
+    public function scopeWhereAssignTo(Builder $query, int|string $assigneeId): void
     {
-        return $query->where('assignee_id', $assigneeId);
+        $query->where('assignee_id', $assigneeId);
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeWhereAssignToGroup($query, $assigneeGroupId)
+    public function scopeWhereAssignToGroup(Builder $query, int|string $assigneeGroupId): void
     {
-        return $query->where('assignee_group_id', $assigneeGroupId);
+        $query->where('assignee_group_id', $assigneeGroupId);
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeWhereInAssignToGroup($query, array $assigneeGroupIds)
+    public function scopeWhereInAssignToGroup(Builder $query, array $assigneeGroupIds): void
     {
-        return $query->whereIn('assignee_group_id', $assigneeGroupIds);
+        $query->whereIn('assignee_group_id', $assigneeGroupIds);
     }
 
-    /**
-     * @param \Igniter\Flame\Database\Query\Builder $query
-     * @return mixed
-     */
-    public function scopeWhereHasAutoAssignGroup($query)
+    public function scopeWhereHasAutoAssignGroup(Builder $query): void
     {
-        return $query->whereHas('assignee_group', function(Builder $query) {
+        $query->whereHas('assignee_group', function(Builder $query): void {
             $query->where('auto_assign', 1);
         });
     }

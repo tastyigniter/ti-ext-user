@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\MainMenuWidgets;
 
+use Igniter\Admin\Classes\BaseMainMenuWidget;
 use Igniter\Admin\Traits\ValidatesForm;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Flame\Html\HtmlFacade;
 use Igniter\User\Classes\UserState;
 use Igniter\User\Models\User;
 use Igniter\User\Subscribers\NavigationExtendUserMenuLinksEvent;
+use Override;
 
-class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
+class UserPanel extends BaseMainMenuWidget
 {
     use ValidatesForm;
 
@@ -19,7 +23,8 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
 
     protected UserState $userState;
 
-    public function initialize()
+    #[Override]
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'links',
@@ -29,14 +34,15 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         $this->userState = UserState::forUser($this->user);
     }
 
-    public function render()
+    #[Override]
+    public function render(): string
     {
         $this->prepareVars();
 
         return $this->makePartial('userpanel/userpanel');
     }
 
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['avatarUrl'] = $this->user->avatar_url;
         $this->vars['userName'] = $this->user->name;
@@ -48,7 +54,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         $this->vars['links'] = $this->listMenuLinks();
     }
 
-    public function onLoadStatusForm()
+    public function onLoadStatusForm(): string
     {
         $this->prepareVars();
 
@@ -62,7 +68,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
         return $this->makePartial('userpanel/statusform');
     }
 
-    public function onSetStatus()
+    public function onSetStatus(): array
     {
         $validated = $this->validate(request()->post(), [
             'status' => 'required|integer',
@@ -70,7 +76,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
             'clear_after' => 'required_if:status,'.UserState::CUSTOM_STATUS.'|integer',
         ]);
 
-        throw_if($validated['status'] < 1 && !strlen($validated['message']),
+        throw_if($validated['status'] < 1 && !strlen((string)$validated['message']),
             new FlashException(lang('igniter::admin.side_menu.alert_invalid_status')),
         );
 
@@ -108,9 +114,7 @@ class UserPanel extends \Igniter\Admin\Classes\BaseMainMenuWidget
                     $code => (object)$item,
                 ];
             })
-            ->filter(function($item) {
-                return !($permission = array_get($item, 'permission')) || $this->user->hasPermission($permission);
-            })
+            ->filter(fn(object $item): bool => !$item->permission || $this->user->hasPermission($item->permission))
             ->sortBy('priority');
     }
 }

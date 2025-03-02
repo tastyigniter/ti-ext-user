@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models\Concerns;
 
 use Igniter\Flame\Exception\FlashException;
@@ -11,13 +13,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait Assignable
 {
-    public static function bootAssignable()
+    public static function bootAssignable(): void
     {
-        static::extend(function(self $model) {
-            $model->relation['belongsTo']['assignee'] = [\Igniter\User\Models\User::class];
-            $model->relation['belongsTo']['assignee_group'] = [\Igniter\User\Models\UserGroup::class];
+        static::extend(function(self $model): void {
+            $model->relation['belongsTo']['assignee'] = [User::class];
+            $model->relation['belongsTo']['assignee_group'] = [UserGroup::class];
             $model->relation['morphMany']['assignable_logs'] = [
-                \Igniter\User\Models\AssignableLog::class, 'name' => 'assignable', 'delete' => true,
+                AssignableLog::class, 'name' => 'assignable', 'delete' => true,
             ];
 
             $model->addCasts([
@@ -31,9 +33,8 @@ trait Assignable
     //
     //
     //
-
     /**
-     * @param \Igniter\User\Models\User $assignee
+     * @param User $assignee
      * @return bool
      */
     public function assignTo($assignee, ?User $user = null)
@@ -44,7 +45,7 @@ trait Assignable
     }
 
     /**
-     * @param \Igniter\User\Models\UserGroup $group
+     * @param UserGroup $group
      * @return bool
      */
     public function assignToGroup($group, ?User $user = null)
@@ -63,14 +64,14 @@ trait Assignable
         }
 
         $oldGroup = $this->assignee_group;
-        !is_null($group)
-            ? $this->assignee_group()->associate($group)
-            : $this->assignee_group()->dissociate();
+        is_null($group)
+            ? $this->assignee_group()->dissociate()
+            : $this->assignee_group()->associate($group);
 
         $oldAssignee = $this->assignee;
-        !is_null($assignee)
-            ? $this->assignee()->associate($assignee)
-            : $this->assignee()->dissociate();
+        is_null($assignee)
+            ? $this->assignee()->dissociate()
+            : $this->assignee()->associate($assignee);
 
         $this->fireSystemEvent('admin.assignable.beforeAssignTo', [$group, $assignee, $oldAssignee, $oldGroup]);
 
@@ -92,12 +93,12 @@ trait Assignable
 
     }
 
-    public function hasAssignTo()
+    public function hasAssignTo(): bool
     {
         return !is_null($this->assignee);
     }
 
-    public function hasAssignToGroup()
+    public function hasAssignToGroup(): bool
     {
         return !is_null($this->assignee_group);
     }
@@ -175,7 +176,7 @@ trait Assignable
      */
     public function scopeWhereHasAutoAssignGroup($query)
     {
-        return $query->whereHas('assignee_group', function(Builder $query) {
+        return $query->whereHas('assignee_group', function(Builder $query): void {
             $query->where('auto_assign', 1);
         });
     }

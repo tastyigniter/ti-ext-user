@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models;
 
 use Igniter\Flame\Database\Casts\Serialize;
@@ -8,7 +10,7 @@ use Igniter\User\Models\UserRole;
 use InvalidArgumentException;
 use Mockery;
 
-it('returns dropdown options for user roles', function() {
+it('returns dropdown options for user roles', function(): void {
     $role1 = UserRole::factory()->create(['name' => 'Role 1']);
     $role2 = UserRole::factory()->create(['name' => 'Role 2']);
 
@@ -18,7 +20,7 @@ it('returns dropdown options for user roles', function() {
         ->and($result[$role2->getKey()])->toBe('Role 2');
 });
 
-it('returns list of dropdown options with descriptions', function() {
+it('returns list of dropdown options with descriptions', function(): void {
     $role1 = UserRole::factory()->create(['name' => 'Role 1', 'description' => 'Role 1 description']);
     $role2 = UserRole::factory()->create(['name' => 'Role 2', 'description' => 'Role 2 description']);
 
@@ -28,7 +30,7 @@ it('returns list of dropdown options with descriptions', function() {
         ->and($result[$role2->getKey()])->toBe(['Role 2', 'Role 2 description']);
 });
 
-it('returns staff count attribute', function() {
+it('returns staff count attribute', function(): void {
     $userRole = Mockery::mock(UserRole::class)->makePartial();
     $userRole->shouldReceive('getAttribute')->with('users')->andReturn(collect([1, 2, 3]));
 
@@ -37,7 +39,7 @@ it('returns staff count attribute', function() {
     expect($result)->toBe(3);
 });
 
-it('throws exception for invalid permission value', function() {
+it('throws exception for invalid permission value', function(): void {
     $this->expectException(InvalidArgumentException::class);
     $this->expectExceptionMessage('Invalid value "2" for permission "edit" given.');
 
@@ -45,7 +47,7 @@ it('throws exception for invalid permission value', function() {
     $userRole->setPermissionsAttribute(['edit' => 2]);
 });
 
-it('sets permissions attribute correctly', function() {
+it('sets permissions attribute correctly', function(): void {
     $userRole = Mockery::mock(UserRole::class)->makePartial();
     $permissions = ['edit' => 1, 'delete' => -1];
     $userRole->setPermissionsAttribute($permissions);
@@ -55,7 +57,7 @@ it('sets permissions attribute correctly', function() {
     expect($result)->toBe($permissions);
 });
 
-it('removes permissions with value 0', function() {
+it('removes permissions with value 0', function(): void {
     $userRole = Mockery::mock(UserRole::class)->makePartial();
     $permissions = ['edit' => 1, 'delete' => 0];
     $userRole->setPermissionsAttribute($permissions);
@@ -65,7 +67,7 @@ it('removes permissions with value 0', function() {
     expect($result)->toBe(['edit' => 1]);
 });
 
-it('configures user role model correctly', function() {
+it('configures user role model correctly', function(): void {
     $role = new UserRole;
 
     expect($role->getTable())->toBe('admin_user_roles')

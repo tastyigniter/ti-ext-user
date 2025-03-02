@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\AutomationRules\Conditions;
 
 use Igniter\Automation\AutomationException;
@@ -7,7 +9,7 @@ use Igniter\User\AutomationRules\Conditions\CustomerAttribute;
 use Igniter\User\Models\Customer;
 use Mockery;
 
-it('returns correct condition details', function() {
+it('returns correct condition details', function(): void {
     $condition = new CustomerAttribute;
 
     $result = $condition->conditionDetails();
@@ -18,7 +20,7 @@ it('returns correct condition details', function() {
     ]);
 });
 
-it('defines correct model attributes', function() {
+it('defines correct model attributes', function(): void {
     $condition = new CustomerAttribute;
 
     $result = $condition->defineModelAttributes();
@@ -39,7 +41,7 @@ it('defines correct model attributes', function() {
     ]);
 });
 
-it('returns true when customer attribute condition is met', function() {
+it('returns true when customer attribute condition is met', function(): void {
     $customer = Mockery::mock(Customer::class);
     $condition = Mockery::mock(CustomerAttribute::class)->makePartial();
     $condition->shouldReceive('evalIsTrue')->with($customer)->andReturn(true);
@@ -50,7 +52,7 @@ it('returns true when customer attribute condition is met', function() {
     expect($result)->toBeTrue();
 });
 
-it('throws exception when customer object is not found in parameters', function() {
+it('throws exception when customer object is not found in parameters', function(): void {
     $condition = Mockery::mock(CustomerAttribute::class)->makePartial();
 
     $params = [];

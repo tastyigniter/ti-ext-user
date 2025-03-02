@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests;
 
 use Igniter\Admin\DashboardWidgets\Charts;
@@ -26,31 +28,30 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Mockery;
+use ReflectionClass;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->extension = new Extension(app());
 });
 
-it('listens to user register event and broadcasts notification', function() {
+it('listens to user register event and broadcasts notification', function(): void {
     Event::fake();
     $customer = Mockery::mock(Customer::class)->makePartial();
     $data = ['key' => 'value'];
 
     Event::dispatch('igniter.user.register', [$customer, $data]);
 
-    Event::assertDispatched('igniter.user.register', function($event, $payload) use ($customer, $data) {
-        return $payload[0] === $customer && $payload[1] === $data;
-    });
+    Event::assertDispatched('igniter.user.register', fn($event, $payload): bool => $payload[0] === $customer && $payload[1] === $data);
 });
 
-it('extends location model with users relation', function() {
+it('extends location model with users relation', function(): void {
     $this->extension->boot();
 
     expect((new Location)->relation['morphedByMany']['users'])->toBe([User::class, 'name' => 'locationable']);
 });
 
-it('registers endBody hook for admin impersonate banner', function() {
-    Template::shouldReceive('registerHook')->once()->with('endBody', Mockery::on(function($callback) {
+it('registers endBody hook for admin impersonate banner', function(): void {
+    Template::shouldReceive('registerHook')->once()->with('endBody', Mockery::on(function($callback): true {
         $view = $callback();
         expect($view->getName())->toBe('igniter.user::_partials.admin_impersonate_banner');
 
@@ -60,20 +61,22 @@ it('registers endBody hook for admin impersonate banner', function() {
     $this->extension->boot();
 });
 
-it('listens to NotificationSent event and deletes old notifications', function() {
+it('listens to NotificationSent event and deletes old notifications', function(): void {
     $event = Mockery::mock(NotificationSent::class)->makePartial();
-    $event->response = $notification = Mockery::mock(Notification::class);
+    $event->response = Mockery::mock(Notification::class);
+    $notification = $event->response;
     $notification->shouldReceive('getKey')->andReturn(1);
     $event->notification = new class implements StickyNotification
     {
-        public function databaseType()
+        public function databaseType(): string
         {
             return 'type';
         }
     };
-    $event->notifiable = $notifiable = Mockery::mock(User::class);
+    $event->notifiable = Mockery::mock(User::class);
+    $notifiable = $event->notifiable;
     $notifiable->shouldReceive('notifications->where->where->delete')->andReturnSelf()->once();
-    Event::shouldReceive('listen')->with(NotificationSent::class, Mockery::on(function($callback) use ($event) {
+    Event::shouldReceive('listen')->with(NotificationSent::class, Mockery::on(function($callback) use ($event): true {
         $callback($event);
 
         return true;
@@ -84,12 +87,12 @@ it('listens to NotificationSent event and deletes old notifications', function()
     $this->extension->boot();
 });
 
-it('listens to igniter.user.register event and send CustomerRegisteredNotification', function() {
+it('listens to igniter.user.register event and send CustomerRegisteredNotification', function(): void {
     \Illuminate\Support\Facades\Notification::fake();
 
     Event::shouldReceive('listen')->with(NotificationSent::class, Mockery::any())->once();
     Event::shouldReceive('listen')->with('igniter.user.beforeThrottleRequest', Mockery::any())->once();
-    Event::shouldReceive('listen')->with('igniter.user.register', Mockery::on(function($callback) {
+    Event::shouldReceive('listen')->with('igniter.user.register', Mockery::on(function($callback): true {
         $customer = Mockery::mock(Customer::class)->makePartial();
         $callback($customer, []);
 
@@ -99,22 +102,21 @@ it('listens to igniter.user.register event and send CustomerRegisteredNotificati
     $this->extension->boot();
 });
 
-it('registers customer statistics card', function() {
+it('registers customer statistics card', function(): void {
     $this->extension->boot();
 
-    $reflection = new \ReflectionClass(Statistics::class);
+    $reflection = new ReflectionClass(Statistics::class);
     $method = $reflection->getMethod('listCards');
     $method->setAccessible(true);
+
     $cards = $method->invoke(new Statistics(resolve(Menus::class)));
 
     expect($cards)->toHaveKey('customer')
         ->and($cards['customer']['label'])->toBe('lang:igniter::admin.dashboard.text_total_customer')
-        ->and($cards['customer']['valueFrom']('customer', null, null, function($query) {
-            return $query;
-        }))->toBe(0);
+        ->and($cards['customer']['valueFrom']('customer', null, null, fn($query) => $query))->toBe(0);
 });
 
-it('registers user system settings', function() {
+it('registers user system settings', function(): void {
     $this->extension->registerSystemSettings();
     $settingsItems = (new Settings)->listSettingItems();
     $settingsItem = collect($settingsItems['core'])->firstWhere('code', 'user');
@@ -123,16 +125,16 @@ it('registers user system settings', function() {
         ->and($settingsItem->description)->toBe('lang:igniter.user::default.text_tab_desc_user')
         ->and($settingsItem->icon)->toBe('fa fa-users-gear')
         ->and($settingsItem->priority)->toBe(2)
-        ->and($settingsItem->permission)->toBe(['Site.Settings'])
+        ->and($settingsItem->permissions)->toBe(['Site.Settings'])
         ->and($settingsItem->url)->toBe(admin_url('settings/edit/user'))
         ->and($settingsItem->form)->toBe('igniter.user::/models/usersettings')
         ->and($settingsItem->request)->toBe(UserSettingsRequest::class);
 });
 
-it('registers global event parameters when EventManager class exists', function() {
+it('registers global event parameters when EventManager class exists', function(): void {
     $eventManager = Mockery::mock(EventManager::class);
     app()->instance(EventManager::class, $eventManager);
-    $eventManager->shouldReceive('registerCallback')->once()->andReturnUsing(function($callback) use ($eventManager) {
+    $eventManager->shouldReceive('registerCallback')->once()->andReturnUsing(function($callback) use ($eventManager): void {
         $eventManager->shouldReceive('registerGlobalParams')->with(['customer' => Auth::customer()]);
         $callback($eventManager);
     });
@@ -140,7 +142,7 @@ it('registers global event parameters when EventManager class exists', function(
     $this->extension->register();
 });
 
-it('registers user panel and notifications admin menus when running in admin', function() {
+it('registers user panel and notifications admin menus when running in admin', function(): void {
     $request = Mockery::mock(Request::class);
     $request->shouldReceive('setUserResolver')->andReturnNull();
     $request->shouldReceive('getScheme')->andReturn('https');
@@ -156,27 +158,27 @@ it('registers user panel and notifications admin menus when running in admin', f
         ->and($menuItems['user'])->not->toBeNull();
 });
 
-it('does not register user panel and notifications admin menus when not running in admin', function() {
+it('does not register user panel and notifications admin menus when not running in admin', function(): void {
     $this->extension->boot();
     $menuItems = AdminMenu::getMainItems();
 
     expect($menuItems)->not->toHaveKeys(['notifications', 'user']);
 });
 
-it('does not define routes when routes are cached', function() {
+it('does not define routes when routes are cached', function(): void {
     $app = Mockery::mock(Application::class)->makePartial();
     $app->shouldReceive('routesAreCached')->andReturn(true);
     Container::setInstance($app);
     Route::shouldReceive('group')->never();
 
-    $reflection = new \ReflectionClass(Extension::class);
+    $reflection = new ReflectionClass(Extension::class);
     $method = $reflection->getMethod('defineRoutes');
     $method->setAccessible(true);
     $method->invoke($this->extension);
 });
 
-it('configures rate limiter', function() {
-    RateLimiter::shouldReceive('for')->with('web', Mockery::on(function($callback) {
+it('configures rate limiter', function(): void {
+    RateLimiter::shouldReceive('for')->with('web', Mockery::on(function($callback): true {
         $request = Mockery::mock(Request::class);
         $request->shouldReceive('ip')->andReturn('127.0.0.1');
         $request->shouldReceive('user')->andReturnNull();
@@ -185,18 +187,19 @@ it('configures rate limiter', function() {
         return true;
     }))->once();
 
-    $reflection = new \ReflectionClass(Extension::class);
+    $reflection = new ReflectionClass(Extension::class);
     $method = $reflection->getMethod('configureRateLimiting');
     $method->setAccessible(true);
     $method->invoke($this->extension);
 });
 
-it('extends dashboard charts datasets', function() {
+it('extends dashboard charts datasets', function(): void {
     $this->extension->boot();
 
-    $reflection = new \ReflectionClass(Charts::class);
+    $reflection = new ReflectionClass(Charts::class);
     $method = $reflection->getMethod('listSets');
     $method->setAccessible(true);
+
     $result = $method->invoke(new Charts(resolve(Menus::class)));
     $datasets = $result['reports']['sets'];
 

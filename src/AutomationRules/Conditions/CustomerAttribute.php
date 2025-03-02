@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\AutomationRules\Conditions;
 
+use Igniter\User\Models\Customer;
+use Override;
 use Igniter\Automation\AutomationException;
 use Igniter\Automation\Classes\BaseModelAttributesCondition;
 
 class CustomerAttribute extends BaseModelAttributesCondition
 {
-    protected $modelClass = \Igniter\User\Models\Customer::class;
+    protected $modelClass = Customer::class;
 
     protected $modelAttributes;
 
-    public function conditionDetails()
+    #[Override]
+    public function conditionDetails(): array
     {
         return [
             'name' => 'Customer attribute',
@@ -19,7 +24,8 @@ class CustomerAttribute extends BaseModelAttributesCondition
         ];
     }
 
-    public function defineModelAttributes()
+    #[Override]
+    public function defineModelAttributes(): array
     {
         return [
             'first_name' => [
@@ -42,6 +48,7 @@ class CustomerAttribute extends BaseModelAttributesCondition
      * @param array $params Specifies a list of parameters as an associative array.
      * @return bool
      */
+    #[Override]
     public function isTrue(&$params)
     {
         if (!$customer = array_get($params, 'customer')) {

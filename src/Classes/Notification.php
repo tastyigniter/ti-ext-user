@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Classes;
 
 use Igniter\Broadcast\Models\Settings as BroadcastSettings;
@@ -158,6 +160,6 @@ class Notification extends BaseNotification implements ShouldQueue
 
     public function getAlias(): string
     {
-        return get_class($this);
+        return static::class;
     }
 }

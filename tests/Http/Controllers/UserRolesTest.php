@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\User\Models\UserRole;
 
-it('loads user roles page', function() {
+it('loads user roles page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.user_roles'))
         ->assertOk();
 });
 
-it('loads create user role page', function() {
+it('loads create user role page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.user_roles', ['slug' => 'create']))
         ->assertOk();
 });
 
-it('loads edit user role page', function() {
+it('loads edit user role page', function(): void {
     $userRole = UserRole::factory()->create();
 
     actingAsSuperUser()
@@ -24,7 +26,7 @@ it('loads edit user role page', function() {
         ->assertOk();
 });
 
-it('loads user role preview page', function() {
+it('loads user role preview page', function(): void {
     $userRole = UserRole::factory()->create();
 
     actingAsSuperUser()
@@ -32,7 +34,7 @@ it('loads user role preview page', function() {
         ->assertOk();
 });
 
-it('creates user role', function() {
+it('creates user role', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.user_roles', ['slug' => 'create']), [
             'UserRole' => [
@@ -50,7 +52,7 @@ it('creates user role', function() {
     expect(UserRole::where('name', 'Created User Role')->exists())->toBeTrue();
 });
 
-it('updates user role', function() {
+it('updates user role', function(): void {
     $userRole = UserRole::factory()->create();
 
     actingAsSuperUser()
@@ -70,7 +72,7 @@ it('updates user role', function() {
     expect(UserRole::where('name', 'Updated User Role')->exists())->toBeTrue();
 });
 
-it('deletes user role', function() {
+it('deletes user role', function(): void {
     $userRole = UserRole::factory()->create();
 
     actingAsSuperUser()
@@ -82,7 +84,7 @@ it('deletes user role', function() {
     expect(UserRole::find($userRole->getKey()))->toBeNull();
 });
 
-it('bulk deletes user roles', function() {
+it('bulk deletes user roles', function(): void {
     $userRole = UserRole::factory()->count(5)->create();
     $userRoleIds = $userRole->pluck('user_role_id')->all();
 

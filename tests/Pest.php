@@ -1,26 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
+use SamPoyigi\Testbench\TestCase;
+
 use Igniter\User\Models\User;
 use Illuminate\Http\Request;
 
-uses(\SamPoyigi\Testbench\TestCase::class)->in(__DIR__);
+uses(TestCase::class)->in(__DIR__);
 
 function actingAsSuperUser(?User $user = null)
 {
     return test()->actingAs($user ?? User::factory()->superUser()->create(), 'igniter-admin');
 }
 
-function setObjectProtectedProperty($object, $property, $value)
+function setObjectProtectedProperty($object, $property, $value): void
 {
-    $reflection = new \ReflectionClass($object);
+    $reflection = new ReflectionClass($object);
     $property = $reflection->getProperty($property);
     $property->setAccessible(true);
     $property->setValue($object, $value);
 }
 
-function getObjectProtectedProperty($object, $property)
+function getObjectProtectedProperty($object, $property): mixed
 {
-    $reflection = new \ReflectionClass($object);
+    $reflection = new ReflectionClass($object);
     $property = $reflection->getProperty($property);
     $property->setAccessible(true);
 

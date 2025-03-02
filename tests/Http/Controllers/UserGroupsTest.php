@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\User\Models\UserGroup;
 
-it('loads user groups page', function() {
+it('loads user groups page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.user_groups'))
         ->assertOk();
 });
 
-it('loads create user group page', function() {
+it('loads create user group page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.user_groups', ['slug' => 'create']))
         ->assertOk();
 });
 
-it('loads edit user group page', function() {
+it('loads edit user group page', function(): void {
     $userGroup = UserGroup::factory()->create();
 
     actingAsSuperUser()
@@ -24,7 +26,7 @@ it('loads edit user group page', function() {
         ->assertOk();
 });
 
-it('loads user group preview page', function() {
+it('loads user group preview page', function(): void {
     $userGroup = UserGroup::factory()->create();
 
     actingAsSuperUser()
@@ -32,7 +34,7 @@ it('loads user group preview page', function() {
         ->assertOk();
 });
 
-it('creates user group', function() {
+it('creates user group', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.user_groups', ['slug' => 'create']), [
             'UserGroup' => [
@@ -47,7 +49,7 @@ it('creates user group', function() {
     expect(UserGroup::where('user_group_name', 'Created User Group')->exists())->toBeTrue();
 });
 
-it('updates user group', function() {
+it('updates user group', function(): void {
     $userGroup = UserGroup::factory()->create();
 
     actingAsSuperUser()
@@ -64,7 +66,7 @@ it('updates user group', function() {
     expect(UserGroup::where('user_group_name', 'Updated User Group')->exists())->toBeTrue();
 });
 
-it('deletes user group', function() {
+it('deletes user group', function(): void {
     $userGroup = UserGroup::factory()->create();
 
     actingAsSuperUser()
@@ -76,7 +78,7 @@ it('deletes user group', function() {
     expect(UserGroup::find($userGroup->getKey()))->toBeNull();
 });
 
-it('bulk deletes user groups', function() {
+it('bulk deletes user groups', function(): void {
     $userGroup = UserGroup::factory()->count(5)->create();
     $userGroupIds = $userGroup->pluck('user_group_id')->all();
 

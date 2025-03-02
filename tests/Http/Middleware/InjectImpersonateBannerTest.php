@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Middleware;
 
 use Igniter\User\Facades\Auth;
@@ -9,18 +11,16 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use Mockery;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->middleware = new InjectImpersonateBanner;
     $this->response = Mockery::mock(Response::class);
     $this->request = Mockery::mock(Request::class)->makePartial();
     app()->instance('request', $this->request);
 
-    $this->next = function($request) {
-        return $this->response;
-    };
+    $this->next = fn($request) => $this->response;
 });
 
-it('injects banner into html response body when user is impersonator and route is theme', function() {
+it('injects banner into html response body when user is impersonator and route is theme', function(): void {
     $this->request->shouldReceive('path')->andReturn('/');
     $this->request->shouldReceive('routeIs')->with('igniter.theme.*')->andReturnTrue();
     Auth::shouldReceive('check')->andReturnTrue();
@@ -35,7 +35,7 @@ it('injects banner into html response body when user is impersonator and route i
     expect($result)->toBe($this->response);
 });
 
-it('append banner to response when user is impersonator and route is theme', function() {
+it('append banner to response when user is impersonator and route is theme', function(): void {
     $this->request->shouldReceive('path')->andReturn('/');
     $this->request->shouldReceive('routeIs')->with('igniter.theme.*')->andReturnTrue();
     Auth::shouldReceive('check')->andReturnTrue();
@@ -50,7 +50,7 @@ it('append banner to response when user is impersonator and route is theme', fun
     expect($result)->toBe($this->response);
 });
 
-it('does not inject banner when route is not theme', function() {
+it('does not inject banner when route is not theme', function(): void {
     $this->request->shouldReceive('routeIs')->with('igniter.theme.*')->andReturnFalse();
 
     $result = $this->middleware->handle($this->request, $this->next);
@@ -58,7 +58,7 @@ it('does not inject banner when route is not theme', function() {
     expect($result)->toBe($this->response);
 });
 
-it('does not inject banner when running in admin', function() {
+it('does not inject banner when running in admin', function(): void {
     $this->request->shouldReceive('routeIs')->with('igniter.theme.*')->andReturn(true);
     $this->request->shouldReceive('path')->andReturn('admin/customers');
 
@@ -67,7 +67,7 @@ it('does not inject banner when running in admin', function() {
     expect($result)->toBe($this->response);
 });
 
-it('does not inject banner when user is not logged in', function() {
+it('does not inject banner when user is not logged in', function(): void {
     $this->request->shouldReceive('routeIs')->with('igniter.theme.*')->andReturn(true);
     $this->request->shouldReceive('path')->andReturn('/');
     Auth::shouldReceive('check')->andReturn(false);
@@ -77,7 +77,7 @@ it('does not inject banner when user is not logged in', function() {
     expect($result)->toBe($this->response);
 });
 
-it('does not inject banner when user is not impersonator', function() {
+it('does not inject banner when user is not impersonator', function(): void {
     $this->request->shouldReceive('routeIs')->with('igniter.theme.*')->andReturn(true);
     $this->request->shouldReceive('path')->andReturn('/');
     Auth::shouldReceive('check')->andReturn(true);

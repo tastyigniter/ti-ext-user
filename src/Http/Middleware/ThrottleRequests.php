@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Middleware;
 
+use Override;
+use stdClass;
 use Closure;
 use Illuminate\Support\Facades\Event;
 
 class ThrottleRequests extends \Illuminate\Routing\Middleware\ThrottleRequests
 {
+    #[Override]
     public function handle($request, Closure $next, $maxAttempts = 60, $decayMinutes = 1, $prefix = '')
     {
-        $params = new \stdClass;
+        $params = new stdClass;
         $params->maxAttempts = $maxAttempts;
         $params->decayMinutes = $decayMinutes;
         $params->prefix = $prefix;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Console\Commands;
 
 use Igniter\User\Classes\UserState;
@@ -21,8 +23,7 @@ class ClearUserStateCommand extends Command
             ->where('item', UserState::USER_PREFERENCE_KEY)
             ->where('value->status', UserState::CUSTOM_STATUS)
             ->where('value->clearAfterMinutes', '!=', 0)
-            ->get()
-            ->each(function($preference) {
+            ->each(function(UserPreference $preference, int $int) {
                 $clearAfterMinutes = $preference->value['clearAfterMinutes'] ?? 0;
                 $updatedAt = $preference->value['updatedAt'] ?? null;
                 if (!$clearAfterMinutes || now()->lessThan(make_carbon($updatedAt)->addMinutes($clearAfterMinutes))) {

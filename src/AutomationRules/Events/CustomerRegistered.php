@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\AutomationRules\Events;
 
+use Override;
 use Igniter\Automation\Classes\BaseEvent;
 
 class CustomerRegistered extends BaseEvent
 {
-    public function eventDetails()
+    #[Override]
+    public function eventDetails(): array
     {
         return [
             'name' => 'Customer Registered Event',
@@ -15,7 +19,8 @@ class CustomerRegistered extends BaseEvent
         ];
     }
 
-    public static function makeParamsFromEvent(array $args, $eventName = null)
+    #[Override]
+    public static function makeParamsFromEvent(array $args, $eventName = null): array
     {
         return $args;
     }

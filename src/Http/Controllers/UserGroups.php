@@ -1,24 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\User\Http\Requests\UserGroupRequest;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\User\Models\UserGroup;
 
 /**
- * @mixin \Igniter\Admin\Http\Actions\ListController
- * @mixin \Igniter\Admin\Http\Actions\FormController
+ * @mixin ListController
+ * @mixin FormController
  */
-class UserGroups extends \Igniter\Admin\Classes\AdminController
+class UserGroups extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\User\Models\UserGroup::class,
+            'model' => UserGroup::class,
             'title' => 'lang:igniter.user::default.user_groups.text_title',
             'emptyMessage' => 'lang:igniter.user::default.user_groups.text_empty',
             'defaultSort' => ['user_group_id', 'DESC'],
@@ -29,8 +35,8 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.user_groups.text_form_name',
-        'model' => \Igniter\User\Models\UserGroup::class,
-        'request' => \Igniter\User\Http\Requests\UserGroupRequest::class,
+        'model' => UserGroup::class,
+        'request' => UserGroupRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'user_groups/edit/{user_group_id}',
@@ -55,7 +61,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
 
     protected null|string|array $requiredPermissions = 'Admin.StaffGroups';
 
-    public static function getSlug()
+    public static function getSlug(): string
     {
         return 'user_groups';
     }
@@ -67,7 +73,7 @@ class UserGroups extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('users', 'system');
     }
 
-    public function formAfterSave()
+    public function formAfterSave(): void
     {
         UserGroup::syncAutoAssignStatus();
     }

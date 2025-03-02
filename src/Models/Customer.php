@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Igniter\Api\Models\Token;
 use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
+use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Flame\Exception\ApplicationException;
@@ -15,6 +19,10 @@ use Igniter\System\Models\Concerns\Switchable;
 use Igniter\System\Models\Country;
 use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Models\Concerns\SendsInvite;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Notifications\DatabaseNotificationCollection;
+use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * Customer Model Class
@@ -23,35 +31,43 @@ use Igniter\User\Models\Concerns\SendsInvite;
  * @property string $first_name
  * @property string $last_name
  * @property string $email
- * @property string $password
+ * @property null|string $password
  * @property string|null $telephone
  * @property int|null $address_id
  * @property bool|null $newsletter
  * @property int $customer_group_id
  * @property string|null $ip_address
- * @property \Illuminate\Support\Carbon $created_at
+ * @property Carbon $created_at
  * @property bool $status
  * @property string|null $reset_code
- * @property \Illuminate\Support\Carbon|null $reset_time
+ * @property Carbon|null $reset_time
  * @property string|null $activation_code
  * @property string|null $remember_token
  * @property bool|null $is_activated
- * @property \Illuminate\Support\Carbon|null $activated_at
- * @property \Illuminate\Support\Carbon|null $last_login
+ * @property Carbon|null $activated_at
+ * @property Carbon|null $last_login
  * @property string|null $last_seen
- * @property \Illuminate\Support\Carbon $updated_at
- * @property \Illuminate\Support\Carbon|null $invited_at
+ * @property Carbon $updated_at
+ * @property Carbon|null $invited_at
  * @property string $last_location_area
+ * @property null|bool $send_invite
  * @property-read mixed $full_name
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Igniter\User\Models\Notification> $notifications
+ * @property-read DatabaseNotificationCollection<int, Notification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\Api\Models\Token> $tokens
- * @property-read Address $address
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Address> $addresses
+ * @property-read Collection<int, Token> $tokens
+ * @property null|CustomerGroup $group
+ * @property null|Address $address
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $tokens_count
- * @method static HasMany|Address addresses()
- * @method static Builder|Customer listFrontEnd(array $options = [])
- * @mixin \Igniter\Flame\Database\Model
+ * @method static Builder<static>|Customer query()
+ * @method static Builder<static>|Customer selectRaw(string $select)
+ * @method static Builder<static>|Customer dropdown(string $column, string $key = null)
+ * @method static HasMany<static>|Address addresses()
+ * @method static Builder<static>|Customer listFrontEnd(array $options = [])
+ * @method static Builder<static>|Customer whereIsEnabled()
+ * @method static Builder<static>|Customer whereActivationCode(string $code)
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @mixin Model
  */
 class Customer extends AuthUserModel
 {
@@ -79,13 +95,13 @@ class Customer extends AuthUserModel
 
     public $relation = [
         'hasMany' => [
-            'addresses' => [\Igniter\User\Models\Address::class, 'delete' => true],
-            'orders' => [\Igniter\Cart\Models\Order::class],
-            'reservations' => [\Igniter\Reservation\Models\Reservation::class],
+            'addresses' => [Address::class, 'delete' => true],
+            'orders' => [Order::class],
+            'reservations' => [Reservation::class],
         ],
         'belongsTo' => [
-            'group' => [\Igniter\User\Models\CustomerGroup::class, 'foreignKey' => 'customer_group_id'],
-            'address' => \Igniter\User\Models\Address::class,
+            'group' => [CustomerGroup::class, 'foreignKey' => 'customer_group_id'],
+            'address' => Address::class,
         ],
     ];
 
@@ -112,28 +128,32 @@ class Customer extends AuthUserModel
 
     public static function getDropdownOptions()
     {
-        return static::whereIsEnabled()->selectRaw('customer_id, concat(first_name, " ", last_name) as name')->dropdown('name');
+        return static::query()
+            ->whereIsEnabled()
+            ->selectRaw('customer_id, concat(first_name, " ", last_name) as name')
+            ->dropdown('name');
     }
 
     //
     // Accessors & Mutators
     //
 
-    public function getFullNameAttribute($value)
+    public function getFullNameAttribute($value): string
     {
         return $this->getCustomerName();
     }
 
-    public function getEmailAttribute($value)
+    public function getEmailAttribute($value): string
     {
-        return strtolower($value);
+        return strtolower((string)$value);
     }
 
     //
     // Events
     //
 
-    public function beforeLogin()
+    #[Override]
+    public function beforeLogin(): void
     {
         if (!$this->group || !$this->group->requiresApproval()) {
             return;
@@ -148,13 +168,15 @@ class Customer extends AuthUserModel
         ));
     }
 
-    public function afterLogin()
+    #[Override]
+    public function afterLogin(): void
     {
         $this->last_login = now();
         $this->saveQuietly();
     }
 
-    public function extendUserQuery($query)
+    #[Override]
+    public function extendUserQuery($query): void
     {
         $query->isEnabled();
     }
@@ -163,21 +185,19 @@ class Customer extends AuthUserModel
     // Helpers
     //
 
-    public function enabled()
+    public function enabled(): bool
     {
         return $this->isEnabled();
     }
 
-    public function getCustomerName()
+    public function getCustomerName(): string
     {
         return $this->first_name.' '.$this->last_name;
     }
 
     public function listAddresses()
     {
-        return $this->addresses()->get()->groupBy(function($address) {
-            return $address->getKey();
-        });
+        return $this->addresses()->get()->groupBy(fn($address) => $address->getKey());
     }
 
     /**
@@ -187,10 +207,10 @@ class Customer extends AuthUserModel
      */
     public function getCustomerDates()
     {
-        return $this->pluckDates('created_at');
+        return static::pluckDates('created_at');
     }
 
-    public function saveAddresses($addresses)
+    public function saveAddresses($addresses): ?bool
     {
         $customerId = $this->getKey();
         if (!is_numeric($customerId)) {
@@ -212,11 +232,12 @@ class Customer extends AuthUserModel
         }
 
         $this->addresses()->whereNotIn('address_id', $idsToKeep)->delete();
+        return null;
     }
 
-    public function saveDefaultAddress(string|int $addressId)
+    public function saveDefaultAddress(string|int $addressId): static
     {
-        throw_unless($this?->addresses()->find($addressId),
+        throw_unless($this->addresses()->find($addressId),
             new ApplicationException('Address not found or does not belong to the customer'),
         );
 
@@ -228,7 +249,7 @@ class Customer extends AuthUserModel
 
     public function deleteCustomerAddress(string|int $addressId)
     {
-        throw_unless($address = $this?->addresses()->find($addressId),
+        throw_unless($address = $this->addresses()->find($addressId),
             new ApplicationException('Address not found or does not belong to the customer'),
         );
 
@@ -243,34 +264,38 @@ class Customer extends AuthUserModel
      *
      * @return bool TRUE on success, or FALSE on failure
      */
-    public function saveCustomerGuestOrder()
+    public function saveCustomerGuestOrder(): bool
     {
         $update = ['customer_id' => $this->customer_id];
 
-        Reservation::where('email', $this->email)
+        Reservation::query()
+            ->where('email', $this->email)
             ->whereNull('customer_id')
             ->orWhere('customer_id', 0)
             ->update($update);
 
-        Order::where('email', $this->email)
+        Order::query()
+            ->where('email', $this->email)
             ->whereNull('customer_id')
             ->orWhere('customer_id', 0)
             ->update($update);
 
-        Address::whereIn('address_id', Order::where('email', $this->email)
-            ->whereNotNull('address_id')
-            ->pluck('address_id')->all(),
-        )->update($update);
+        Address::query()
+            ->whereIn('address_id', Order::query()
+                ->where('email', $this->email)
+                ->whereNotNull('address_id')
+                ->pluck('address_id')->all(),
+            )->update($update);
 
         return true;
     }
 
-    public function mailSendInvite(array $vars = [])
+    public function mailSendInvite(array $vars = []): void
     {
         $this->mailSend('igniter.user::mail.invite_customer', 'customer', $vars);
     }
 
-    public function mailSendResetPasswordRequest(array $vars = [])
+    public function mailSendResetPasswordRequest(array $vars = []): void
     {
         $vars = array_merge([
             'reset_link' => null,
@@ -280,7 +305,7 @@ class Customer extends AuthUserModel
         $this->mailSend('igniter.user::mail.password_reset_request', 'customer', $vars);
     }
 
-    public function mailSendResetPassword(array $vars = [])
+    public function mailSendResetPassword(array $vars = []): void
     {
         $vars = array_merge([
             'account_login_link' => null,
@@ -289,14 +314,14 @@ class Customer extends AuthUserModel
         $this->mailSend('igniter.user::mail.password_reset', 'customer', $vars);
     }
 
-    public function mailSendRegistration(array $vars = [])
+    public function mailSendRegistration(array $vars = []): void
     {
-        $vars = array_merge([
-            'account_login_link' => null,
-        ], $vars);
+        $vars = array_merge(['account_login_link' => null], $vars);
 
         $settingRegistrationEmail = setting('registration_email');
-        is_array($settingRegistrationEmail) || $settingRegistrationEmail = [];
+        if (!is_array($settingRegistrationEmail)) {
+            $settingRegistrationEmail = [];
+        }
 
         if (in_array('customer', $settingRegistrationEmail)) {
             $this->mailSend('igniter.user::mail.registration', 'customer', $vars);
@@ -307,13 +332,13 @@ class Customer extends AuthUserModel
         }
     }
 
-    public function mailSendEmailVerification(array $data)
+    public function mailSendEmailVerification(array $data): void
     {
         $data = array_merge([
             'account_activation_link' => null,
         ], $data);
 
-        return $this->mailSend('igniter.user::mail.activation', 'customer', $data);
+        $this->mailSend('igniter.user::mail.activation', 'customer', $data);
     }
 
     public function mailGetRecipients($type)
@@ -329,7 +354,7 @@ class Customer extends AuthUserModel
         };
     }
 
-    public function mailGetData()
+    public function mailGetData(): array
     {
         $model = $this->fresh();
 
@@ -340,9 +365,10 @@ class Customer extends AuthUserModel
         ]);
     }
 
-    public function register(array $attributes, $activate = false)
+    #[Override]
+    public function register(array $attributes, $activate = false): self
     {
-        $model = new static;
+        $model = new self;
         $model->fill($attributes);
         $model->save();
 
@@ -352,7 +378,7 @@ class Customer extends AuthUserModel
         return $model;
     }
 
-    public function receivesBroadcastNotificationsOn()
+    public function receivesBroadcastNotificationsOn(): string
     {
         return 'main.users.'.$this->getKey();
     }

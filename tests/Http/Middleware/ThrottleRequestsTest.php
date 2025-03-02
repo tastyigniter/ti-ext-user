@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Middleware;
 
+use stdClass;
 use Igniter\User\Http\Middleware\ThrottleRequests;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
@@ -10,27 +13,26 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Event;
 use Mockery;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->rateLimiter = Mockery::mock(RateLimiter::class);
     $this->rateLimiter->shouldReceive('tooManyAttempts')->andReturnTrue();
     $this->rateLimiter->shouldReceive('availableIn')->andReturn(1);
     $this->middleware = new ThrottleRequests($this->rateLimiter);
     $this->request = Mockery::mock(Request::class)->makePartial();
-    $this->next = function($request) {
-        return 'next';
-    };
+    $this->next = fn($request): string => 'next';
 });
 
-it('throttles request when shouldThrottleRequest returns true', function() {
-    $expectedParams = new \stdClass;
+it('throttles request when shouldThrottleRequest returns true', function(): void {
+    $expectedParams = new stdClass;
     $expectedParams->maxAttempts = 6;
     $expectedParams->decayMinutes = 1;
     $expectedParams->prefix = '';
     $request = request();
-    $request->setRouteResolver(fn() => new Route('GET', 'login', []));
+    $request->setRouteResolver(fn(): Route => new Route('GET', 'login', []));
+
     $request->headers->set('x-igniter-request-handler', 'index::onLogin');
 
-    Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) use ($expectedParams) {
+    Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) use ($expectedParams): true {
         expect($params)->toEqual($expectedParams);
 
         return true;
@@ -39,15 +41,15 @@ it('throttles request when shouldThrottleRequest returns true', function() {
     expect(fn() => $this->middleware->handle($request, $this->next))->toThrow(ThrottleRequestsException::class);
 });
 
-it('does not throttle request when shouldThrottleRequest returns false', function() {
-    $expectedParams = new \stdClass;
+it('does not throttle request when shouldThrottleRequest returns false', function(): void {
+    $expectedParams = new stdClass;
     $expectedParams->maxAttempts = 60;
     $expectedParams->decayMinutes = 1;
     $expectedParams->prefix = '';
     $request = request();
-    $request->setRouteResolver(fn() => new Route('GET', 'login', []));
+    $request->setRouteResolver(fn(): Route => new Route('GET', 'login', []));
 
-    Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) use ($expectedParams) {
+    Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) use ($expectedParams): false {
         expect($params)->toEqual($expectedParams);
 
         return false;

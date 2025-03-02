@@ -1,24 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\User\Http\Requests\CustomerGroupRequest;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\User\Models\CustomerGroup;
 
 /**
- * @mixin \Igniter\Admin\Http\Actions\ListController
- * @mixin \Igniter\Admin\Http\Actions\FormController
+ * @mixin ListController
+ * @mixin FormController
  */
-class CustomerGroups extends \Igniter\Admin\Classes\AdminController
+class CustomerGroups extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\User\Models\CustomerGroup::class,
+            'model' => CustomerGroup::class,
             'title' => 'lang:igniter.user::default.customer_groups.text_title',
             'emptyMessage' => 'lang:igniter.user::default.customer_groups.text_empty',
             'defaultSort' => ['customer_group_id', 'DESC'],
@@ -29,8 +35,8 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.customer_groups.text_form_name',
-        'model' => \Igniter\User\Models\CustomerGroup::class,
-        'request' => \Igniter\User\Http\Requests\CustomerGroupRequest::class,
+        'model' => CustomerGroup::class,
+        'request' => CustomerGroupRequest::class,
         'create' => [
             'title' => 'lang:admin::lang.form.create_title',
             'redirect' => 'customer_groups/edit/{customer_group_id}',
@@ -55,7 +61,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
 
     protected null|string|array $requiredPermissions = 'Admin.CustomerGroups';
 
-    public static function getSlug()
+    public static function getSlug(): string
     {
         return 'customer_groups';
     }
@@ -67,7 +73,7 @@ class CustomerGroups extends \Igniter\Admin\Classes\AdminController
         AdminMenu::setContext('customers', 'users');
     }
 
-    public function index_onSetDefault()
+    public function index_onSetDefault(): array
     {
         $data = $this->validate(post(), [
             'default' => 'required|integer|exists:'.CustomerGroup::class.',customer_group_id',

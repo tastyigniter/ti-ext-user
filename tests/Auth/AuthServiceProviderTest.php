@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Auth;
 
+use Igniter\User\Models\User;
 use Igniter\User\Auth\AuthServiceProvider;
 use Igniter\User\Models\Customer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Gate;
 use Mockery;
 
-it('merges configuration from auth.php', function() {
+it('merges configuration from auth.php', function(): void {
     $serviceProvider = new AuthServiceProvider($this->app);
     $serviceProvider->register();
 
@@ -30,7 +33,7 @@ it('merges configuration from auth.php', function() {
         ])
         ->and($config['mergeProviders']['igniter-admin'])->toBe([
             'driver' => 'igniter',
-            'model' => \Igniter\User\Models\User::class,
+            'model' => User::class,
         ])
         ->and($config['mergeProviders']['igniter'])->toBe([
             'driver' => 'igniter',
@@ -38,7 +41,7 @@ it('merges configuration from auth.php', function() {
         ]);
 });
 
-it('publishes configuration when running in console', function() {
+it('publishes configuration when running in console', function(): void {
     $app = Mockery::mock(Application::class)->makePartial();
     $app->shouldReceive('booted')->once();
     $app->shouldReceive('runningInConsole')->andReturn(true)->once();
@@ -48,7 +51,7 @@ it('publishes configuration when running in console', function() {
     expect(true)->toBeTrue();
 });
 
-it('configures auth guards correctly', function() {
+it('configures auth guards correctly', function(): void {
     $serviceProvider = new AuthServiceProvider($this->app);
     $serviceProvider->boot();
 
@@ -57,7 +60,7 @@ it('configures auth guards correctly', function() {
         ->and($guards)->toHaveKey('igniter-customer');
 });
 
-it('configures auth provider correctly', function() {
+it('configures auth provider correctly', function(): void {
     $serviceProvider = new AuthServiceProvider($this->app);
     $serviceProvider->boot();
 
@@ -65,9 +68,9 @@ it('configures auth provider correctly', function() {
     expect($providers)->toHaveKey('igniter');
 });
 
-it('configures gate callback correctly', function() {
-    Gate::shouldReceive('after')->with(Mockery::on(function($callback) {
-        $adminUser = Mockery::mock(\Igniter\User\Models\User::class);
+it('configures gate callback correctly', function(): void {
+    Gate::shouldReceive('after')->with(Mockery::on(function($callback): true {
+        $adminUser = Mockery::mock(User::class);
         $adminUser->shouldReceive('hasAnyPermission')->with('ability')->andReturn(true);
 
         expect($callback($adminUser, 'ability'))->toBeTrue();

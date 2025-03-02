@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Middleware;
 
 use Igniter\User\Auth\CustomerGuard;
@@ -8,16 +10,14 @@ use Igniter\User\Models\Customer;
 use Illuminate\Http\Request;
 use Mockery;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->middleware = new LogUserLastSeen;
     $this->request = Mockery::mock(Request::class)->makePartial();
     app()->instance('request', $this->request);
-    $this->next = function($request) {
-        return 'next';
-    };
+    $this->next = fn($request): string => 'next';
 });
 
-it('logs user last seen when database is available and user is authenticated', function() {
+it('logs user last seen when database is available and user is authenticated', function(): void {
     $authService = Mockery::mock(CustomerGuard::class);
     $authService->shouldReceive('check')->andReturnTrue();
     $authService->shouldReceive('getId')->andReturn(1);
@@ -31,7 +31,7 @@ it('logs user last seen when database is available and user is authenticated', f
     expect($response)->toBe('next');
 });
 
-it('does not log user last seen when user is not authenticated', function() {
+it('does not log user last seen when user is not authenticated', function(): void {
     $authService = Mockery::mock(CustomerGuard::class);
     $authService->shouldReceive('check')->andReturnFalse();
     app()->instance('admin.auth', $authService);

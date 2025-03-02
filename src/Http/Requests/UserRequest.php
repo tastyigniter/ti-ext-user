@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Validation\Rule;
+use Override;
 
 class UserRequest extends FormRequest
 {
+    #[Override]
     public function attributes()
     {
         return [
@@ -26,7 +30,7 @@ class UserRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'between:2,255'],
@@ -48,7 +52,8 @@ class UserRequest extends FormRequest
         ];
     }
 
-    protected function getRecordId(): ?string
+    #[Override]
+    protected function getRecordId(): int|string|null
     {
         $slugName = ($slug = $this->route('slug'))
             ? str_after($slug, '/') : null;

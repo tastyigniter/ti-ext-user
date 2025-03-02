@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\Flame\Exception\FlashException;
@@ -8,13 +10,13 @@ use Igniter\User\Models\User;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Mockery;
 
-it('loads users page', function() {
+it('loads users page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.users'))
         ->assertOk();
 });
 
-it('loads users page with no superadmin', function() {
+it('loads users page with no superadmin', function(): void {
     $authGate = Mockery::mock(Gate::class);
     $authGate->shouldReceive('inspect')->with('Admin.Staffs')->andReturnSelf();
     $authGate->shouldReceive('allowed')->andReturnTrue();
@@ -26,13 +28,13 @@ it('loads users page with no superadmin', function() {
         ->assertOk();
 });
 
-it('loads create user page', function() {
+it('loads create user page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.users', ['slug' => 'create']))
         ->assertOk();
 });
 
-it('loads edit user page', function() {
+it('loads edit user page', function(): void {
     $user = User::factory()->create();
 
     actingAsSuperUser()
@@ -40,7 +42,7 @@ it('loads edit user page', function() {
         ->assertOk();
 });
 
-it('loads current user account page', function() {
+it('loads current user account page', function(): void {
     $user = User::factory()->superUser()->create();
 
     actingAsSuperUser($user)
@@ -48,7 +50,7 @@ it('loads current user account page', function() {
         ->assertOk();
 });
 
-it('loads user preview page', function() {
+it('loads user preview page', function(): void {
     $user = User::factory()->create();
 
     actingAsSuperUser()
@@ -56,7 +58,7 @@ it('loads user preview page', function() {
         ->assertOk();
 });
 
-it('creates user', function() {
+it('creates user', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.users', ['slug' => 'create']), [
             'User' => [
@@ -73,7 +75,7 @@ it('creates user', function() {
     expect(User::where('email', 'user@example.com')->where('name', 'John Doe')->exists())->toBeTrue();
 });
 
-it('updates user', function() {
+it('updates user', function(): void {
     $user = User::factory()->create();
 
     actingAsSuperUser()
@@ -92,7 +94,7 @@ it('updates user', function() {
     expect(User::where('email', 'user@example.com')->where('name', 'John Doe')->exists())->toBeTrue();
 });
 
-it('updates current user and redirects user when email changes', function() {
+it('updates current user and redirects user when email changes', function(): void {
     $user = User::factory()->create();
 
     actingAsSuperUser($user)
@@ -110,7 +112,7 @@ it('updates current user and redirects user when email changes', function() {
     expect(User::where('email', 'user@example.com')->where('name', 'John Doe')->exists())->toBeTrue();
 });
 
-it('updates current user and redirects user when users changes', function() {
+it('updates current user and redirects user when users changes', function(): void {
     $user = User::factory()->superUser()->create();
 
     actingAsSuperUser($user)
@@ -128,7 +130,7 @@ it('updates current user and redirects user when users changes', function() {
     expect(User::where('username', 'johndoe')->where('name', 'John Doe')->exists())->toBeTrue();
 });
 
-it('deletes user', function() {
+it('deletes user', function(): void {
     $user = User::factory()->create();
 
     actingAsSuperUser()
@@ -140,7 +142,7 @@ it('deletes user', function() {
     expect(User::find($user->getKey()))->toBeNull();
 });
 
-it('bulk deletes users', function() {
+it('bulk deletes users', function(): void {
     $users = User::factory()->count(5)->create();
     $userIds = $users->pluck('user_id')->all();
 
@@ -155,7 +157,7 @@ it('bulk deletes users', function() {
     expect(User::whereIn('user_id', $userIds)->exists())->toBeFalse();
 });
 
-it('throws exception when unauthorized to delete user', function() {
+it('throws exception when unauthorized to delete user', function(): void {
     $authGate = Mockery::mock(Gate::class);
     $authGate->shouldReceive('inspect')->with('Admin.DeleteStaffs')->andReturnSelf();
     $authGate->shouldReceive('allowed')->andReturnFalse();
@@ -167,7 +169,7 @@ it('throws exception when unauthorized to delete user', function() {
     (new Users)->index_onDelete();
 });
 
-it('impersonates user successfully', function() {
+it('impersonates user successfully', function(): void {
     $authGate = Mockery::mock(Gate::class);
     $authGate->shouldReceive('inspect')->with('Admin.Impersonate')->andReturnSelf();
     $authGate->shouldReceive('allowed')->andReturnTrue();
@@ -184,7 +186,7 @@ it('impersonates user successfully', function() {
         ->message->toBe(sprintf(lang('igniter.user::default.staff.alert_impersonate_success'), 'John Doe'));
 });
 
-it('throws exception when unauthorized to impersonate user', function() {
+it('throws exception when unauthorized to impersonate user', function(): void {
     $user = User::factory()->create(['name' => 'John Doe']);
     $authGate = Mockery::mock(Gate::class);
     $authGate->shouldReceive('inspect')->with('Admin.Impersonate')->andReturnSelf();

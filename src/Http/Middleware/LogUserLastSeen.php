@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Middleware;
 
 use Carbon\Carbon;
@@ -17,9 +19,7 @@ class LogUserLastSeen
                 if ($authService->check()) {
                     $cacheKey = 'is-online-'.str_replace('.', '-', $authAlias).'-user-'.$authService->getId();
                     $expireAt = Carbon::now()->addMinutes(5);
-                    Cache::remember($cacheKey, $expireAt, function() use ($authService) {
-                        return $authService->user()->updateLastSeen(Carbon::now()) ?? true;
-                    });
+                    Cache::remember($cacheKey, $expireAt, fn() => $authService->user()->updateLastSeen(Carbon::now()) ?? true);
                 }
             }
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models;
 
 use Igniter\System\Models\Concerns\Defaultable;
@@ -7,7 +9,7 @@ use Igniter\User\Models\Customer;
 use Igniter\User\Models\CustomerGroup;
 use Mockery;
 
-it('returns dropdown options for customer groups', function() {
+it('returns dropdown options for customer groups', function(): void {
     $group1 = CustomerGroup::factory()->create(['group_name' => 'VIP']);
     $group2 = CustomerGroup::factory()->create(['group_name' => 'Regular']);
 
@@ -17,7 +19,7 @@ it('returns dropdown options for customer groups', function() {
         ->and($result[$group2->getKey()])->toBe('Regular');
 });
 
-it('returns true when group requires approval', function() {
+it('returns true when group requires approval', function(): void {
     $customerGroup = Mockery::mock(CustomerGroup::class)->makePartial();
     $customerGroup->approval = true;
 
@@ -26,7 +28,7 @@ it('returns true when group requires approval', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false when group does not require approval', function() {
+it('returns false when group does not require approval', function(): void {
     $customerGroup = Mockery::mock(CustomerGroup::class)->makePartial();
     $customerGroup->approval = false;
 
@@ -35,7 +37,7 @@ it('returns false when group does not require approval', function() {
     expect($result)->toBeFalse();
 });
 
-it('returns correct customer count', function() {
+it('returns correct customer count', function(): void {
     $customerGroup = Mockery::mock(CustomerGroup::class)->makePartial();
     $customerGroup->shouldReceive('customers->count')->andReturn(5);
 
@@ -44,7 +46,7 @@ it('returns correct customer count', function() {
     expect($result)->toBe(5);
 });
 
-it('returns the correct defaultable name', function() {
+it('returns the correct defaultable name', function(): void {
     $customerGroup = Mockery::mock(CustomerGroup::class)->makePartial();
     $customerGroup->group_name = 'VIP';
 
@@ -53,7 +55,7 @@ it('returns the correct defaultable name', function() {
     expect($result)->toBe('VIP');
 });
 
-it('configures customer group model correctly', function() {
+it('configures customer group model correctly', function(): void {
     $customerGroup = new CustomerGroup;
 
     expect(class_uses_recursive($customerGroup))

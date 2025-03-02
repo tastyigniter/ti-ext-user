@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Middleware;
 
+use Closure;
 use Igniter\Flame\Support\Facades\Igniter;
 use Igniter\User\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -9,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InjectImpersonateBanner
 {
-    public function handle($request, \Closure $next): Response
+    public function handle($request, Closure $next): Response
     {
         $response = $next($request);
 

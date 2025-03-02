@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Classes;
 
 use Igniter\User\Facades\AdminAuth;
@@ -10,15 +12,15 @@ use Igniter\User\Models\UserPreference;
  */
 class UserState
 {
-    public const USER_PREFERENCE_KEY = 'admin_users_state';
+    public const string USER_PREFERENCE_KEY = 'admin_users_state';
 
-    public const ONLINE_STATUS = 1;
+    public const int ONLINE_STATUS = 1;
 
-    public const BACK_SOON_STATUS = 2;
+    public const int BACK_SOON_STATUS = 2;
 
-    public const AWAY_STATUS = 3;
+    public const int AWAY_STATUS = 3;
 
-    public const CUSTOM_STATUS = 4;
+    public const int CUSTOM_STATUS = 4;
 
     protected $user;
 
@@ -31,30 +33,30 @@ class UserState
 
     protected $stateConfigCache;
 
-    public static function forUser($user = null)
+    public static function forUser($user = null): self
     {
-        $instance = new static;
+        $instance = new self;
         $instance->user = $user ?: AdminAuth::getUser();
 
         return $instance;
     }
 
-    public function isAway()
+    public function isAway(): bool
     {
         return $this->getStatus() !== static::ONLINE_STATUS;
     }
 
-    public function isOnline()
+    public function isOnline(): bool
     {
         return $this->getStatus() === static::ONLINE_STATUS;
     }
 
-    public function isIdle()
+    public function isIdle(): bool
     {
         return $this->getStatus() === static::BACK_SOON_STATUS;
     }
 
-    public function getStatus()
+    public function getStatus(): int
     {
         return (int)$this->getConfig('status');
     }
@@ -74,7 +76,7 @@ class UserState
         return $this->getConfig('awayMessage');
     }
 
-    public function getClearAfterMinutes()
+    public function getClearAfterMinutes(): int
     {
         return (int)$this->getConfig('clearAfterMinutes', 0);
     }
@@ -94,7 +96,7 @@ class UserState
             ->addMinutes($this->getClearAfterMinutes());
     }
 
-    public static function getStatusDropdownOptions()
+    public static function getStatusDropdownOptions(): array
     {
         return [
             static::ONLINE_STATUS => 'igniter.user::default.staff_status.text_online',
@@ -104,7 +106,7 @@ class UserState
         ];
     }
 
-    public static function getClearAfterMinutesDropdownOptions()
+    public static function getClearAfterMinutesDropdownOptions(): array
     {
         return [
             1440 => 'igniter.user::default.staff_status.text_clear_tomorrow',
@@ -118,7 +120,7 @@ class UserState
     //
     //
 
-    public function updateState(string $status, string $message, int $clearAfterMinutes = 30)
+    public function updateState(int $status, string $message, int $clearAfterMinutes = 30): void
     {
         UserPreference::onUser($this->user)->set(self::USER_PREFERENCE_KEY, array_merge($this->defaultStateConfig, [
             'status' => $status,

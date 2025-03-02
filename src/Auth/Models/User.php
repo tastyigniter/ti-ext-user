@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Auth\Models;
 
-use Carbon\Carbon;
+use Exception;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Override;
 
 /**
  * User Model Class
@@ -19,34 +23,45 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $email
  * @property string|null $email_verified_at
  * @property string $password
+ * @property string|null $salt
  * @property string|null $remember_token
+ * @property string|null $reset_code
+ * @property Carbon|null $reset_time
+ * @property string|null $activation_code
+ * @property bool|null $is_activated
+ * @property Carbon|null $activated_at
  * @property string|null $created_at
  * @property string|null $updated_at
- * @mixin \Igniter\Flame\Database\Model
+ * @mixin Model
  */
-class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
+abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
 {
-    use Authenticatable, HasApiTokens, Notifiable;
+    use Authenticatable;
+    use HasApiTokens;
+    use Notifiable;
 
-    const REMEMBER_TOKEN_NAME = 'remember_token';
+    public const string REMEMBER_TOKEN_NAME = 'remember_token';
 
     protected static $resetExpiration = 1440;
 
-    public function beforeLogin() {}
+    abstract public function beforeLogin(): void;
 
-    public function afterLogin() {}
+    abstract public function afterLogin(): void;
 
-    public function extendUserQuery($query) {}
+    abstract public function register(array $attributes, bool $activate): self;
+
+    abstract public function extendUserQuery($query);
 
     /**
      * Get the column name for the "remember me" token.
      */
+    #[Override]
     public function getRememberTokenName()
     {
         return static::REMEMBER_TOKEN_NAME;
     }
 
-    public function updateRememberToken($token)
+    public function updateRememberToken($token): void
     {
         $this->setRememberToken($token);
         $this->save();
@@ -66,7 +81,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
         return $token == $this->remember_token;
     }
 
-    public function updateLastSeen($expireAt)
+    public function updateLastSeen($expireAt): void
     {
         $this->newQuery()
             ->whereKey($this->getKey())
@@ -86,7 +101,8 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
      */
     public function resetPassword()
     {
-        $this->reset_code = $resetCode = $this->generateResetCode();
+        $this->reset_code = $this->generateResetCode();
+        $resetCode = $this->reset_code;
         $this->reset_time = Carbon::now();
         $this->save();
 
@@ -110,7 +126,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     /**
      * Sets the reset password columns to NULL
      */
-    public function clearResetPasswordCode()
+    public function clearResetPasswordCode(): void
     {
         $this->reset_code = null;
         $this->reset_time = null;
@@ -121,7 +137,7 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
      * Sets the new password on user requested reset
      *
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function completeResetPassword($code, $password)
     {
@@ -140,23 +156,18 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
      * Checks if the provided user reset password code is valid without actually resetting the password.
      *
      * @param string $resetCode
-     *
-     * @return bool
      */
-    public function checkResetPasswordCode($resetCode)
+    public function checkResetPasswordCode($resetCode): bool
     {
         if ($this->reset_code != $resetCode) {
             return false;
         }
 
         $expiration = self::$resetExpiration;
-        if ($expiration > 0) {
-            if (Carbon::now()->gte($this->reset_time->addMinutes($expiration))) {
-                // Reset password request has expired, so clear code.
-                $this->clearResetPasswordCode();
-
-                return false;
-            }
+        if ($expiration > 0 && Carbon::now()->gte($this->reset_time->addMinutes($expiration))) {
+            // Reset password request has expired, so clear code.
+            $this->clearResetPasswordCode();
+            return false;
         }
 
         return true;
@@ -179,9 +190,8 @@ class User extends Model implements \Illuminate\Contracts\Auth\Authenticatable
     /**
      * Attempts to activate the given user by checking the activate code. If the user is activated already, an Exception is thrown.
      * @param string $activationCode
-     * @return bool
      */
-    public function completeActivation($activationCode)
+    public function completeActivation($activationCode): bool
     {
         if ($this->is_activated) {
             throw new SystemException('User is already active!');

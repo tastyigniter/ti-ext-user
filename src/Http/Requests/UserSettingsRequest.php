@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Requests;
 
+use Override;
 use Igniter\System\Classes\FormRequest;
 
 class UserSettingsRequest extends FormRequest
 {
+    #[Override]
     public function attributes()
     {
         return [
@@ -14,7 +18,7 @@ class UserSettingsRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'allow_registration' => ['required', 'integer'],

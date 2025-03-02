@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\User\Models\CustomerGroup;
 
-it('loads customer groups page', function() {
+it('loads customer groups page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.customer_groups'))
         ->assertOk();
 });
 
-it('loads create customer group page', function() {
+it('loads create customer group page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.customer_groups', ['slug' => 'create']))
         ->assertOk();
 });
 
-it('loads edit customer group page', function() {
+it('loads edit customer group page', function(): void {
     $customerGroup = CustomerGroup::factory()->create();
 
     actingAsSuperUser()
@@ -24,7 +26,7 @@ it('loads edit customer group page', function() {
         ->assertOk();
 });
 
-it('loads customer group preview page', function() {
+it('loads customer group preview page', function(): void {
     $customerGroup = CustomerGroup::factory()->create();
 
     actingAsSuperUser()
@@ -32,7 +34,7 @@ it('loads customer group preview page', function() {
         ->assertOk();
 });
 
-it('sets a default customer group', function() {
+it('sets a default customer group', function(): void {
     CustomerGroup::clearDefaultModel();
     $customerGroup = CustomerGroup::factory()->create();
 
@@ -47,7 +49,7 @@ it('sets a default customer group', function() {
     expect(CustomerGroup::getDefaultKey())->toBe($customerGroup->getKey());
 });
 
-it('creates customer group', function() {
+it('creates customer group', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.customer_groups', ['slug' => 'create']), [
             'CustomerGroup' => [
@@ -62,7 +64,7 @@ it('creates customer group', function() {
     expect(CustomerGroup::where('group_name', 'Created Customer Group')->exists())->toBeTrue();
 });
 
-it('updates customer group', function() {
+it('updates customer group', function(): void {
     $customerGroup = CustomerGroup::factory()->create();
 
     actingAsSuperUser()
@@ -79,7 +81,7 @@ it('updates customer group', function() {
     expect(CustomerGroup::where('group_name', 'Updated Customer Group')->exists())->toBeTrue();
 });
 
-it('deletes customer group', function() {
+it('deletes customer group', function(): void {
     $customerGroup = CustomerGroup::factory()->create();
 
     actingAsSuperUser()
@@ -91,7 +93,7 @@ it('deletes customer group', function() {
     expect(CustomerGroup::find($customerGroup->getKey()))->toBeNull();
 });
 
-it('bulk deletes customer groups', function() {
+it('bulk deletes customer groups', function(): void {
     $customerGroup = CustomerGroup::factory()->count(5)->create();
     $customerGroupIds = $customerGroup->pluck('customer_group_id')->all();
 

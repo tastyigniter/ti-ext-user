@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Subscribers;
 
 use Illuminate\Console\Scheduling\Schedule;
@@ -14,7 +16,7 @@ class ConsoleSubscriber
         ];
     }
 
-    public function defineSchedule(Schedule $schedule)
+    public function defineSchedule(Schedule $schedule): void
     {
         $this->checkForAssignablesToAssignEveryMinute($schedule);
         $this->clearUserExpiredCustomAwayStatus($schedule);

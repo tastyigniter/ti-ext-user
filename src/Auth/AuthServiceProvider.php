@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Auth;
 
+use Override;
+use Igniter\User\Facades\AdminAuth;
 use Igniter\Flame\Support\Facades\Igniter;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,22 +22,21 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [];
 
-    public function register()
+    #[Override]
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../../config/auth.php', 'igniter-auth');
 
         $this->registerGuards();
 
         AliasLoader::getInstance()->alias('Auth', \Igniter\User\Facades\Auth::class);
-        AliasLoader::getInstance()->alias('AdminAuth', \Igniter\User\Facades\AdminAuth::class);
+        AliasLoader::getInstance()->alias('AdminAuth', AdminAuth::class);
     }
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../../config/auth.php' => config_path('igniter-auth.php')], 'igniter-config');
@@ -48,8 +51,8 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->configureGateCallback();
 
-        $this->app->booted(function() {
-            (new Middleware)->redirectGuestsTo(
+        $this->app->booted(function(): void {
+            (new Middleware)->redirectTo(
                 fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.login' : 'igniter.theme.account.login'),
                 fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.dashboard' : 'igniter.theme.account.account'),
             );
@@ -58,35 +61,25 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerGuards(): void
     {
-        $this->app->singleton('main.auth', function() {
-            return resolve('auth')->guard(config('igniter-auth.guards.web', 'web'));
-        });
+        $this->app->singleton('main.auth', fn() => resolve('auth')->guard(config('igniter-auth.guards.web', 'web')));
 
-        $this->app->singleton('admin.auth', function() {
-            return resolve('auth')->guard(config('igniter-auth.guards.admin', 'web'));
-        });
+        $this->app->singleton('admin.auth', fn() => resolve('auth')->guard(config('igniter-auth.guards.admin', 'web')));
     }
 
     protected function configureAuthGuards()
     {
-        Auth::resolved(function($auth) {
-            $auth->extend('igniter-admin', function($app, $name, array $config) use ($auth) {
-                return $this->createGuard(UserGuard::class, $name, $config, $auth);
-            });
+        Auth::resolved(function($auth): void {
+            $auth->extend('igniter-admin', fn($app, $name, array $config) => $this->createGuard(UserGuard::class, $name, $config, $auth));
         });
 
-        Auth::resolved(function($auth) {
-            $auth->extend('igniter-customer', function($app, $name, array $config) use ($auth) {
-                return $this->createGuard(CustomerGuard::class, $name, $config, $auth);
-            });
+        Auth::resolved(function($auth): void {
+            $auth->extend('igniter-customer', fn($app, $name, array $config) => $this->createGuard(CustomerGuard::class, $name, $config, $auth));
         });
     }
 
     protected function configureAuthProvider()
     {
-        Auth::provider('igniter', function($app, $config) {
-            return new UserProvider($config);
-        });
+        Auth::provider('igniter', fn($app, $config): UserProvider => new UserProvider($config));
     }
 
     protected function configureGateCallback()

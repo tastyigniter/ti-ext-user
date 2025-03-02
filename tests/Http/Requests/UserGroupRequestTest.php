@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\UserGroupRequest;
 
-it('returns correct attribute labels for user group', function() {
+it('returns correct attribute labels for user group', function(): void {
     $attributes = (new UserGroupRequest)->attributes();
 
     expect($attributes['user_group_name'])->toBe(lang('igniter::admin.label_name'))
@@ -15,7 +17,7 @@ it('returns correct attribute labels for user group', function() {
         ->and($attributes['auto_assign_availability'])->toBe(lang('igniter.user::default.user_groups.label_assignment_availability'));
 });
 
-it('validates rules correctly for user group', function() {
+it('validates rules correctly for user group', function(): void {
     $rules = (new UserGroupRequest)->rules();
 
     expect($rules['user_group_name'])->toContain('required', 'string', 'between:2,255')

@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Illuminate\Support\Carbon;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\System\Models\Concerns\Defaultable;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * CustomerGroup Model Class
@@ -14,10 +20,14 @@ use Igniter\System\Models\Concerns\Defaultable;
  * @property string|null $description
  * @property bool $approval
  * @property bool $is_default
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Collection<int, Customer> $customers
+ * @method static Builder<static>|CustomerGroup query()
+ * @method static Builder<static>|CustomerGroup dropdown(string $column, string $key = null)
+ * @method static HasMany<static>|CustomerGroup customers()
  * @property-read mixed $customer_count
- * @mixin \Igniter\Flame\Database\Model
+ * @mixin Model
  */
 class CustomerGroup extends Model
 {
@@ -40,7 +50,7 @@ class CustomerGroup extends Model
 
     public $relation = [
         'hasMany' => [
-            'customers' => \Igniter\User\Models\Customer::class,
+            'customers' => Customer::class,
         ],
     ];
 
@@ -64,7 +74,7 @@ class CustomerGroup extends Model
     //
     //
 
-    public function requiresApproval()
+    public function requiresApproval(): bool
     {
         return $this->approval == 1;
     }

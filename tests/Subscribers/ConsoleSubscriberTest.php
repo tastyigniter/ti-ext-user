@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Subscribers;
 
 use Igniter\User\Subscribers\ConsoleSubscriber;
@@ -7,7 +9,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Mockery;
 
-it('subscribes to console.schedule event', function() {
+it('subscribes to console.schedule event', function(): void {
     $subscriber = new ConsoleSubscriber;
     $events = Mockery::mock(Dispatcher::class);
 
@@ -16,7 +18,7 @@ it('subscribes to console.schedule event', function() {
     expect($result)->toBe(['console.schedule' => 'defineSchedule']);
 });
 
-it('defines schedule for assignables allocation and clearing user state', function() {
+it('defines schedule for assignables allocation and clearing user state', function(): void {
     $schedule = Mockery::mock(Schedule::class);
     $schedule->shouldReceive('command')->with('igniter:allocate-assignables')->andReturnSelf()->once();
     $schedule->shouldReceive('name')->with('Assignables Allocator')->andReturnSelf()->once();

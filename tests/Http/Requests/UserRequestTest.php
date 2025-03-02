@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\UserRequest;
 
-it('has correct attribute labels', function() {
+it('has correct attribute labels', function(): void {
     $attributes = (new UserRequest)->attributes();
 
     expect($attributes['name'])->toBe(lang('igniter::admin.label_name'))
@@ -21,7 +23,7 @@ it('has correct attribute labels', function() {
         ->and($attributes['locations.*'])->toBe(lang('igniter.user::default.staff.label_location'));
 });
 
-it('has correct validation rules', function() {
+it('has correct validation rules', function(): void {
     $rules = (new UserRequest)->rules();
 
     expect($rules['name'])->toBe(['required', 'string', 'between:2,255'])

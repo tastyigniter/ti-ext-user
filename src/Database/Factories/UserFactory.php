@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Database\Factories;
 
+use Igniter\User\Models\User;
+use Override;
 use DateTimeInterface;
 use Igniter\Flame\Database\Factories\Factory;
 
 class UserFactory extends Factory
 {
-    protected $model = \Igniter\User\Models\User::class;
+    protected $model = User::class;
 
+    #[Override]
     public function definition(): array
     {
         return [
@@ -25,12 +30,10 @@ class UserFactory extends Factory
 
     public function superUser(): self
     {
-        return $this->state(function(array $attributes) {
-            return [
-                'is_activated' => true,
-                'status' => true,
-                'super_user' => true,
-            ];
-        });
+        return $this->state(fn(array $attributes): array => [
+            'is_activated' => true,
+            'status' => true,
+            'super_user' => true,
+        ]);
     }
 }

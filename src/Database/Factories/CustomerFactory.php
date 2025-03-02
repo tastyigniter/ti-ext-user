@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Database\Factories;
 
+use Igniter\User\Models\Customer;
+use Override;
 use Igniter\Flame\Database\Factories\Factory;
 
 class CustomerFactory extends Factory
 {
-    protected $model = \Igniter\User\Models\Customer::class;
+    protected $model = Customer::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

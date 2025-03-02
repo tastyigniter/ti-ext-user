@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use Igniter\User\Models\User;
+use Igniter\User\Models\Customer;
+
 return [
 
     'passwords' => [
@@ -37,11 +42,11 @@ return [
     'mergeProviders' => [
         'igniter-admin' => [
             'driver' => 'igniter',
-            'model' => \Igniter\User\Models\User::class,
+            'model' => User::class,
         ],
         'igniter' => [
             'driver' => 'igniter',
-            'model' => \Igniter\User\Models\Customer::class,
+            'model' => Customer::class,
         ],
     ],
 ];

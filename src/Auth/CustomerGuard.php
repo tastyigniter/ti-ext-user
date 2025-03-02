@@ -1,13 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Auth;
+
+use Illuminate\Auth\SessionGuard;
+use Igniter\User\Models\Customer;
 
 /**
  * Customer Class
  */
-class CustomerGuard extends \Illuminate\Auth\SessionGuard
+class CustomerGuard extends SessionGuard
 {
     use GuardHelpers;
+
+    /**
+     * @var null|Customer
+     */
+    protected $user;
 
     public function customer()
     {
@@ -39,7 +49,7 @@ class CustomerGuard extends \Illuminate\Auth\SessionGuard
         return $this->user->last_name;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return strtolower($this->user->email);
     }

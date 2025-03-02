@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Support\Carbon;
 
 /**
  * Notification Model
@@ -15,16 +18,17 @@ use Illuminate\Notifications\DatabaseNotification;
  * @property string $notifiable_type
  * @property int $notifiable_id
  * @property array $data
- * @property \Illuminate\Support\Carbon|null $read_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $read_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read mixed $icon
  * @property-read mixed $icon_color
  * @property-read mixed $message
  * @property-read mixed $title
  * @property-read mixed $url
- * @property-read \Illuminate\Database\Eloquent\Model|\Igniter\Flame\Database\Model $notifiable
- * @mixin \Igniter\Flame\Database\Model
+ * @property-read null|Model $notifiable
+ * @method static Builder<static>|Notification query()
+ * @mixin Model
  */
 class Notification extends DatabaseNotification
 {

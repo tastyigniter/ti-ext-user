@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Auth;
 
 use Igniter\User\Auth\UserGuard;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Session\Store;
 use Mockery;
 
-it('logs in user and triggers before and after login events', function() {
+it('logs in user and triggers before and after login events', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $guard = Mockery::mock(UserGuard::class)->makePartial()->shouldAllowMockingProtectedMethods();
     $user->shouldReceive('beforeLogin')->once();
@@ -21,7 +23,7 @@ it('logs in user and triggers before and after login events', function() {
     $guard->login($user);
 });
 
-it('retrieves user by id', function() {
+it('retrieves user by id', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $provider = Mockery::mock(UserProvider::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -33,7 +35,7 @@ it('retrieves user by id', function() {
     expect($result)->toBe($user);
 });
 
-it('retrieves user by token', function() {
+it('retrieves user by token', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $provider = Mockery::mock(UserProvider::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -45,7 +47,7 @@ it('retrieves user by token', function() {
     expect($result)->toBe($user);
 });
 
-it('retrieves user by credentials', function() {
+it('retrieves user by credentials', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $provider = Mockery::mock(UserProvider::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -57,7 +59,7 @@ it('retrieves user by credentials', function() {
     expect($result)->toBe($user);
 });
 
-it('validates user credentials', function() {
+it('validates user credentials', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $provider = Mockery::mock(UserProvider::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -69,7 +71,7 @@ it('validates user credentials', function() {
     expect($result)->toBeTrue();
 });
 
-it('impersonates user and sets session properties', function() {
+it('impersonates user and sets session properties', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $oldUser = Mockery::mock(User::class)->makePartial();
     $session = Mockery::mock(Store::class);
@@ -86,7 +88,7 @@ it('impersonates user and sets session properties', function() {
     $guard->impersonate($user);
 });
 
-it('stops impersonation and restores original user', function() {
+it('stops impersonation and restores original user', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $oldUser = Mockery::mock(User::class)->makePartial();
     $session = Mockery::mock(Store::class);
@@ -104,7 +106,7 @@ it('stops impersonation and restores original user', function() {
     $guard->stopImpersonate();
 });
 
-it('checks if user is impersonator', function() {
+it('checks if user is impersonator', function(): void {
     $session = Mockery::mock(Store::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
     $guard->shouldReceive('getName')->andReturn('login');
@@ -116,7 +118,7 @@ it('checks if user is impersonator', function() {
     expect($result)->toBeTrue();
 });
 
-it('retrieves impersonator user', function() {
+it('retrieves impersonator user', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $session = Mockery::mock(Store::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -130,7 +132,7 @@ it('retrieves impersonator user', function() {
     expect($result)->toBe($user);
 });
 
-it('retrieves impersonator user returns false', function() {
+it('retrieves impersonator user returns false', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $session = Mockery::mock(Store::class);
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -138,7 +140,5 @@ it('retrieves impersonator user returns false', function() {
     $session->shouldReceive('get')->with('login_impersonate')->andReturn(null);
     setObjectProtectedProperty($guard, 'session', $session);
 
-    $result = $guard->getImpersonator();
-
-    expect($result)->toBeFalse();
+    expect($guard->getImpersonator())->toBeNull();
 });

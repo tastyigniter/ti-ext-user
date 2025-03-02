@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Facades\AdminAuth;
@@ -13,7 +16,9 @@ use Igniter\User\Facades\AdminAuth;
  * @property int $user_id
  * @property string $item
  * @property array $value
- * @mixin \Igniter\Flame\Database\Model
+ * @method static Builder<static>|UserPreference query()
+ * @method static Builder<static>|UserPreference applyItemAndUser(string $item, \Igniter\User\Auth\Models\User $user = null)
+ * @mixin Model
  */
 class UserPreference extends Model
 {
@@ -27,16 +32,14 @@ class UserPreference extends Model
         'value' => 'json',
     ];
 
-    /**
-     * @var \Igniter\User\Auth\Models\User A user who owns the preferences
-     */
-    public $userContext;
+    /** A user who owns the preferences */
+    public null|User $userContext = null;
 
     protected static $cache = [];
 
-    public static function onUser($user = null)
+    public static function onUser($user = null): self
     {
-        $self = new static;
+        $self = new self;
         $self->userContext = $user ?: $self->resolveUser();
 
         return $self;
@@ -44,7 +47,7 @@ class UserPreference extends Model
 
     public static function findRecord($item, $user = null)
     {
-        return static::applyItemAndUser($item, $user)->first();
+        return static::query()->applyItemAndUser($item, $user)->first();
     }
 
     public function resolveUser()
@@ -59,7 +62,7 @@ class UserPreference extends Model
 
     public function get($item, $default = null)
     {
-        if (!($user = $this->userContext)) {
+        if (!($user = $this->userContext) instanceof User) {
             return $default;
         }
 
@@ -77,15 +80,15 @@ class UserPreference extends Model
         return static::$cache[$cacheKey] = $record->value;
     }
 
-    public function set($item, $value)
+    public function set($item, $value): bool
     {
-        if (!$user = $this->userContext) {
+        if (!($user = $this->userContext) instanceof User) {
             return false;
         }
 
         $record = static::findRecord($item, $user);
         if (!$record) {
-            $record = new static;
+            $record = new self;
             $record->item = $item;
             $record->user_id = $user->user_id;
         }
@@ -99,9 +102,9 @@ class UserPreference extends Model
         return true;
     }
 
-    public function reset($item)
+    public function reset($item): bool
     {
-        if (!$user = $this->userContext) {
+        if (!($user = $this->userContext) instanceof User) {
             return false;
         }
 
@@ -131,9 +134,8 @@ class UserPreference extends Model
 
     /**
      * Builds a cache key for the preferences record.
-     * @return string
      */
-    protected function getCacheKey($item, $user)
+    protected function getCacheKey(string $item, $user): string
     {
         return $user->user_id.'-'.$item;
     }

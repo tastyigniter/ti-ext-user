@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models\Concerns;
 
 use Igniter\Flame\Database\Builder;
+use Igniter\Flame\Database\Relations\BelongsTo;
+use Igniter\Flame\Database\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait HasCustomer
 {
@@ -20,9 +23,7 @@ trait HasCustomer
             return $query->where($qualifiedColumnName, $customerId);
         }
 
-        return $query->whereHas($this->getCustomerRelationName(), function(Builder $query) use ($qualifiedColumnName, $customerId) {
-            return $query->where($qualifiedColumnName, $customerId);
-        });
+        return $query->whereHas($this->getCustomerRelationName(), fn(Builder $query) => $query->where($qualifiedColumnName, $customerId));
     }
 
     protected function getCustomerRelationName(): string
@@ -34,7 +35,7 @@ trait HasCustomer
         return 'customer';
     }
 
-    protected function getCustomerRelationObject(): Relation
+    protected function getCustomerRelationObject(): BelongsTo|HasMany
     {
         $relationName = $this->getCustomerRelationName();
 

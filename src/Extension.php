@@ -1,7 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User;
 
+use Igniter\System\Classes\BaseExtension;
+use Igniter\User\Models\Address;
+use Igniter\User\Models\AssignableLog;
+use Igniter\User\Models\CustomerGroup;
+use Igniter\User\Models\UserGroup;
+use Igniter\User\Classes\PermissionManager;
+use Override;
+use Igniter\User\Auth\AuthServiceProvider;
+use Igniter\User\Http\Middleware\Authenticate;
+use Igniter\User\Http\Middleware\LogUserLastSeen;
+use Igniter\User\Http\Middleware\InjectImpersonateBanner;
+use Igniter\User\Notifications\CustomerRegisteredNotification;
+use Igniter\User\AutomationRules\Events\CustomerRegistered;
+use Igniter\User\AutomationRules\Conditions\CustomerAttribute;
+use Igniter\User\Http\Requests\UserSettingsRequest;
+use Igniter\User\FormWidgets\PermissionEditor;
+use Igniter\Automation\Classes\EventManager;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\Kernel;
+use Igniter\User\Http\Middleware\ThrottleRequests;
+use Igniter\User\MainMenuWidgets\NotificationList;
+use Igniter\User\MainMenuWidgets\UserPanel;
+use Igniter\User\Classes\RouteRegistrar;
 use Igniter\Admin\Classes\MainMenuItem;
 use Igniter\Admin\Classes\Navigation;
 use Igniter\Admin\DashboardWidgets\Charts;
@@ -29,7 +54,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-class Extension extends \Igniter\System\Classes\BaseExtension
+class Extension extends BaseExtension
 {
     protected $subscribe = [
         AssigneeUpdatedSubscriber::class,
@@ -42,24 +67,25 @@ class Extension extends \Igniter\System\Classes\BaseExtension
     ];
 
     protected array $morphMap = [
-        'addresses' => \Igniter\User\Models\Address::class,
-        'assignable_logs' => \Igniter\User\Models\AssignableLog::class,
-        'customer_groups' => \Igniter\User\Models\CustomerGroup::class,
-        'customers' => \Igniter\User\Models\Customer::class,
-        'notifications' => \Igniter\User\Models\Notification::class,
-        'user_groups' => \Igniter\User\Models\UserGroup::class,
-        'users' => \Igniter\User\Models\User::class,
+        'addresses' => Address::class,
+        'assignable_logs' => AssignableLog::class,
+        'customer_groups' => CustomerGroup::class,
+        'customers' => Customer::class,
+        'notifications' => Notification::class,
+        'user_groups' => UserGroup::class,
+        'users' => User::class,
     ];
 
     public array $singletons = [
-        Classes\PermissionManager::class,
+        PermissionManager::class,
     ];
 
-    public function register()
+    #[Override]
+    public function register(): void
     {
         parent::register();
 
-        $this->app->register(\Igniter\User\Auth\AuthServiceProvider::class);
+        $this->app->register(AuthServiceProvider::class);
 
         $this->registerConsoleCommand('igniter.assignable.allocator', AllocatorCommand::class);
         $this->registerConsoleCommand('igniter.user-state.clear', ClearUserStateCommand::class);
@@ -68,74 +94,72 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         $this->registerSystemSettings();
         $this->registerEventGlobalParams();
 
-        Route::pushMiddlewareToGroup('igniter:admin', \Igniter\User\Http\Middleware\Authenticate::class);
-        Route::pushMiddlewareToGroup('igniter:admin', \Igniter\User\Http\Middleware\LogUserLastSeen::class);
-        Route::pushMiddlewareToGroup('igniter', \Igniter\User\Http\Middleware\InjectImpersonateBanner::class);
+        Route::pushMiddlewareToGroup('igniter:admin', Authenticate::class);
+        Route::pushMiddlewareToGroup('igniter:admin', LogUserLastSeen::class);
+        Route::pushMiddlewareToGroup('igniter', InjectImpersonateBanner::class);
     }
 
-    public function boot()
+    #[Override]
+    public function boot(): void
     {
         $this->defineRoutes();
         $this->configureRateLimiting();
 
-        Event::listen('igniter.user.register', function(Customer $customer, array $data) {
-            Notifications\CustomerRegisteredNotification::make()->subject($customer)->broadcast();
+        Event::listen('igniter.user.register', function(Customer $customer, array $data): void {
+            CustomerRegisteredNotification::make()->subject($customer)->broadcast();
         });
 
         $this->registerUserPanelAndNotificationsAdminMenus();
         $this->extendDashboardChartsDatasets();
 
-        Location::extend(function($model) {
+        Location::extend(function($model): void {
             $model->relation['morphedByMany']['users'] = [User::class, 'name' => 'locationable'];
         });
 
-        Template::registerHook('endBody', function() {
-            return view('igniter.user::_partials.admin_impersonate_banner');
-        });
+        Template::registerHook('endBody', fn() => view('igniter.user::_partials.admin_impersonate_banner'));
 
-        Event::listen(NotificationSent::class, function(NotificationSent $event) {
+        Event::listen(NotificationSent::class, function(NotificationSent $event): void {
             if ($event->response instanceof Notification && is_subclass_of($event->notification, StickyNotification::class)) {
                 $event->notifiable->notifications()
                     ->where('type', method_exists($event->notification, 'databaseType')
                         ? $event->notification->databaseType($event->notifiable)
-                        : get_class($event->notification))
+                        : $event->notification::class)
                     ->where('id', '!=', $event->response->getKey())
                     ->delete();
             }
         });
 
-        Statistics::registerCards(function() {
-            return [
-                'customer' => [
-                    'label' => 'lang:igniter::admin.dashboard.text_total_customer',
-                    'icon' => ' text-info fa fa-4x fa-users',
-                    'valueFrom' => function(string $cardCode, $start, $end, $callback): int {
-                        $query = Customer::query();
+        Statistics::registerCards(fn(): array => [
+            'customer' => [
+                'label' => 'lang:igniter::admin.dashboard.text_total_customer',
+                'icon' => ' text-info fa fa-4x fa-users',
+                'valueFrom' => function(string $cardCode, $start, $end, $callback): int {
+                    $query = Customer::query();
 
-                        $callback($query);
+                    $callback($query);
 
-                        return $query->count();
-                    },
-                ],
-            ];
-        });
+                    return $query->count();
+                },
+            ],
+        ]);
 
         Igniter::prunableModel(Notification::class);
     }
 
-    public function registerAutomationRules()
+    public function registerAutomationRules(): array
     {
         return [
             'events' => [
-                'igniter.user.register' => \Igniter\User\AutomationRules\Events\CustomerRegistered::class,
+                'igniter.user.register' => CustomerRegistered::class,
             ],
             'actions' => [],
             'conditions' => [
-                \Igniter\User\AutomationRules\Conditions\CustomerAttribute::class,
+                CustomerAttribute::class,
             ],
         ];
     }
 
+    #[Override]
     public function registerMailTemplates(): array
     {
         return [
@@ -151,6 +175,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         ];
     }
 
+    #[Override]
     public function registerNavigation(): array
     {
         return [
@@ -176,9 +201,9 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         ];
     }
 
-    public function registerSystemSettings()
+    public function registerSystemSettings(): void
     {
-        Settings::registerCallback(function(Settings $manager) {
+        Settings::registerCallback(function(Settings $manager): void {
             $manager->registerSettingItems('core', [
                 'user' => [
                     'label' => 'lang:igniter.user::default.text_tab_user',
@@ -188,12 +213,13 @@ class Extension extends \Igniter\System\Classes\BaseExtension
                     'permission' => ['Site.Settings'],
                     'url' => admin_url('settings/edit/user'),
                     'form' => 'igniter.user::/models/usersettings',
-                    'request' => \Igniter\User\Http\Requests\UserSettingsRequest::class,
+                    'request' => UserSettingsRequest::class,
                 ],
             ]);
         });
     }
 
+    #[Override]
     public function registerPermissions(): array
     {
         return [
@@ -232,10 +258,11 @@ class Extension extends \Igniter\System\Classes\BaseExtension
         ];
     }
 
+    #[Override]
     public function registerFormWidgets(): array
     {
         return [
-            \Igniter\User\FormWidgets\PermissionEditor::class => [
+            PermissionEditor::class => [
                 'label' => 'Permission Editor',
                 'code' => 'permissioneditor',
             ],
@@ -244,8 +271,8 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     protected function registerEventGlobalParams()
     {
-        if (class_exists(\Igniter\Automation\Classes\EventManager::class)) {
-            resolve(\Igniter\Automation\Classes\EventManager::class)->registerCallback(function(\Igniter\Automation\Classes\EventManager $manager) {
+        if (class_exists(EventManager::class)) {
+            resolve(EventManager::class)->registerCallback(function(EventManager $manager): void {
                 $manager->registerGlobalParams([
                     'customer' => Auth::customer(),
                 ]);
@@ -255,16 +282,14 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     protected function configureRateLimiting()
     {
-        RateLimiter::for('web', function(\Illuminate\Http\Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->getKey() ?: $request->ip());
-        });
+        RateLimiter::for('web', fn(Request $request) => Limit::perMinute(60)->by($request->user()?->getKey() ?: $request->ip()));
 
         if (Igniter::runningInAdmin()) {
             return;
         }
 
-        $this->app->make(\Illuminate\Contracts\Http\Kernel::class)
-            ->appendMiddlewareToGroup('web', \Igniter\User\Http\Middleware\ThrottleRequests::class);
+        $this->app->make(Kernel::class)
+            ->appendMiddlewareToGroup('web', ThrottleRequests::class);
 
         Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) {
             $handler = str_after($request->header('x-igniter-request-handler'), '::');
@@ -285,7 +310,7 @@ class Extension extends \Igniter\System\Classes\BaseExtension
 
     protected function registerBladeDirectives()
     {
-        $this->callAfterResolving('blade.compiler', function($compiler, $app) {
+        $this->callAfterResolving('blade.compiler', function($compiler, $app): void {
             (new BladeExtension)->register();
         });
     }
@@ -296,12 +321,12 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             return;
         }
 
-        AdminMenu::registerCallback(function(Navigation $manager) {
+        AdminMenu::registerCallback(function(Navigation $manager): void {
             $manager->registerMainItems([
-                MainMenuItem::widget('notifications', \Igniter\User\MainMenuWidgets\NotificationList::class)
+                MainMenuItem::widget('notifications', NotificationList::class)
                     ->priority(15)
                     ->permission('Admin.Notifications'),
-                MainMenuItem::widget('user', \Igniter\User\MainMenuWidgets\UserPanel::class)
+                MainMenuItem::widget('user', UserPanel::class)
                     ->mergeConfig([
                         'links' => [
                             'account' => [
@@ -330,15 +355,15 @@ class Extension extends \Igniter\System\Classes\BaseExtension
             return;
         }
 
-        Route::group([], function($router) {
-            (new Classes\RouteRegistrar($router))->all();
+        Route::group([], function($router): void {
+            (new RouteRegistrar($router))->all();
         });
     }
 
     protected function extendDashboardChartsDatasets()
     {
-        Charts::extend(function($charts) {
-            $charts->bindEvent('charts.extendDatasets', function() use ($charts) {
+        Charts::extend(function($charts): void {
+            $charts->bindEvent('charts.extendDatasets', function() use ($charts): void {
                 $charts->mergeDataset('reports', 'sets', [
                     'customers' => [
                         'label' => 'lang:igniter.user::default.text_charts_customers',

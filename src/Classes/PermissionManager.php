@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Classes;
 
 use Igniter\System\Classes\ExtensionManager;
@@ -49,13 +51,7 @@ class PermissionManager
             $this->registerPermissions($owner, $permissionBundle);
         }
 
-        usort($this->permissions, function($a, $b) {
-            if ($a->priority == $b->priority) {
-                return 0;
-            }
-
-            return $a->priority > $b->priority ? 1 : -1;
-        });
+        usort($this->permissions, fn($a, $b): int => $a->priority <=> $b->priority);
 
         return $this->permissionCache = $this->permissions;
     }
@@ -65,7 +61,7 @@ class PermissionManager
         $grouped = [];
 
         foreach ($this->listPermissions() as $permission) {
-            $group = strtolower(strlen($permission->group) ? $permission->group : 'Undefined group');
+            $group = strtolower(strlen($permission->group) !== 0 ? $permission->group : 'Undefined group');
 
             $permission->group ??= $group;
 
@@ -90,7 +86,7 @@ class PermissionManager
                 $matched = true;
             }
 
-            if ($checkAll === false && $matched === true) {
+            if ($checkAll === false && $matched) {
                 return true;
             }
 
@@ -99,17 +95,17 @@ class PermissionManager
             }
         }
 
-        return !($checkAll === false);
+        return $checkAll !== false;
     }
 
-    protected function checkPermissionStartsWith($permission, $permissions)
+    protected function checkPermissionStartsWith($permission, $permissions): ?bool
     {
-        $checkPermission = (strlen($permission) > 1 && ends_with($permission, '*'))
-            ? substr($permission, 0, -1) : $permission;
+        $checkPermission = (strlen((string) $permission) > 1 && ends_with($permission, '*'))
+            ? substr((string) $permission, 0, -1) : $permission;
 
         foreach ($permissions as $groupPermission => $permitted) {
-            $groupPermission = (strlen($groupPermission) > 1 && ends_with($groupPermission, '*'))
-                ? substr($groupPermission, 0, -1) : $groupPermission;
+            $groupPermission = (strlen((string) $groupPermission) > 1 && ends_with($groupPermission, '*'))
+                ? substr((string) $groupPermission, 0, -1) : $groupPermission;
 
             // Let's make sure the available permission starts with our permission
             if ($checkPermission != $groupPermission
@@ -119,16 +115,18 @@ class PermissionManager
                 return true;
             }
         }
+
+        return null;
     }
 
-    protected function checkPermissionEndsWith($permission, $permissions)
+    protected function checkPermissionEndsWith($permission, $permissions): ?bool
     {
-        $checkPermission = (strlen($permission) > 1 && starts_with($permission, '*'))
-            ? substr($permission, 1) : $permission;
+        $checkPermission = (strlen((string) $permission) > 1 && starts_with($permission, '*'))
+            ? substr((string) $permission, 1) : $permission;
 
         foreach ($permissions as $groupPermission => $permitted) {
-            $groupPermission = (strlen($groupPermission) > 1 && starts_with($groupPermission, '*'))
-                ? substr($groupPermission, 1) : $groupPermission;
+            $groupPermission = (strlen((string) $groupPermission) > 1 && starts_with($groupPermission, '*'))
+                ? substr((string) $groupPermission, 1) : $groupPermission;
 
             // Let's make sure the available permission ends with our permission
             if ($checkPermission != $groupPermission
@@ -138,22 +136,26 @@ class PermissionManager
                 return true;
             }
         }
+
+        return null;
     }
 
-    protected function checkPermissionMatches($permission, $permissions)
+    protected function checkPermissionMatches($permission, $permissions): ?bool
     {
         foreach ($permissions as $groupPermission => $permitted) {
             if ($permission == $groupPermission && $permitted == 1) {
                 return true;
             }
         }
+
+        return null;
     }
 
     //
     // Registration
     //
 
-    public function registerPermissions($owner, array $definitions)
+    public function registerPermissions($owner, array $definitions): void
     {
         foreach ($definitions as $code => $definition) {
             if (!isset($definition['label']) && isset($definition['description'])) {
@@ -183,7 +185,7 @@ class PermissionManager
      *
      * @param callable $callback A callable function.
      */
-    public function registerCallback(callable $callback)
+    public function registerCallback(callable $callback): void
     {
         $this->callbacks[] = $callback;
     }

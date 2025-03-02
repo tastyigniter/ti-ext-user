@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Console\Commands;
 
 use Igniter\User\Classes\UserState;
 use Igniter\User\Models\UserPreference;
 
-it('clears expired custom away status', function() {
+it('clears expired custom away status', function(): void {
     $preference = UserPreference::create([
         'item' => UserState::USER_PREFERENCE_KEY,
         'value' => [
@@ -26,7 +28,7 @@ it('clears expired custom away status', function() {
     ]);
 });
 
-it('does not clear non-expired custom away status', function() {
+it('does not clear non-expired custom away status', function(): void {
     $preference = UserPreference::create([
         'item' => UserState::USER_PREFERENCE_KEY,
         'value' => [
@@ -47,7 +49,7 @@ it('does not clear non-expired custom away status', function() {
     ]);
 });
 
-it('does not clear status with clearAfterMinutes set to zero', function() {
+it('does not clear status with clearAfterMinutes set to zero', function(): void {
     $preference = UserPreference::create([
         'item' => UserState::USER_PREFERENCE_KEY,
         'value' => [

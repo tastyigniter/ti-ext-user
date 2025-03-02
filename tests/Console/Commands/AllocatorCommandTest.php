@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Console\Commands;
 
 use Igniter\System\Models\Settings;
 use Igniter\User\Console\Commands\AllocatorCommand;
 
-it('does not dispatch jobs when no available slots', function() {
+it('does not dispatch jobs when no available slots', function(): void {
     Settings::set('allocator_slots', ['slot1' => true, 'slot2' => true], 'prefs');
     Settings::set('allocator_slot_size', 2, 'prefs');
 
@@ -13,7 +15,7 @@ it('does not dispatch jobs when no available slots', function() {
     expect(true)->toBeTrue();
 });
 
-it('dispatches jobs when there are available slots', function() {
+it('dispatches jobs when there are available slots', function(): void {
     Settings::set('allocator_slots', ['slot1' => true, 'slot2' => true], 'prefs');
     Settings::set('allocator_slot_size', 10, 'prefs');
 
@@ -22,7 +24,7 @@ it('dispatches jobs when there are available slots', function() {
     expect(true)->toBeTrue();
 });
 
-it('adds a single slot', function() {
+it('adds a single slot', function(): void {
     Settings::set('allocator_slots', [], 'prefs');
 
     AllocatorCommand::addSlot('slot1');
@@ -31,7 +33,7 @@ it('adds a single slot', function() {
     expect($slots)->toHaveKey('slot1');
 });
 
-it('adds multiple slots', function() {
+it('adds multiple slots', function(): void {
     Settings::set('allocator_slots', [], 'prefs');
 
     AllocatorCommand::addSlot(['slot1', 'slot2']);
@@ -40,7 +42,7 @@ it('adds multiple slots', function() {
     expect($slots)->toHaveKeys(['slot1', 'slot2']);
 });
 
-it('removes a slot', function() {
+it('removes a slot', function(): void {
     Settings::set('allocator_slots', ['slot1' => true, 'slot2' => true], 'prefs');
 
     AllocatorCommand::removeSlot('slot1');

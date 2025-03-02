@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Classes;
 
 use Igniter\Broadcast\Models\Settings;
@@ -8,7 +10,7 @@ use Igniter\User\Models\User;
 use Mockery;
 use stdClass;
 
-it('creates a notification instance with parameters', function() {
+it('creates a notification instance with parameters', function(): void {
     $notification = Notification::make()
         ->title('Test Title')
         ->message('Test Message')
@@ -19,7 +21,7 @@ it('creates a notification instance with parameters', function() {
         ->and($notification->getRecipients())->toBeArray();
 });
 
-it('broadcasts notification to users', function() {
+it('broadcasts notification to users', function(): void {
     $user = Mockery::mock(User::class);
     $user->shouldReceive('notify')->once();
 
@@ -27,7 +29,7 @@ it('broadcasts notification to users', function() {
     $notification->broadcast([$user]);
 });
 
-it('returns correct channels when broadcast is configured', function() {
+it('returns correct channels when broadcast is configured', function(): void {
     Settings::set([
         'app_id' => 'foo',
         'key' => 'foo',
@@ -41,7 +43,7 @@ it('returns correct channels when broadcast is configured', function() {
     Settings::clearInternalCache();
 });
 
-it('returns correct channels when broadcast is not configured', function() {
+it('returns correct channels when broadcast is not configured', function(): void {
     $notification = new Notification;
     $channels = $notification->via(new stdClass);
 
@@ -49,7 +51,7 @@ it('returns correct channels when broadcast is not configured', function() {
         ->and($channels)->not->toContain('broadcast');
 });
 
-it('returns correct database notification data', function() {
+it('returns correct database notification data', function(): void {
     $notification = (new Notification)
         ->title('Test Title')
         ->message('Test Message')
@@ -68,7 +70,7 @@ it('returns correct database notification data', function() {
     ]);
 });
 
-it('returns correct broadcast notification data', function() {
+it('returns correct broadcast notification data', function(): void {
     $notification = (new Notification)
         ->title('Test Title')
         ->message('Test Message')
@@ -87,14 +89,14 @@ it('returns correct broadcast notification data', function() {
     ]);
 });
 
-it('returns correct alias for database type', function() {
+it('returns correct alias for database type', function(): void {
     $notification = new Notification;
     $alias = $notification->databaseType(new stdClass);
 
     expect($alias)->toBe(Notification::class);
 });
 
-it('returns correct alias for broadcast type', function() {
+it('returns correct alias for broadcast type', function(): void {
     $notification = new Notification;
     $alias = $notification->broadcastType();
 

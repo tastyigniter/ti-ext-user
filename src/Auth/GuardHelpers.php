@@ -1,14 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Auth;
 
 use Igniter\User\Auth\Models\User;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Authenticatable;
 
+/**
+ * @mixin CustomerGuard
+ * @mixin UserGuard
+ */
 trait GuardHelpers
 {
-    public function login(AuthenticatableContract $user, $remember = false)
+    public function login(Authenticatable $user, $remember = false): void
     {
+        /** @var User $user */
         $user->beforeLogin();
 
         parent::login($user, $remember);
@@ -16,32 +23,22 @@ trait GuardHelpers
         $user->afterLogin();
     }
 
-    /**
-     * @return \Illuminate\Contracts\Auth\Authenticatable|\Igniter\User\Auth\Models\User
-     */
-    public function getById($identifier)
+    public function getById(int|string $identifier): null|User
     {
         return $this->getProvider()->retrieveById($identifier);
     }
 
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getByToken($identifier, $token)
+    public function getByToken(int|string $identifier, string $token): User|null
     {
         return $this->getProvider()->retrieveByToken($identifier, $token);
     }
 
-    /**
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    public function getByCredentials(array $credentials)
+    public function getByCredentials(array $credentials): User|null
     {
         return $this->getProvider()->retrieveByCredentials($credentials);
     }
 
-    public function validateCredentials(User $user, $credentials)
+    public function validateCredentials(User $user, $credentials): bool
     {
         return $this->getProvider()->validateCredentials($user, $credentials);
     }
@@ -53,15 +50,11 @@ trait GuardHelpers
     /**
      * Impersonates the given user and sets properties
      * in the session but not the cookie.
-     *
-     * @param \Igniter\User\Auth\Models\User $user
-     *
-     * @throws \Exception
      */
-    public function impersonate($user)
+    public function impersonate(User $user): void
     {
         $oldUserId = $this->session->get($this->getName()) ?? 0;
-        $oldUser = !empty($oldUserId) ? $this->getById($oldUserId) : null;
+        $oldUser = empty($oldUserId) ? null : $this->getById($oldUserId);
 
         $user->fireEvent('model.auth.beforeImpersonate', [$oldUser]);
         $this->login($user);
@@ -71,13 +64,13 @@ trait GuardHelpers
         }
     }
 
-    public function stopImpersonate()
+    public function stopImpersonate(): void
     {
         $currentUserId = $this->session->get($this->getName()) ?? 0;
-        $currentUser = !empty($currentUserId) ? $this->getById($currentUserId) : null;
+        $currentUser = empty($currentUserId) ? null : $this->getById($currentUserId);
 
         $oldUserId = $this->session->pull($this->getName().'_impersonate');
-        $oldUser = !empty($oldUserId) ? $this->getById($oldUserId) : null;
+        $oldUser = empty($oldUserId) ? null : $this->getById($oldUserId);
 
         $currentUser?->fireEvent('model.auth.afterImpersonate', [$oldUser]);
 
@@ -88,16 +81,16 @@ trait GuardHelpers
         }
     }
 
-    public function isImpersonator()
+    public function isImpersonator(): bool
     {
         return $this->session->has($this->getName().'_impersonate');
     }
 
-    public function getImpersonator()
+    public function getImpersonator(): null|User
     {
         // Check supplied session/cookie is an array (user id, persist code)
         if (!$userId = $this->session->get($this->getName().'_impersonate')) {
-            return false;
+            return null;
         }
 
         return $this->getById($userId);

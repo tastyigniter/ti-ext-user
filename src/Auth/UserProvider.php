@@ -1,29 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Auth;
 
-use Igniter\Flame\Database\Model;
+use Igniter\User\Auth\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Override;
 
 class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
 {
-    protected $config;
-
     /**
      * CustomerProvider constructor.
      */
-    public function __construct($config = null)
-    {
-        $this->config = $config;
-    }
+    public function __construct(protected $config = null) {}
 
-    public function retrieveById($identifier)
+    #[Override]
+    public function retrieveById($identifier): User|null
     {
         return $this->createModelQuery()->find($identifier);
     }
 
-    public function retrieveByToken($identifier, $token)
+    #[Override]
+    public function retrieveByToken($identifier, $token): User|null
     {
         $query = $this->createModelQuery();
         $model = $query->getModel();
@@ -34,8 +34,10 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
             ->first();
     }
 
-    public function updateRememberToken(Authenticatable $user, $token)
+    #[Override]
+    public function updateRememberToken(Authenticatable $user, $token): void
     {
+        /** @var User $user */
         $user->setRememberToken($token);
 
         $timestamps = $user->timestamps;
@@ -47,7 +49,8 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         $user->timestamps = $timestamps;
     }
 
-    public function retrieveByCredentials(array $credentials)
+    #[Override]
+    public function retrieveByCredentials(array $credentials): User|null
     {
         $query = $this->createModelQuery();
 
@@ -60,7 +63,8 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         return $query->first();
     }
 
-    public function validateCredentials(Authenticatable $user, array $credentials)
+    #[Override]
+    public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
         if (is_null($plain = $credentials['password'])) {
             return false;
@@ -68,6 +72,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
 
         // Backward compatibility to turn SHA1 passwords to BCrypt
         if ($this->hasShaPassword($user, $credentials)) {
+            /** @var User $user */
             $user->forceFill([
                 $user->getAuthPasswordName() => Hash::make($credentials['password']),
                 'salt' => null,
@@ -77,17 +82,20 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         return Hash::check($plain, $user->getAuthPassword());
     }
 
-    public function hasShaPassword(Authenticatable $user, array $credentials)
+    public function hasShaPassword(Authenticatable $user, array $credentials): bool
     {
+        /** @var User $user */
         if (is_null($user->salt)) {
             return false;
         }
 
-        return $user->password === sha1($user->salt.sha1($user->salt.sha1($credentials['password'])));
+        return $user->password === sha1($user->salt.sha1($user->salt.sha1((string)$credentials['password'])));
     }
 
-    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
+    #[Override]
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false): void
     {
+        /** @var User $user */
         if (!Hash::needsRehash($user->getAuthPassword()) && !$force) {
             return;
         }
@@ -97,7 +105,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         ])->save();
     }
 
-    public function register(array $attributes, $activate = false)
+    public function register(array $attributes, bool $activate = false): User
     {
         return $this->createModel()->register($attributes, $activate);
     }
@@ -115,7 +123,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         return $query;
     }
 
-    protected function createModel(): Model
+    protected function createModel(): User
     {
         return new $this->config['model'];
     }

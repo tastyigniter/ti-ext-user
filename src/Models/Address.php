@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Igniter\System\Models\Country;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
@@ -23,8 +26,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * @property string|null $created_at
  * @property string|null $updated_at
  * @property-read mixed $formatted_address
+ * @method static Builder<static>|Address query()
  * @method static Builder<static>|LengthAwarePaginator listFrontEnd(array $options = [])
- * @mixin \Igniter\Flame\Database\Model
+ * @mixin Model
  */
 class Address extends Model
 {
@@ -46,8 +50,8 @@ class Address extends Model
 
     public $relation = [
         'belongsTo' => [
-            'customer' => \Igniter\User\Models\Customer::class,
-            'country' => \Igniter\System\Models\Country::class,
+            'customer' => Customer::class,
+            'country' => Country::class,
         ],
     ];
 
@@ -69,7 +73,7 @@ class Address extends Model
 
     public static function createOrUpdateFromRequest($address)
     {
-        return self::updateOrCreate(
+        return (new self)->query()->updateOrCreate(
             array_only($address, ['customer_id', 'address_id']),
             $address,
         );

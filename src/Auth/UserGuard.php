@@ -1,10 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Auth;
 
-class UserGuard extends \Illuminate\Auth\SessionGuard
+use Igniter\User\Models\User;
+use Illuminate\Auth\SessionGuard;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Collection;
+
+/**
+ * User Class
+ */
+class UserGuard extends SessionGuard
 {
     use GuardHelpers;
+
+    /**
+     * @var null|User
+     */
+    protected $user;
 
     public function isLogged()
     {
@@ -13,23 +28,20 @@ class UserGuard extends \Illuminate\Auth\SessionGuard
 
     public function isSuperUser()
     {
-        return $this->user()?->isSuperUser();
+        return $this->user?->isSuperUser();
     }
 
-    /**
-     * @return \Igniter\User\Models\User|\Illuminate\Contracts\Auth\Authenticatable
-     */
-    public function staff()
+    public function staff(): User|Authenticatable|null
     {
         return $this->user();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     public function locations()
     {
-        return $this->user()?->locations;
+        return $this->user?->locations;
     }
 
     //
@@ -43,21 +55,21 @@ class UserGuard extends \Illuminate\Auth\SessionGuard
 
     public function getUserName()
     {
-        return $this->user()?->username;
+        return $this->user?->username;
     }
 
     public function getUserEmail()
     {
-        return $this->user()?->email;
+        return $this->user?->email;
     }
 
     public function getStaffName()
     {
-        return $this->user()?->name;
+        return $this->user?->name;
     }
 
     public function getStaffEmail()
     {
-        return $this->user()?->email;
+        return $this->user?->email;
     }
 }

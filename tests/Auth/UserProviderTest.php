@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Auth;
 
 use Igniter\User\Auth\UserProvider;
@@ -7,7 +9,7 @@ use Igniter\User\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mockery;
 
-it('retrieves user by id', function() {
+it('retrieves user by id', function(): void {
     $user = User::factory()->create(['status' => 1]);
     $provider = new UserProvider(['model' => User::class]);
 
@@ -16,7 +18,7 @@ it('retrieves user by id', function() {
     expect($result->getKey())->toBe($user->getKey());
 });
 
-it('retrieves user by token', function() {
+it('retrieves user by token', function(): void {
     $user = User::factory()->create([
         'remember_token' => 'token',
         'status' => 1,
@@ -29,7 +31,7 @@ it('retrieves user by token', function() {
     expect($result->getKey())->toBe($user->getKey());
 });
 
-it('updates remember token', function() {
+it('updates remember token', function(): void {
     $user = User::factory()->create();
     $provider = new UserProvider(['model' => User::class]);
 
@@ -38,7 +40,7 @@ it('updates remember token', function() {
     expect($user->getRememberToken())->toBe('new_token');
 });
 
-it('retrieves user by credentials', function() {
+it('retrieves user by credentials', function(): void {
     $email = 'test@example.com';
     $user = User::factory()->create(['email' => $email, 'status' => 1]);
     $provider = new UserProvider(['model' => User::class]);
@@ -48,7 +50,7 @@ it('retrieves user by credentials', function() {
     expect($result->getKey())->toBe($user->getKey());
 });
 
-it('validates user credentials', function() {
+it('validates user credentials', function(): void {
     $user = User::factory()->create(['status' => 1]);
     $provider = Mockery::mock(UserProvider::class)->makePartial();
     $provider->shouldReceive('hasShaPassword')->andReturn(false);
@@ -59,7 +61,7 @@ it('validates user credentials', function() {
     expect($result)->toBeTrue();
 });
 
-it('validates user credentials converts SHA1 passwords to bcrypt', function() {
+it('validates user credentials converts SHA1 passwords to bcrypt', function(): void {
     $user = Mockery::mock(User::class);
     $provider = Mockery::mock(UserProvider::class)->makePartial();
     $provider->shouldReceive('hasShaPassword')->andReturn(true);
@@ -78,7 +80,7 @@ it('validates user credentials converts SHA1 passwords to bcrypt', function() {
     expect($result)->toBeTrue();
 });
 
-it('does not validates user credentials when password is missing', function() {
+it('does not validates user credentials when password is missing', function(): void {
     $user = Mockery::mock(User::class);
     $provider = Mockery::mock(UserProvider::class)->makePartial();
 
@@ -86,7 +88,7 @@ it('does not validates user credentials when password is missing', function() {
 
     expect($result)->toBeFalse();
 });
-it('returns false if user salt is null', function() {
+it('returns false if user salt is null', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->salt = null;
 
@@ -97,7 +99,7 @@ it('returns false if user salt is null', function() {
     expect($result)->toBeFalse();
 });
 
-it('returns true if user password matches SHA1 hash', function() {
+it('returns true if user password matches SHA1 hash', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->salt = 'random_salt';
     $user->shouldReceive('extendableGet')
@@ -111,7 +113,7 @@ it('returns true if user password matches SHA1 hash', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false if user password does not match SHA1 hash', function() {
+it('returns false if user password does not match SHA1 hash', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->salt = 'random_salt';
     $user->password = sha1('random_salt'.sha1('random_salt'.sha1('wrong_password')));
@@ -123,7 +125,7 @@ it('returns false if user password does not match SHA1 hash', function() {
     expect($result)->toBeFalse();
 });
 
-it('rehashes password if required', function() {
+it('rehashes password if required', function(): void {
     $user = Mockery::mock(User::class);
     $provider = new UserProvider(['model' => User::class]);
     $user->shouldReceive('getAuthPassword')->andReturn('password');
@@ -136,7 +138,7 @@ it('rehashes password if required', function() {
     $provider->rehashPasswordIfRequired($user, ['password' => 'password']);
 });
 
-it('does not rehashes password', function() {
+it('does not rehashes password', function(): void {
     $user = Mockery::mock(User::class);
     $provider = new UserProvider(['model' => User::class]);
     $user->shouldReceive('getAuthPassword')->andReturn('password');
@@ -145,7 +147,7 @@ it('does not rehashes password', function() {
     $provider->rehashPasswordIfRequired($user, ['password' => 'password']);
 });
 
-it('registers a new user', function() {
+it('registers a new user', function(): void {
     $user = Mockery::mock(User::class);
     $provider = Mockery::mock(UserProvider::class)->makePartial()->shouldAllowMockingProtectedMethods();
     $provider->shouldReceive('createModel->register')->with(['email' => 'test@example.com'], true)->andReturn($user);

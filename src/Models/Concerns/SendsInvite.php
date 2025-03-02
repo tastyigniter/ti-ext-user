@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models\Concerns;
 
-use Igniter\Flame\Database\Model;
+use LogicException;
+use Igniter\Flame\Database\Traits\Purgeable;
 
 trait SendsInvite
 {
-    public static function bootSendsInvite()
+    use Purgeable;
+
+    public static function bootSendsInvite(): void
     {
-        static::extend(function(Model $model) {
+        static::extend(function(self $model): void {
             $model->addPurgeable(['send_invite']);
         });
 
-        static::saved(function(Model $model) {
+        static::saved(function(self $model): void {
             $model->restorePurgedValues();
             if ($model->send_invite) {
                 $model->sendInvite();
@@ -22,13 +27,13 @@ trait SendsInvite
 
     public function mailSendInvite(array $vars = [])
     {
-        throw new \LogicException(sprintf(
+        throw new LogicException(sprintf(
             'The model [%s] must implement a sendsInviteGetTemplateCode() method.',
-            get_class($this)
+            $this::class,
         ));
     }
 
-    public function sendInvite()
+    public function sendInvite(): void
     {
         $this->newQuery()->where($this->getKeyName(), $this->getKey())->update([
             'reset_code' => $inviteCode = $this->generateResetCode(),

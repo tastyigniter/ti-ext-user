@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models;
 
 use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Traits\Purgeable;
+use Igniter\Flame\Exception\ApplicationException;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\Reservation\Models\Reservation;
 use Igniter\System\Models\Concerns\SendsMailTemplate;
@@ -13,9 +16,10 @@ use Igniter\User\Models\Address;
 use Igniter\User\Models\Concerns\SendsInvite;
 use Igniter\User\Models\Customer;
 use Igniter\User\Models\CustomerGroup;
+use Illuminate\Support\Carbon;
 use Mockery;
 
-it('returns dropdown options for enabled customers', function() {
+it('returns dropdown options for enabled customers', function(): void {
     $customer = Customer::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);
 
     $result = Customer::getDropdownOptions();
@@ -23,13 +27,13 @@ it('returns dropdown options for enabled customers', function() {
     expect($result[$customer->getKey()])->toBe('John Doe');
 });
 
-it('returns empty array when no enabled customers are present', function() {
+it('returns empty array when no enabled customers are present', function(): void {
     $result = Customer::getDropdownOptions();
 
     expect($result)->toBeEmpty();
 });
 
-it('returns full name as concatenation of first and last name', function() {
+it('returns full name as concatenation of first and last name', function(): void {
     $customer = new Customer;
     $customer->first_name = 'John';
     $customer->last_name = 'Doe';
@@ -37,14 +41,14 @@ it('returns full name as concatenation of first and last name', function() {
     expect($customer->full_name)->toBe('John Doe');
 });
 
-it('returns email in lowercase', function() {
+it('returns email in lowercase', function(): void {
     $customer = new Customer;
     $customer->email = 'John.Doe@Example.com';
 
     expect($customer->email)->toBe('john.doe@example.com');
 });
 
-it('returns when group does not require approval', function() {
+it('returns when group does not require approval', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $group = Mockery::mock(CustomerGroup::class)->makePartial();
     $group->shouldReceive('requiresApproval')->andReturnFalse();
@@ -55,7 +59,7 @@ it('returns when group does not require approval', function() {
     expect($result)->toBeNull();
 });
 
-it('returns when customer is activated and enabled', function() {
+it('returns when customer is activated and enabled', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $group = Mockery::mock(CustomerGroup::class)->makePartial();
     $group->shouldReceive('requiresApproval')->andReturnTrue();
@@ -68,7 +72,7 @@ it('returns when customer is activated and enabled', function() {
     expect($result)->toBeNull();
 });
 
-it('throws exception if customer group requires approval and customer is not activated', function() {
+it('throws exception if customer group requires approval and customer is not activated', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $group = Mockery::mock(CustomerGroup::class)->makePartial();
     $group->shouldReceive('requiresApproval')->andReturnTrue();
@@ -79,16 +83,16 @@ it('throws exception if customer group requires approval and customer is not act
     expect(fn() => $customer->beforeLogin())->toThrow(SystemException::class);
 });
 
-it('updates last login timestamp after login', function() {
+it('updates last login timestamp after login', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('saveQuietly')->once();
 
     $customer->afterLogin();
 
-    expect($customer->last_login)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($customer->last_login)->toBeInstanceOf(Carbon::class);
 });
 
-it('extends user query to include only enabled users', function() {
+it('extends user query to include only enabled users', function(): void {
     $query = Mockery::mock(Builder::class);
     $query->shouldReceive('isEnabled')->once();
 
@@ -96,7 +100,7 @@ it('extends user query to include only enabled users', function() {
     $customer->extendUserQuery($query);
 });
 
-it('returns true when customer is enabled', function() {
+it('returns true when customer is enabled', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('isEnabled')->andReturnTrue();
 
@@ -105,7 +109,7 @@ it('returns true when customer is enabled', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns addresses grouped by their keys', function() {
+it('returns addresses grouped by their keys', function(): void {
     $address1 = Mockery::mock(Address::class)->makePartial();
     $address1->shouldReceive('getKey')->andReturn(1);
     $address2 = Mockery::mock(Address::class)->makePartial();
@@ -119,7 +123,7 @@ it('returns addresses grouped by their keys', function() {
     expect($result->keys()->all())->toBe([1, 2]);
 });
 
-it('returns empty collection when no addresses are present', function() {
+it('returns empty collection when no addresses are present', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('addresses->get')->andReturn(collect());
 
@@ -128,7 +132,7 @@ it('returns empty collection when no addresses are present', function() {
     expect($result->isEmpty())->toBeTrue();
 });
 
-it('returns all customer registration dates', function() {
+it('returns all customer registration dates', function(): void {
     $dates = ['2023-01-01', '2023-02-01'];
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('pluckDates')->with('created_at')->andReturn($dates);
@@ -138,7 +142,7 @@ it('returns all customer registration dates', function() {
     expect($result)->toBe($dates);
 });
 
-it('returns empty array when no registration dates are present', function() {
+it('returns empty array when no registration dates are present', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('pluckDates')->with('created_at')->andReturn([]);
 
@@ -147,7 +151,7 @@ it('returns empty array when no registration dates are present', function() {
     expect($result)->toBe([]);
 });
 
-it('saves addresses and deletes old addresses not in the list', function() {
+it('saves addresses and deletes old addresses not in the list', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('getKey')->andReturn(1);
     $customer->shouldReceive('addresses->updateOrCreate')->andReturnUsing(function($attributes, $values) {
@@ -166,7 +170,7 @@ it('saves addresses and deletes old addresses not in the list', function() {
     $customer->saveAddresses($addresses);
 });
 
-it('returns false when saving addresses if customer key is not numeric', function() {
+it('returns false when saving addresses if customer key is not numeric', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('getKey')->andReturn(null);
 
@@ -175,14 +179,14 @@ it('returns false when saving addresses if customer key is not numeric', functio
     expect($result)->toBeFalse();
 });
 
-it('throws exception when saving default address if address does not belong to customer', function() {
+it('throws exception when saving default address if address does not belong to customer', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('addresses->find')->andReturn(null);
 
-    expect(fn() => $customer->saveDefaultAddress(1))->toThrow(\Igniter\Flame\Exception\ApplicationException::class);
+    expect(fn() => $customer->saveDefaultAddress(1))->toThrow(ApplicationException::class);
 });
 
-it('sets default address for customer', function() {
+it('sets default address for customer', function(): void {
     $address = Mockery::mock(Address::class)->makePartial();
     $address->shouldReceive('getKey')->andReturn(1);
 
@@ -195,7 +199,7 @@ it('sets default address for customer', function() {
     expect($result->address_id)->toBe(1);
 });
 
-it('deletes customer address if it belongs to the customer', function() {
+it('deletes customer address if it belongs to the customer', function(): void {
     $address = Mockery::mock(Address::class);
     $address->shouldReceive('delete')->once();
 
@@ -207,7 +211,7 @@ it('deletes customer address if it belongs to the customer', function() {
     expect($result)->toBe($address);
 });
 
-it('updates guest orders, address and reservations matching customer email', function() {
+it('updates guest orders, address and reservations matching customer email', function(): void {
     $customer = Customer::factory()->create();
     $customer->email = 'john.doe@example.com';
     $address = Address::factory()->create();
@@ -227,14 +231,14 @@ it('updates guest orders, address and reservations matching customer email', fun
         ->and($address->fresh()->customer_id)->toBe($customerId);
 });
 
-it('sends invite email to customer', function() {
+it('sends invite email to customer', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('mailSend')->with('igniter.user::mail.invite_customer', 'customer', [])->once();
 
     $customer->mailSendInvite();
 });
 
-it('sends reset password request email with default links', function() {
+it('sends reset password request email with default links', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('mailSend')->with('igniter.user::mail.password_reset_request', 'customer', [
         'reset_link' => null,
@@ -244,7 +248,7 @@ it('sends reset password request email with default links', function() {
     $customer->mailSendResetPasswordRequest();
 });
 
-it('sends reset password email with default login link', function() {
+it('sends reset password email with default login link', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('mailSend')->with('igniter.user::mail.password_reset', 'customer', [
         'account_login_link' => null,
@@ -253,7 +257,7 @@ it('sends reset password email with default login link', function() {
     $customer->mailSendResetPassword();
 });
 
-it('sends registration email to customer and admin if settings allow', function() {
+it('sends registration email to customer and admin if settings allow', function(): void {
     $vars = [
         'account_login_link' => null,
     ];
@@ -267,7 +271,16 @@ it('sends registration email to customer and admin if settings allow', function(
     $customer->mailSendRegistration();
 });
 
-it('sends email verification email to customer', function() {
+it('does not send registration email when disabled', function(): void {
+    $customer = Mockery::mock(Customer::class)->makePartial();
+    $customer->shouldNotReceive('mailSend');
+
+    setting()->set(['registration_email' => '']);
+
+    $customer->mailSendRegistration();
+});
+
+it('sends email verification email to customer', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('fresh')->andReturnSelf();
     $customer->shouldReceive('mailSend')->with('igniter.user::mail.activation', 'customer', [
@@ -277,7 +290,7 @@ it('sends email verification email to customer', function() {
     $customer->mailSendEmailVerification(['account_activation_link' => null]);
 });
 
-it('returns correct recipients for customer type', function() {
+it('returns correct recipients for customer type', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->email = 'john.doe@example.com';
     $customer->first_name = 'John';
@@ -288,7 +301,7 @@ it('returns correct recipients for customer type', function() {
     expect($result)->toBe([['john.doe@example.com', 'John Doe']]);
 });
 
-it('returns correct recipients for admin type', function() {
+it('returns correct recipients for admin type', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
 
     setting()->set(['site_email' => 'admin@example.com', 'site_name' => 'Admin']);
@@ -298,7 +311,7 @@ it('returns correct recipients for admin type', function() {
     expect($result)->toBe([['admin@example.com', 'Admin']]);
 });
 
-it('returns empty array for unknown recipient type', function() {
+it('returns empty array for unknown recipient type', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
 
     $result = $customer->mailGetRecipients('unknown');
@@ -306,7 +319,7 @@ it('returns empty array for unknown recipient type', function() {
     expect($result)->toBe([]);
 });
 
-it('returns correct mail data', function() {
+it('returns correct mail data', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('fresh')->andReturnSelf();
     $customer->email = 'john.doe@example.com';
@@ -320,7 +333,7 @@ it('returns correct mail data', function() {
         ->and($result['customer'])->toBe($customer);
 });
 
-it('registers a new customer and activates if specified', function() {
+it('registers a new customer and activates if specified', function(): void {
     $attributes = ['first_name' => 'John', 'last_name' => 'Doe', 'email' => 'john.doe@example.com'];
 
     $result = (new Customer)->register($attributes, true);
@@ -331,7 +344,7 @@ it('registers a new customer and activates if specified', function() {
         ->and($result->password)->toBeNull();
 });
 
-it('returns correct broadcast notification channel', function() {
+it('returns correct broadcast notification channel', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('getKey')->andReturn(1);
 
@@ -340,7 +353,7 @@ it('returns correct broadcast notification channel', function() {
     expect($result)->toBe('main.users.1');
 });
 
-it('configures customer model correctly', function() {
+it('configures customer model correctly', function(): void {
     $customer = new Customer;
 
     expect(class_uses_recursive($customer))

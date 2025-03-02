@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Actions;
 
 use Igniter\Flame\Exception\FlashException;
@@ -11,7 +13,7 @@ class LoginCustomer
 {
     public function __construct(public array $credentials, public bool $remember = true) {}
 
-    public function handle()
+    public function handle(): void
     {
         Event::dispatch('igniter.user.beforeAuthenticate', [$this, $this->credentials]);
 

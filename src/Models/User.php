@@ -1,16 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Igniter\Api\Models\Token;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
+use Igniter\Flame\Database\Model;
+use Igniter\Flame\Database\Relations\MorphToMany;
 use Igniter\Flame\Database\Traits\Purgeable;
 use Igniter\Local\Models\Concerns\Locationable;
+use Igniter\Local\Models\Location;
 use Igniter\System\Models\Concerns\SendsMailTemplate;
 use Igniter\System\Models\Concerns\Switchable;
+use Igniter\System\Models\Language;
 use Igniter\User\Auth\Models\User as AuthUserModel;
 use Igniter\User\Classes\PermissionManager;
 use Igniter\User\Classes\UserState;
 use Igniter\User\Models\Concerns\SendsInvite;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\DatabaseNotificationCollection;
+use Illuminate\Support\Carbon;
+use Override;
 
 /**
  * Users Model Class
@@ -23,31 +36,41 @@ use Igniter\User\Models\Concerns\SendsInvite;
  * @property bool $status
  * @property int $sale_permission
  * @property string $username
- * @property string $password
+ * @property string|null $password
  * @property bool|null $super_user
  * @property string|null $reset_code
- * @property \Illuminate\Support\Carbon|null $reset_time
+ * @property Carbon|null $reset_time
  * @property string|null $activation_code
  * @property string|null $remember_token
  * @property bool|null $is_activated
- * @property \Illuminate\Support\Carbon|null $activated_at
- * @property \Illuminate\Support\Carbon|null $last_login
+ * @property Carbon|null $activated_at
+ * @property Carbon|null $last_login
  * @property string|null $last_seen
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $invited_at
- * @property int|null $vendor_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $invited_at
+ * @property null|bool $send_invite
  * @property-read mixed $avatar_url
  * @property-read mixed $full_name
  * @property-read mixed $staff_email
  * @property-read mixed $staff_name
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Igniter\User\Models\Notification> $notifications
+ * @property-read Collection<int, Location> $locations
+ * @property-read DatabaseNotificationCollection<int, Notification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\Api\Models\Token> $tokens
+ * @property-read Collection<int, Token> $tokens
+ * @property-read null|Language $language
+ * @property-read null|UserRole $role
  * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Igniter\User\Models\UserGroup> $groups
- * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany groups()
- * @mixin \Igniter\Flame\Database\Model
+ * @property string|null $assign_value
+ * @property-read Collection<int, UserGroup> $groups
+ * @method static BelongsToMany groups()
+ * @method static Builder<static>|User query()
+ * @method static array pluckDates(string $column, string $keyFormat = 'Y-m', string $valueFormat = 'F Y')
+ * @method static Builder<static>|User whereIsEnabled()
+ * @method static Builder<static>|User whereResetCode(string $code)
+ * @method static Builder<static>|User whereEmail(string $email)
+ * @method static MorphToMany<static>|User locations()
+ * @mixin Model
  */
 class User extends AuthUserModel
 {
@@ -58,7 +81,7 @@ class User extends AuthUserModel
     use SendsMailTemplate;
     use Switchable;
 
-    const LOCATIONABLE_RELATION = 'locations';
+    public const string LOCATIONABLE_RELATION = 'locations';
 
     /**
      * @var string The database table name
@@ -90,17 +113,17 @@ class User extends AuthUserModel
 
     public $relation = [
         'hasMany' => [
-            'assignable_logs' => [\Igniter\User\Models\AssignableLog::class, 'foreignKey' => 'assignee_id'],
+            'assignable_logs' => [AssignableLog::class, 'foreignKey' => 'assignee_id'],
         ],
         'belongsTo' => [
-            'role' => [\Igniter\User\Models\UserRole::class, 'foreignKey' => 'user_role_id'],
-            'language' => [\Igniter\System\Models\Language::class],
+            'role' => [UserRole::class, 'foreignKey' => 'user_role_id'],
+            'language' => [Language::class],
         ],
         'belongsToMany' => [
-            'groups' => [\Igniter\User\Models\UserGroup::class, 'table' => 'admin_users_groups'],
+            'groups' => [UserGroup::class, 'table' => 'admin_users_groups'],
         ],
         'morphToMany' => [
-            'locations' => [\Igniter\Local\Models\Location::class, 'name' => 'locationable'],
+            'locations' => [Location::class, 'name' => 'locationable'],
         ],
     ];
 
@@ -121,7 +144,7 @@ class User extends AuthUserModel
         return $this->name;
     }
 
-    public function getAvatarUrlAttribute()
+    public function getAvatarUrlAttribute(): string
     {
         return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'.png?d=mm';
     }
@@ -133,19 +156,19 @@ class User extends AuthUserModel
 
     public static function getDropdownOptions()
     {
-        return static::whereIsEnabled()->dropdown('name');
+        return static::query()->whereIsEnabled()->dropdown('name');
     }
 
     //
     // Scopes
     //
 
-    public function scopeWhereNotSuperUser($query)
+    public function scopeWhereNotSuperUser($query): void
     {
         $query->where('super_user', '!=', 1)->orWhereNull('super_user');
     }
 
-    public function scopeWhereIsSuperUser($query)
+    public function scopeWhereIsSuperUser($query): void
     {
         $query->where('super_user', 1);
     }
@@ -154,7 +177,11 @@ class User extends AuthUserModel
     // Events
     //
 
-    public function afterLogin()
+    #[Override]
+    public function beforeLogin(): void {}
+
+    #[Override]
+    public function afterLogin(): void
     {
         app('translator.localization')->setSessionLocale(
             optional($this->language)->code ?? app()->getLocale(),
@@ -165,14 +192,15 @@ class User extends AuthUserModel
             ->update(['last_login' => now()]);
     }
 
-    public function extendUserQuery($query)
+    #[Override]
+    public function extendUserQuery($query): void
     {
         $query
             ->with(['role', 'groups', 'locations'])
-            ->isEnabled();
+            ->whereIsEnabled();
     }
 
-    public function isSuperUser()
+    public function isSuperUser(): bool
     {
         return $this->super_user == 1;
     }
@@ -203,13 +231,8 @@ class User extends AuthUserModel
             $permissions = [$permissions];
         }
 
-        if (resolve(PermissionManager::class)->checkPermission(
-            $staffPermissions, $permissions, $checkAll)
-        ) {
-            return true;
-        }
-
-        return false;
+        return (bool)resolve(PermissionManager::class)->checkPermission(
+            $staffPermissions, $permissions, $checkAll);
     }
 
     public function getPermissions()
@@ -241,7 +264,7 @@ class User extends AuthUserModel
         };
     }
 
-    public function mailGetData()
+    public function mailGetData(): array
     {
         $model = $this->fresh();
 
@@ -257,22 +280,22 @@ class User extends AuthUserModel
     // Assignment
     //
 
-    public function canAssignTo()
+    public function canAssignTo(): bool
     {
-        return !UserState::forUser($this->user)->isAway();
+        return !UserState::forUser($this)->isAway();
     }
 
-    public function hasGlobalAssignableScope()
+    public function hasGlobalAssignableScope(): bool
     {
         return $this->sale_permission === 1;
     }
 
-    public function hasGroupAssignableScope()
+    public function hasGroupAssignableScope(): bool
     {
         return $this->sale_permission === 2;
     }
 
-    public function hasRestrictedAssignableScope()
+    public function hasRestrictedAssignableScope(): bool
     {
         return $this->sale_permission === 3;
     }
@@ -286,7 +309,7 @@ class User extends AuthUserModel
         $this->mailSend('igniter.user::mail.invite', 'staff', $vars);
     }
 
-    public function mailSendResetPasswordRequest(array $vars = [])
+    public function mailSendResetPasswordRequest(array $vars = []): void
     {
         $vars = array_merge([
             'reset_link' => null,
@@ -295,7 +318,7 @@ class User extends AuthUserModel
         $this->mailSend('igniter.user::mail.admin_password_reset_request', 'staff', $vars);
     }
 
-    public function mailSendResetPassword(array $vars = [])
+    public function mailSendResetPassword(array $vars = []): void
     {
         $vars = array_merge([
             'login_link' => null,
@@ -310,12 +333,12 @@ class User extends AuthUserModel
      */
     public function getUserDates()
     {
-        return $this->pluckDates('created_at');
+        return static::pluckDates('created_at');
     }
 
     public function getLocale()
     {
-        return optional($this->language)->code;
+        return $this->language?->code;
     }
 
     /**
@@ -323,7 +346,7 @@ class User extends AuthUserModel
      *
      * @param array $locations
      *
-     * @return bool
+     * @return array<string, array>
      */
     public function addLocations($locations = [])
     {
@@ -335,20 +358,20 @@ class User extends AuthUserModel
      *
      * @param array $groups
      *
-     * @return bool
+     * @return array<string, array>
      */
     public function addGroups($groups = [])
     {
-        return $this->groups()->sync($groups);
+        return static::groups()->sync($groups);
     }
 
-    public function register(array $attributes, $activate = false)
+    #[Override]
+    public function register(array $attributes, $activate = false): self
     {
         $this->name = array_get($attributes, 'name');
         $this->email = array_get($attributes, 'email');
         $this->username = array_get($attributes, 'username');
         $this->password = array_get($attributes, 'password');
-        $this->language_id = array_get($attributes, 'language_id');
         $this->user_role_id = array_get($attributes, 'user_role_id');
         $this->super_user = array_get($attributes, 'super_user', false);
         $this->status = array_get($attributes, 'status', true);
@@ -363,17 +386,19 @@ class User extends AuthUserModel
         $this->password = null;
 
         if (array_key_exists('groups', $attributes)) {
-            $this->groups()->attach($attributes['groups']);
+            static::groups()->attach($attributes['groups']);
         }
 
         if (array_key_exists('locations', $attributes)) {
             $this->locations()->attach($attributes['locations']);
         }
 
-        return $this->reload();
+        $this->reload();
+
+        return $this;
     }
 
-    public function receivesBroadcastNotificationsOn()
+    public function receivesBroadcastNotificationsOn(): string
     {
         return 'admin.users.'.$this->getKey();
     }

@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Illuminate\Support\Carbon;
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Casts\Serialize;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Illuminate\Database\Eloquent\Collection;
 use InvalidArgumentException;
 
 /**
@@ -15,11 +20,13 @@ use InvalidArgumentException;
  * @property string|null $code
  * @property string|null $description
  * @property mixed|null $permissions
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read mixed $staff_count
- * @method static UserRole first()
- * @mixin \Igniter\Flame\Database\Model
+ * @property-read Collection<int, User> $users
+ * @method static Builder<static>|User query()
+ * @method static Builder<static>|CustomerGroup dropdown(string $column, string $key = null)
+ * @mixin Model
  */
 class UserRole extends Model
 {
@@ -39,7 +46,7 @@ class UserRole extends Model
 
     public $relation = [
         'hasMany' => [
-            'users' => [\Igniter\User\Models\User::class, 'foreignKey' => 'user_role_id', 'otherKey' => 'user_role_id'],
+            'users' => [User::class, 'foreignKey' => 'user_role_id', 'otherKey' => 'user_role_id'],
         ],
     ];
 
@@ -54,20 +61,19 @@ class UserRole extends Model
 
     public static function listDropdownOptions()
     {
-        return self::select('user_role_id', 'name', 'description')
+        return self::query()
+            ->select('user_role_id', 'name', 'description')
             ->get()
             ->keyBy('user_role_id')
-            ->map(function($model) {
-                return [$model->name, $model->description];
-            });
+            ->map(fn($model): array => [$model->name, $model->description]);
     }
 
-    public function getStaffCountAttribute($value)
+    public function getStaffCountAttribute($value): int
     {
         return $this->users->count();
     }
 
-    public function setPermissionsAttribute($permissions)
+    public function setPermissionsAttribute($permissions): void
     {
         foreach ($permissions ?? [] as $permission => $value) {
             if (!in_array((int)$value, [-1, 0, 1])) {
@@ -81,6 +87,6 @@ class UserRole extends Model
             }
         }
 
-        $this->attributes['permissions'] = !empty($permissions) ? serialize($permissions) : '';
+        $this->attributes['permissions'] = empty($permissions) ? '' : serialize($permissions);
     }
 }

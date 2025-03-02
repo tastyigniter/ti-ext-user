@@ -1,35 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Classes;
 
+use Igniter\User\Facades\Auth;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Support\Facades\Blade;
 
 class BladeExtension
 {
-    public function register()
+    public function register(): void
     {
-        Blade::directive('mainauth', [$this, 'compilesMainAuth']);
-        Blade::directive('endmainauth', [$this, 'compilesEndMainAuth']);
-        Blade::directive('adminauth', [$this, 'compilesAdminAuth']);
-        Blade::directive('endadminauth', [$this, 'compilesEndAdminAuth']);
+        Blade::directive('mainauth', $this->compilesMainAuth(...));
+        Blade::directive('endmainauth', $this->compilesEndMainAuth(...));
+        Blade::directive('adminauth', $this->compilesAdminAuth(...));
+        Blade::directive('endadminauth', $this->compilesEndAdminAuth(...));
     }
 
-    public function compilesMainAuth($expression)
+    public function compilesMainAuth($expression): string
     {
-        return "<?php if(\Igniter\User\Facades\Auth::check()): ?>";
+        return '<?php if(' . Auth::class . '::check()): ?>';
     }
 
-    public function compilesAdminAuth($expression)
+    public function compilesAdminAuth($expression): string
     {
-        return "<?php if(\Igniter\User\Facades\AdminAuth::check()): ?>";
+        return '<?php if(' . AdminAuth::class . '::check()): ?>';
     }
 
-    public function compilesEndMainAuth()
+    public function compilesEndMainAuth(): string
     {
         return '<?php endif ?>';
     }
 
-    public function compilesEndAdminAuth()
+    public function compilesEndAdminAuth(): string
     {
         return '<?php endif ?>';
     }

@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Jobs;
 
 use Exception;
+use Igniter\Cart\Models\Order;
 use Igniter\Flame\Exception\SystemException;
+use Igniter\Reservation\Models\Reservation;
 use Igniter\User\Console\Commands\AllocatorCommand;
 use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\Concerns\Assignable;
@@ -16,10 +20,13 @@ use Illuminate\Queue\SerializesModels;
 
 class AllocateAssignable implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
-     * @var \Igniter\User\Models\AssignableLog
+     * @var AssignableLog
      */
     public $assignableLog;
 
@@ -33,7 +40,7 @@ class AllocateAssignable implements ShouldQueue
         $this->assignableLog = $assignableLog->withoutRelations();
     }
 
-    public function handle()
+    public function handle(): void
     {
         $lastAttempt = $this->attempts() >= $this->tries;
 
@@ -42,7 +49,9 @@ class AllocateAssignable implements ShouldQueue
                 return;
             }
 
-            if (!in_array(Assignable::class, class_uses_recursive(get_class($this->assignableLog->assignable)))) {
+            if ((!$this->assignableLog->assignable instanceof Order && !$this->assignableLog->assignable instanceof Reservation)
+                || !in_array(Assignable::class, class_uses_recursive($this->assignableLog->assignable::class))
+            ) {
                 return;
             }
 
@@ -74,7 +83,7 @@ class AllocateAssignable implements ShouldQueue
         }
     }
 
-    protected function waitInSecondsAfterAttempt(int $attempt)
+    protected function waitInSecondsAfterAttempt(int $attempt): int
     {
         return $attempt >= 3 ? 1000 : 10 ** $attempt;
     }

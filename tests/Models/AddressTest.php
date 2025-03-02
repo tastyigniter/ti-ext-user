@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models;
 
 use Igniter\System\Models\Concerns\HasCountry;
@@ -9,7 +11,7 @@ use Igniter\User\Models\Concerns\HasCustomer;
 use Igniter\User\Models\Customer;
 use Mockery;
 
-it('creates or updates address from request', function() {
+it('creates or updates address from request', function(): void {
     $addressData = [
         'customer_id' => 1,
         'address_id' => 1,
@@ -26,7 +28,7 @@ it('creates or updates address from request', function() {
     expect(Address::where($addressData)->exists())->toBeTrue();
 });
 
-it('returns formatted address attribute', function() {
+it('returns formatted address attribute', function(): void {
     $expectedAddress = '123 Main St, Apt 4, Anytown 12345, CA, Afghanistan';
     $address = Mockery::mock(Address::class)->makePartial();
     $address->shouldReceive('toArray')->andReturn([
@@ -44,7 +46,7 @@ it('returns formatted address attribute', function() {
     expect($result)->toBe($expectedAddress);
 });
 
-it('applies filters to query builder', function() {
+it('applies filters to query builder', function(): void {
     $query = Address::query()->applyFilters([
         'customer' => 1,
         'sort' => 'address_id desc',
@@ -54,7 +56,7 @@ it('applies filters to query builder', function() {
         ->and($query->toSql())->toContain('order by `address_id` desc');
 });
 
-it('configures address model correctly', function() {
+it('configures address model correctly', function(): void {
     $address = new Address;
 
     expect(class_uses_recursive($address))

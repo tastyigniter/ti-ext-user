@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Classes;
 
 use Igniter\System\Classes\ExtensionManager;
 use Igniter\User\Classes\PermissionManager;
 use Mockery;
 
-it('returns empty list when no permissions are registered', function() {
+it('returns empty list when no permissions are registered', function(): void {
     $extensionManager = Mockery::mock(ExtensionManager::class);
     $extensionManager->shouldReceive('getRegistrationMethodValues')->with('registerPermissions')->andReturn([]);
     app()->instance(ExtensionManager::class, $extensionManager);
@@ -17,7 +19,7 @@ it('returns empty list when no permissions are registered', function() {
     expect($result)->toBeEmpty();
 });
 
-it('returns registered permissions', function() {
+it('returns registered permissions', function(): void {
     $extensionManager = Mockery::mock(ExtensionManager::class);
     $extensionManager->shouldReceive('getRegistrationMethodValues')->with('registerPermissions')->andReturn([
         'owner' => 'not an array',
@@ -45,7 +47,7 @@ it('returns registered permissions', function() {
         ->and($result[0]->group)->toBe('Test Group');
 });
 
-it('returns registered permissions from extensions', function() {
+it('returns registered permissions from extensions', function(): void {
     $permissionManager = new PermissionManager;
 
     $result = $permissionManager->listPermissions();
@@ -53,7 +55,7 @@ it('returns registered permissions from extensions', function() {
     expect($result)->not->toBeEmpty();
 });
 
-it('returns grouped permissions', function() {
+it('returns grouped permissions', function(): void {
     $permissionManager = new PermissionManager;
     $permissionManager->registerPermissions('testOwner', [
         'test.code' => [
@@ -72,7 +74,7 @@ it('returns grouped permissions', function() {
         ->and($result['test group'][0]->code)->toBe('test.code');
 });
 
-it('checks permission with starts with wildcard', function() {
+it('checks permission with starts with wildcard', function(): void {
     $permissionManager = new PermissionManager;
     $permissions = ['test.*' => 1];
 
@@ -81,7 +83,7 @@ it('checks permission with starts with wildcard', function() {
     expect($result)->toBeTrue();
 });
 
-it('checks permission with ends with wildcard', function() {
+it('checks permission with ends with wildcard', function(): void {
     $permissionManager = new PermissionManager;
     $permissions = ['*.view' => 1];
 
@@ -90,7 +92,7 @@ it('checks permission with ends with wildcard', function() {
     expect($result)->toBeTrue();
 });
 
-it('checks permission with exact match', function() {
+it('checks permission with exact match', function(): void {
     $permissionManager = new PermissionManager;
     $permissions = ['test.view' => 1];
 
@@ -99,7 +101,7 @@ it('checks permission with exact match', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false when permission is not matched', function() {
+it('returns false when permission is not matched', function(): void {
     $permissionManager = new PermissionManager;
     $permissions = ['test.view' => 1];
 
@@ -112,17 +114,13 @@ it('returns false when permission is not matched', function() {
     expect($result)->toBeFalse();
 });
 
-it('executes registered callback functions', function() {
+it('executes registered callback functions', function(): void {
     $extensionManager = Mockery::mock(ExtensionManager::class);
     $extensionManager->shouldReceive('getRegistrationMethodValues')->with('registerPermissions')->andReturn([]);
     app()->instance(ExtensionManager::class, $extensionManager);
     $permissionManager = new PermissionManager;
-    $callback = function($manager) {
+    $callback = function($manager): void {
         $manager->registerPermissions('testOwner', [
-            'test.code' => [
-                'label' => 'Test Permission',
-                'group' => 'Test Group',
-            ],
             'test.code' => [
                 'description' => 'Test Permission',
                 'group' => 'Test Group',

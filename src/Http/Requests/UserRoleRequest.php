@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Requests;
 
+use Override;
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UserRoleRequest extends FormRequest
 {
+    #[Override]
     public function attributes()
     {
         return [
@@ -17,7 +21,7 @@ class UserRoleRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'code' => ['string', 'between:2,32', 'alpha_dash'],

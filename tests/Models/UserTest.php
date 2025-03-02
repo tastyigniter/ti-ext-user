@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models;
 
 use Carbon\Carbon;
@@ -18,7 +20,7 @@ use Igniter\User\Models\UserGroup;
 use Igniter\User\Models\UserRole;
 use Mockery;
 
-it('returns correct full name', function() {
+it('returns correct full name', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->name = 'John Doe';
 
@@ -26,7 +28,7 @@ it('returns correct full name', function() {
         ->and($user->getFullNameAttribute(null))->toBe('John Doe');
 });
 
-it('returns correct email', function() {
+it('returns correct email', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->email = 'user@example.com';
 
@@ -35,7 +37,7 @@ it('returns correct email', function() {
     expect($result)->toBe('user@example.com');
 });
 
-it('returns correct avatar URL', function() {
+it('returns correct avatar URL', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->email = 'user@example.com';
 
@@ -44,7 +46,7 @@ it('returns correct avatar URL', function() {
     expect($result)->toBe('//www.gravatar.com/avatar/'.md5('user@example.com').'.png?d=mm');
 });
 
-it('returns default sale permission when not set', function() {
+it('returns default sale permission when not set', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
 
     $result = $user->getSalePermissionAttribute(null);
@@ -52,7 +54,7 @@ it('returns default sale permission when not set', function() {
     expect($result)->toBe(1);
 });
 
-it('returns correct sale permission when set', function() {
+it('returns correct sale permission when set', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 2;
 
@@ -61,7 +63,7 @@ it('returns correct sale permission when set', function() {
     expect($result)->toBe(2);
 });
 
-it('returns correct dropdown options for enabled users', function() {
+it('returns correct dropdown options for enabled users', function(): void {
     $user1 = User::factory()->create(['name' => 'John Doe', 'status' => 1]);
     $user2 = User::factory()->create(['name' => 'Jane Doe', 'status' => 1]);
 
@@ -71,13 +73,13 @@ it('returns correct dropdown options for enabled users', function() {
         ->and($result[$user2->getKey()])->toBe('Jane Doe');
 });
 
-it('returns empty array when no enabled users are present', function() {
+it('returns empty array when no enabled users are present', function(): void {
     $result = User::getDropdownOptions();
 
     expect($result)->toBeEmpty();
 });
 
-it('filters out super users', function() {
+it('filters out super users', function(): void {
     $query = Mockery::mock(Builder::class);
     $query->shouldReceive('where')->with('super_user', '!=', 1)->andReturnSelf();
     $query->shouldReceive('orWhereNull')->with('super_user')->andReturnSelf()->once();
@@ -86,7 +88,7 @@ it('filters out super users', function() {
     $user->scopeWhereNotSuperUser($query);
 });
 
-it('filters only super users', function() {
+it('filters only super users', function(): void {
     $query = Mockery::mock(Builder::class);
     $query->shouldReceive('where')->with('super_user', 1)->andReturnSelf()->once();
 
@@ -94,18 +96,16 @@ it('filters only super users', function() {
     $user->scopeWhereIsSuperUser($query);
 });
 
-it('updates last login timestamp after login', function() {
+it('updates last login timestamp after login', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('query')->andReturnSelf();
     $user->shouldReceive('whereKey')->andReturnSelf();
-    $user->shouldReceive('update')->with(Mockery::on(function($callback) {
-        return $callback['last_login'] instanceof Carbon;
-    }))->once();
+    $user->shouldReceive('update')->with(Mockery::on(fn($callback): bool => $callback['last_login'] instanceof Carbon))->once();
 
     $user->afterLogin();
 });
 
-it('returns true for super user', function() {
+it('returns true for super user', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->super_user = 1;
 
@@ -114,7 +114,7 @@ it('returns true for super user', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false for non-super user', function() {
+it('returns false for non-super user', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->super_user = 0;
 
@@ -123,7 +123,7 @@ it('returns false for non-super user', function() {
     expect($result)->toBeFalse();
 });
 
-it('returns true if user is super user', function() {
+it('returns true if user is super user', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('isSuperUser')->andReturnTrue();
 
@@ -132,7 +132,7 @@ it('returns true if user is super user', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns true if user has any of the given permissions', function() {
+it('returns true if user has any of the given permissions', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('isSuperUser')->andReturnFalse();
     $user->shouldReceive('getPermissions')->andReturn(['permission1', 'permission2']);
@@ -145,7 +145,7 @@ it('returns true if user has any of the given permissions', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false if user does not have any of the given permissions', function() {
+it('returns false if user does not have any of the given permissions', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('isSuperUser')->andReturnFalse();
     $user->shouldReceive('getPermissions')->andReturn(['permission1', 'permission2']);
@@ -158,7 +158,7 @@ it('returns false if user does not have any of the given permissions', function(
     expect($result)->toBeFalse();
 });
 
-it('returns true if user has all of the given permissions', function() {
+it('returns true if user has all of the given permissions', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('isSuperUser')->andReturnFalse();
     $user->shouldReceive('getPermissions')->andReturn(['permission1', 'permission2']);
@@ -171,7 +171,7 @@ it('returns true if user has all of the given permissions', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false if user does not have all of the given permissions', function() {
+it('returns false if user does not have all of the given permissions', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('isSuperUser')->andReturnFalse();
     $user->shouldReceive('getPermissions')->andReturn(['permission1', 'permission2']);
@@ -184,7 +184,7 @@ it('returns false if user does not have all of the given permissions', function(
     expect($result)->toBeFalse();
 });
 
-it('returns correct permissions for user role', function() {
+it('returns correct permissions for user role', function(): void {
     $role = Mockery::mock(UserRole::class)->makePartial();
     $role->permissions = ['permission1', 'permission2'];
 
@@ -196,7 +196,7 @@ it('returns correct permissions for user role', function() {
     expect($result)->toBe(['permission1', 'permission2']);
 });
 
-it('returns empty permissions when user role is not set', function() {
+it('returns empty permissions when user role is not set', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->role = null;
 
@@ -205,7 +205,7 @@ it('returns empty permissions when user role is not set', function() {
     expect($result)->toBe([]);
 });
 
-it('returns staff/site email and name when type is staff or admin', function() {
+it('returns staff/site email and name when type is staff or admin', function(): void {
     setting()->set(['site_email' => 'admin@example.com', 'site_name' => 'Admin Name']);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('extendableGet')->with('full_name')->andReturn('Staff Name');
@@ -224,14 +224,14 @@ it('returns staff/site email and name when type is staff or admin', function() {
     expect($result)->toBe([]);
 });
 
-it('returns true if user can be assigned to', function() {
+it('returns true if user can be assigned to', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $result = $user->canAssignTo();
 
     expect($result)->toBeTrue();
 });
 
-it('returns true if user has global assignable scope', function() {
+it('returns true if user has global assignable scope', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 1;
 
@@ -240,7 +240,7 @@ it('returns true if user has global assignable scope', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false if user does not have global assignable scope', function() {
+it('returns false if user does not have global assignable scope', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 2;
 
@@ -249,7 +249,7 @@ it('returns false if user does not have global assignable scope', function() {
     expect($result)->toBeFalse();
 });
 
-it('returns true if user has group assignable scope', function() {
+it('returns true if user has group assignable scope', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 2;
 
@@ -258,7 +258,7 @@ it('returns true if user has group assignable scope', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false if user does not have group assignable scope', function() {
+it('returns false if user does not have group assignable scope', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 1;
 
@@ -267,7 +267,7 @@ it('returns false if user does not have group assignable scope', function() {
     expect($result)->toBeFalse();
 });
 
-it('returns true if user has restricted assignable scope', function() {
+it('returns true if user has restricted assignable scope', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 3;
 
@@ -276,7 +276,7 @@ it('returns true if user has restricted assignable scope', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false if user does not have restricted assignable scope', function() {
+it('returns false if user does not have restricted assignable scope', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->sale_permission = 1;
 
@@ -285,7 +285,7 @@ it('returns false if user does not have restricted assignable scope', function()
     expect($result)->toBeFalse();
 });
 
-it('returns user creation dates', function() {
+it('returns user creation dates', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('pluckDates')->with('created_at')->andReturn(['2023-01-01', '2023-02-01']);
 
@@ -294,7 +294,7 @@ it('returns user creation dates', function() {
     expect($result)->toBe(['2023-01-01', '2023-02-01']);
 });
 
-it('syncs locations successfully', function() {
+it('syncs locations successfully', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('locations->sync')->with([1, 2, 3])->andReturnTrue();
 
@@ -303,7 +303,7 @@ it('syncs locations successfully', function() {
     expect($result)->toBeTrue();
 });
 
-it('syncs groups successfully', function() {
+it('syncs groups successfully', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('groups->sync')->with([1, 2, 3])->andReturnTrue();
 
@@ -312,7 +312,7 @@ it('syncs groups successfully', function() {
     expect($result)->toBeTrue();
 });
 
-it('registers a new user and activates it', function() {
+it('registers a new user and activates it', function(): void {
     $attributes = [
         'name' => 'John Doe',
         'email' => 'john@example.com',
@@ -336,7 +336,7 @@ it('registers a new user and activates it', function() {
     $user->register($attributes);
 });
 
-it('registers a new user without activation', function() {
+it('registers a new user without activation', function(): void {
     $attributes = [
         'name' => 'Jane Doe',
         'email' => 'jane@example.com',
@@ -360,7 +360,7 @@ it('registers a new user without activation', function() {
     $user->register($attributes, true);
 });
 
-it('returns broadcast notification channel', function() {
+it('returns broadcast notification channel', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('getKey')->andReturn(123);
 
@@ -369,7 +369,7 @@ it('returns broadcast notification channel', function() {
     expect($result)->toBe('admin.users.123');
 });
 
-it('configures user model correctly', function() {
+it('configures user model correctly', function(): void {
     $user = new User;
 
     expect(class_uses_recursive($user))

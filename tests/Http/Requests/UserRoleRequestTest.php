@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\UserRoleRequest;
 
-it('returns correct attribute labels for user role', function() {
+it('returns correct attribute labels for user role', function(): void {
     $attributes = (new UserRoleRequest)->attributes();
 
     expect($attributes['code'])->toBe(lang('igniter::admin.label_code'))
@@ -13,7 +15,7 @@ it('returns correct attribute labels for user role', function() {
         ->and($attributes['permissions.*'])->toBe(lang('igniter.user::default.user_roles.label_permissions'));
 });
 
-it('validates rules correctly for user role', function() {
+it('validates rules correctly for user role', function(): void {
     $rules = (new UserRoleRequest)->rules();
 
     expect($rules['code'])->toBe(['string', 'between:2,32', 'alpha_dash'])

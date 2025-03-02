@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Actions;
 
 use Igniter\Flame\Exception\FlashException;
@@ -8,7 +10,7 @@ use Igniter\User\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Session;
 
-it('fires beforeAuthenticate event with correct parameters', function() {
+it('fires beforeAuthenticate event with correct parameters', function(): void {
     Event::fake();
     $credentials = ['email' => 'user@example.com', 'password' => 'password'];
     Auth::shouldReceive('attempt')->andReturn(true);
@@ -17,16 +19,12 @@ it('fires beforeAuthenticate event with correct parameters', function() {
     $loginUser = new LoginCustomer($credentials);
     $loginUser->handle();
 
-    Event::assertDispatched('igniter.user.beforeAuthenticate', function($eventName, $eventPayload) use ($loginUser, $credentials) {
-        return $eventPayload[0] === $loginUser && $eventPayload[1] === $credentials;
-    });
+    Event::assertDispatched('igniter.user.beforeAuthenticate', fn($eventName, $eventPayload): bool => $eventPayload[0] === $loginUser && $eventPayload[1] === $credentials);
 
-    Event::assertDispatched('igniter.user.login', function($eventName, $eventPayload) use ($loginUser) {
-        return $eventPayload[0] === $loginUser;
-    }, true);
+    Event::assertDispatched('igniter.user.login', fn($eventName, $eventPayload): bool => $eventPayload[0] === $loginUser);
 });
 
-it('throws FlashException when authentication fails', function() {
+it('throws FlashException when authentication fails', function(): void {
     $credentials = ['email' => 'user@example.com', 'password' => 'wrongpassword'];
     Auth::shouldReceive('attempt')->andReturn(false);
 

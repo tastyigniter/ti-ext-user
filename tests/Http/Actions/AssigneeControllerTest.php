@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Actions;
 
+use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Widgets\Filter;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
@@ -13,8 +16,14 @@ use Igniter\User\Models\User;
 use Illuminate\Support\Facades\Event;
 use Mockery;
 
-it('applies scope on list query when user has restricted scope', function() {
-    $controller = resolve(Menus::class);
+it('applies scope on list query when user has restricted scope', function(): void {
+    $controller = new class extends AdminController
+    {
+        protected array $assigneeConfig = [
+            'applyScopeOnListQuery' => true,
+            'applyScopeOnFormQuery' => true,
+        ];
+    };
     $query = Mockery::mock(Builder::class);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('extendableGet')->with('groups')->andReturn(collect([['user_group_id' => 1], ['user_group_id' => 2]]));
@@ -26,12 +35,10 @@ it('applies scope on list query when user has restricted scope', function() {
     $query->shouldReceive('whereInAssignToGroup')->with([1, 2])->once();
     $query->shouldReceive('whereAssignTo')->with(1)->once();
 
-    $assigneeController = new AssigneeController($controller);
-
-    $assigneeController->assigneeApplyScope($query);
+    (new AssigneeController($controller))->assigneeApplyScope($query);
 });
 
-it('does not apply scope on list query when user has global scope', function() {
+it('does not apply scope on list query when user has global scope', function(): void {
     $controller = resolve(Menus::class);
     $user = Mockery::mock(User::class)->makePartial();
     $query = Mockery::mock(Builder::class);
@@ -45,7 +52,7 @@ it('does not apply scope on list query when user has global scope', function() {
     $assigneeController->assigneeApplyScope($query);
 });
 
-it('removes delete button from toolbar when user does not have global scope', function() {
+it('removes delete button from toolbar when user does not have global scope', function(): void {
     $controller = resolve(Menus::class);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('hasGlobalAssignableScope')->andReturn(false);
@@ -62,7 +69,7 @@ it('removes delete button from toolbar when user does not have global scope', fu
     expect($toolbar->allButtons)->not->toHaveKey('delete');
 });
 
-it('does not remove delete button from toolbar when user has global scope', function() {
+it('does not remove delete button from toolbar when user has global scope', function(): void {
     $controller = resolve(Menus::class);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('hasGlobalAssignableScope')->andReturn(true);
@@ -79,7 +86,7 @@ it('does not remove delete button from toolbar when user has global scope', func
     expect($toolbar->allButtons)->toHaveKey('delete');
 });
 
-it('assigns user to model when conditions are met', function() {
+it('assigns user to model when conditions are met', function(): void {
     $controller = resolve(Menus::class);
     $assignable = Mockery::mock(Order::class)->makePartial();
     $query = Mockery::mock(Builder::class);
@@ -107,7 +114,7 @@ it('assigns user to model when conditions are met', function() {
     Event::dispatch('admin.form.extendFields', [$widget]);
 });
 
-it('applies scope on list query when extended', function() {
+it('applies scope on list query when extended', function(): void {
     $controller = resolve(Menus::class);
     $assignable = Mockery::mock(Order::class)->makePartial();
     $user = Mockery::mock(User::class)->makePartial();
@@ -127,7 +134,7 @@ it('applies scope on list query when extended', function() {
     Event::dispatch('admin.list.extendQuery', [$widget, $query]);
 });
 
-it('removes assignee scope when user has restricted scope', function() {
+it('removes assignee scope when user has restricted scope', function(): void {
     $controller = resolve(Menus::class);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('getKey')->andReturn(1);

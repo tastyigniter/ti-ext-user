@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Classes;
 
 use Igniter\Flame\Support\Facades\Igniter;
@@ -11,13 +13,13 @@ class RouteRegistrar
 {
     public function __construct(protected Router $router) {}
 
-    public function all()
+    public function all(): void
     {
         $this->router
             ->middleware(config('igniter-routes.middleware', []))
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
-            ->group(function(Router $router) {
+            ->group(function(Router $router): void {
                 $router->any('/', [Login::class, 'index'])->name('igniter.admin');
                 $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
                 $router->any('/login/reset/{slug?}', [Login::class, 'reset'])->name('igniter.admin.reset');
@@ -25,4 +27,3 @@ class RouteRegistrar
             });
     }
 }
-

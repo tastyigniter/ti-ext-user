@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Subscribers;
 
 use Igniter\Flame\Traits\EventDispatchable;
@@ -11,7 +13,7 @@ class NavigationExtendUserMenuLinksEvent
 
     public function __construct(public Collection $links) {}
 
-    public static function eventName()
+    public static function eventName(): string
     {
         return 'admin.menu.extendUserMenuLinks';
     }

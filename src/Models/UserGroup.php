@@ -1,9 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Models;
 
+use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
+use Igniter\Flame\Database\Relations\BelongsToMany;
+use Igniter\Flame\Database\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 /**
  * UserGroup Model Class
@@ -15,19 +22,24 @@ use Igniter\Flame\Database\Model;
  * @property int|null $auto_assign_mode
  * @property int|null $auto_assign_limit
  * @property bool|null $auto_assign_availability
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read mixed $staff_count
+ * @property Collection<int, User> $users
+ * @method static Builder<static>|UserGroup query()
  * @method static UserGroup first()
- * @mixin \Igniter\Flame\Database\Model
+ * @method static Builder<static>|UserGroup dropdown(string $column, string $key = null)
+ * @method static BelongsToMany<static>|User users()
+ * @method static HasMany<static>|AssignableLog assignable_logs()
+ * @mixin Model
  */
 class UserGroup extends Model
 {
     use HasFactory;
 
-    public const AUTO_ASSIGN_ROUND_ROBIN = 1;
+    public const int AUTO_ASSIGN_ROUND_ROBIN = 1;
 
-    public const AUTO_ASSIGN_LOAD_BALANCED = 2;
+    public const int AUTO_ASSIGN_LOAD_BALANCED = 2;
 
     /**
      * @var string The database table name
@@ -41,10 +53,10 @@ class UserGroup extends Model
 
     public $relation = [
         'hasMany' => [
-            'assignable_logs' => [\Igniter\User\Models\AssignableLog::class, 'foreignKey' => 'assignee_group_id'],
+            'assignable_logs' => [AssignableLog::class, 'foreignKey' => 'assignee_group_id'],
         ],
         'belongsToMany' => [
-            'users' => [\Igniter\User\Models\User::class, 'table' => 'admin_users_groups'],
+            'users' => [User::class, 'table' => 'admin_users_groups'],
         ],
     ];
 
@@ -64,15 +76,14 @@ class UserGroup extends Model
 
     public static function listDropdownOptions()
     {
-        return self::select('user_group_id', 'user_group_name', 'description')
+        return self::query()
+            ->select('user_group_id', 'user_group_name', 'description')
             ->get()
             ->keyBy('user_group_id')
-            ->map(function($model) {
-                return [$model->user_group_name, $model->description];
-            });
+            ->map(fn($model): array => [$model->user_group_name, $model->description]);
     }
 
-    public function getStaffCountAttribute($value)
+    public function getStaffCountAttribute($value): int
     {
         return $this->users->count();
     }
@@ -81,7 +92,7 @@ class UserGroup extends Model
     // Assignment
     //
 
-    public static function syncAutoAssignStatus()
+    public static function syncAutoAssignStatus(): void
     {
         setting()->setPref('allocator_is_enabled',
             self::query()->where('auto_assign', 1)->exists(),
@@ -106,17 +117,15 @@ class UserGroup extends Model
      */
     public function listAssignees()
     {
-        return $this->users->filter(function(User $user) {
-            return $user->isEnabled() && $user->canAssignTo();
-        })->values();
+        return $this->users->filter(fn(User $user): bool => $user->isEnabled() && $user->canAssignTo())->values();
     }
 
     /**
-     * @return \Igniter\User\Models\User|object
+     * @return null|User
      */
     public function findAvailableAssignee()
     {
-        $query = $this->assignable_logs()->newQuery();
+        $query = $this->assignable_logs();
 
         $useLoadBalance = $this->auto_assign_mode == self::AUTO_ASSIGN_LOAD_BALANCED;
 
@@ -126,7 +135,7 @@ class UserGroup extends Model
 
         $logs = $query->pluck('assign_value', 'assignee_id');
 
-        $assignees = $this->listAssignees()->map(function(User $model) use ($logs) {
+        $assignees = $this->listAssignees()->map(function(User $model) use ($logs): User {
             $model->assign_value = $logs[$model->getKey()] ?? 0;
 
             return $model;

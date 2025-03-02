@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Notifications;
 
 use Igniter\Cart\Models\Order;
@@ -11,12 +13,12 @@ use Igniter\User\Models\UserGroup;
 use Igniter\User\Notifications\AssigneeUpdatedNotification;
 use Mockery;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->subject = Mockery::mock(AssignableLog::class)->makePartial();
     $this->notification = AssigneeUpdatedNotification::make()->subject($this->subject);
 });
 
-it('returns recipients when assignee is null and assignee group is set', function() {
+it('returns recipients when assignee is null and assignee group is set', function(): void {
     $user1 = Mockery::mock(User::class)->makePartial();
     $user2 = Mockery::mock(User::class)->makePartial();
     $assignable = Mockery::mock(Order::class)->makePartial();
@@ -34,7 +36,7 @@ it('returns recipients when assignee is null and assignee group is set', functio
     expect($result)->toHaveCount(1);
 });
 
-it('returns recipients when assignee is set', function() {
+it('returns recipients when assignee is set', function(): void {
     $this->subject->shouldReceive('extendableGet')->with('assignee')->andReturn(Mockery::mock());
 
     $result = $this->notification->getRecipients();
@@ -43,7 +45,7 @@ it('returns recipients when assignee is set', function() {
         ->and($result[0])->toBe($this->subject->assignee);
 });
 
-it('returns title for order', function() {
+it('returns title for order', function(): void {
     $assignable = Mockery::mock(Order::class)->makePartial();
     $this->subject->shouldReceive('extendableGet')->with('assignable')->andReturn($assignable);
 
@@ -52,7 +54,7 @@ it('returns title for order', function() {
     expect($result)->toBe(lang('igniter.cart::default.orders.notify_assigned_title'));
 });
 
-it('returns title for reservation', function() {
+it('returns title for reservation', function(): void {
     $assignable = Mockery::mock(Reservation::class)->makePartial();
     $this->subject->shouldReceive('extendableGet')->with('assignable')->andReturn($assignable);
 
@@ -61,7 +63,7 @@ it('returns title for reservation', function() {
     expect($result)->toBe(lang('igniter.reservation::default.notify_assigned_title'));
 });
 
-it('returns URL for order', function() {
+it('returns URL for order', function(): void {
     $assignable = Mockery::mock(Order::class)->makePartial();
     $assignable->shouldReceive('getKey')->andReturn(1);
     $this->subject->shouldReceive('extendableGet')->with('assignable')->andReturn($assignable);
@@ -71,7 +73,7 @@ it('returns URL for order', function() {
     expect($result)->toBe(admin_url('orders/edit/1'));
 });
 
-it('returns URL for reservation', function() {
+it('returns URL for reservation', function(): void {
     $assignable = Mockery::mock(Reservation::class)->makePartial();
     $assignable->shouldReceive('getKey')->andReturn(1);
     $this->subject->shouldReceive('extendableGet')->with('assignable')->andReturn($assignable);
@@ -81,7 +83,7 @@ it('returns URL for reservation', function() {
     expect($result)->toBe(admin_url('reservations/edit/1'));
 });
 
-it('returns message for order', function() {
+it('returns message for order', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $assignable = Mockery::mock(Order::class)->makePartial();
     $assignable->shouldReceive('getKey')->andReturn(1);
@@ -100,7 +102,7 @@ it('returns message for order', function() {
     ));
 });
 
-it('returns message for reservation', function() {
+it('returns message for reservation', function(): void {
     $assignable = Mockery::mock(Reservation::class)->makePartial();
     $userGroup = Mockery::mock(UserGroup::class);
     $user = Mockery::mock(User::class)->makePartial();
@@ -116,7 +118,7 @@ it('returns message for reservation', function() {
     expect($result)->toBe(sprintf(lang('igniter.reservation::default.notify_assigned'), 'John Doe', 1, 'Group A'));
 });
 
-it('returns icon', function() {
+it('returns icon', function(): void {
     $notification = Mockery::mock(AssigneeUpdatedNotification::class)->makePartial();
 
     $result = $notification->getIcon();
@@ -124,7 +126,7 @@ it('returns icon', function() {
     expect($result)->toBe('fa-clipboard-user');
 });
 
-it('returns alias', function() {
+it('returns alias', function(): void {
     $notification = Mockery::mock(AssigneeUpdatedNotification::class)->makePartial();
 
     $result = $notification->getAlias();

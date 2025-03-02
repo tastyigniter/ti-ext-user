@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Database\Factories;
 
+use Igniter\User\Models\UserGroup;
+use Override;
 use Igniter\Flame\Database\Factories\Factory;
 
 class UserGroupFactory extends Factory
 {
-    protected $model = \Igniter\User\Models\UserGroup::class;
+    protected $model = UserGroup::class;
 
+    #[Override]
     public function definition(): array
     {
         return [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Actions;
 
 use Igniter\User\Facades\Auth;
@@ -8,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 
 class LogoutCustomer
 {
-    public function handle()
+    public function handle(): void
     {
         $user = Auth::getUser();
 

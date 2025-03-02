@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Auth;
 
 use Igniter\User\Auth\CustomerGuard;
 use Igniter\User\Models\Customer;
 use Mockery;
 
-it('returns the customer instance', function() {
+it('returns the customer instance', function(): void {
     $user = Mockery::mock(Customer::class);
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $guard->shouldReceive('user')->andReturn($user);
@@ -16,7 +18,7 @@ it('returns the customer instance', function() {
     expect($result)->toBe($user);
 });
 
-it('checks if customer is logged in', function() {
+it('checks if customer is logged in', function(): void {
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $guard->shouldReceive('check')->andReturn(true);
 
@@ -25,7 +27,7 @@ it('checks if customer is logged in', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns customer id', function() {
+it('returns customer id', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->customer_id = 1;
@@ -36,7 +38,7 @@ it('returns customer id', function() {
     expect($result)->toBe(1);
 });
 
-it('returns customer full name', function() {
+it('returns customer full name', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->shouldReceive('extendableGet')->with('full_name')->andReturn('John Doe');
@@ -47,7 +49,7 @@ it('returns customer full name', function() {
     expect($result)->toBe('John Doe');
 });
 
-it('returns customer first name', function() {
+it('returns customer first name', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->first_name = 'John';
@@ -58,7 +60,7 @@ it('returns customer first name', function() {
     expect($result)->toBe('John');
 });
 
-it('returns customer last name', function() {
+it('returns customer last name', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->last_name = 'Doe';
@@ -69,7 +71,7 @@ it('returns customer last name', function() {
     expect($result)->toBe('Doe');
 });
 
-it('returns customer email in lowercase', function() {
+it('returns customer email in lowercase', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->email = 'John.Doe@Example.com';
@@ -80,7 +82,7 @@ it('returns customer email in lowercase', function() {
     expect($result)->toBe('john.doe@example.com');
 });
 
-it('returns customer telephone', function() {
+it('returns customer telephone', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->telephone = '1234567890';
@@ -91,7 +93,7 @@ it('returns customer telephone', function() {
     expect($result)->toBe('1234567890');
 });
 
-it('returns customer address id', function() {
+it('returns customer address id', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->address_id = 1;
@@ -102,7 +104,7 @@ it('returns customer address id', function() {
     expect($result)->toBe(1);
 });
 
-it('returns customer group id', function() {
+it('returns customer group id', function(): void {
     $user = Mockery::mock(Customer::class)->makePartial();
     $guard = Mockery::mock(CustomerGuard::class)->makePartial();
     $user->customer_group_id = 1;

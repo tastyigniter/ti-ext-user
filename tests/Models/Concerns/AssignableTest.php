@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models\Concerns;
 
+use Igniter\Cart\Models\Order;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Facades\AdminAuth;
@@ -12,9 +15,9 @@ use Igniter\User\Models\UserGroup;
 use Illuminate\Support\Facades\Event;
 use Mockery;
 
-it('assigns to user successfully', function() {
+it('assigns to user successfully', function(): void {
     Event::fake();
-    $assignable = Mockery::mock(Assignable::class)->makePartial();
+    $assignable = Mockery::mock(Order::class)->makePartial();
     $assignee = Mockery::mock(User::class)->makePartial();
     $user = Mockery::mock(User::class)->makePartial();
     $group = Mockery::mock(UserGroup::class)->makePartial();
@@ -39,9 +42,9 @@ it('assigns to user successfully', function() {
     expect($result)->toBeInstanceOf(AssignableLog::class);
 });
 
-it('updates assign to successfully', function() {
+it('updates assign to successfully', function(): void {
     Event::fake();
-    $assignable = Mockery::mock(Assignable::class)->makePartial();
+    $assignable = Mockery::mock(Order::class)->makePartial();
     $assignee = Mockery::mock(User::class)->makePartial();
     $user = Mockery::mock(User::class)->makePartial();
     $assignable->assignee = null;
@@ -65,7 +68,7 @@ it('updates assign to successfully', function() {
     expect($result)->toBeInstanceOf(AssignableLog::class);
 });
 
-it('throws exception when assignee group is not set', function() {
+it('throws exception when assignee group is not set', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $assignee = Mockery::mock(User::class);
 
@@ -77,8 +80,8 @@ it('throws exception when assignee group is not set', function() {
     $assignable->assignTo($assignee);
 });
 
-it('assigns to group successfully', function() {
-    $assignable = Mockery::mock(Assignable::class)->makePartial();
+it('assigns to group successfully', function(): void {
+    $assignable = Mockery::mock(Order::class)->makePartial();
     $group = Mockery::mock(UserGroup::class)->makePartial();
     $user = Mockery::mock(User::class)->makePartial();
     $assignable->assignee = null;
@@ -101,7 +104,7 @@ it('assigns to group successfully', function() {
     expect($result)->toBeInstanceOf(AssignableLog::class);
 });
 
-it('returns true when assigned to user', function() {
+it('returns true when assigned to user', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $assignable->assignee = Mockery::mock(User::class);
 
@@ -110,7 +113,7 @@ it('returns true when assigned to user', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false when not assigned to user', function() {
+it('returns false when not assigned to user', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $assignable->assignee = null;
 
@@ -119,7 +122,7 @@ it('returns false when not assigned to user', function() {
     expect($result)->toBeFalse();
 });
 
-it('returns true when assigned to group', function() {
+it('returns true when assigned to group', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $assignable->assignee_group = Mockery::mock(UserGroup::class);
 
@@ -128,7 +131,7 @@ it('returns true when assigned to group', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false when not assigned to group', function() {
+it('returns false when not assigned to group', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $assignable->assignee_group = null;
 
@@ -137,7 +140,7 @@ it('returns false when not assigned to group', function() {
     expect($result)->toBeFalse();
 });
 
-it('lists group assignees when group is set', function() {
+it('lists group assignees when group is set', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $group = Mockery::mock(UserGroup::class);
     $assignable->assignee_group = $group;
@@ -149,7 +152,7 @@ it('lists group assignees when group is set', function() {
     expect($result)->toBe(['assignee1', 'assignee2']);
 });
 
-it('returns empty list when group is not set', function() {
+it('returns empty list when group is not set', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $assignable->assignee_group = null;
 
@@ -158,7 +161,7 @@ it('returns empty list when group is not set', function() {
     expect($result)->toBe([]);
 });
 
-it('returns true when user cannot be assigned to staff', function() {
+it('returns true when user cannot be assigned to staff', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $user = Mockery::mock(User::class)->makePartial();
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
@@ -174,7 +177,7 @@ it('returns true when user cannot be assigned to staff', function() {
     expect($result)->toBeTrue();
 });
 
-it('returns false when user can be assigned to staff', function() {
+it('returns false when user can be assigned to staff', function(): void {
     $assignable = Mockery::mock(Assignable::class)->makePartial();
     $user = Mockery::mock(User::class)->makePartial();
     $assignable->assignee_group_id = 1;
@@ -191,7 +194,7 @@ it('returns false when user can be assigned to staff', function() {
     expect($result)->toBeFalse();
 });
 
-it('filters assigned to null when assignedTo is 1', function() {
+it('filters assigned to null when assignedTo is 1', function(): void {
     $query = Mockery::mock(Builder::class);
     $query->shouldReceive('whereNull')->with('assignee_id')->andReturnSelf();
 
@@ -201,7 +204,7 @@ it('filters assigned to null when assignedTo is 1', function() {
     expect($result)->toBe($query);
 });
 
-it('filters assigned to current staff when assignedTo is 2', function() {
+it('filters assigned to current staff when assignedTo is 2', function(): void {
     $query = Mockery::mock(Builder::class);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('getKey')->andReturn(1);
@@ -214,7 +217,7 @@ it('filters assigned to current staff when assignedTo is 2', function() {
     expect($result)->toBe($query);
 });
 
-it('filters assigned to not current staff when assignedTo is not 1 or 2', function() {
+it('filters assigned to not current staff when assignedTo is not 1 or 2', function(): void {
     $query = Mockery::mock(Builder::class);
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('getKey')->andReturn(1);
@@ -227,7 +230,7 @@ it('filters assigned to not current staff when assignedTo is not 1 or 2', functi
     expect($result)->toBe($query);
 });
 
-it('filters where unassigned', function() {
+it('filters where unassigned', function(): void {
     $query = Mockery::mock(Builder::class);
     $query->shouldReceive('whereNotNull')->with('assignee_group_id')->andReturnSelf();
     $query->shouldReceive('whereNull')->with('assignee_id')->andReturnSelf();
@@ -238,7 +241,7 @@ it('filters where unassigned', function() {
     expect($result)->toBe($query);
 });
 
-it('filters where assigned to specific user', function() {
+it('filters where assigned to specific user', function(): void {
     $query = Mockery::mock(Builder::class);
     $assigneeId = 1;
     $query->shouldReceive('where')->with('assignee_id', $assigneeId)->andReturnSelf();
@@ -249,7 +252,7 @@ it('filters where assigned to specific user', function() {
     expect($result)->toBe($query);
 });
 
-it('filters where assigned to specific group', function() {
+it('filters where assigned to specific group', function(): void {
     $query = Mockery::mock(Builder::class);
     $assigneeGroupId = 1;
     $query->shouldReceive('where')->with('assignee_group_id', $assigneeGroupId)->andReturnSelf();
@@ -260,7 +263,7 @@ it('filters where assigned to specific group', function() {
     expect($result)->toBe($query);
 });
 
-it('filters where assigned to specific group ids', function() {
+it('filters where assigned to specific group ids', function(): void {
     $query = Mockery::mock(Builder::class);
     $assigneeGroupIds = [1, 2, 3];
     $query->shouldReceive('whereIn')->with('assignee_group_id', $assigneeGroupIds)->andReturnSelf();
@@ -271,9 +274,9 @@ it('filters where assigned to specific group ids', function() {
     expect($result)->toBe($query);
 });
 
-it('filters where has auto assign group', function() {
+it('filters where has auto assign group', function(): void {
     $query = Mockery::mock(Builder::class);
-    $query->shouldReceive('whereHas')->with('assignee_group', Mockery::on(function($callback) {
+    $query->shouldReceive('whereHas')->with('assignee_group', Mockery::on(function($callback): true {
         $subQuery = Mockery::mock(Builder::class);
         $subQuery->shouldReceive('where')->with('auto_assign', 1)->andReturnSelf();
         $callback($subQuery);

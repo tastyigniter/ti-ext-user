@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
@@ -21,7 +24,7 @@ class Login extends AdminController
         parent::__construct();
     }
 
-    public function index()
+    public function index(): RedirectResponse|string
     {
         // Redirect /admin to /admin/login
         if (!request()->routeIs('igniter.admin.login')) {
@@ -37,14 +40,14 @@ class Login extends AdminController
         return $this->makeView('auth.login');
     }
 
-    public function reset()
+    public function reset(): RedirectResponse|string
     {
         if (AdminAuth::isLogged()) {
             return AdminHelper::redirect('dashboard');
         }
 
         $code = input('code', '');
-        if (strlen($code) && !User::whereResetCode($code)->first()) {
+        if (strlen((string) $code) && !User::query()->whereResetCode($code)->first()) {
             flash()->error(lang('igniter::admin.login.alert_failed_reset'));
 
             return AdminHelper::redirect('login');
@@ -57,7 +60,7 @@ class Login extends AdminController
         return $this->makeView('auth.reset');
     }
 
-    public function onLogin()
+    public function onLogin(): RedirectResponse
     {
         $data = $this->validate(post(), [
             'email' => ['required', 'email'],
@@ -78,7 +81,7 @@ class Login extends AdminController
             : AdminHelper::redirectIntended('dashboard');
     }
 
-    public function onRequestResetPassword()
+    public function onRequestResetPassword(): RedirectResponse
     {
         $data = $this->validate(post(), [
             'email' => ['required', 'email:filter', 'max:96'],
@@ -86,7 +89,8 @@ class Login extends AdminController
             'email' => lang('igniter::admin.label_email'),
         ]);
 
-        if ($user = User::whereEmail($data['email'])->first()) {
+        if ($user = User::query()->whereEmail($data['email'])->first()) {
+            /** @var User $user */
             $user->resetPassword();
             $user->mailSendResetPasswordRequest([
                 'reset_link' => admin_url('login/reset?code='.$user->reset_code),
@@ -98,7 +102,7 @@ class Login extends AdminController
         return AdminHelper::redirect('login');
     }
 
-    public function onResetPassword()
+    public function onResetPassword(): RedirectResponse
     {
         $data = $this->validate(post(), [
             'code' => ['required'],
@@ -111,7 +115,8 @@ class Login extends AdminController
         ]);
 
         $code = array_get($data, 'code');
-        $user = User::whereResetCode($code)->first();
+        /** @var null|User $user */
+        $user = User::query()->whereResetCode($code)->first();
 
         if (!$user || !$user->completeResetPassword($data['code'], $data['password'])) {
             throw ValidationException::withMessages(['password' => lang('igniter::admin.login.alert_failed_reset')]);

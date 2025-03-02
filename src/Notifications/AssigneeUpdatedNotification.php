@@ -1,13 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Notifications;
 
+use Override;
 use Igniter\Cart\Models\Order;
 use Igniter\User\Classes\Notification;
 use Igniter\User\Facades\AdminAuth;
 
+/**
+ * AssigneeUpdatedNotification
+ */
 class AssigneeUpdatedNotification extends Notification
 {
+    #[Override]
     public function getRecipients(): array
     {
         $recipients = [];
@@ -28,6 +35,7 @@ class AssigneeUpdatedNotification extends Notification
         return $recipients;
     }
 
+    #[Override]
     public function getTitle(): string
     {
         return $this->subject->assignable instanceof Order
@@ -35,6 +43,7 @@ class AssigneeUpdatedNotification extends Notification
             : lang('igniter.reservation::default.notify_assigned_title');
     }
 
+    #[Override]
     public function getUrl(): string
     {
         $url = $this->subject->assignable instanceof Order ? 'orders' : 'reservations';
@@ -43,6 +52,7 @@ class AssigneeUpdatedNotification extends Notification
         return admin_url($url);
     }
 
+    #[Override]
     public function getMessage(): string
     {
         $lang = $this->subject->assignable instanceof Order
@@ -65,11 +75,13 @@ class AssigneeUpdatedNotification extends Notification
         );
     }
 
+    #[Override]
     public function getIcon(): ?string
     {
         return 'fa-clipboard-user';
     }
 
+    #[Override]
     public function getAlias(): string
     {
         return 'assignee-updated';

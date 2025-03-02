@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Jobs;
 
 use Igniter\Cart\Models\Order;
@@ -8,8 +10,9 @@ use Igniter\User\Models\AssignableLog;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Mockery;
+use stdClass;
 
-it('allocates assignable successfully when assignee is available', function() {
+it('allocates assignable successfully when assignee is available', function(): void {
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
     $userGroup = Mockery::mock(UserGroup::class)->makePartial();
     $assignee = Mockery::mock(User::class)->makePartial();
@@ -23,7 +26,7 @@ it('allocates assignable successfully when assignee is available', function() {
     (new AllocateAssignable($assignableLog))->handle();
 });
 
-it('does not allocate when assignee_id is already set', function() {
+it('does not allocate when assignee_id is already set', function(): void {
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
     $assignableLog->shouldReceive('extendableGet')->with('assignee_id')->andReturn(1);
     $assignableLog->shouldReceive('extendableGet')->with('assignee_group')->never();
@@ -31,16 +34,16 @@ it('does not allocate when assignee_id is already set', function() {
     (new AllocateAssignable($assignableLog))->handle();
 });
 
-it('does not allocate when assignable does not use Assignable trait', function() {
+it('does not allocate when assignable does not use Assignable trait', function(): void {
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
     $assignableLog->shouldReceive('extendableGet')->with('assignee_id')->andReturnNull();
-    $assignableLog->shouldReceive('extendableGet')->with('assignable')->andReturn(new \stdClass);
+    $assignableLog->shouldReceive('extendableGet')->with('assignable')->andReturn(new stdClass);
     $assignableLog->shouldReceive('extendableGet')->with('assignee_group')->never();
 
     (new AllocateAssignable($assignableLog))->handle();
 });
 
-it('does not allocate when assignee_group is not an instance of UserGroup', function() {
+it('does not allocate when assignee_group is not an instance of UserGroup', function(): void {
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
     $assignable = Mockery::mock(Order::class)->makePartial();
     $assignableLog->shouldReceive('extendableGet')->with('assignee_id')->andReturnNull();
@@ -50,7 +53,7 @@ it('does not allocate when assignee_group is not an instance of UserGroup', func
     (new AllocateAssignable($assignableLog))->handle();
 });
 
-it('retries allocation when no assignee is available and not last attempt', function() {
+it('retries allocation when no assignee is available and not last attempt', function(): void {
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
     $assignable = Mockery::mock(Order::class)->makePartial();
     $userGroup = Mockery::mock(UserGroup::class)->makePartial();
@@ -66,7 +69,7 @@ it('retries allocation when no assignee is available and not last attempt', func
     $job->handle();
 });
 
-it('deletes job when no assignee is available and last attempt', function() {
+it('deletes job when no assignee is available and last attempt', function(): void {
     $assignableLog = Mockery::mock(AssignableLog::class)->makePartial();
     $assignable = Mockery::mock(Order::class)->makePartial();
     $userGroup = Mockery::mock(UserGroup::class)->makePartial();

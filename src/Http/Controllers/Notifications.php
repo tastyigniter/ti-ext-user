@@ -1,19 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\User\Models\Notification;
+use Illuminate\Http\RedirectResponse;
+
 /**
- * @mixin \Igniter\Admin\Http\Actions\ListController
+ * @mixin ListController
  */
-class Notifications extends \Igniter\Admin\Classes\AdminController
+class Notifications extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
+        ListController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\User\Models\Notification::class,
+            'model' => Notification::class,
             'title' => 'lang:igniter.user::default.notifications.text_title',
             'emptyMessage' => 'lang:igniter.user::default.notifications.text_empty',
             'defaultSort' => ['updated_at', 'DESC'],
@@ -23,19 +30,19 @@ class Notifications extends \Igniter\Admin\Classes\AdminController
 
     protected null|string|array $requiredPermissions = 'Admin.Notifications';
 
-    public static function getSlug()
+    public static function getSlug(): string
     {
         return 'notifications';
     }
 
-    public function onMarkAsRead()
+    public function onMarkAsRead(): RedirectResponse
     {
         $this->currentUser->unreadNotifications()->update(['read_at' => now()]);
 
         return $this->redirectBack();
     }
 
-    public function listExtendQuery($query)
+    public function listExtendQuery($query): void
     {
         $query->whereNotifiable($this->currentUser);
     }

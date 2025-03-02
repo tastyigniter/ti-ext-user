@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Auth;
 
 use Igniter\User\Auth\UserGuard;
@@ -7,7 +9,7 @@ use Igniter\User\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Mockery;
 
-it('checks if user is logged in', function() {
+it('checks if user is logged in', function(): void {
     $guard = Mockery::mock(UserGuard::class)->makePartial();
     $guard->shouldReceive('check')->andReturn(true);
 
@@ -16,18 +18,16 @@ it('checks if user is logged in', function() {
     expect($result)->toBeTrue();
 });
 
-it('checks if user is super user', function() {
+it('checks if user is super user', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $guard = Mockery::mock(UserGuard::class)->makePartial();
     $user->shouldReceive('isSuperUser')->andReturn(true);
-    $guard->shouldReceive('user')->andReturn($user);
+    $guard->setUser($user);
 
-    $result = $guard->isSuperUser();
-
-    expect($result)->toBeTrue();
+    expect($guard->isSuperUser())->toBeTrue();
 });
 
-it('returns staff instance', function() {
+it('returns staff instance', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $guard = Mockery::mock(UserGuard::class)->makePartial();
     $guard->shouldReceive('user')->andReturn($user);
@@ -37,19 +37,17 @@ it('returns staff instance', function() {
     expect($result)->toBe($user);
 });
 
-it('returns user locations', function() {
+it('returns user locations', function(): void {
     $locations = Mockery::mock(Collection::class);
     $user = Mockery::mock(User::class)->makePartial();
     $guard = Mockery::mock(UserGuard::class)->makePartial();
-    $guard->shouldReceive('user')->andReturn($user);
+    $guard->setUser($user);
     $user->shouldReceive('getAttribute')->with('locations')->andReturn($locations);
 
-    $result = $guard->locations();
-
-    expect($result)->toBe($locations);
+    expect($guard->locations())->toBe($locations);
 });
 
-it('returns user id', function() {
+it('returns user id', function(): void {
     $guard = Mockery::mock(UserGuard::class)->makePartial();
     $guard->shouldReceive('id')->andReturn(1);
 
@@ -58,7 +56,7 @@ it('returns user id', function() {
     expect($result)->toBe(1);
 });
 
-it('returns user name', function() {
+it('returns user name', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->username = 'john_doe';
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -69,7 +67,7 @@ it('returns user name', function() {
     expect($result)->toBe('john_doe');
 });
 
-it('returns user email', function() {
+it('returns user email', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->email = 'john.doe@example.com';
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -80,7 +78,7 @@ it('returns user email', function() {
     expect($result)->toBe('john.doe@example.com');
 });
 
-it('returns staff name', function() {
+it('returns staff name', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->name = 'John Doe';
     $guard = Mockery::mock(UserGuard::class)->makePartial();
@@ -91,7 +89,7 @@ it('returns staff name', function() {
     expect($result)->toBe('John Doe');
 });
 
-it('returns staff email', function() {
+it('returns staff email', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->email = 'john.doe@example.com';
     $guard = Mockery::mock(UserGuard::class)->makePartial();

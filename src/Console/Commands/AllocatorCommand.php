@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Console\Commands;
 
 use Igniter\User\Jobs\AllocateAssignable;
@@ -17,7 +19,7 @@ class AllocatorCommand extends Command
      */
     public function handle(): void
     {
-        if (!$availableSlotCount = self::countAvailableSlot()) {
+        if (($availableSlotCount = self::countAvailableSlot()) === 0) {
             return;
         }
 
@@ -26,7 +28,7 @@ class AllocatorCommand extends Command
             ->each(fn($assignableLog) => AllocateAssignable::dispatch($assignableLog));
     }
 
-    public static function addSlot($slot)
+    public static function addSlot($slot): void
     {
         $slots = (array)params('allocator_slots', []);
         if (!is_array($slot)) {
@@ -40,7 +42,7 @@ class AllocatorCommand extends Command
         setting()->setPref('allocator_slots', $slots);
     }
 
-    public static function removeSlot($slot)
+    public static function removeSlot($slot): void
     {
         $slots = (array)params('allocator_slots', []);
 
@@ -49,7 +51,7 @@ class AllocatorCommand extends Command
         setting()->setPref('allocator_slots', $slots);
     }
 
-    protected static function countAvailableSlot()
+    protected static function countAvailableSlot(): int
     {
         $slotMaxCount = (int)params('allocator_slot_size', 10);
         $slotSize = count((array)params('allocator_slots', []));

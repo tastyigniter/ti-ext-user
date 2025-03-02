@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Requests;
 
+use Override;
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UserGroupRequest extends FormRequest
 {
+    #[Override]
     public function attributes()
     {
         return [
@@ -19,7 +23,7 @@ class UserGroupRequest extends FormRequest
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'user_group_name' => ['required', 'string', 'between:2,255',

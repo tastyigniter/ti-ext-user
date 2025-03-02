@@ -1,23 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Http\Controllers;
 
+use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\User\Models\UserRole;
+use Igniter\User\Http\Requests\UserRoleRequest;
 use Igniter\Admin\Facades\AdminMenu;
 
 /**
- * @mixin \Igniter\Admin\Http\Actions\ListController
- * @mixin \Igniter\Admin\Http\Actions\FormController
+ * @mixin ListController
+ * @mixin FormController
  */
-class UserRoles extends \Igniter\Admin\Classes\AdminController
+class UserRoles extends AdminController
 {
     public array $implement = [
-        \Igniter\Admin\Http\Actions\ListController::class,
-        \Igniter\Admin\Http\Actions\FormController::class,
+        ListController::class,
+        FormController::class,
     ];
 
     public array $listConfig = [
         'list' => [
-            'model' => \Igniter\User\Models\UserRole::class,
+            'model' => UserRole::class,
             'title' => 'lang:igniter.user::default.user_roles.text_title',
             'emptyMessage' => 'lang:igniter.user::default.user_roles.text_empty',
             'defaultSort' => ['user_role_id', 'DESC'],
@@ -28,8 +35,8 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
 
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.user_roles.text_form_name',
-        'model' => \Igniter\User\Models\UserRole::class,
-        'request' => \Igniter\User\Http\Requests\UserRoleRequest::class,
+        'model' => UserRole::class,
+        'request' => UserRoleRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
             'redirect' => 'user_roles/edit/{user_role_id}',
@@ -54,7 +61,7 @@ class UserRoles extends \Igniter\Admin\Classes\AdminController
 
     protected null|string|array $requiredPermissions = 'Admin.Staffs';
 
-    public static function getSlug()
+    public static function getSlug(): string
     {
         return 'user_roles';
     }

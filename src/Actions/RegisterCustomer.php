@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Actions;
 
 use Igniter\Flame\Exception\ApplicationException;
@@ -22,6 +24,7 @@ class RegisterCustomer
         $requireActivation = $customerGroup?->requiresApproval();
         $autoActivation = !$requireActivation;
 
+        /** @var Customer $customer */
         $customer = Auth::getProvider()->register($data, $autoActivation);
 
         Event::dispatch('igniter.user.register', [$customer, $data]);
@@ -39,6 +42,7 @@ class RegisterCustomer
             lang('igniter.user::default.reset.alert_activation_failed'),
         ));
 
+        /** @var Customer $customer */
         throw_unless($customer->completeActivation($code), new ApplicationException('User is already active!'));
 
         Auth::login($customer);

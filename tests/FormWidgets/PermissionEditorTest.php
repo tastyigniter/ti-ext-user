@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\FormWidgets;
 
 use Igniter\Admin\Classes\FormField;
@@ -9,19 +11,19 @@ use Igniter\System\Facades\Assets;
 use Igniter\User\FormWidgets\PermissionEditor;
 use Mockery;
 
-beforeEach(function() {
+beforeEach(function(): void {
     $this->model = Mockery::mock(Model::class)->makePartial();
     $this->formField = new FormField('testField', 'Label');
     $this->permissionEditor = new PermissionEditor(resolve(Menus::class), $this->formField, ['model' => $this->model]);
 });
 
-it('initializes with correct config', function() {
+it('initializes with correct config', function(): void {
     $this->permissionEditor->initialize();
 
     expect($this->permissionEditor->mode)->toBeNull();
 });
 
-it('renders the correct partial', function() {
+it('renders the correct partial', function(): void {
     $this->permissionEditor->initialize();
 
     $partial = $this->permissionEditor->render();
@@ -29,7 +31,7 @@ it('renders the correct partial', function() {
     expect($partial)->toBeString();
 });
 
-it('prepares variables correctly', function() {
+it('prepares variables correctly', function(): void {
     $this->permissionEditor->prepareVars();
 
     expect($this->permissionEditor->vars['groupedPermissions'])->toBeArray()
@@ -37,11 +39,9 @@ it('prepares variables correctly', function() {
         ->and($this->permissionEditor->vars['field'])->toBe($this->formField);
 });
 
-it('loads the correct assets', function() {
+it('loads the correct assets', function(): void {
     Assets::shouldReceive('addJs')
-        ->with(Mockery::on(function($url) {
-            return str_contains($url, 'permissioneditor.js');
-        }), 'permissioneditor-js')
+        ->with(Mockery::on(fn($url): bool => str_contains((string) $url, 'permissioneditor.js')), 'permissioneditor-js')
         ->once();
 
     $this->permissionEditor->loadAssets();

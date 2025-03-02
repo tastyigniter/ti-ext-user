@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\Flame\Exception\FlashException;
@@ -9,19 +11,19 @@ use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Http\RedirectResponse;
 use Mockery;
 
-it('loads customers page', function() {
+it('loads customers page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.customers'))
         ->assertOk();
 });
 
-it('loads create customer page', function() {
+it('loads create customer page', function(): void {
     actingAsSuperUser()
         ->get(route('igniter.user.customers', ['slug' => 'create']))
         ->assertOk();
 });
 
-it('loads edit customer page', function() {
+it('loads edit customer page', function(): void {
     $customer = Customer::factory()->create();
 
     actingAsSuperUser()
@@ -29,7 +31,7 @@ it('loads edit customer page', function() {
         ->assertOk();
 });
 
-it('loads customer preview page', function() {
+it('loads customer preview page', function(): void {
     $customer = Customer::factory()->create();
 
     actingAsSuperUser()
@@ -37,7 +39,7 @@ it('loads customer preview page', function() {
         ->assertOk();
 });
 
-it('creates customer', function() {
+it('creates customer', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.customers', ['slug' => 'create']), [
             'Customer' => [
@@ -56,7 +58,7 @@ it('creates customer', function() {
     expect(Customer::where('email', 'user@example.com')->where('first_name', 'John')->exists())->toBeTrue();
 });
 
-it('updates customer', function() {
+it('updates customer', function(): void {
     $customer = Customer::factory()->create(['is_activated' => false]);
 
     actingAsSuperUser()
@@ -77,7 +79,7 @@ it('updates customer', function() {
     expect(Customer::where('email', 'user@example.com')->where('first_name', 'John')->exists())->toBeTrue();
 });
 
-it('deletes customer', function() {
+it('deletes customer', function(): void {
     $customer = Customer::factory()->create();
 
     actingAsSuperUser()
@@ -89,7 +91,7 @@ it('deletes customer', function() {
     expect(Customer::find($customer->getKey()))->toBeNull();
 });
 
-it('bulk deletes customers', function() {
+it('bulk deletes customers', function(): void {
     $customer = Customer::factory()->count(5)->create();
     $customerIds = $customer->pluck('customer_id')->all();
 
@@ -104,7 +106,7 @@ it('bulk deletes customers', function() {
     expect(Customer::whereIn('customer_id', $customerIds)->exists())->toBeFalse();
 });
 
-it('throws exception when unauthorized to delete customer', function() {
+it('throws exception when unauthorized to delete customer', function(): void {
     $authGate = Mockery::mock(Gate::class);
     $authGate->shouldReceive('inspect')->with('Admin.DeleteCustomers')->andReturnSelf();
     $authGate->shouldReceive('allowed')->andReturnFalse();
@@ -116,7 +118,7 @@ it('throws exception when unauthorized to delete customer', function() {
     (new Customers)->index_onDelete();
 });
 
-it('impersonates customer successfully', function() {
+it('impersonates customer successfully', function(): void {
     $customer = Customer::factory()->create([
         'first_name' => 'John',
         'last_name' => 'Doe',
@@ -133,7 +135,7 @@ it('impersonates customer successfully', function() {
         ->message->toBe(sprintf(lang('igniter.user::default.customers.alert_impersonate_success'), 'John Doe'));
 });
 
-it('throws exception when unauthorized to impersonate customer', function() {
+it('throws exception when unauthorized to impersonate customer', function(): void {
     $customer = Customer::factory()->create([
         'first_name' => 'John',
         'last_name' => 'Doe',
@@ -149,7 +151,7 @@ it('throws exception when unauthorized to impersonate customer', function() {
     (new Customers)->onImpersonate('edit', $customer->getKey());
 });
 
-it('activates customer successfully', function() {
+it('activates customer successfully', function(): void {
     $customer = Customer::factory()->create(['is_activated' => false]);
 
     $response = (new Customers)->edit_onActivate('context', $customer->getKey());

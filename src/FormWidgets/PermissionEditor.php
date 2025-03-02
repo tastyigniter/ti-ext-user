@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\FormWidgets;
 
+use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\User\Classes\PermissionManager;
 
@@ -11,14 +14,16 @@ use Igniter\User\Classes\PermissionManager;
  */
 class PermissionEditor extends BaseFormWidget
 {
-    public function initialize()
+    #[Override]
+    public function initialize(): void
     {
         $this->fillFromConfig([
             'mode',
         ]);
     }
 
-    public function render()
+    #[Override]
+    public function render(): string
     {
         $this->prepareVars();
 
@@ -28,16 +33,15 @@ class PermissionEditor extends BaseFormWidget
     /**
      * Prepares the list data
      */
-    public function prepareVars()
+    public function prepareVars(): void
     {
         $this->vars['groupedPermissions'] = $this->listPermissions();
         $this->vars['checkedPermissions'] = (array)$this->formField->value;
         $this->vars['field'] = $this->formField;
-        $this->vars['tabs'] = $this->tabs;
-        $this->vars['actionCssClasses'] = $this->actionCssClasses;
     }
 
-    public function loadAssets()
+    #[Override]
+    public function loadAssets(): void
     {
         $this->addJs('permissioneditor.js', 'permissioneditor-js');
     }

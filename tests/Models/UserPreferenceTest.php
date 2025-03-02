@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Models;
 
+use ReflectionClass;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
@@ -10,7 +13,7 @@ use Mockery;
 
 function setCachePropertyValue(UserPreference $userPreference, array $value): void
 {
-    $reflection = new \ReflectionClass($userPreference);
+    $reflection = new ReflectionClass($userPreference);
     $property = $reflection->getProperty('cache');
     $property->setAccessible(true);
     $property->setValue($userPreference, $value);
@@ -18,14 +21,14 @@ function setCachePropertyValue(UserPreference $userPreference, array $value): vo
 
 function getCachePropertyValue(UserPreference $userPreference): array
 {
-    $reflection = new \ReflectionClass($userPreference);
+    $reflection = new ReflectionClass($userPreference);
     $property = $reflection->getProperty('cache');
     $property->setAccessible(true);
 
     return $property->getValue($userPreference);
 }
 
-it('returns default value if user is not set', function() {
+it('returns default value if user is not set', function(): void {
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
     $userPreference->userContext = null;
 
@@ -34,7 +37,7 @@ it('returns default value if user is not set', function() {
     expect($result)->toBe('default');
 });
 
-it('returns cached value if available', function() {
+it('returns cached value if available', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->user_id = 1;
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
@@ -46,7 +49,7 @@ it('returns cached value if available', function() {
     expect($result)->toBe('dark');
 });
 
-it('returns value from database if not cached', function() {
+it('returns value from database if not cached', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->user_id = 1;
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
@@ -59,14 +62,14 @@ it('returns value from database if not cached', function() {
     expect($result)->toBe('dark');
 });
 
-it('sets returns default when no user', function() {
+it('sets returns default when no user', function(): void {
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
     $userPreference->userContext = null;
 
     expect($userPreference->set('theme', 'dark'))->toBeFalse();
 });
 
-it('sets and caches the value', function() {
+it('sets and caches the value', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->user_id = 1;
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
@@ -80,14 +83,14 @@ it('sets and caches the value', function() {
     expect($result)->toBeTrue()->and($userPreferenceCache['1-theme'])->toBe('dark');
 });
 
-it('resets returns false when no user', function() {
+it('resets returns false when no user', function(): void {
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
     $userPreference->userContext = null;
 
     expect($userPreference->reset('theme'))->toBeFalse();
 });
 
-it('resets returns false when no record', function() {
+it('resets returns false when no record', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->user_id = 1;
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
@@ -97,7 +100,7 @@ it('resets returns false when no record', function() {
     expect($userPreference->reset('theme'))->toBeFalse();
 });
 
-it('resets the value and removes from cache', function() {
+it('resets the value and removes from cache', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->user_id = 1;
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
@@ -112,7 +115,7 @@ it('resets the value and removes from cache', function() {
         ->and(array_key_exists('1-theme', $userPreferenceCache))->toBeFalse();
 });
 
-it('returns user if logged in', function() {
+it('returns user if logged in', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     AdminAuth::shouldReceive('getUser')->andReturn($user);
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
@@ -122,7 +125,7 @@ it('returns user if logged in', function() {
     expect($result)->toBe($user);
 });
 
-it('throws exception if user is not logged in', function() {
+it('throws exception if user is not logged in', function(): void {
     AdminAuth::shouldReceive('getUser')->andReturn(null);
     $userPreference = Mockery::mock(UserPreference::class)->makePartial();
 

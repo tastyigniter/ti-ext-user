@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\CustomerRequest;
 
-it('returns correct attribute labels for customer', function() {
+it('returns correct attribute labels for customer', function(): void {
     $attributes = (new CustomerRequest)->attributes();
 
     expect($attributes['first_name'])->toBe(lang('igniter.user::default.customers.label_first_name'))
@@ -23,7 +25,7 @@ it('returns correct attribute labels for customer', function() {
         ->and($attributes['confirm_password'])->toBe(lang('igniter.user::default.customers.label_confirm_password'));
 });
 
-it('validates rules correctly for customer', function() {
+it('validates rules correctly for customer', function(): void {
     $rules = (new CustomerRequest)->rules();
 
     expect($rules['first_name'])->toBe(['required', 'string', 'between:1,48'])
