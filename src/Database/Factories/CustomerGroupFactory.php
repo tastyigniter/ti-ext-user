@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\User\Database\Factories;
 
+use Igniter\Flame\Database\Factories\Factory;
 use Igniter\User\Models\CustomerGroup;
 use Override;
-use Igniter\Flame\Database\Factories\Factory;
 
 class CustomerGroupFactory extends Factory
 {

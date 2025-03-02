@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\User\AutomationRules\Events;
 
-use Override;
 use Igniter\Automation\Classes\BaseEvent;
+use Override;
 
 class CustomerRegistered extends BaseEvent
 {

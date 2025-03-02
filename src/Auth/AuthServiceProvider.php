@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Igniter\User\Auth;
 
-use Override;
-use Igniter\User\Facades\AdminAuth;
 use Igniter\Flame\Support\Facades\Igniter;
+use Igniter\User\Facades\AdminAuth;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
 class AuthServiceProvider extends ServiceProvider
 {

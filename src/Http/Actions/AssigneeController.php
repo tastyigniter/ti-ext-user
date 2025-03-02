@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\User\Http\Actions;
 
-use Igniter\Admin\Http\Actions\ListController;
-use Igniter\Admin\Http\Actions\FormController;
 use Exception;
 use Igniter\Admin\Classes\AdminController;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
 use Igniter\Admin\Widgets\Form;
 use Igniter\Admin\Widgets\Toolbar;
 use Igniter\System\Classes\ControllerAction;

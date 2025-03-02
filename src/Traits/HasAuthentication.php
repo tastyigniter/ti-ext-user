@@ -13,7 +13,7 @@ use Illuminate\Contracts\Auth\Access\Gate;
  */
 trait HasAuthentication
 {
-    protected null|User $currentUser;
+    protected ?User $currentUser;
 
     public function checkUser()
     {

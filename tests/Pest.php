@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-use SamPoyigi\Testbench\TestCase;
-
 use Igniter\User\Models\User;
 use Illuminate\Http\Request;
+use SamPoyigi\Testbench\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 

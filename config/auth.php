@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Igniter\User\Models\User;
 use Igniter\User\Models\Customer;
+use Igniter\User\Models\User;
 
 return [
 

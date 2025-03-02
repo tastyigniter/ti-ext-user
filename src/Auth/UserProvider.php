@@ -17,13 +17,13 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
     public function __construct(protected $config = null) {}
 
     #[Override]
-    public function retrieveById($identifier): User|null
+    public function retrieveById($identifier): ?User
     {
         return $this->createModelQuery()->find($identifier);
     }
 
     #[Override]
-    public function retrieveByToken($identifier, $token): User|null
+    public function retrieveByToken($identifier, $token): ?User
     {
         $query = $this->createModelQuery();
         $model = $query->getModel();
@@ -50,7 +50,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
     }
 
     #[Override]
-    public function retrieveByCredentials(array $credentials): User|null
+    public function retrieveByCredentials(array $credentials): ?User
     {
         $query = $this->createModelQuery();
 

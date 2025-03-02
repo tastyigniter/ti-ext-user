@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\User\Database\Factories;
 
-use Igniter\User\Models\User;
-use Override;
 use DateTimeInterface;
 use Igniter\Flame\Database\Factories\Factory;
+use Igniter\User\Models\User;
+use Override;
 
 class UserFactory extends Factory
 {

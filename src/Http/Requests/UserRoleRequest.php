@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\User\Http\Requests;
 
-use Override;
 use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;
+use Override;
 
 class UserRoleRequest extends FormRequest
 {

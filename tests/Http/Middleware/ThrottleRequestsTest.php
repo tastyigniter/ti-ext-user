@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Http\Middleware;
 
-use stdClass;
 use Igniter\User\Http\Middleware\ThrottleRequests;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
@@ -12,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Event;
 use Mockery;
+use stdClass;
 
 beforeEach(function(): void {
     $this->rateLimiter = Mockery::mock(RateLimiter::class);

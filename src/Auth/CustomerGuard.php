@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\User\Auth;
 
-use Illuminate\Auth\SessionGuard;
 use Igniter\User\Models\Customer;
+use Illuminate\Auth\SessionGuard;
 
 /**
  * Customer Class

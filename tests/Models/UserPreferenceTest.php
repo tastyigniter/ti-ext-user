@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Models;
 
-use ReflectionClass;
 use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserPreference;
 use Mockery;
+use ReflectionClass;
 
 function setCachePropertyValue(UserPreference $userPreference, array $value): void
 {

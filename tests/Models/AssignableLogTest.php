@@ -83,7 +83,7 @@ it('applies round robin scope with correct order', function(): void {
     expect($result->toSql())
         ->toContain('`assignee_id`, MAX(created_at) as assign_value')
         ->toContain('from `assignable_logs` where `status_id` in (?, ?, ?) and `assignee_id` is not null')
-        ->toContain("group by `assignee_id` order by `assign_value` asc");
+        ->toContain('group by `assignee_id` order by `assign_value` asc');
 });
 
 it('applies load balanced scope with correct limit', function(): void {

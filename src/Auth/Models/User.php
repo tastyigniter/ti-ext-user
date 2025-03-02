@@ -167,6 +167,7 @@ abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenti
         if ($expiration > 0 && Carbon::now()->gte($this->reset_time->addMinutes($expiration))) {
             // Reset password request has expired, so clear code.
             $this->clearResetPasswordCode();
+
             return false;
         }
 

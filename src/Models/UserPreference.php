@@ -33,7 +33,7 @@ class UserPreference extends Model
     ];
 
     /** A user who owns the preferences */
-    public null|User $userContext = null;
+    public ?User $userContext = null;
 
     protected static $cache = [];
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\User\AutomationRules\Conditions;
 
-use Igniter\User\Models\Customer;
-use Override;
 use Igniter\Automation\AutomationException;
 use Igniter\Automation\Classes\BaseModelAttributesCondition;
+use Igniter\User\Models\Customer;
+use Override;
 
 class CustomerAttribute extends BaseModelAttributesCondition
 {

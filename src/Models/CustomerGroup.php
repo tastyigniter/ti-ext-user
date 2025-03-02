@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Igniter\User\Models;
 
-use Illuminate\Support\Carbon;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\Flame\Database\Relations\HasMany;
 use Igniter\System\Models\Concerns\Defaultable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 
 /**
  * CustomerGroup Model Class

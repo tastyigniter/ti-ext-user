@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Models\Concerns;
 
-use LogicException;
 use Igniter\System\Mail\AnonymousTemplateMailable;
 use Igniter\User\Models\Concerns\SendsInvite;
 use Igniter\User\Models\User;
 use Illuminate\Support\Facades\Mail;
+use LogicException;
 use Mockery;
 
 it('adds send_invite to purgeable attributes on boot', function(): void {

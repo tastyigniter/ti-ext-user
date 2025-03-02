@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Igniter\User\Facades;
 
-use Override;
+use Igniter\User\Auth\UserGuard;
+use Igniter\User\Auth\UserProvider;
 use Igniter\User\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Collection;
-use Symfony\Component\HttpFoundation\Response;
-use Igniter\User\Auth\UserGuard;
 use Illuminate\Contracts\Cookie\QueueingFactory;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Session\Session;
-use Symfony\Component\HttpFoundation\Request;
-use Illuminate\Support\Timebox;
-use Igniter\User\Auth\UserProvider;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Timebox;
+use Override;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method static bool isLogged()

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\User\Http\Middleware;
 
-use Override;
-use stdClass;
 use Closure;
 use Illuminate\Support\Facades\Event;
+use Override;
+use stdClass;
 
 class ThrottleRequests extends \Illuminate\Routing\Middleware\ThrottleRequests
 {

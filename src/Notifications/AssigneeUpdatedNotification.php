@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Igniter\User\Notifications;
 
-use Override;
 use Igniter\Cart\Models\Order;
 use Igniter\User\Classes\Notification;
 use Igniter\User\Facades\AdminAuth;
+use Override;
 
 /**
  * AssigneeUpdatedNotification

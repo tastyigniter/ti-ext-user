@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Igniter\User\Http\Controllers;
 
 use Igniter\Admin\Classes\AdminController;
-use Igniter\Admin\Http\Actions\ListController;
-use Igniter\Admin\Http\Actions\FormController;
-use Igniter\User\Http\Requests\UserGroupRequest;
 use Igniter\Admin\Facades\AdminMenu;
+use Igniter\Admin\Http\Actions\FormController;
+use Igniter\Admin\Http\Actions\ListController;
+use Igniter\User\Http\Requests\UserGroupRequest;
 use Igniter\User\Models\UserGroup;
 
 /**

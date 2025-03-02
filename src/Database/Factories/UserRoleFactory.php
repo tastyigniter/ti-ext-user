@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\User\Database\Factories;
 
+use Igniter\Flame\Database\Factories\Factory;
 use Igniter\User\Models\UserRole;
 use Override;
-use Igniter\Flame\Database\Factories\Factory;
 
 class UserRoleFactory extends Factory
 {

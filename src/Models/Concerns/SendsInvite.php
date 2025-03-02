@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\User\Models\Concerns;
 
-use LogicException;
 use Igniter\Flame\Database\Traits\Purgeable;
+use LogicException;
 
 trait SendsInvite
 {

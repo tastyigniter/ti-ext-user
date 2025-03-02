@@ -232,6 +232,7 @@ class Customer extends AuthUserModel
         }
 
         $this->addresses()->whereNotIn('address_id', $idsToKeep)->delete();
+
         return null;
     }
 

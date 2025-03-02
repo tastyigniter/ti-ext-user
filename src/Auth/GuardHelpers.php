@@ -23,17 +23,17 @@ trait GuardHelpers
         $user->afterLogin();
     }
 
-    public function getById(int|string $identifier): null|User
+    public function getById(int|string $identifier): ?User
     {
         return $this->getProvider()->retrieveById($identifier);
     }
 
-    public function getByToken(int|string $identifier, string $token): User|null
+    public function getByToken(int|string $identifier, string $token): ?User
     {
         return $this->getProvider()->retrieveByToken($identifier, $token);
     }
 
-    public function getByCredentials(array $credentials): User|null
+    public function getByCredentials(array $credentials): ?User
     {
         return $this->getProvider()->retrieveByCredentials($credentials);
     }
@@ -86,7 +86,7 @@ trait GuardHelpers
         return $this->session->has($this->getName().'_impersonate');
     }
 
-    public function getImpersonator(): null|User
+    public function getImpersonator(): ?User
     {
         // Check supplied session/cookie is an array (user id, persist code)
         if (!$userId = $this->session->get($this->getName().'_impersonate')) {

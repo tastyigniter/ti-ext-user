@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Igniter\User\Http\Controllers;
 
 use Igniter\Admin\Classes\AdminController;
-use Illuminate\Http\RedirectResponse;
 use Igniter\User\Facades\AdminAuth;
+use Illuminate\Http\RedirectResponse;
 
 class Logout extends AdminController
 {

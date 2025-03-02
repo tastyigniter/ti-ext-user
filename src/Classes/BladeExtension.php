@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Igniter\User\Classes;
 
-use Igniter\User\Facades\Auth;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 
 class BladeExtension
@@ -20,12 +20,12 @@ class BladeExtension
 
     public function compilesMainAuth($expression): string
     {
-        return '<?php if(' . Auth::class . '::check()): ?>';
+        return '<?php if('.Auth::class.'::check()): ?>';
     }
 
     public function compilesAdminAuth($expression): string
     {
-        return '<?php if(' . AdminAuth::class . '::check()): ?>';
+        return '<?php if('.AdminAuth::class.'::check()): ?>';
     }
 
     public function compilesEndMainAuth(): string

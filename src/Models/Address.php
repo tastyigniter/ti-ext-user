@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Igniter\User\Models;
 
-use Igniter\System\Models\Country;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Igniter\System\Models\Concerns\HasCountry;
+use Igniter\System\Models\Country;
 use Igniter\User\Models\Concerns\HasCustomer;
 use Illuminate\Pagination\LengthAwarePaginator;
 

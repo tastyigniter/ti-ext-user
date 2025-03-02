@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\User\FormWidgets;
 
-use Override;
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\User\Classes\PermissionManager;
+use Override;
 
 /**
  * User group permission editor

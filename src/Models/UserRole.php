@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\User\Models;
 
-use Illuminate\Support\Carbon;
 use Igniter\Flame\Database\Builder;
 use Igniter\Flame\Database\Casts\Serialize;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 use InvalidArgumentException;
 
 /**

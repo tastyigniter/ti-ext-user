@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Igniter\User\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 
 class Login extends AdminController

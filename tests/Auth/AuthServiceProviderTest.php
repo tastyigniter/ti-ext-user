@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Auth;
 
-use Igniter\User\Models\User;
 use Igniter\User\Auth\AuthServiceProvider;
 use Igniter\User\Models\Customer;
+use Igniter\User\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Gate;
 use Mockery;
