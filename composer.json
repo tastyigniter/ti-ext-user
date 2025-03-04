@@ -1,6 +1,6 @@
 {
   "name": "tastyigniter/ti-ext-user",
-  "type": "tastyigniter-extension",
+  "type": "tastyigniter-package",
   "description": "Management of front-end users (customers) on TastyIgniter.",
   "license": "MIT",
   "authors": [
@@ -9,6 +9,27 @@
       "email": "sam@sampoyigi.com"
     }
   ],
+  "require": {
+    "spatie/laravel-activitylog": "^4.8",
+    "tastyigniter/core": "^v4.0"
+  },
+  "require-dev": {
+    "larastan/larastan": "^2.4",
+    "laravel/pint": "^1.2",
+    "pestphp/pest-plugin-laravel": "^3.0",
+    "rector/rector": "^1.2",
+    "sampoyigi/testbench": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Igniter\\User\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Igniter\\User\\Tests\\": "tests/"
+    }
+  },
   "extra": {
     "tastyigniter-extension": {
       "code": "igniter.user",
@@ -20,5 +41,26 @@
       },
       "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/pest --compact",
+    "test-coverage": "vendor/bin/pest --coverage --exactly=100 --compact",
+    "type-coverage": "vendor/bin/pest --type-coverage --min=100",
+    "format": "vendor/bin/pint",
+    "refactor": "vendor/bin/rector process --dry-run",
+    "static": "vendor/bin/phpstan analyse --ansi --memory-limit 1056M",
+    "test-suite": [
+      "@refactor",
+      "@static",
+      "@test-coverage"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "php-http/discovery": true,
+      "composer/installers": true
+    },
+    "sort-packages": true
   }
 }
