@@ -292,7 +292,7 @@ class Extension extends BaseExtension
             $kernel->appendMiddlewareToGroup('web', ThrottleRequests::class);
         });
 
-        Event::listen('igniter.user.beforeThrottleRequest', function($request, $params): void {
+        Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) {
             $handler = str_after($request->header('x-igniter-request-handler'), '::');
             if (in_array($handler, [
                 'onLogin',
