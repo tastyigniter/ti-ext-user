@@ -288,8 +288,9 @@ class Extension extends BaseExtension
             return;
         }
 
-        $this->app->make(Kernel::class)
-            ->appendMiddlewareToGroup('web', ThrottleRequests::class);
+        $this->app->afterResolving(Kernel::class, function(Kernel $kernel) {
+            $kernel->appendMiddlewareToGroup('web', ThrottleRequests::class);
+        });
 
         Event::listen('igniter.user.beforeThrottleRequest', function($request, $params) {
             $handler = str_after($request->header('x-igniter-request-handler'), '::');
