@@ -1,3 +1,9 @@
+---
+title: "User"
+section: "extensions"
+sortOrder: 110
+---
+
 ## Installation
 
 You can install the extension via composer using the following command:
