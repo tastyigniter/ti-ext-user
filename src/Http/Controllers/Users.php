@@ -64,7 +64,7 @@ class Users extends AdminController
     ];
 
     public array $locationConfig = [
-        'addAbsenceConstraint' => false,
+        'addAbsenceConstraint' => true,
     ];
 
     protected null|string|array $requiredPermissions = 'Admin.Staffs';

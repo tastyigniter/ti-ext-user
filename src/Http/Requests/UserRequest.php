@@ -50,8 +50,8 @@ class UserRequest extends FormRequest
             'locations.*' => ['integer'],
         ];
 
-        if(!request()->send_invite) {
-            $rules['password'] = ['required', 'string', 'between:6,32', 'confirmed:password_confirm'];
+        if(!post('User[send_invite]')) {
+            $rules['password'] = ['required', 'string', 'between:6,32', 'same:password_confirm'];
         }
 
         return $rules;
