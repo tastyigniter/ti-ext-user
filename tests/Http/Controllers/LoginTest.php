@@ -91,7 +91,8 @@ it('fails to reset password with invalid code', function(): void {
 it('logs in successfully with valid credentials', function(): void {
     $data = ['email' => 'test@example.com', 'password' => 'password'];
     request()->request->add($data);
-    AdminAuth::shouldReceive('attempt')->with($data, true)->andReturn(true);
+    AdminAuth::shouldReceive('check')->andReturnFalse();
+    AdminAuth::shouldReceive('attempt')->with($data, true)->andReturnTrue();
 
     $response = (new Login)->onLogin();
 

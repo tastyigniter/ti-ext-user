@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Session;
 it('fires beforeAuthenticate event with correct parameters', function(): void {
     Event::fake();
     $credentials = ['email' => 'user@example.com', 'password' => 'password'];
-    Auth::shouldReceive('attempt')->andReturn(true);
+    Auth::shouldReceive('check')->andReturnFalse();
+    Auth::shouldReceive('attempt')->andReturnTrue();
     Session::shouldReceive('regenerate')->once();
 
     $loginUser = new LoginCustomer($credentials);
@@ -26,6 +27,7 @@ it('fires beforeAuthenticate event with correct parameters', function(): void {
 
 it('throws FlashException when authentication fails', function(): void {
     $credentials = ['email' => 'user@example.com', 'password' => 'wrongpassword'];
+    Auth::shouldReceive('check')->andReturnFalse();
     Auth::shouldReceive('attempt')->andReturn(false);
 
     expect(fn() => (new LoginCustomer($credentials))->handle())->toThrow(FlashException::class);

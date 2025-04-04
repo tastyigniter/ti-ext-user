@@ -17,7 +17,7 @@ class LoginCustomer
     {
         Event::dispatch('igniter.user.beforeAuthenticate', [$this, $this->credentials]);
 
-        if (!Auth::attempt($this->credentials, $this->remember)) {
+        if (!Auth::check() && !Auth::attempt($this->credentials, $this->remember)) {
             throw new FlashException(lang('igniter.user::default.login.alert_invalid_login'));
         }
 

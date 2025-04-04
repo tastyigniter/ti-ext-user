@@ -8,8 +8,10 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\User\Facades\AdminAuth;
+use Igniter\User\Facades\Auth;
 use Igniter\User\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Validation\ValidationException;
 
 class Login extends AdminController
@@ -70,7 +72,9 @@ class Login extends AdminController
             'password' => lang('igniter::admin.login.label_password'),
         ]);
 
-        if (!AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
+        Event::dispatch('igniter.admin.beforeAuthenticate', [$data]);
+
+        if (!Auth::check() && !AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
             throw ValidationException::withMessages(['email' => lang('igniter::admin.login.alert_login_failed')]);
         }
 
