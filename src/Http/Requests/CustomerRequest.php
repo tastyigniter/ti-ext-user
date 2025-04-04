@@ -8,6 +8,9 @@ use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;
 use Override;
 
+/**
+ * @property null|string $send_invite
+ */
 class CustomerRequest extends FormRequest
 {
     #[Override]

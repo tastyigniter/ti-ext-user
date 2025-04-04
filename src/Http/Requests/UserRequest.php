@@ -9,6 +9,9 @@ use Igniter\User\Facades\AdminAuth;
 use Illuminate\Validation\Rule;
 use Override;
 
+/**
+ * @property null|string $send_invite
+ */
 class UserRequest extends FormRequest
 {
     #[Override]
