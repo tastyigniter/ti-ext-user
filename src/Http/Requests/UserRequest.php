@@ -40,6 +40,8 @@ class UserRequest extends FormRequest
             'username' => ['required', 'alpha_dash', 'between:2,32',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
+            'send_invite' => ['nullable', 'boolean'],
+            'password' => ['nullable', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
             'status' => ['boolean'],
             'super_user' => ['boolean'],
             'language_id' => ['nullable', 'integer'],
@@ -50,8 +52,8 @@ class UserRequest extends FormRequest
             'locations.*' => ['integer'],
         ];
 
-        if(!post('User[send_invite]')) {
-            $rules['password'] = ['required', 'string', 'between:6,32', 'same:password_confirm'];
+        if ($this->send_invite) {
+            unset($rules['password']);
         }
 
         return $rules;
