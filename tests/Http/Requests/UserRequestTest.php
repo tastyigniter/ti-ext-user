@@ -44,7 +44,7 @@ it('has correct validation rules', function(): void {
 });
 
 it('has correct validation rules when send_invite is true', function(): void {
-    $request = new UserRequest();
+    $request = new UserRequest;
     $request->merge(['send_invite' => true]);
 
     expect($request->rules())->not->toHaveKey('password');
