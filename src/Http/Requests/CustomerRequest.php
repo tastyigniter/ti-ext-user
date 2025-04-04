@@ -8,6 +8,9 @@ use Igniter\System\Classes\FormRequest;
 use Illuminate\Validation\Rule;
 use Override;
 
+/**
+ * @property null|string $send_invite
+ */
 class CustomerRequest extends FormRequest
 {
     #[Override]
@@ -33,10 +36,11 @@ class CustomerRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'first_name' => ['required', 'string', 'between:1,48'],
             'last_name' => ['required', 'string', 'between:1,48'],
             'email' => ['required', 'email:filter', 'max:96', Rule::unique('customers')->ignore($this->getRecordId(), 'customer_id')],
+            'send_invite' => ['nullable', 'boolean'],
             'password' => ['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:confirm_password'],
             'telephone' => ['nullable', 'string'],
             'newsletter' => ['nullable', 'required', 'boolean'],
@@ -49,5 +53,11 @@ class CustomerRequest extends FormRequest
             'addresses.*.state' => ['nullable', 'string', 'max:255'],
             'addresses.*.postcode' => ['nullable', 'string'],
         ];
+
+        if ($this->send_invite) {
+            unset($rules['password']);
+        }
+
+        return $rules;
     }
 }
