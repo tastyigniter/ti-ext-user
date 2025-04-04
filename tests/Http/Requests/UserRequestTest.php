@@ -31,6 +31,7 @@ it('has correct validation rules', function(): void {
         ->and($rules['email'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
         ->and($rules['username'])->toContain('required', 'alpha_dash', 'between:2,32')
         ->and($rules['username'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
+        ->and($rules['send_invite'])->toBe(['nullable', 'boolean'])
         ->and($rules['password'])->toBe(['nullable', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'])
         ->and($rules['status'])->toBe(['boolean'])
         ->and($rules['super_user'])->toBe(['boolean'])
@@ -40,4 +41,11 @@ it('has correct validation rules', function(): void {
         ->and($rules['locations'])->toBe(['nullable', 'array'])
         ->and($rules['groups.*'])->toBe(['integer'])
         ->and($rules['locations.*'])->toBe(['integer']);
+});
+
+it('has correct validation rules when send_invite is true', function(): void {
+    $request = new UserRequest();
+    $request->merge(['send_invite' => true]);
+
+    expect($request->rules())->not->toHaveKey('password');
 });
