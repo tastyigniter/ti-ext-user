@@ -67,6 +67,5 @@
             "@test:static",
             "@test:coverage"
         ]
-    },
-    "version": "4.0.x-dev"
+    }
 }
