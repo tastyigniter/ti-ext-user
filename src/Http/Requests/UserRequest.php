@@ -9,6 +9,9 @@ use Igniter\User\Facades\AdminAuth;
 use Illuminate\Validation\Rule;
 use Override;
 
+/**
+ * @property null|string $send_invite
+ */
 class UserRequest extends FormRequest
 {
     #[Override]
@@ -32,7 +35,7 @@ class UserRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'between:2,255'],
             'email' => ['required', 'max:96', 'email:filter',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
@@ -40,6 +43,7 @@ class UserRequest extends FormRequest
             'username' => ['required', 'alpha_dash', 'between:2,32',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
+            'send_invite' => ['nullable', 'boolean'],
             'password' => ['nullable', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
             'status' => ['boolean'],
             'super_user' => ['boolean'],
@@ -50,6 +54,12 @@ class UserRequest extends FormRequest
             'groups.*' => ['integer'],
             'locations.*' => ['integer'],
         ];
+
+        if ($this->send_invite) {
+            unset($rules['password']);
+        }
+
+        return $rules;
     }
 
     #[Override]

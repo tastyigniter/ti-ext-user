@@ -32,6 +32,7 @@ it('validates rules correctly for customer', function(): void {
         ->and($rules['last_name'])->toBe(['required', 'string', 'between:1,48'])
         ->and($rules['email'])->toContain('required', 'email:filter', 'max:96')
         ->and($rules['email'][3]->__toString())->toBe('unique:customers,NULL,NULL,customer_id')
+        ->and($rules['send_invite'])->toBe(['nullable', 'boolean'])
         ->and($rules['password'])->toBe(['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:confirm_password'])
         ->and($rules['telephone'])->toBe(['nullable', 'string'])
         ->and($rules['newsletter'])->toBe(['nullable', 'required', 'boolean'])
@@ -43,4 +44,11 @@ it('validates rules correctly for customer', function(): void {
         ->and($rules['addresses.*.city'])->toBe(['nullable', 'string', 'min:2', 'max:255'])
         ->and($rules['addresses.*.state'])->toBe(['nullable', 'string', 'max:255'])
         ->and($rules['addresses.*.postcode'])->toBe(['nullable', 'string']);
+});
+
+it('has correct validation rules when send_invite is true', function(): void {
+    $request = new CustomerRequest;
+    $request->merge(['send_invite' => true]);
+
+    expect($request->rules())->not->toHaveKey('password');
 });
