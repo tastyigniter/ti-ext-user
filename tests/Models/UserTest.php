@@ -381,7 +381,7 @@ it('configures user model correctly', function(): void {
         ->and($user->getTable())->toBe('admin_users')
         ->and($user->getKeyName())->toBe('user_id')
         ->and($user->timestamps)->toBeTrue()
-        ->and($user->getFillable())->toBe(['username', 'super_user'])
+        ->and($user->getGuarded())->toBe(['reset_code', 'activation_code', 'remember_token'])
         ->and($user->getAppends())->toBe(['full_name'])
         ->and($user->getHidden())->toBe(['password', 'remember_token'])
         ->and($user->getCasts()['password'])->toBe('hashed')
