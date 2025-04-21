@@ -79,7 +79,7 @@ class CustomerGroup extends Model
         return $this->approval == 1;
     }
 
-    public function defaultableName()
+    public function defaultableName(): string
     {
         return $this->group_name;
     }

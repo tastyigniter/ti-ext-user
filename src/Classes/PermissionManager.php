@@ -61,7 +61,7 @@ class PermissionManager
         $grouped = [];
 
         foreach ($this->listPermissions() as $permission) {
-            $group = strtolower(strlen($permission->group) !== 0 ? $permission->group : 'Undefined group');
+            $group = strtolower(strlen((string) $permission->group) !== 0 ? $permission->group : 'Undefined group');
 
             $permission->group ??= $group;
 

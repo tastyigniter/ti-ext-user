@@ -342,7 +342,7 @@ class Customer extends AuthUserModel
         $this->mailSend('igniter.user::mail.activation', 'customer', $data);
     }
 
-    public function mailGetRecipients($type)
+    public function mailGetRecipients($type): array
     {
         return match ($type) {
             'customer' => [
