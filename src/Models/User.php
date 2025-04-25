@@ -146,7 +146,7 @@ class User extends AuthUserModel
 
     public function getAvatarUrlAttribute(): string
     {
-        return '//www.gravatar.com/avatar/'.md5(strtolower(trim($this->email))).'.png?d=mm';
+        return '//www.gravatar.com/avatar/'.md5(strtolower(trim((string) $this->email))).'.png?d=mm';
     }
 
     public function getSalePermissionAttribute($value)
@@ -251,7 +251,7 @@ class User extends AuthUserModel
     // Location
     //
 
-    public function mailGetRecipients($type)
+    public function mailGetRecipients($type): array
     {
         return match ($type) {
             'staff' => [

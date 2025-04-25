@@ -20,10 +20,14 @@ class RouteRegistrar
             ->domain(config('igniter-routes.adminDomain'))
             ->prefix(Igniter::adminUri())
             ->group(function(Router $router): void {
-                $router->any('/', [Login::class, 'index'])->name('igniter.admin');
-                $router->any('/login', [Login::class, 'index'])->name('igniter.admin.login');
-                $router->any('/login/reset/{slug?}', [Login::class, 'reset'])->name('igniter.admin.reset');
-                $router->any('/logout', [Logout::class, 'index'])->name('igniter.admin.logout');
+                $router->controller(Login::class)->group(function(Router $router): void {
+                    $router->any('/', 'index')->name('igniter.admin');
+                    $router->any('/login', 'index')->name('igniter.admin.login');
+                    $router->any('/login/reset/{slug?}', 'reset')->name('igniter.admin.reset');
+                });
+                $router->controller(Logout::class)->group(function(Router $router): void {
+                    $router->any('/logout', 'index')->name('igniter.admin.logout');
+                });
             });
     }
 }
