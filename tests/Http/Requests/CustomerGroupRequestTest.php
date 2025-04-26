@@ -19,5 +19,5 @@ it('validates rules correctly for customer group', function(): void {
     expect($rules['group_name'])->toContain('required', 'string', 'between:2,32')
         ->and($rules['group_name'][3]->__toString())->toBe('unique:customer_groups,NULL,NULL,customer_group_id')
         ->and($rules['approval'])->toBe(['required', 'boolean'])
-        ->and($rules['description'])->toBe(['string', 'between:2,512']);
+        ->and($rules['description'])->toBe(['nullable', 'string', 'between:2,512']);
 });

@@ -277,7 +277,7 @@ return [
 
         'alert_set_default' => 'Customer group set as default',
 
-        'help_approval' => 'New customers must be approved before they can login.',
+        'help_approval' => 'Set whether new customers must be approved before they can login. An email will be sent to the customer with a link to confirm their account.',
     ],
 
     'customers' => [
