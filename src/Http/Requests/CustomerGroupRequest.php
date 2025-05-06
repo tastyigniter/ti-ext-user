@@ -11,7 +11,7 @@ use Override;
 class CustomerGroupRequest extends FormRequest
 {
     #[Override]
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'group_name' => lang('igniter::admin.label_name'),

@@ -10,7 +10,7 @@ use Override;
 class UserSettingsRequest extends FormRequest
 {
     #[Override]
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'allow_registration' => lang('igniter::system.settings.label_allow_registration'),

@@ -25,6 +25,7 @@ use InvalidArgumentException;
  * @property-read mixed $staff_count
  * @property-read Collection<int, User> $users
  * @method static Builder<static>|User query()
+ * @method static UserRole first()
  * @method static Builder<static>|CustomerGroup dropdown(string $column, string $key = null)
  * @mixin Model
  */

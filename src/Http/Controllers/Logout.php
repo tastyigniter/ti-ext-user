@@ -26,7 +26,7 @@ class Logout extends AdminController
             session()->regenerateToken();
         }
 
-        flash()->success(lang('igniter::admin.login.alert_success_logout'));
+        flash()->success(lang('igniter.user::default.login.alert_success_logout'));
 
         return $this->redirect('login');
     }

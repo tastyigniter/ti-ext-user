@@ -84,8 +84,24 @@ return [
     'help_registration_email' => 'Send a confirmation mail to the customer and/or admin email after successfully account registration',
 
     'login' => [
+        'text_title' => 'Login',
+        'text_create_super_admin_title' => 'Create Super Admin',
+        'text_password_reset_title' => 'Reset Password',
+        'text_forgot_password' => 'Forgot your password?',
+        'text_reset_password_title' => 'Reset your Password',
+        'text_back_to_login' => 'Back to Login',
+        'text_create_super_admin' => 'Create a Super Admin Account',
+
+        'button_terms_agree' => 'I Agree',
+        'button_subscribe' => 'Subscribe',
+        'button_login' => 'Login',
+        'button_create_account' => 'Create Account',
+        'button_reset_password' => 'Reset Password',
+
+        'label_reset_code' => 'Reset code',
+        'label_email' => 'Email address',
         'label_password' => 'Password',
-        'label_password_confirm' => 'Password Confirm',
+        'label_password_confirm' => 'Confirm Password',
         'label_remember' => 'Remember me',
         'label_activation' => 'Activation Code',
         'label_newsletter' => 'Keep me up-to-date with offers by email.',
@@ -93,11 +109,12 @@ return [
         'label_i_agree' => 'I Agree',
         'label_subscribe' => 'Subscribe',
 
-        'button_terms_agree' => 'I Agree',
-        'button_subscribe' => 'Subscribe',
-        'button_login' => 'Login',
-
-        'error_email_exist' => 'The Email address already has an account, please log in',
+        'alert_login_failed' => 'Login failed, please try again or contact the system administrator!',
+        'alert_success_reset' => 'You\'ve successfully changed your password.',
+        'alert_failed_reset' => 'The reset code is either invalid or expired.',
+        'alert_success_logout' => 'You are now logged out.',
+        'alert_email_sent' => 'We\'ve sent a password reset link to your email.',
+        'alert_email_not_sent' => 'The e-mail could not be sent. Possible reason: your host may have disabled the mail() function.',
 
         'alert_logout_success' => 'You have been logged out successfully.',
         'alert_expired_login' => 'Session expired, please login',
@@ -105,6 +122,11 @@ return [
         'alert_account_created' => 'Account created successfully, login below!',
         'alert_account_activation' => 'An activation email has been sent to your email address.',
         'alert_registration_disabled' => 'Registration is currently disabled by the site administrator.',
+        'alert_super_admin_already_exists' => 'Super admin account already exists, please login with your existing account.',
+        'alert_super_admin_created' => 'Super admin account created successfully. You can now login with your new account.',
+
+        'help_create_super_admin' => 'The installation has been completed successfully. You can now create the initial super admin account.',
+        'error_email_exist' => 'The Email address already has an account, please log in',
 
         'notify_registered_account_title' => 'Customer registered',
         'notify_registered_account' => '<b>%s</b> created an account.',
