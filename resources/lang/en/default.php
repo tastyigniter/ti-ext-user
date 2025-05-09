@@ -54,6 +54,8 @@ return [
     'text_logout' => 'Logout',
     'text_impersonating_user' => 'Impersonating user',
     'text_leave' => 'Leave',
+    'text_super_admin' => 'Super Admin Account',
+    'text_restaurant_details' => 'Restaurant Details',
 
     'label_heading' => 'Heading:',
     'label_template' => 'Mail template',
@@ -85,17 +87,16 @@ return [
 
     'login' => [
         'text_title' => 'Login',
-        'text_create_super_admin_title' => 'Create Super Admin',
+        'text_initial_setup_title' => 'Initial Setup: Admin & Restaurant Info',
         'text_password_reset_title' => 'Reset Password',
         'text_forgot_password' => 'Forgot your password?',
         'text_reset_password_title' => 'Reset your Password',
         'text_back_to_login' => 'Back to Login',
-        'text_create_super_admin' => 'Create a Super Admin Account',
 
         'button_terms_agree' => 'I Agree',
         'button_subscribe' => 'Subscribe',
         'button_login' => 'Login',
-        'button_create_account' => 'Create Account',
+        'button_complete_setup' => 'Complete Setup',
         'button_reset_password' => 'Reset Password',
 
         'label_reset_code' => 'Reset code',
@@ -125,7 +126,7 @@ return [
         'alert_super_admin_already_exists' => 'Super admin account already exists, please login with your existing account.',
         'alert_super_admin_created' => 'Super admin account created successfully. You can now login with your new account.',
 
-        'help_create_super_admin' => 'The installation has been completed successfully. You can now create the initial super admin account.',
+        'help_create_super_admin' => 'The installation is complete! Now, create your initial super admin account and provide your restaurant’s default name and location details. This ensures you have full access to manage the system and that your site starts off with the correct business information.',
         'error_email_exist' => 'The Email address already has an account, please log in',
 
         'notify_registered_account_title' => 'Customer registered',
@@ -250,6 +251,9 @@ return [
         'column_location' => 'Locations',
         'column_last_login' => 'Last Login',
 
+        'label_full_name' => 'Full Name',
+        'label_restaurant_name' => 'Restaurant Name',
+        'label_restaurant_email' => 'Restaurant Email',
         'label_super_staff' => 'Super Admin',
         'label_username' => 'Username',
         'label_send_invite' => 'Send Invitation Email',

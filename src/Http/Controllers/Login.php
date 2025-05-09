@@ -9,6 +9,7 @@ use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\Local\Models\Location;
+use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Facades\Auth;
@@ -45,13 +46,11 @@ class Login extends AdminController
 
         $createSuperAdmin = User::query()->doesntExist();
         Template::setTitle($createSuperAdmin
-            ? lang('igniter.user::default.login.text_create_super_admin_title')
+            ? lang('igniter.user::default.login.text_initial_setup_title')
             : lang('igniter.user::default.login.text_title')
         );
 
-        return $this->makeView('auth.login', [
-            'createSuperAdmin' => $createSuperAdmin,
-        ]);
+        return $this->makeView($createSuperAdmin ? 'auth.start' : 'auth.login');
     }
 
     public function reset(): RedirectResponse|string
@@ -74,17 +73,29 @@ class Login extends AdminController
         return $this->makeView('auth.reset');
     }
 
-    public function onCreateAccount(): RedirectResponse
+    public function onCompleteSetup(): RedirectResponse
     {
-        $data = $this->validate(post(), [
+        $data = $this->validatePasses(post(), [
             'name' => ['required', 'string', 'between:2,255'],
             'email' => ['required', 'email'],
             'password' => ['required', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'],
+            'restaurant_name' => ['required', 'string', 'between:2,255'],
+            'restaurant_email' => ['required', 'email'],
+            'telephone' => ['nullable', 'string'],
+            'address_1' => ['required', 'string', 'between:2,255'],
+            'city' => ['nullable', 'string'],
+            'state' => ['nullable', 'string'],
+            'postcode' => ['required', 'string'],
+            'country_id' => ['required', 'integer'],
         ], [], [
             'name' => lang('igniter::admin.label_name'),
             'email' => lang('igniter.user::default.login.label_email'),
             'password' => lang('igniter.user::default.login.label_password'),
         ]);
+
+        if (!$data) {
+            return redirect()->back()->withInput(post());
+        }
 
         User::query()->doesntExistOr(function(): void {
             throw FlashException::error(lang('igniter.user::default.login.alert_super_admin_already_exists'));
@@ -101,6 +112,19 @@ class Login extends AdminController
             'groups' => [UserGroup::first()->user_group_id],
             'locations' => [Location::first()->location_id],
         ], true);
+
+        Location::first()->updateQuietly([
+            'location_name' => $data['restaurant_name'],
+            'location_email' => $data['restaurant_email'],
+            'location_telephone' => $data['telephone'],
+            'location_address_1' => $data['address_1'],
+            'location_city' => $data['city'],
+            'location_state' => $data['state'],
+            'location_postcode' => $data['postcode'],
+            'location_country_id' => $data['country_id'],
+        ]);
+
+        Country::updateDefault($data['country_id']);
 
         flash()->overlay(lang('igniter.user::default.login.alert_super_admin_created'));
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Igniter\User\Tests\Http\Controllers;
 
 use Igniter\Flame\Exception\FlashException;
+use Igniter\Local\Models\Location;
+use Igniter\System\Models\Country;
 use Igniter\User\Auth\UserProvider;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Http\Controllers\Login;
@@ -18,7 +20,7 @@ beforeEach(function(): void {
     $this->route->parameters = ['slug' => ''];
 });
 
-it('loads create super admin page if no user exists', function(): void {
+it('loads initial setup page if no user exists', function(): void {
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
     AdminAuth::shouldReceive('isImpersonator')->andReturnFalse();
     request()->setRouteResolver(fn() => $this->route);
@@ -26,22 +28,42 @@ it('loads create super admin page if no user exists', function(): void {
     $response = (new Login)->index();
 
     expect($response)->toBeString()
-        ->and($response)->toContain(lang('igniter.user::default.login.text_create_super_admin'));
+        ->and($response)->toContain(lang('igniter.user::default.login.text_initial_setup_title'));
 });
 
-it('creates super admin account successfully', function(): void {
+it('creates super admin account and updates default location details successfully', function(): void {
     request()->request->add([
         'name' => 'Test Admin',
         'email' => 'test@example.com',
         'password' => 'Pa$$w0rd!',
         'password_confirm' => 'Pa$$w0rd!',
+        'restaurant_name' => 'Test Restaurant',
+        'restaurant_email' => 'test@restaurant.com',
+        'telephone' => '1234567890',
+        'address_1' => '123 Test St',
+        'city' => 'Test City',
+        'state' => 'Test State',
+        'postcode' => '12345',
+        'country_id' => '111',
     ]);
     AdminAuth::shouldReceive('getProvider')->once()->andReturn($userProvider = mock(UserProvider::class));
     $userProvider->shouldReceive('register')->once();
 
-    $response = (new Login)->onCreateAccount();
+    $response = (new Login)->onCompleteSetup();
 
-    expect($response->getTargetUrl())->toBe('http://localhost/admin/login');
+    Country::clearDefaultModel();
+    $defaultLocation = Location::getDefault();
+    expect($response->getTargetUrl())->toBe('http://localhost/admin/login')
+        ->and($defaultLocation)->not->toBeNull()
+        ->and($defaultLocation->location_name)->toBe('Test Restaurant')
+        ->and($defaultLocation->location_email)->toBe('test@restaurant.com')
+        ->and($defaultLocation->location_telephone)->toBe('1234567890')
+        ->and($defaultLocation->location_address_1)->toBe('123 Test St')
+        ->and($defaultLocation->location_city)->toBe('Test City')
+        ->and($defaultLocation->location_state)->toBe('Test State')
+        ->and($defaultLocation->location_postcode)->toBe('12345')
+        ->and($defaultLocation->location_country_id)->toBe(111)
+        ->and(Country::getDefaultKey())->toBe(111);
 });
 
 it('throws exception if user exists when creating super admin account', function(): void {
@@ -52,9 +74,17 @@ it('throws exception if user exists when creating super admin account', function
         'email' => 'test@example.com',
         'password' => 'Pa$$w0rd!',
         'password_confirm' => 'Pa$$w0rd!',
+        'restaurant_name' => 'Test Restaurant',
+        'restaurant_email' => 'test@restaurant.com',
+        'telephone' => '',
+        'address_1' => '123 Test St',
+        'city' => '',
+        'state' => '',
+        'postcode' => '12345',
+        'country_id' => '111',
     ]);
 
-    expect(fn(): RedirectResponse => (new Login)->onCreateAccount())
+    expect(fn(): RedirectResponse => (new Login)->onCompleteSetup())
         ->toThrow(FlashException::class, lang('igniter.user::default.login.alert_super_admin_already_exists'));
 });
 
