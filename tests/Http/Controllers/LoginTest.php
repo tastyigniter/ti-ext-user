@@ -13,6 +13,7 @@ use Igniter\User\Http\Controllers\Login;
 use Igniter\User\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 beforeEach(function(): void {
@@ -66,7 +67,7 @@ it('creates super admin account and updates default location details successfull
         ->and(Country::getDefaultKey())->toBe(111);
 });
 
-it('throws exception if user exists when creating super admin account', function(): void {
+it('throws exception if user exists when completing initial setup', function(): void {
     User::factory()->create();
 
     request()->request->add([
@@ -86,6 +87,18 @@ it('throws exception if user exists when creating super admin account', function
 
     expect(fn(): RedirectResponse => (new Login)->onCompleteSetup())
         ->toThrow(FlashException::class, lang('igniter.user::default.login.alert_super_admin_already_exists'));
+});
+
+it('throws exception if validation fails when completing initial setup', function(): void {
+    User::factory()->create();
+
+    request()->request->add([
+        'name' => 'Test Admin',
+    ]);
+
+    AdminAuth::shouldReceive('getProvider')->never();
+
+    (new Login)->onCompleteSetup();
 });
 
 it('loads login page if not logged in', function(): void {
