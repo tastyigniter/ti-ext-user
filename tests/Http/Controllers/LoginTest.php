@@ -13,7 +13,6 @@ use Igniter\User\Http\Controllers\Login;
 use Igniter\User\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 beforeEach(function(): void {
