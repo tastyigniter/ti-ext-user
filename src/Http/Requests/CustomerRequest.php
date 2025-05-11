@@ -14,7 +14,7 @@ use Override;
 class CustomerRequest extends FormRequest
 {
     #[Override]
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'first_name' => lang('igniter.user::default.customers.label_first_name'),

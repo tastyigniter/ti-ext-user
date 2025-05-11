@@ -11,7 +11,7 @@ use Override;
 class UserRoleRequest extends FormRequest
 {
     #[Override]
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'code' => lang('igniter::admin.label_code'),

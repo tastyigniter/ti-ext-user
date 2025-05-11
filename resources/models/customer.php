@@ -95,6 +95,12 @@ $config['list']['columns'] = [
         'label' => 'lang:igniter.user::default.customers.column_telephone',
         'type' => 'text',
     ],
+    'customer_group' => [
+        'label' => 'lang:igniter.user::default.customers.label_customer_group',
+        'type' => 'text',
+        'relation' => 'group',
+        'select' => 'group_name',
+    ],
     'status' => [
         'label' => 'lang:igniter::admin.label_status',
         'type' => 'switch',

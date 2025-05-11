@@ -85,11 +85,10 @@ class AdminAuth extends Facade
     /**
      * Get the registered name of the component.
      *
-     * @return string
      * @see \Igniter\User\Auth\UserGuard
      */
     #[Override]
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'admin.auth';
     }

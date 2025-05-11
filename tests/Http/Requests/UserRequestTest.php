@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\UserRequest;
+use Illuminate\Validation\Rules\Password;
 
 it('has correct attribute labels', function(): void {
     $attributes = (new UserRequest)->attributes();
@@ -32,7 +33,8 @@ it('has correct validation rules', function(): void {
         ->and($rules['username'])->toContain('required', 'alpha_dash', 'between:2,32')
         ->and($rules['username'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
         ->and($rules['send_invite'])->toBe(['nullable', 'boolean'])
-        ->and($rules['password'])->toBe(['nullable', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'])
+        ->and($rules['password'])->toContain('nullable', 'required_if:send_invite,0', 'string', 'same:password_confirm')
+        ->and($rules['password'][3])->toBeInstanceOf(Password::class)
         ->and($rules['status'])->toBe(['boolean'])
         ->and($rules['super_user'])->toBe(['boolean'])
         ->and($rules['language_id'])->toBe(['nullable', 'integer'])

@@ -7,11 +7,18 @@ namespace Igniter\User\Http\Controllers;
 use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\Template;
 use Igniter\Admin\Helpers\AdminHelper;
+use Igniter\Flame\Exception\FlashException;
+use Igniter\Local\Models\Location;
+use Igniter\System\Models\Country;
+use Igniter\System\Models\Language;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Facades\Auth;
 use Igniter\User\Models\User;
+use Igniter\User\Models\UserGroup;
+use Igniter\User\Models\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class Login extends AdminController
@@ -37,9 +44,13 @@ class Login extends AdminController
             return AdminHelper::redirect('dashboard');
         }
 
-        Template::setTitle(lang('igniter::admin.login.text_title'));
+        $createSuperAdmin = User::query()->doesntExist();
+        Template::setTitle($createSuperAdmin
+            ? lang('igniter.user::default.login.text_initial_setup_title')
+            : lang('igniter.user::default.login.text_title')
+        );
 
-        return $this->makeView('auth.login');
+        return $this->makeView($createSuperAdmin ? 'auth.start' : 'auth.login');
     }
 
     public function reset(): RedirectResponse|string
@@ -50,16 +61,74 @@ class Login extends AdminController
 
         $code = input('code', '');
         if (strlen((string) $code) && !User::query()->whereResetCode($code)->first()) {
-            flash()->error(lang('igniter::admin.login.alert_failed_reset'));
+            flash()->error(lang('igniter.user::default.login.alert_failed_reset'));
 
             return AdminHelper::redirect('login');
         }
 
-        Template::setTitle(lang('igniter::admin.login.text_password_reset_title'));
+        Template::setTitle(lang('igniter.user::default.login.text_password_reset_title'));
 
         $this->vars['resetCode'] = input('code');
 
         return $this->makeView('auth.reset');
+    }
+
+    public function onCompleteSetup(): RedirectResponse
+    {
+        $data = $this->validatePasses(post(), [
+            'name' => ['required', 'string', 'between:2,255'],
+            'email' => ['required', 'email'],
+            'password' => ['required', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'],
+            'restaurant_name' => ['required', 'string', 'between:2,255'],
+            'restaurant_email' => ['required', 'email'],
+            'telephone' => ['nullable', 'string'],
+            'address_1' => ['required', 'string', 'between:2,255'],
+            'city' => ['nullable', 'string'],
+            'state' => ['nullable', 'string'],
+            'postcode' => ['required', 'string'],
+            'country_id' => ['required', 'integer'],
+        ], [], [
+            'name' => lang('igniter::admin.label_name'),
+            'email' => lang('igniter.user::default.login.label_email'),
+            'password' => lang('igniter.user::default.login.label_password'),
+        ]);
+
+        if (!$data) {
+            return redirect()->back()->withInput(post());
+        }
+
+        User::query()->doesntExistOr(function(): void {
+            throw FlashException::error(lang('igniter.user::default.login.alert_super_admin_already_exists'));
+        });
+
+        AdminAuth::getProvider()->register([
+            'email' => $data['email'],
+            'name' => $data['name'],
+            'language_id' => Language::first()->language_id,
+            'user_role_id' => UserRole::first()->user_role_id,
+            'username' => 'admin',
+            'password' => $data['password'],
+            'super_user' => true,
+            'groups' => [UserGroup::first()->user_group_id],
+            'locations' => [Location::first()->location_id],
+        ], true);
+
+        Location::first()->updateQuietly([
+            'location_name' => $data['restaurant_name'],
+            'location_email' => $data['restaurant_email'],
+            'location_telephone' => $data['telephone'],
+            'location_address_1' => $data['address_1'],
+            'location_city' => $data['city'],
+            'location_state' => $data['state'],
+            'location_postcode' => $data['postcode'],
+            'location_country_id' => $data['country_id'],
+        ]);
+
+        Country::updateDefault($data['country_id']);
+
+        flash()->overlay(lang('igniter.user::default.login.alert_super_admin_created'));
+
+        return AdminHelper::redirect('login');
     }
 
     public function onLogin(): RedirectResponse
@@ -68,14 +137,14 @@ class Login extends AdminController
             'email' => ['required', 'email'],
             'password' => ['required', 'min:6'],
         ], [], [
-            'email' => lang('igniter::admin.login.label_email'),
-            'password' => lang('igniter::admin.login.label_password'),
+            'email' => lang('igniter.user::default.login.label_email'),
+            'password' => lang('igniter.user::default.login.label_password'),
         ]);
 
         Event::dispatch('igniter.admin.beforeAuthenticate', [$data]);
 
         if (!Auth::check() && !AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
-            throw ValidationException::withMessages(['email' => lang('igniter::admin.login.alert_login_failed')]);
+            throw ValidationException::withMessages(['email' => lang('igniter.user::default.login.alert_login_failed')]);
         }
 
         session()->regenerate();
@@ -101,7 +170,7 @@ class Login extends AdminController
             ]);
         }
 
-        flash()->success(lang('igniter::admin.login.alert_email_sent'));
+        flash()->success(lang('igniter.user::default.login.alert_email_sent'));
 
         return AdminHelper::redirect('login');
     }
@@ -113,9 +182,9 @@ class Login extends AdminController
             'password' => ['required', 'min:6', 'max:32', 'same:password_confirm'],
             'password_confirm' => ['required'],
         ], [], [
-            'code' => lang('igniter::admin.login.label_reset_code'),
-            'password' => lang('igniter::admin.login.label_password'),
-            'password_confirm' => lang('igniter::admin.login.label_password_confirm'),
+            'code' => lang('igniter.user::default.login.label_reset_code'),
+            'password' => lang('igniter.user::default.login.label_password'),
+            'password_confirm' => lang('igniter.user::default.login.label_password_confirm'),
         ]);
 
         $code = array_get($data, 'code');
@@ -123,12 +192,12 @@ class Login extends AdminController
         $user = User::query()->whereResetCode($code)->first();
 
         if (!$user || !$user->completeResetPassword($data['code'], $data['password'])) {
-            throw ValidationException::withMessages(['password' => lang('igniter::admin.login.alert_failed_reset')]);
+            throw ValidationException::withMessages(['password' => lang('igniter.user::default.login.alert_failed_reset')]);
         }
 
         $user->mailSendResetPassword(['login_link' => admin_url('login')]);
 
-        flash()->success(lang('igniter::admin.login.alert_success_reset'));
+        flash()->success(lang('igniter.user::default.login.alert_success_reset'));
 
         return AdminHelper::redirect('login');
     }

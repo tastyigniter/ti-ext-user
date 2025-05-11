@@ -2,7 +2,7 @@
     <div class="login-container">
         <div class="card">
             <div class="card-body">
-                <h4>@lang('igniter::admin.login.text_reset_password_title')</h4>
+                <h4>@lang('igniter.user::default.login.text_reset_password_title')</h4>
                 {!! form_open(current_url(),
                     [
                         'id' => 'edit-form',
@@ -31,7 +31,7 @@
                             id="password"
                             class="form-control"
                             name="password"
-                            placeholder="@lang('igniter::admin.login.label_password')"
+                            placeholder="@lang('igniter.user::default.login.label_password')"
                         />
                         {!! form_error('password', '<span class="text-danger">', '</span>') !!}
                     </div>
@@ -41,7 +41,7 @@
                             id="password-confirm"
                             class="form-control"
                             name="password_confirm"
-                            placeholder="@lang('igniter::admin.login.label_password_confirm')"
+                            placeholder="@lang('igniter.user::default.login.label_password_confirm')"
                         />
                         {!! form_error('password_confirm', '<span class="text-danger">', '</span>') !!}
                     </div>
@@ -51,14 +51,14 @@
                         type="submit"
                         class="btn btn-primary w-100"
                         data-attach-loading=""
-                    >@lang('igniter::admin.login.button_reset_password')</button>
+                    >@lang('igniter.user::default.login.button_reset_password')</button>
                 </div>
 
                 <div class="form-group">
                     <p class="reset-password text-right">
                         <a
                             href="{{ admin_url('login') }}"
-                        >@lang('igniter::admin.login.text_back_to_login')</a>
+                        >@lang('igniter.user::default.login.text_back_to_login')</a>
                     </p>
                 </div>
                 {!! form_close() !!}

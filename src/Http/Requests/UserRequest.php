@@ -7,6 +7,7 @@ namespace Igniter\User\Http\Requests;
 use Igniter\System\Classes\FormRequest;
 use Igniter\User\Facades\AdminAuth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Override;
 
 /**
@@ -15,7 +16,7 @@ use Override;
 class UserRequest extends FormRequest
 {
     #[Override]
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'name' => lang('igniter::admin.label_name'),
@@ -44,7 +45,7 @@ class UserRequest extends FormRequest
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
             'send_invite' => ['nullable', 'boolean'],
-            'password' => ['nullable', 'required_if:send_invite,0', 'string', 'between:6,32', 'same:password_confirm'],
+            'password' => ['nullable', 'required_if:send_invite,0', 'string', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'],
             'status' => ['boolean'],
             'super_user' => ['boolean'],
             'language_id' => ['nullable', 'integer'],

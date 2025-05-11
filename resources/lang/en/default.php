@@ -54,6 +54,8 @@ return [
     'text_logout' => 'Logout',
     'text_impersonating_user' => 'Impersonating user',
     'text_leave' => 'Leave',
+    'text_super_admin' => 'Super Admin Account',
+    'text_restaurant_details' => 'Restaurant Details',
 
     'label_heading' => 'Heading:',
     'label_template' => 'Mail template',
@@ -84,8 +86,23 @@ return [
     'help_registration_email' => 'Send a confirmation mail to the customer and/or admin email after successfully account registration',
 
     'login' => [
+        'text_title' => 'Login',
+        'text_initial_setup_title' => 'Initial Setup: Admin & Restaurant Info',
+        'text_password_reset_title' => 'Reset Password',
+        'text_forgot_password' => 'Forgot your password?',
+        'text_reset_password_title' => 'Reset your Password',
+        'text_back_to_login' => 'Back to Login',
+
+        'button_terms_agree' => 'I Agree',
+        'button_subscribe' => 'Subscribe',
+        'button_login' => 'Login',
+        'button_complete_setup' => 'Complete Setup',
+        'button_reset_password' => 'Reset Password',
+
+        'label_reset_code' => 'Reset code',
+        'label_email' => 'Email address',
         'label_password' => 'Password',
-        'label_password_confirm' => 'Password Confirm',
+        'label_password_confirm' => 'Confirm Password',
         'label_remember' => 'Remember me',
         'label_activation' => 'Activation Code',
         'label_newsletter' => 'Keep me up-to-date with offers by email.',
@@ -93,11 +110,12 @@ return [
         'label_i_agree' => 'I Agree',
         'label_subscribe' => 'Subscribe',
 
-        'button_terms_agree' => 'I Agree',
-        'button_subscribe' => 'Subscribe',
-        'button_login' => 'Login',
-
-        'error_email_exist' => 'The Email address already has an account, please log in',
+        'alert_login_failed' => 'Login failed, please try again or contact the system administrator!',
+        'alert_success_reset' => 'You\'ve successfully changed your password.',
+        'alert_failed_reset' => 'The reset code is either invalid or expired.',
+        'alert_success_logout' => 'You are now logged out.',
+        'alert_email_sent' => 'We\'ve sent a password reset link to your email.',
+        'alert_email_not_sent' => 'The e-mail could not be sent. Possible reason: your host may have disabled the mail() function.',
 
         'alert_logout_success' => 'You have been logged out successfully.',
         'alert_expired_login' => 'Session expired, please login',
@@ -105,6 +123,11 @@ return [
         'alert_account_created' => 'Account created successfully, login below!',
         'alert_account_activation' => 'An activation email has been sent to your email address.',
         'alert_registration_disabled' => 'Registration is currently disabled by the site administrator.',
+        'alert_super_admin_already_exists' => 'Super admin account already exists, please login with your existing account.',
+        'alert_super_admin_created' => 'Super admin account created successfully. You can now login with your new account.',
+
+        'help_create_super_admin' => 'The installation is complete! Now, create your initial super admin account and provide your restaurant’s default name and location details. This ensures you have full access to manage the system and that your site starts off with the correct business information.',
+        'error_email_exist' => 'The Email address already has an account, please log in',
 
         'notify_registered_account_title' => 'Customer registered',
         'notify_registered_account' => '<b>%s</b> created an account.',
@@ -228,6 +251,9 @@ return [
         'column_location' => 'Locations',
         'column_last_login' => 'Last Login',
 
+        'label_full_name' => 'Full Name',
+        'label_restaurant_name' => 'Restaurant Name',
+        'label_restaurant_email' => 'Restaurant Email',
         'label_super_staff' => 'Super Admin',
         'label_username' => 'Username',
         'label_send_invite' => 'Send Invitation Email',
@@ -277,7 +303,7 @@ return [
 
         'alert_set_default' => 'Customer group set as default',
 
-        'help_approval' => 'New customers must be approved before they can login.',
+        'help_approval' => 'Set whether new customers must be approved before they can login. An email will be sent to the customer with a link to confirm their account.',
     ],
 
     'customers' => [

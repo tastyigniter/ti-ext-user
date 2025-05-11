@@ -180,7 +180,7 @@ abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenti
 
     public function getActivationCode()
     {
-        $this->newQuery()->update([
+        $this->updateQuietly([
             'activation_code' => $this->activation_code = $this->generateActivationCode(),
             'activated_at' => null,
         ]);
@@ -199,7 +199,7 @@ abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenti
         }
 
         if ($activationCode == $this->activation_code) {
-            $this->newQuery()->update([
+            $this->updateQuietly([
                 'activation_code' => $this->activation_code = null,
                 'is_activated' => $this->is_activated = true,
                 'activated_at' => $this->activated_at = $this->freshTimestamp(),

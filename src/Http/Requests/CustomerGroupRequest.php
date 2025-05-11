@@ -11,7 +11,7 @@ use Override;
 class CustomerGroupRequest extends FormRequest
 {
     #[Override]
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'group_name' => lang('igniter::admin.label_name'),
@@ -27,7 +27,7 @@ class CustomerGroupRequest extends FormRequest
                 Rule::unique('customer_groups')->ignore($this->getRecordId(), 'customer_group_id'),
             ],
             'approval' => ['required', 'boolean'],
-            'description' => ['string', 'between:2,512'],
+            'description' => ['nullable', 'string', 'between:2,512'],
         ];
     }
 }

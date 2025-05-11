@@ -162,7 +162,7 @@ it('returns false when reset code is expired', function(): void {
 it('generates a new activation code and sets activated_at to null', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('newQuery->where->count')->andReturn(0);
-    $user->shouldReceive('newQuery->update')->once();
+    $user->shouldReceive('updateQuietly')->once();
 
     $activationCode = $user->getActivationCode();
 
@@ -173,7 +173,7 @@ it('generates a new activation code and sets activated_at to null', function(): 
 it('handles activation code collision by generating a new one', function(): void {
     $user = Mockery::mock(User::class)->makePartial();
     $user->shouldReceive('newQuery->where->count')->andReturn(1, 1, 0);
-    $user->shouldReceive('newQuery->update')->once();
+    $user->shouldReceive('updateQuietly')->once();
 
     $activationCode = $user->getActivationCode();
 

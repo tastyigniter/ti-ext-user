@@ -29,7 +29,7 @@ class Notification extends BaseNotification implements ShouldQueue
 
     public static function make(): static
     {
-        return app(static::class, func_get_args());
+        return app(static::class, ...func_get_args());
     }
 
     public function broadcast(array $users = []): static

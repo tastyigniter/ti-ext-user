@@ -92,7 +92,7 @@ $config['list']['columns'] = [
         ],
     ],
     'name' => [
-        'label' => 'lang:igniter::admin.label_name',
+        'label' => 'lang:igniter.user::default.staff.label_full_name',
         'type' => 'text',
         'searchable' => true,
     ],
@@ -181,7 +181,7 @@ $config['form']['toolbar'] = [
 
 $config['form']['fields'] = [
     'name' => [
-        'label' => 'lang:igniter::admin.label_name',
+        'label' => 'lang:igniter.user::default.staff.label_full_name',
         'type' => 'text',
         'span' => 'left',
     ],
