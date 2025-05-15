@@ -56,7 +56,7 @@ class UserRequest extends FormRequest
             'locations.*' => ['integer'],
         ];
 
-        if ($this->send_invite) {
+        if ($this->send_invite || is_null($this->password)) {
             unset($rules['password']);
         }
 
