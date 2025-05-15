@@ -12,6 +12,7 @@ use Override;
 
 /**
  * @property null|string $send_invite
+ * @property null|string $password
  */
 class UserRequest extends FormRequest
 {
