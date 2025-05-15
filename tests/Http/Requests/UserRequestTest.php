@@ -25,7 +25,13 @@ it('has correct attribute labels', function(): void {
 });
 
 it('has correct validation rules', function(): void {
-    $rules = (new UserRequest)->rules();
+    $userRequest = new UserRequest;
+    $userRequest->merge([
+        'send_invite' => false,
+        'password' => 'password',
+        'password_confirm' => 'password',
+    ]);
+    $rules = $userRequest->rules();
 
     expect($rules['name'])->toBe(['required', 'string', 'between:2,255'])
         ->and($rules['email'])->toContain('required', 'email:filter', 'max:96')
@@ -50,4 +56,8 @@ it('has correct validation rules when send_invite is true', function(): void {
     $request->merge(['send_invite' => true]);
 
     expect($request->rules())->not->toHaveKey('password');
+});
+
+it('has correct validation rules when password is missing', function(): void {
+    expect((new UserRequest)->rules())->not->toHaveKey('password');
 });
