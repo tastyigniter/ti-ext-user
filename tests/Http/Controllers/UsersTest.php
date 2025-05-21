@@ -58,7 +58,57 @@ it('loads user preview page', function(): void {
         ->assertOk();
 });
 
-it('creates user', function(): void {
+it('creates user when send invite is checked and missing password', function(): void {
+    actingAsSuperUser()
+        ->post(route('igniter.user.users', ['slug' => 'create']), [
+            'User' => [
+                'name' => 'John Doe',
+                'username' => 'johndoe',
+                'email' => 'user@example.com',
+                'send_invite' => 1,
+                'groups' => [1],
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
+        ]);
+
+    expect(User::query()
+        ->where('email', 'user@example.com')
+        ->where('name', 'John Doe')
+        ->whereNull('password')
+        ->whereNotNull('reset_code')
+        ->exists(),
+    )->toBeTrue();
+});
+
+it('creates user when send invite is unchecked and password provided', function(): void {
+    actingAsSuperUser()
+        ->post(route('igniter.user.users', ['slug' => 'create']), [
+            'User' => [
+                'name' => 'John Doe',
+                'username' => 'johndoe',
+                'email' => 'user@example.com',
+                'send_invite' => 0,
+                'password' => 'Pa$$w0rd!',
+                'password_confirm' => 'Pa$$w0rd!',
+                'groups' => [1],
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
+        ]);
+
+    expect(User::query()
+        ->where('email', 'user@example.com')
+        ->where('name', 'John Doe')
+        ->whereNotNull('password')
+        ->whereNull('reset_code')
+        ->exists(),
+    )->toBeTrue();
+});
+
+it('does not create user when send invite is unchecked or password is missing', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.users', ['slug' => 'create']), [
             'User' => [
@@ -70,16 +120,30 @@ it('creates user', function(): void {
         ], [
             'X-Requested-With' => 'XMLHttpRequest',
             'X-IGNITER-REQUEST-HANDLER' => 'onSave',
-        ]);
+        ])
+        ->assertSee('The send invite field must be present.');
 
-    expect(User::where('email', 'user@example.com')->where('name', 'John Doe')->exists())->toBeTrue();
+    actingAsSuperUser()
+        ->post(route('igniter.user.users', ['slug' => 'create']), [
+            'User' => [
+                'name' => 'John Doe',
+                'username' => 'johndoe',
+                'email' => 'user@example.com',
+                'send_invite' => 0,
+                'groups' => [1],
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
+        ])
+        ->assertSee('The Password field is required when send invite is declined.');
 });
 
 it('updates user', function(): void {
     $user = User::factory()->create();
 
     actingAsSuperUser()
-        ->post(route('igniter.user.users', ['slug' => 'edit/'.$user->getKey()]), [
+        ->patch(route('igniter.user.users', ['slug' => 'edit/'.$user->getKey()]), [
             'User' => [
                 'name' => 'John Doe',
                 'username' => 'johndoe',
@@ -98,7 +162,7 @@ it('updates current user and redirects user when email changes', function(): voi
     $user = User::factory()->create();
 
     actingAsSuperUser($user)
-        ->post(route('igniter.user.users', ['slug' => 'account']), [
+        ->patch(route('igniter.user.users', ['slug' => 'account']), [
             'User' => [
                 'name' => 'John Doe',
                 'username' => 'johndoe',
@@ -116,7 +180,7 @@ it('updates current user and redirects user when users changes', function(): voi
     $user = User::factory()->superUser()->create();
 
     actingAsSuperUser($user)
-        ->post(route('igniter.user.users', ['slug' => 'account']), [
+        ->patch(route('igniter.user.users', ['slug' => 'account']), [
             'User' => [
                 'name' => 'John Doe',
                 'username' => 'johndoe',

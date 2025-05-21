@@ -26,10 +26,11 @@ it('has correct attribute labels', function(): void {
 
 it('has correct validation rules', function(): void {
     $userRequest = new UserRequest;
+    $userRequest->setMethod('post');
     $userRequest->merge([
         'send_invite' => false,
-        'password' => 'password',
-        'password_confirm' => 'password',
+        'password' => 'Pa$$w0rd!',
+        'password_confirm' => 'Pa$$w0rd!',
     ]);
     $rules = $userRequest->rules();
 
@@ -38,8 +39,8 @@ it('has correct validation rules', function(): void {
         ->and($rules['email'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
         ->and($rules['username'])->toContain('required', 'alpha_dash', 'between:2,32')
         ->and($rules['username'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
-        ->and($rules['send_invite'])->toBe(['nullable', 'boolean'])
-        ->and($rules['password'])->toContain('nullable', 'required_if:send_invite,0', 'string', 'same:password_confirm')
+        ->and($rules['send_invite'])->toBe(['present', 'boolean'])
+        ->and($rules['password'])->toContain('nullable', 'required_if_declined:send_invite', 'string', 'same:password_confirm')
         ->and($rules['password'][3])->toBeInstanceOf(Password::class)
         ->and($rules['status'])->toBe(['boolean'])
         ->and($rules['super_user'])->toBe(['boolean'])
@@ -51,13 +52,13 @@ it('has correct validation rules', function(): void {
         ->and($rules['locations.*'])->toBe(['integer']);
 });
 
-it('has correct validation rules when send_invite is true', function(): void {
-    $request = new UserRequest;
-    $request->merge(['send_invite' => true]);
+it('has correct validation rules when request method is patch', function(): void {
+    $userRequest = new UserRequest;
+    $userRequest->setMethod('patch');
+    $rules = $userRequest->rules();
 
-    expect($request->rules())->not->toHaveKey('password');
-});
-
-it('has correct validation rules when password is missing', function(): void {
-    expect((new UserRequest)->rules())->not->toHaveKey('password');
+    expect($rules)
+        ->not->toHaveKey('send_invite')
+        ->and($rules['password'])->toContain('nullable', 'exclude_without:password_confirm', 'string', 'same:password_confirm')
+        ->and($rules['password'][3])->toBeInstanceOf(Password::class);
 });
