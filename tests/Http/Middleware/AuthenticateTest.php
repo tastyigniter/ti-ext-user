@@ -17,4 +17,4 @@ it('allows requests to proceed when no database is available', function(): void 
     $middleware = new Authenticate(auth());
 
     expect($middleware->handle($request, fn($request): string => 'next'))->toBe('next');
-})->only();
+});
