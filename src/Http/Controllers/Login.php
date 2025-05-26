@@ -47,7 +47,7 @@ class Login extends AdminController
         $createSuperAdmin = User::query()->doesntExist();
         Template::setTitle($createSuperAdmin
             ? lang('igniter.user::default.login.text_initial_setup_title')
-            : lang('igniter.user::default.login.text_title'),
+            : lang('igniter.user::default.login.text_title')
         );
 
         return $this->makeView($createSuperAdmin ? 'auth.start' : 'auth.login');
@@ -60,7 +60,7 @@ class Login extends AdminController
         }
 
         $code = input('code', '');
-        if (strlen((string)$code) && !User::query()->whereResetCode($code)->first()) {
+        if (strlen((string) $code) && !User::query()->whereResetCode($code)->first()) {
             flash()->error(lang('igniter.user::default.login.alert_failed_reset'));
 
             return AdminHelper::redirect('login');
