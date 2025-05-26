@@ -16,9 +16,9 @@ Hi {{$first_name}} {{$last_name}},
 ## Your password was changed successfully!
 
 @isset($account_login_link)
-    @partial('button', ['url' => $account_login_link, 'type' => 'primary'])
+@partial('button', ['url' => $account_login_link, 'type' => 'primary'])
 Login using your new password
-    @endpartial
+@endpartial
 @endisset
 
 If you think this password update was a mistake, reset your password immediately.

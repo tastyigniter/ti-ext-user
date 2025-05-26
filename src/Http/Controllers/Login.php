@@ -179,7 +179,7 @@ class Login extends AdminController
     {
         $data = $this->validate(post(), [
             'code' => ['required'],
-            'password' => ['required', 'min:6', 'max:32', 'same:password_confirm'],
+            'password' => ['required', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'],
             'password_confirm' => ['required'],
         ], [], [
             'code' => lang('igniter.user::default.login.label_reset_code'),

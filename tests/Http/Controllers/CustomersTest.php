@@ -39,7 +39,61 @@ it('loads customer preview page', function(): void {
         ->assertOk();
 });
 
-it('creates customer', function(): void {
+it('creates customer when send invite is checked and missing password', function(): void {
+    actingAsSuperUser()
+        ->post(route('igniter.user.customers', ['slug' => 'create']), [
+            'Customer' => [
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'user@example.com',
+                'customer_group_id' => 1,
+                'send_invite' => 1,
+                'newsletter' => 1,
+                'status' => 1,
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
+        ]);
+
+    expect(Customer::query()
+        ->where('email', 'user@example.com')
+        ->where('first_name', 'John')
+        ->whereNull('password')
+        ->whereNotNull('reset_code')
+        ->exists(),
+    )->toBeTrue();
+});
+
+it('creates customer when send invite is unchecked and password provided', function(): void {
+    actingAsSuperUser()
+        ->post(route('igniter.user.customers', ['slug' => 'create']), [
+            'Customer' => [
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'user@example.com',
+                'send_invite' => 0,
+                'password' => 'password',
+                'password_confirm' => 'password',
+                'customer_group_id' => 1,
+                'newsletter' => 1,
+                'status' => 1,
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
+        ]);
+
+    expect(Customer::query()
+        ->where('email', 'user@example.com')
+        ->where('first_name', 'John')
+        ->whereNotNull('password')
+        ->whereNull('reset_code')
+        ->exists(),
+    )->toBeTrue();
+});
+
+it('does not create customer when send invite is unchecked or password is missing', function(): void {
     actingAsSuperUser()
         ->post(route('igniter.user.customers', ['slug' => 'create']), [
             'Customer' => [
@@ -53,16 +107,32 @@ it('creates customer', function(): void {
         ], [
             'X-Requested-With' => 'XMLHttpRequest',
             'X-IGNITER-REQUEST-HANDLER' => 'onSave',
-        ]);
+        ])
+        ->assertSee('The send invite field must be present.');
 
-    expect(Customer::where('email', 'user@example.com')->where('first_name', 'John')->exists())->toBeTrue();
+    actingAsSuperUser()
+        ->post(route('igniter.user.customers', ['slug' => 'create']), [
+            'Customer' => [
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'user@example.com',
+                'send_invite' => 0,
+                'customer_group_id' => 1,
+                'newsletter' => 1,
+                'status' => 1,
+            ],
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+            'X-IGNITER-REQUEST-HANDLER' => 'onSave',
+        ])
+        ->assertSee('The Password field is required when send invite is declined.');
 });
 
 it('updates customer', function(): void {
     $customer = Customer::factory()->create(['is_activated' => false]);
 
     actingAsSuperUser()
-        ->post(route('igniter.user.customers', ['slug' => 'edit/'.$customer->getKey()]), [
+        ->patch(route('igniter.user.customers', ['slug' => 'edit/'.$customer->getKey()]), [
             'Customer' => [
                 'first_name' => 'John',
                 'last_name' => 'Doe',

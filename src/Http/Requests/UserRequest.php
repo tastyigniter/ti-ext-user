@@ -10,9 +10,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Override;
 
-/**
- * @property null|string $send_invite
- */
 class UserRequest extends FormRequest
 {
     #[Override]
@@ -44,8 +41,6 @@ class UserRequest extends FormRequest
             'username' => ['required', 'alpha_dash', 'between:2,32',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
-            'send_invite' => ['nullable', 'boolean'],
-            'password' => ['nullable', 'required_if:send_invite,0', 'string', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'],
             'status' => ['boolean'],
             'super_user' => ['boolean'],
             'language_id' => ['nullable', 'integer'],
@@ -56,8 +51,11 @@ class UserRequest extends FormRequest
             'locations.*' => ['integer'],
         ];
 
-        if ($this->send_invite) {
-            unset($rules['password']);
+        if ($this->method() === 'POST') {
+            $rules['send_invite'] = ['present', 'boolean'];
+            $rules['password'] = ['nullable', 'required_if_declined:send_invite', 'string', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'];
+        } else {
+            $rules['password'] = ['exclude_without:password_confirm', 'nullable', 'string', Password::min(8)->numbers()->symbols()->letters()->mixedCase(), 'same:password_confirm'];
         }
 
         return $rules;

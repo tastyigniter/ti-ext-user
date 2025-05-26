@@ -209,7 +209,7 @@ it('resets password successfully with valid code', function(): void {
         'reset_code' => 'valid_code',
         'reset_time' => now()->subMinutes(5),
     ]);
-    $data = ['code' => 'valid_code', 'password' => 'new_password', 'password_confirm' => 'new_password'];
+    $data = ['code' => 'valid_code', 'password' => 'Pa$$w0rd!!!', 'password_confirm' => 'Pa$$w0rd!!!'];
     request()->request->add($data);
 
     $response = (new Login)->onResetPassword();
@@ -224,7 +224,7 @@ it('resets password fails if code does not match', function(): void {
         'reset_code' => 'valid_code',
         'reset_time' => now()->subMinutes(5),
     ]);
-    $data = ['code' => 'invalid_code', 'password' => 'new_password', 'password_confirm' => 'new_password'];
+    $data = ['code' => 'invalid_code', 'password' => 'Pa$$w0rd!!!', 'password_confirm' => 'Pa$$w0rd!!!'];
     request()->request->add($data);
 
     $this->expectException(ValidationException::class);

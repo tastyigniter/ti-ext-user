@@ -35,7 +35,7 @@
                         for="input-password"
                         class="form-label"
                     >@lang('igniter.user::default.login.label_password')</label>
-                    <input name="password" type="password" id="input-password" class="form-control"/>
+                    <input name="password" type="password" id="input-password" class="form-control" value="{{old('password')}}"/>
                     {!! form_error('password', '<span class="text-danger">', '</span>') !!}
                 </div>
                 <div class="form-group">
@@ -43,7 +43,7 @@
                         for="input-password-confirm"
                         class="form-label"
                     >@lang('igniter.user::default.staff.label_confirm_password')</label>
-                    <input name="password_confirm" type="password" id="input-password-confirm" class="form-control"/>
+                    <input name="password_confirm" type="password" id="input-password-confirm" class="form-control" value="{{old('password_confirm')}}"/>
                     {!! form_error('password_confirm', '<span class="text-danger">', '</span>') !!}
                 </div>
 
@@ -55,7 +55,7 @@
                         for="input-restaurant-name"
                         class="form-label"
                     >@lang('igniter.user::default.staff.label_restaurant_name')</label>
-                    <input name="restaurant_name" type="text" id="input-restaurant-name" class="form-control" value="{{old('restaurant_name')}}"/>
+                    <input name="restaurant_name" type="text" id="input-restaurant-name" class="form-control" value="{{old('restaurant_name', setting('site_name'))}}"/>
                     {!! form_error('restaurant_name', '<span class="text-danger">', '</span>') !!}
                 </div>
                 <div class="form-group">
@@ -63,7 +63,7 @@
                         for="input-restaurant-email"
                         class="form-label"
                     >@lang('igniter.user::default.staff.label_restaurant_email')</label>
-                    <input name="restaurant_email" type="text" id="input-restaurant-email" class="form-control" value="{{old('restaurant_email')}}"/>
+                    <input name="restaurant_email" type="text" id="input-restaurant-email" class="form-control" value="{{old('restaurant_email', setting('site_email'))}}"/>
                     {!! form_error('restaurant_email', '<span class="text-danger">', '</span>') !!}
                 </div>
                 <div class="form-group">

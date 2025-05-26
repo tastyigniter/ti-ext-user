@@ -26,14 +26,21 @@ it('returns correct attribute labels for customer', function(): void {
 });
 
 it('validates rules correctly for customer', function(): void {
-    $rules = (new CustomerRequest)->rules();
+    $customerRequest = new CustomerRequest;
+    $customerRequest->setMethod('post');
+    $customerRequest->merge([
+        'send_invite' => false,
+        'password' => 'password',
+        'password_confirm' => 'password',
+    ]);
+    $rules = $customerRequest->rules();
 
     expect($rules['first_name'])->toBe(['required', 'string', 'between:1,48'])
         ->and($rules['last_name'])->toBe(['required', 'string', 'between:1,48'])
         ->and($rules['email'])->toContain('required', 'email:filter', 'max:96')
         ->and($rules['email'][3]->__toString())->toBe('unique:customers,NULL,NULL,customer_id')
-        ->and($rules['send_invite'])->toBe(['nullable', 'boolean'])
-        ->and($rules['password'])->toBe(['nullable', 'required_if:send_invite,0', 'string', 'min:8', 'max:40', 'same:confirm_password'])
+        ->and($rules['send_invite'])->toBe(['present', 'boolean'])
+        ->and($rules['password'])->toBe(['nullable', 'required_if_declined:send_invite', 'string', 'min:8', 'max:40', 'same:password_confirm'])
         ->and($rules['telephone'])->toBe(['nullable', 'string'])
         ->and($rules['newsletter'])->toBe(['nullable', 'required', 'boolean'])
         ->and($rules['customer_group_id'])->toBe(['required', 'integer'])
@@ -46,9 +53,11 @@ it('validates rules correctly for customer', function(): void {
         ->and($rules['addresses.*.postcode'])->toBe(['nullable', 'string']);
 });
 
-it('has correct validation rules when send_invite is true', function(): void {
-    $request = new CustomerRequest;
-    $request->merge(['send_invite' => true]);
+it('has correct validation rules when request is patch', function(): void {
+    $customerRequest = new CustomerRequest;
+    $customerRequest->setMethod('patch');
 
-    expect($request->rules())->not->toHaveKey('password');
+    expect($customerRequest->rules())
+        ->not->toHaveKey('send_invite')
+        ->toHaveKey('password', ['exclude_without:password_confirm', 'nullable', 'string', 'min:8', 'max:40', 'same:password_confirm']);
 });
