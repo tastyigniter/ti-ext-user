@@ -34,44 +34,43 @@ To manage staff members, navigate to the _Manage > Staff members_ admin page. He
 
 ## Usage
 
+This section explains how to integrate the User extension API into your own extension if you need to authenticate customers, register customers, create staff members, reset passwords, impersonate users, and manage permissions. The User extension provides a simple API for managing users and their authentication.
+
 ### Authenticating customers
 
-To authenticate a customer, you can use the `\Igniter\User\Facades\Auth` facade. The `attempt` method accepts an array of credentials and a boolean value to indicate if the user should be remembered.
+To authenticate a customer, you can use the `\Igniter\User\Actions\LoginCustomer` action class. The action class accepts an array of credentials and a boolean value to indicate if the user should be remembered.
+
+This class mirrors the authentication process used by the default login form. It also dispatches two key events — `igniter.user.beforeAuthenticate` and `igniter.user.login` — which can be used to hook into the login process for custom behavior or integrations.
 
 ```php
-use Igniter\User\Facades\Auth;
+use Igniter\User\Actions\LoginCustomer;
 
 $credentials = [
     'email' => 'email@domain.tld',
     'password' => 'password',
 ];
 
-Auth::attempt($credentials, $remember);
+$loginCustomer = new LoginCustomer($credentials, $remember);
+
+$loginCustomer->handle();
 ```
 
-The `Auth::check` method can be used to check if a user is authenticated.
+The `\Igniter\User\Facades\Auth::check` method can be used to check if a user is authenticated.
 
 ```php
+use Igniter\User\Facades\Auth;
+
 if (Auth::check()) {
     // The user is authenticated
 }
 ```
 
-The `Auth::logout` method can be used to log out a user.
+The `\Igniter\User\Facades\Auth::logout` method can be used to log out a user.
 
 ```php
+use Igniter\User\Facades\Auth;
+
 Auth::logout();
-```
-
-#### Using the `LoginUser` action class
-
-For a streamlined approach to authenticating customers in TastyIgniter, you can use the `\Igniter\User\Actions\LoginUser` action class. This class mirrors the authentication process used by the default login form. It also dispatches two key events — `igniter.user.beforeAuthenticate` and `igniter.user.login` — which can be used to hook into the login process for custom behavior or integrations.
-
-```php
-use Igniter\User\Actions\LoginCustomer;
-
-$loginUser = new LoginCustomer($credentials, $remember);
-$loginUser->handle();
 ```
 
 ### Authenticating staff members
@@ -105,10 +104,12 @@ AdminAuth::logout();
 
 ### Customer registration
 
-To register a customer, you can use the `\Igniter\User\Facades\Auth` facade. The `register` method accepts an array of customer data and a boolean value to indicate if the customer should be activated. The method returns the created customer model.
+To register a customer, you can use the `\Igniter\User\Actions\CustomerRegister` action class. The action class `handle` method accepts an array of customer data and a boolean value to indicate if the customer should be activated, you may ignore the second parameter to use the default customer group approval settings. The method returns the created customer `Igniter\User\Models\Customer` model.
+
+This class mirrors the registration process used by the default registration form. It also dispatches two key events — `igniter.user.beforeRegister` and `igniter.user.register` — which can be used to hook into the registration process for custom behavior or integrations.
 
 ```php
-use Igniter\User\Facades\Auth;
+use Igniter\User\Actions\CustomerRegister;
 
 $customerData = [
     'first_name' => 'John',
@@ -117,7 +118,29 @@ $customerData = [
     'password' => 'password',
 ];
 
-Auth::getProvider()->register($customerData);
+$registerCustomer = new CustomerRegister();
+$customer = $registerCustomer->handle($customerData);
+
+if ($customer->is_activated) {
+    // Registration successful
+    $customer->mailSendRegistered(['account_login_link' => page_url('account.login')]);
+} else {
+    // Registration requires email verification
+    $customer->mailSendEmailVerification([
+        'account_activation_link' => page_url('account.register').'?code='.$customer->getActivationCode(),
+    ]);
+}
+```
+
+The `CustomerRegister` action class also provides methods to activate the customer account using the activation code. This is useful when the customer clicks on the email verification link.
+
+```php
+use Igniter\User\Actions\CustomerRegister;
+
+$registerCustomer = new CustomerRegister();
+$customer = $registerCustomer->activate($code);
+
+$customer->sendRegisteredMail(['account_login_link' => page_url('account.login')]);
 ```
 
 ### Creating a staff member
@@ -135,45 +158,6 @@ $staffData = [
 ];
 
 AdminAuth::getProvider()->register($staffData);
-```
-
-#### Using the `RegisterUser` action class
-
-For a streamlined approach to registering customers in TastyIgniter, you can use the `\Igniter\User\Actions\RegisterUser` action class. This class mirrors the registration process used by the default registration form. It also dispatches two key events — `igniter.user.beforeRegister` and `igniter.user.register` — which can be used to hook into the registration process for custom behavior or integrations.
-
-```php
-use Igniter\User\Actions\RegisterCustomer;
-
-$data = [
-    'first_name' => 'John',
-    'last_name' => 'Doe',
-    'email' => 'email@domain.tld',
-    'password' => 'password',
-];
-
-$registerUser = new RegisterCustomer();
-$customer = $registerUser->handle($data);
-
-if ($customer->is_activated) {
-    // Registration successful
-    $customer->mailSendRegistered(['account_login_link' => page_url('account.login')]);
-} else {
-    // Registration requires email verification
-    $customer->mailSendEmailVerification([
-        'account_activation_link' => page_url('account.register').'?code='.$customer->getActivationCode(),
-    ]);
-}
-```
-
-The `activate` method can be used to activate a customer account.
-
-```php
-use Igniter\User\Actions\RegisterCustomer;
-
-$registerUser = new RegisterCustomer();
-$registerUser->activate();
-
-$registerUser->sendRegisteredMail(['account_login_link' => page_url('account.login')]);
 ```
 
 ### Resetting customer passwords
@@ -326,8 +310,8 @@ When setting up automation rules through the Admin Panel, you can use the follow
 
 An automation event class used to capture the `igniter.user.register` system event when a customer registers. The event class is also used to prepare the customer parameters for automation rules. The following parameters are available:
 
-- `customer`: The customer model instance.
-- `data`: The customer registration form data.
+- `customer`: The customer `Igniter\User\Models\Customer` model instance.
+- `data`: The customer registration form data as an array.
 
 ### Automation Conditions
 
@@ -368,6 +352,8 @@ The User extension registers the following permissions:
 - `Admin.StaffGroups` - Control who can manage staff groups in the admin area.
 - `Admin.DeleteStaffs` - Control who can delete staff members in the admin area.
 - `Admin.Impersonate` - Control who can impersonate staff members in the admin area.
+
+For more on restricting access to the admin area, see the [TastyIgniter Permissions](https://tastyigniter.com/docs/customize/permissions) documentation.
 
 ### Events
 
