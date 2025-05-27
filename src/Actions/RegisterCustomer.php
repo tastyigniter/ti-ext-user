@@ -14,15 +14,24 @@ class RegisterCustomer
 {
     public Customer $customer;
 
-    public function handle(array $data = []): Customer
+    public function handle(array $data = [], ?bool $activate = null): Customer
     {
         Event::dispatch('igniter.user.beforeRegister', [&$data]);
 
-        $customerGroup = CustomerGroup::getDefault();
-        $data['customer_group_id'] = $customerGroup?->getKey();
+        if (array_key_exists('customer_group_id', $data)) {
+            $customerGroup = CustomerGroup::query()->find($data['customer_group_id']);
+        } else {
+            $customerGroup = CustomerGroup::getDefault();
+            $data['customer_group_id'] = $customerGroup?->getKey();
+        }
 
-        $requireActivation = $customerGroup?->requiresApproval();
-        $autoActivation = !$requireActivation;
+        if (is_null($activate)) {
+            /** @var CustomerGroup|null $customerGroup */
+            $requireActivation = $customerGroup?->requiresApproval();
+            $autoActivation = !$requireActivation;
+        } else {
+            $autoActivation = $activate;
+        }
 
         /** @var Customer $customer */
         $customer = Auth::getProvider()->register($data, $autoActivation);

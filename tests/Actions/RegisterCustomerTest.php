@@ -9,12 +9,15 @@ use Igniter\Flame\Exception\SystemException;
 use Igniter\User\Actions\RegisterCustomer;
 use Igniter\User\Facades\Auth;
 use Igniter\User\Models\Customer;
+use Igniter\User\Models\CustomerGroup;
 use Illuminate\Support\Facades\Event;
 use Mockery;
 
-it('registers customer and fires events correctly', function(): void {
+it('registers customer with provided customer group and fires events correctly', function(): void {
     Event::fake();
-    $data = ['email' => 'user@example.com', 'password' => 'password', 'customer_group_id' => 1];
+    $customerGroup = CustomerGroup::factory()->create(['approval' => false]);
+
+    $data = ['email' => 'user@example.com', 'password' => 'password', 'customer_group_id' => $customerGroup->getKey()];
     Auth::shouldReceive('getProvider->register')->with($data, true)->andReturn(Mockery::mock(Customer::class));
     Auth::shouldReceive('login')->once();
 
@@ -24,6 +27,32 @@ it('registers customer and fires events correctly', function(): void {
 
     Event::assertDispatched('igniter.user.beforeRegister', fn($eventName, $eventPayload): bool => $eventPayload[0] === $data);
     Event::assertDispatched('igniter.user.register', fn($eventName, $eventPayload): bool => $eventPayload[0] === $result && $eventPayload[1] === $data);
+});
+
+it('registers customer with default customer group and fires events correctly', function(): void {
+    Event::fake();
+    $data = ['email' => 'user@example.com', 'password' => 'password', 'customer_group_id' => CustomerGroup::getDefault()->getKey()];
+    Auth::shouldReceive('getProvider->register')->with($data, true)->andReturn(Mockery::mock(Customer::class));
+    Auth::shouldReceive('login')->once();
+
+    $result = (new RegisterCustomer)->handle(array_except($data, ['customer_group_id']));
+
+    expect($result)->toBeInstanceOf(Customer::class);
+
+    Event::assertDispatched('igniter.user.beforeRegister', fn($eventName, $eventPayload): bool => $eventPayload[0] === $data);
+    Event::assertDispatched('igniter.user.register', fn($eventName, $eventPayload): bool => $eventPayload[0] === $result && $eventPayload[1] === $data);
+});
+
+it('registers customer with activation required', function(): void {
+    Event::fake();
+    $customerGroup = CustomerGroup::factory()->create(['approval' => true]);
+    $data = ['email' => 'user@example.com', 'password' => 'password', 'customer_group_id' => $customerGroup->getKey()];
+    Auth::shouldReceive('getProvider->register')->with($data, false)->andReturn(Mockery::mock(Customer::class));
+    Auth::shouldReceive('login')->never();
+
+    $result = (new RegisterCustomer)->handle($data, false);
+
+    expect($result)->toBeInstanceOf(Customer::class);
 });
 
 it('throws exception when activation code is invalid', function(): void {
