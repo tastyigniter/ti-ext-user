@@ -37,6 +37,7 @@ it('has correct validation rules', function(): void {
     expect($rules['name'])->toBe(['required', 'string', 'between:2,255'])
         ->and($rules['email'])->toContain('required', 'email:filter', 'max:96')
         ->and($rules['email'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
+        ->and($rules['telephone'])->toContain('nullable', 'string')
         ->and($rules['username'])->toContain('required', 'alpha_dash', 'between:2,32')
         ->and($rules['username'][3]->__toString())->toBe('unique:admin_users,NULL,NULL,user_id')
         ->and($rules['send_invite'])->toBe(['present', 'boolean'])

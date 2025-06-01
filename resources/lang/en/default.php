@@ -254,6 +254,7 @@ return [
         'label_full_name' => 'Full Name',
         'label_restaurant_name' => 'Restaurant Name',
         'label_restaurant_email' => 'Restaurant Email',
+        'label_telephone' => 'Telephone',
         'label_super_staff' => 'Super Admin',
         'label_username' => 'Username',
         'label_send_invite' => 'Send Invitation Email',

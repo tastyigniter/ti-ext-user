@@ -189,6 +189,13 @@ $config['form']['fields'] = [
         'label' => 'lang:igniter::admin.label_email',
         'type' => 'text',
         'span' => 'right',
+        'cssClass' => 'flex-width',
+    ],
+    'telephone' => [
+        'label' => 'lang:igniter.user::default.staff.label_telephone',
+        'type' => 'text',
+        'span' => 'right',
+        'cssClass' => 'flex-width',
     ],
     'username' => [
         'label' => 'lang:igniter.user::default.staff.label_username',
