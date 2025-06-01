@@ -34,7 +34,7 @@ To manage staff members, navigate to the _Manage > Staff members_ admin page. He
 
 ## Usage
 
-This section explains how to integrate the User extension API into your own extension if you need to authenticate customers, register customers, create staff members, reset passwords, impersonate users, and manage permissions. The User extension provides a simple API for managing users and their authentication.
+This section covers how to integrate the User extension API into your own extension if you need to authenticate customers, register customers, create staff members, reset passwords, impersonate users, and manage permissions. The User extension provides a simple API for managing users and their authentication.
 
 ### Authenticating customers
 
