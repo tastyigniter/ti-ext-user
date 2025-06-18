@@ -104,6 +104,7 @@ class User extends AuthUserModel
         'sale_permission' => 'integer',
         'language_id' => 'integer',
         'super_user' => 'boolean',
+        'status' => 'boolean',
         'is_activated' => 'boolean',
         'reset_time' => 'datetime',
         'invited_at' => 'datetime',
@@ -146,7 +147,7 @@ class User extends AuthUserModel
 
     public function getAvatarUrlAttribute(): string
     {
-        return '//www.gravatar.com/avatar/'.md5(strtolower(trim((string) $this->email))).'.png?d=mm';
+        return '//www.gravatar.com/avatar/'.md5(strtolower(trim((string)$this->email))).'.png?d=mm';
     }
 
     public function getSalePermissionAttribute($value)

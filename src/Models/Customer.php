@@ -115,6 +115,7 @@ class Customer extends AuthUserModel
         'address_id' => 'integer',
         'customer_group_id' => 'integer',
         'newsletter' => 'boolean',
+        'status' => 'boolean',
         'is_activated' => 'boolean',
         'last_login' => 'datetime',
         'invited_at' => 'datetime',
