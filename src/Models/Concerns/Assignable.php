@@ -75,7 +75,7 @@ trait Assignable
 
         $this->fireSystemEvent('admin.assignable.beforeAssignTo', [$group, $assignee, $oldAssignee, $oldGroup]);
 
-        $this->save();
+        $this->saveQuietly();
 
         $log = AssignableLog::createLog($this, $user);
 

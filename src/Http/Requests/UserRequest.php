@@ -38,6 +38,7 @@ class UserRequest extends FormRequest
             'email' => ['required', 'max:96', 'email:filter',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
+            'telephone' => ['nullable', 'string'],
             'username' => ['required', 'alpha_dash', 'between:2,32',
                 Rule::unique('admin_users')->ignore($this->getRecordId(), 'user_id'),
             ],
