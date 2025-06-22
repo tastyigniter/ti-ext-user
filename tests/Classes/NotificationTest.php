@@ -31,6 +31,7 @@ it('broadcasts notification to users', function(): void {
 
 it('returns correct channels when broadcast is configured', function(): void {
     Settings::set([
+        'provider' => 'pusher',
         'app_id' => 'foo',
         'key' => 'foo',
         'secret' => 'foo',
