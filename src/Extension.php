@@ -129,20 +129,6 @@ class Extension extends BaseExtension
             }
         });
 
-        Statistics::registerCards(fn(): array => [
-            'customer' => [
-                'label' => 'lang:igniter::admin.dashboard.text_total_customer',
-                'icon' => ' text-info fa fa-4x fa-users',
-                'valueFrom' => function(string $cardCode, $start, $end, $callback): int {
-                    $query = Customer::query();
-
-                    $callback($query);
-
-                    return $query->count();
-                },
-            ],
-        ]);
-
         Igniter::prunableModel(Notification::class);
     }
 
@@ -376,5 +362,19 @@ class Extension extends BaseExtension
                 ]);
             });
         });
+
+        Statistics::registerCards(fn(): array => [
+            'customer' => [
+                'label' => 'lang:igniter.user::default.text_total_customer',
+                'icon' => ' text-info fa fa-4x fa-users',
+                'valueFrom' => function(string $cardCode, $start, $end, $callback): int {
+                    $query = Customer::query();
+
+                    $callback($query);
+
+                    return $query->count();
+                },
+            ],
+        ]);
     }
 }
