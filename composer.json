@@ -36,8 +36,8 @@
             "name": "User",
             "icon": {
                 "class": "fa fa-user",
-                "color": "#FFF",
-                "backgroundColor": "#3596DA"
+                "color": "#FFFFFF",
+                "backgroundColor": "#FF4900"
             },
             "homepage": "https://tastyigniter.com/marketplace/item/igniter-user"
         },
