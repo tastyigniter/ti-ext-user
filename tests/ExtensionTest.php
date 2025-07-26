@@ -112,7 +112,7 @@ it('registers customer statistics card', function(): void {
     $cards = $method->invoke(new Statistics(resolve(Menus::class)));
 
     expect($cards)->toHaveKey('customer')
-        ->and($cards['customer']['label'])->toBe('lang:igniter::admin.dashboard.text_total_customer')
+        ->and($cards['customer']['label'])->toBe('lang:igniter.user::default.text_total_customer')
         ->and($cards['customer']['valueFrom']('customer', null, null, fn($query) => $query))->toBe(0);
 });
 
