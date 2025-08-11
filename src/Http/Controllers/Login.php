@@ -12,7 +12,6 @@ use Igniter\Local\Models\Location;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
 use Igniter\User\Facades\AdminAuth;
-use Igniter\User\Facades\Auth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
 use Igniter\User\Models\UserRole;
@@ -47,7 +46,7 @@ class Login extends AdminController
         $createSuperAdmin = User::query()->doesntExist();
         Template::setTitle($createSuperAdmin
             ? lang('igniter.user::default.login.text_initial_setup_title')
-            : lang('igniter.user::default.login.text_title')
+            : lang('igniter.user::default.login.text_title'),
         );
 
         return $this->makeView($createSuperAdmin ? 'auth.start' : 'auth.login');
@@ -60,7 +59,7 @@ class Login extends AdminController
         }
 
         $code = input('code', '');
-        if (strlen((string) $code) && !User::query()->whereResetCode($code)->first()) {
+        if (strlen((string)$code) && !User::query()->whereResetCode($code)->first()) {
             flash()->error(lang('igniter.user::default.login.alert_failed_reset'));
 
             return AdminHelper::redirect('login');
@@ -143,7 +142,7 @@ class Login extends AdminController
 
         Event::dispatch('igniter.admin.beforeAuthenticate', [$data]);
 
-        if (!Auth::check() && !AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
+        if (!AdminAuth::check() && !AdminAuth::attempt(array_only($data, ['email', 'password']), true)) {
             throw ValidationException::withMessages(['email' => lang('igniter.user::default.login.alert_login_failed')]);
         }
 
