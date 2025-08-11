@@ -187,7 +187,8 @@ it('logs in successfully with valid credentials and redirects to custom url', fu
     $data = ['email' => 'test@example.com', 'password' => 'password'];
     request()->request->add($data);
     request()->merge(['redirect' => 'orders']);
-    AdminAuth::shouldReceive('attempt')->with($data, true)->andReturn(true);
+    AdminAuth::shouldReceive('check')->andReturnFalse();
+    AdminAuth::shouldReceive('attempt')->with($data, true)->andReturnTrue();
 
     $response = (new Login)->onLogin();
 
@@ -197,6 +198,7 @@ it('logs in successfully with valid credentials and redirects to custom url', fu
 it('fails to log in with invalid credentials', function(): void {
     $data = ['email' => 'test@example.com', 'password' => 'wrong_password'];
     request()->request->add($data);
+    AdminAuth::shouldReceive('check')->andReturnFalse();
     AdminAuth::shouldReceive('attempt')->with($data, true)->andReturnFalse();
 
     $this->expectException(ValidationException::class);
