@@ -84,7 +84,6 @@ it('returns customer relation name from constant', function(): void {
 it('returns default customer relation name', function(): void {
     $reflection = new ReflectionClass($this->model);
     $method = $reflection->getMethod('getCustomerRelationName');
-    $method->setAccessible(true);
 
     $result = $method->invoke($this->model);
 
@@ -96,7 +95,6 @@ it('returns true for single relation type', function(): void {
 
     $reflection = new ReflectionClass($this->model);
     $method = $reflection->getMethod('customerIsSingleRelationType');
-    $method->setAccessible(true);
 
     $result = $method->invoke($this->model);
 
@@ -108,7 +106,6 @@ it('returns false for multiple relation type', function(): void {
 
     $reflection = new ReflectionClass($this->model);
     $method = $reflection->getMethod('customerIsSingleRelationType');
-    $method->setAccessible(true);
 
     $result = $method->invoke($this->model);
 

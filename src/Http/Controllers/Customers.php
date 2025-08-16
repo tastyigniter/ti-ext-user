@@ -14,6 +14,7 @@ use Igniter\User\Facades\Auth;
 use Igniter\User\Http\Requests\CustomerRequest;
 use Igniter\User\Models\Customer;
 use Illuminate\Http\RedirectResponse;
+
 use function flash;
 use function lang;
 use function post;

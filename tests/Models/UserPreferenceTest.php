@@ -15,7 +15,6 @@ function setCachePropertyValue(UserPreference $userPreference, array $value): vo
 {
     $reflection = new ReflectionClass($userPreference);
     $property = $reflection->getProperty('cache');
-    $property->setAccessible(true);
     $property->setValue($userPreference, $value);
 }
 
@@ -23,7 +22,6 @@ function getCachePropertyValue(UserPreference $userPreference): array
 {
     $reflection = new ReflectionClass($userPreference);
     $property = $reflection->getProperty('cache');
-    $property->setAccessible(true);
 
     return $property->getValue($userPreference);
 }
