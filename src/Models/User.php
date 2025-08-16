@@ -184,10 +184,6 @@ class User extends AuthUserModel
     #[Override]
     public function afterLogin(): void
     {
-        app('translator.localization')->setSessionLocale(
-            optional($this->language)->code ?? app()->getLocale(),
-        );
-
         $this->query()
             ->whereKey($this->getKey())
             ->update(['last_login' => now()]);
