@@ -55,7 +55,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         $query = $this->createModelQuery();
 
         foreach ($credentials as $key => $value) {
-            if (!str_contains($key, 'password')) {
+            if (!str_contains((string) $key, 'password')) {
                 $query->where($key, $value);
             }
         }
