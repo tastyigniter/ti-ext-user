@@ -94,7 +94,7 @@ class UserPanel extends BaseMainMenuWidget
         NavigationExtendUserMenuLinksEvent::dispatch($items);
 
         return $items
-            ->mapWithKeys(function($item, $code) {
+            ->mapWithKeys(function($item, $code): array {
                 $item = array_merge([
                     'priority' => 999,
                     'label' => null,
