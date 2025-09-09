@@ -24,7 +24,7 @@ class ConsoleSubscriber
 
     protected function checkForAssignablesToAssignEveryMinute(Schedule $schedule): void
     {
-        $schedule->command('igniter:allocate-assignables')
+        $schedule->command('igniter:assignable-allocate')
             ->name('Assignables Allocator')
             ->withoutOverlapping(5)
             ->runInBackground()
@@ -33,7 +33,7 @@ class ConsoleSubscriber
 
     protected function clearUserExpiredCustomAwayStatus(Schedule $schedule): void
     {
-        $schedule->command('igniter:clear-user-state')
+        $schedule->command('igniter:user-state-clear')
             ->name('Clear user custom away status')
             ->withoutOverlapping(5)
             ->runInBackground()

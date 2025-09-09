@@ -20,12 +20,12 @@ it('subscribes to console.schedule event', function(): void {
 
 it('defines schedule for assignables allocation and clearing user state', function(): void {
     $schedule = Mockery::mock(Schedule::class);
-    $schedule->shouldReceive('command')->with('igniter:allocate-assignables')->andReturnSelf()->once();
+    $schedule->shouldReceive('command')->with('igniter:assignable-allocate')->andReturnSelf()->once();
     $schedule->shouldReceive('name')->with('Assignables Allocator')->andReturnSelf()->once();
     $schedule->shouldReceive('withoutOverlapping')->with(5)->andReturnSelf();
     $schedule->shouldReceive('runInBackground')->andReturnSelf();
     $schedule->shouldReceive('everyMinute')->andReturnSelf();
-    $schedule->shouldReceive('command')->with('igniter:clear-user-state')->andReturnSelf()->once();
+    $schedule->shouldReceive('command')->with('igniter:user-state-clear')->andReturnSelf()->once();
     $schedule->shouldReceive('name')->with('Clear user custom away status')->andReturnSelf()->once();
     $schedule->shouldReceive('withoutOverlapping')->with(5)->andReturnSelf();
     $schedule->shouldReceive('runInBackground')->andReturnSelf();
