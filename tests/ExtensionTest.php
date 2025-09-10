@@ -107,7 +107,6 @@ it('registers customer statistics card', function(): void {
 
     $reflection = new ReflectionClass(Statistics::class);
     $method = $reflection->getMethod('listCards');
-    $method->setAccessible(true);
 
     $cards = $method->invoke(new Statistics(resolve(Menus::class)));
 
@@ -173,7 +172,6 @@ it('does not define routes when routes are cached', function(): void {
 
     $reflection = new ReflectionClass(Extension::class);
     $method = $reflection->getMethod('defineRoutes');
-    $method->setAccessible(true);
     $method->invoke($this->extension);
 });
 
@@ -189,7 +187,6 @@ it('configures rate limiter', function(): void {
 
     $reflection = new ReflectionClass(Extension::class);
     $method = $reflection->getMethod('configureRateLimiting');
-    $method->setAccessible(true);
     $method->invoke($this->extension);
 });
 
@@ -198,7 +195,6 @@ it('extends dashboard charts datasets', function(): void {
 
     $reflection = new ReflectionClass(Charts::class);
     $method = $reflection->getMethod('listSets');
-    $method->setAccessible(true);
 
     $result = $method->invoke(new Charts(resolve(Menus::class)));
     $datasets = $result['reports']['sets'];

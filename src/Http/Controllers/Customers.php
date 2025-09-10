@@ -127,7 +127,7 @@ class Customers extends AdminController
     {
         if ($model->exists && !$model->is_activated) {
             Template::setButton(lang('igniter.user::default.customers.button_activate'), [
-                'class' => 'btn btn-success pull-right',
+                'class' => 'btn btn-primary',
                 'data-request' => 'onActivate',
             ]);
         }

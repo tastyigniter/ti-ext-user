@@ -17,7 +17,6 @@ function setObjectProtectedProperty($object, $property, $value): void
 {
     $reflection = new ReflectionClass($object);
     $property = $reflection->getProperty($property);
-    $property->setAccessible(true);
     $property->setValue($object, $value);
 }
 
@@ -25,7 +24,6 @@ function getObjectProtectedProperty($object, $property): mixed
 {
     $reflection = new ReflectionClass($object);
     $property = $reflection->getProperty($property);
-    $property->setAccessible(true);
 
     return $property->getValue($object);
 }
