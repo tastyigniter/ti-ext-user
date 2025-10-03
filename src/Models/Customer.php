@@ -374,9 +374,6 @@ class Customer extends AuthUserModel
         $model->fill($attributes);
         $model->save();
 
-        // Prevents subsequent saves to this model object
-        $model->password = null;
-
         return $model;
     }
 

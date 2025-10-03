@@ -80,7 +80,7 @@ class UserPanel extends BaseMainMenuWidget
             new FlashException(lang('igniter::admin.side_menu.alert_invalid_status')),
         );
 
-        $this->userState->updateState((int) $validated['status'], $validated['message'] ?? '', (int) $validated['clear_after']);
+        $this->userState->updateState((int)$validated['status'], $validated['message'] ?? '', (int)$validated['clear_after']);
 
         return [
             '~#'.$this->getId() => $this->render(),

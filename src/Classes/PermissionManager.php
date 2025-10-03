@@ -61,7 +61,7 @@ class PermissionManager
         $grouped = [];
 
         foreach ($this->listPermissions() as $permission) {
-            $group = strtolower(strlen((string) $permission->group) !== 0 ? $permission->group : 'Undefined group');
+            $group = strtolower(strlen((string)$permission->group) !== 0 ? $permission->group : 'Undefined group');
 
             $permission->group ??= $group;
 
@@ -100,12 +100,12 @@ class PermissionManager
 
     protected function checkPermissionStartsWith($permission, $permissions): ?bool
     {
-        $checkPermission = (strlen((string) $permission) > 1 && ends_with($permission, '*'))
-            ? substr((string) $permission, 0, -1) : $permission;
+        $checkPermission = (strlen((string)$permission) > 1 && ends_with($permission, '*'))
+            ? substr((string)$permission, 0, -1) : $permission;
 
         foreach ($permissions as $groupPermission => $permitted) {
-            $groupPermission = (strlen((string) $groupPermission) > 1 && ends_with($groupPermission, '*'))
-                ? substr((string) $groupPermission, 0, -1) : $groupPermission;
+            $groupPermission = (strlen((string)$groupPermission) > 1 && ends_with($groupPermission, '*'))
+                ? substr((string)$groupPermission, 0, -1) : $groupPermission;
 
             // Let's make sure the available permission starts with our permission
             if ($checkPermission != $groupPermission
@@ -121,12 +121,12 @@ class PermissionManager
 
     protected function checkPermissionEndsWith($permission, $permissions): ?bool
     {
-        $checkPermission = (strlen((string) $permission) > 1 && starts_with($permission, '*'))
-            ? substr((string) $permission, 1) : $permission;
+        $checkPermission = (strlen((string)$permission) > 1 && starts_with($permission, '*'))
+            ? substr((string)$permission, 1) : $permission;
 
         foreach ($permissions as $groupPermission => $permitted) {
-            $groupPermission = (strlen((string) $groupPermission) > 1 && starts_with($groupPermission, '*'))
-                ? substr((string) $groupPermission, 1) : $groupPermission;
+            $groupPermission = (strlen((string)$groupPermission) > 1 && starts_with($groupPermission, '*'))
+                ? substr((string)$groupPermission, 1) : $groupPermission;
 
             // Let's make sure the available permission ends with our permission
             if ($checkPermission != $groupPermission

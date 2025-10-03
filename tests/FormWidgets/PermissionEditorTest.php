@@ -41,7 +41,7 @@ it('prepares variables correctly', function(): void {
 
 it('loads the correct assets', function(): void {
     Assets::shouldReceive('addJs')
-        ->with(Mockery::on(fn($url): bool => str_contains((string) $url, 'permissioneditor.js')), 'permissioneditor-js')
+        ->with(Mockery::on(fn($url): bool => str_contains((string)$url, 'permissioneditor.js')), 'permissioneditor-js')
         ->once();
 
     $this->permissionEditor->loadAssets();
