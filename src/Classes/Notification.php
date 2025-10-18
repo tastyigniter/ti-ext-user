@@ -41,7 +41,7 @@ class Notification extends BaseNotification implements ShouldQueue
         return $this;
     }
 
-    public function via(object $notifiable)
+    public function via(object $notifiable): array
     {
         $channels = ['database'];
 

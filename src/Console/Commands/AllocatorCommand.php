@@ -42,7 +42,7 @@ class AllocatorCommand extends Command
         setting()->setPref('allocator_slots', $slots);
     }
 
-    public static function removeSlot($slot): void
+    public static function removeSlot(mixed $slot): void
     {
         $slots = (array)params('allocator_slots', []);
 

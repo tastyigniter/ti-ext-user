@@ -13,8 +13,8 @@ use Mockery;
 
 it('creates or updates address from request', function(): void {
     $addressData = [
-        'customer_id' => 1,
-        'address_id' => 1,
+        'customer_id' => fake()->randomDigit(),
+        'address_id' => fake()->randomDigit(),
         'address_1' => '123 Main St',
         'address_2' => 'Apt 4',
         'city' => 'Anytown',
@@ -23,9 +23,34 @@ it('creates or updates address from request', function(): void {
         'country_id' => 1,
     ];
 
-    Address::createOrUpdateFromRequest($addressData);
+    $address = Address::createOrUpdateFromRequest($addressData);
 
-    expect(Address::where($addressData)->exists())->toBeTrue();
+    expect($address->wasRecentlyCreated)->toBeTrue()
+        ->and($address->address_1)->toBe('123 Main St');
+
+    $address = Address::factory()->create(['customer_id' => $addressData['customer_id']]);
+    $updatedData = array_merge($addressData, ['address_id' => $address->getKey(), 'city' => 'New City']);
+
+    $updatedAddress = Address::createOrUpdateFromRequest($updatedData);
+
+    expect($updatedAddress->wasRecentlyCreated)->toBeFalse()
+        ->and($updatedAddress->city)->toBe('New City');
+});
+
+it('creates new address from request when address_id is missing', function(): void {
+    $addressData = [
+        'customer_id' => 1,
+        'address_1' => '456 Elm St',
+        'address_2' => 'Suite 5',
+        'city' => 'Othertown',
+        'state' => 'NY',
+        'postcode' => '67890',
+        'country_id' => 1,
+    ];
+
+    $address = Address::createOrUpdateFromRequest($addressData);
+
+    expect($address->wasRecentlyCreated)->toBeTrue();
 });
 
 it('returns formatted address attribute', function(): void {

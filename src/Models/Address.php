@@ -69,10 +69,16 @@ class Address extends Model
         'created_at asc', 'created_at desc',
     ];
 
+    public $timestamps = true;
+
     protected $forceDeleting = false;
 
-    public static function createOrUpdateFromRequest($address)
+    public static function createOrUpdateFromRequest(array $address)
     {
+        if (empty($address['address_id'])) {
+            return (new self)->query()->create(array_except($address, ['address_id']));
+        }
+
         return (new self)->query()->updateOrCreate(
             array_only($address, ['customer_id', 'address_id']),
             $address,
