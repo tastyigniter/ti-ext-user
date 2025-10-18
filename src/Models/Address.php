@@ -70,6 +70,7 @@ class Address extends Model
     ];
 
     public $timestamps = true;
+
     protected $forceDeleting = false;
 
     public static function createOrUpdateFromRequest(array $address)
