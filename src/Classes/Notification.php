@@ -73,7 +73,7 @@ class Notification extends BaseNotification implements ShouldQueue
 
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
-        return new BroadcastMessage(array_map('strip_tags', $this->toArray($notifiable)));
+        return new BroadcastMessage(array_map(strip_tags(...), $this->toArray($notifiable)));
     }
 
     public function databaseType(object $notifiable): string
