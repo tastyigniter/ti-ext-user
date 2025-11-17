@@ -86,6 +86,11 @@ class CustomerGroups extends AdminController
         return $this->refreshList('list');
     }
 
+    public function listExtendQuery($query): void
+    {
+        $query->withCount('customers');
+    }
+
     public function listOverrideColumnValue($record, $column, $alias = null)
     {
         if ($column->type != 'button') {
