@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Collection<int, Customer> $customers
+ * @property-read int|null $customers_count
  * @method static Builder<static>|CustomerGroup query()
  * @method static Builder<static>|CustomerGroup dropdown(string $column, string $key = null)
  * @method static HasMany<static>|CustomerGroup customers()
@@ -67,7 +68,7 @@ class CustomerGroup extends Model
 
     public function getCustomerCountAttribute($value)
     {
-        return $this->customers()->count();
+        return $this->customers_count;
     }
 
     //

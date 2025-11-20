@@ -19,7 +19,7 @@ use Mockery;
 it('applies scope on list query when user has restricted scope', function(): void {
     $controller = new class extends AdminController
     {
-        protected array $assigneeConfig = [
+        public array $assigneeConfig = [
             'applyScopeOnListQuery' => true,
             'applyScopeOnFormQuery' => true,
         ];

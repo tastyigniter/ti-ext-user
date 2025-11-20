@@ -39,7 +39,7 @@ it('returns false when group does not require approval', function(): void {
 
 it('returns correct customer count', function(): void {
     $customerGroup = Mockery::mock(CustomerGroup::class)->makePartial();
-    $customerGroup->shouldReceive('customers->count')->andReturn(5);
+    $customerGroup->customers_count = 5;
 
     $result = $customerGroup->getCustomerCountAttribute(null);
 

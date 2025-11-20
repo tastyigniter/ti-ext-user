@@ -122,7 +122,7 @@ class AssigneeController extends ControllerAction
                 $user = $this->controller->getUser();
 
                 if (
-                    is_a($widget->getController(), $this->controller::class)
+                    is_a($widget->getController(), ((object)$this->controller)::class)
                     && in_array(Assignable::class, class_uses_recursive($widget->model !== null ? $widget->model::class : self::class))
                     && $assignable->hasAssignToGroup()
                     && !$assignable->hasAssignTo()
