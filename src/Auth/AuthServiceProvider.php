@@ -53,8 +53,8 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app->booted(function(): void {
             (new Middleware)->redirectTo(
-                fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.login' : 'igniter.theme.account.login'),
-                fn() => route(Igniter::runningInAdmin() ? 'igniter.admin.dashboard' : 'igniter.theme.account.account'),
+                fn(): string => route(Igniter::runningInAdmin() ? 'igniter.admin.login' : 'igniter.theme.account.login'),
+                fn(): string => route(Igniter::runningInAdmin() ? 'igniter.admin.dashboard' : 'igniter.theme.account.account'),
             );
         });
     }

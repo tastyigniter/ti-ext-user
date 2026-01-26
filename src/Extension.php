@@ -46,6 +46,7 @@ use Igniter\User\Notifications\CustomerRegisteredNotification;
 use Igniter\User\Subscribers\AssigneeUpdatedSubscriber;
 use Igniter\User\Subscribers\ConsoleSubscriber;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Events\NotificationSent;
@@ -116,7 +117,7 @@ class Extension extends BaseExtension
             $model->relation['morphedByMany']['users'] = [User::class, 'name' => 'locationable'];
         });
 
-        Template::registerHook('endBody', fn() => view('igniter.user::_partials.admin_impersonate_banner'));
+        Template::registerHook('endBody', fn(): View => view('igniter.user::_partials.admin_impersonate_banner'));
 
         Event::listen(NotificationSent::class, function(NotificationSent $event): void {
             if ($event->response instanceof Notification && is_subclass_of($event->notification, StickyNotification::class)) {
