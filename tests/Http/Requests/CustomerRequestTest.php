@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\CustomerRequest;
+use Illuminate\Routing\Route;
 
 it('returns correct attribute labels for customer', function(): void {
     $attributes = (new CustomerRequest)->attributes();
@@ -51,6 +52,49 @@ it('validates rules correctly for customer', function(): void {
         ->and($rules['addresses.*.city'])->toBe(['nullable', 'string', 'min:2', 'max:255'])
         ->and($rules['addresses.*.state'])->toBe(['nullable', 'string', 'max:255'])
         ->and($rules['addresses.*.postcode'])->toBe(['nullable', 'string']);
+});
+
+it('returns customer route parameter from getRecordId', function(): void {
+    $customerRequest = new CustomerRequest;
+
+    $route = new Route(['PUT'], '/api/customers/{customer}', []);
+    $route->bind($customerRequest);
+    $route->setParameter('customer', 42);
+
+    $customerRequest->setRouteResolver(fn(): Route => $route);
+
+    $recordId = $customerRequest->getRecordId();
+
+    expect($recordId)->toBe(42);
+});
+
+it('falls back to parent getRecordId when customer route parameter is absent', function(): void {
+    $customerRequest = new CustomerRequest;
+
+    $route = new Route(['PUT'], '/admin/customers/{slug}', []);
+    $route->bind($customerRequest);
+    $route->setParameter('slug', 'igniter/customers/5');
+
+    $customerRequest->setRouteResolver(fn(): Route => $route);
+
+    $recordId = $customerRequest->getRecordId();
+
+    expect($recordId)->toBe('5');
+});
+
+it('unique email rule ignores the customer being updated', function(): void {
+    $customerRequest = new CustomerRequest;
+    $customerRequest->setMethod('patch');
+
+    $route = new Route(['PATCH'], '/api/customers/{customer}', []);
+    $route->bind($customerRequest);
+    $route->setParameter('customer', 7);
+
+    $customerRequest->setRouteResolver(fn(): Route => $route);
+
+    $rules = $customerRequest->rules();
+
+    expect($rules['email'][3]->__toString())->toBe('unique:customers,NULL,7,customer_id');
 });
 
 it('has correct validation rules when request is patch', function(): void {
