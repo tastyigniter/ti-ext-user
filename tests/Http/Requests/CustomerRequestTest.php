@@ -55,7 +55,13 @@ it('validates rules correctly for customer', function(): void {
 });
 
 it('returns customer route parameter from getRecordId', function(): void {
-    $customerRequest = new CustomerRequest;
+    $customerRequest = new class extends CustomerRequest
+    {
+        public function exposeGetRecordId(): int|string|null
+        {
+            return $this->getRecordId();
+        }
+    };
 
     $route = new Route(['PUT'], '/api/customers/{customer}', []);
     $route->bind($customerRequest);
@@ -63,13 +69,19 @@ it('returns customer route parameter from getRecordId', function(): void {
 
     $customerRequest->setRouteResolver(fn(): Route => $route);
 
-    $recordId = $customerRequest->getRecordId();
+    $recordId = $customerRequest->exposeGetRecordId();
 
     expect($recordId)->toBe(42);
 });
 
 it('falls back to parent getRecordId when customer route parameter is absent', function(): void {
-    $customerRequest = new CustomerRequest;
+    $customerRequest = new class extends CustomerRequest
+    {
+        public function exposeGetRecordId(): int|string|null
+        {
+            return $this->getRecordId();
+        }
+    };
 
     $route = new Route(['PUT'], '/admin/customers/{slug}', []);
     $route->bind($customerRequest);
@@ -77,7 +89,7 @@ it('falls back to parent getRecordId when customer route parameter is absent', f
 
     $customerRequest->setRouteResolver(fn(): Route => $route);
 
-    $recordId = $customerRequest->getRecordId();
+    $recordId = $customerRequest->exposeGetRecordId();
 
     expect($recordId)->toBe('5');
 });
