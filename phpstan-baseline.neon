@@ -85,6 +85,12 @@ parameters:
 			path: src/Models/AssignableLog.php
 
 		-
+			message: '#^Property Igniter\\User\\Models\\Customer\:\:\$last_login \(Illuminate\\Support\\Carbon\|null\) does not accept Carbon\\CarbonInterface\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Models/Customer.php
+
+		-
 			message: '#^Method Igniter\\User\\Models\\Notification\:\:prunable\(\) should return Illuminate\\Database\\Eloquent\\Builder but returns Illuminate\\Database\\Query\\Builder\.$#'
 			identifier: return.type
 			count: 1

@@ -78,14 +78,14 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static bool isImpersonator()
  * @method static void getImpersonator()
  *
- * @see \Igniter\User\Auth\UserGuard
+ * @see UserGuard
  */
 class AdminAuth extends Facade
 {
     /**
      * Get the registered name of the component.
      *
-     * @see \Igniter\User\Auth\UserGuard
+     * @see UserGuard
      */
     #[Override]
     protected static function getFacadeAccessor(): string
