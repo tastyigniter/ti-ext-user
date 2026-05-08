@@ -22,13 +22,9 @@ The TastyIgniter user extension is a fundamental part of the TastyIgniter platfo
 
 Documentation can be found on the [TastyIgniter documentation website](https://tastyigniter.com/docs/extensions/user).
 
-## Changelog
-
-Please see [CHANGELOG](https://github.com/tastyigniter/ti-ext-user/blob/master/CHANGELOG.md) for more information on what has changed recently.
-
 ## Reporting issues
 
-If you encounter a bug in this extension, please report it using the [Issue Tracker](https://github.com/tastyigniter/ti-ext-user/issues) on GitHub.
+If you encounter a bug in this extension, please report it using the [Issue Tracker](https://github.com/tastyigniter/TastyIgniter/issues) on GitHub.
 
 ## Contributing
 

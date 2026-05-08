@@ -11,6 +11,12 @@ use Override;
 class CustomerRequest extends FormRequest
 {
     #[Override]
+    protected function getRecordId(): int|string|null
+    {
+        return $this->route('customer') ?? parent::getRecordId();
+    }
+
+    #[Override]
     public function attributes(): array
     {
         return [

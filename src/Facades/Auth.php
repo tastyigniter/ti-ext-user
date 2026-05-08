@@ -78,7 +78,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static bool isImpersonator()
  * @method static null|User getImpersonator()
  *
- * @see \Igniter\User\Auth\CustomerGuard
+ * @see CustomerGuard
  */
 class Auth extends Facade
 {

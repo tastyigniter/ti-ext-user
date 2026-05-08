@@ -77,7 +77,7 @@ class UserRole extends Model
     public function setPermissionsAttribute($permissions): void
     {
         foreach ($permissions ?? [] as $permission => $value) {
-            if (!in_array((int)$value, [-1, 0, 1])) {
+            if (!in_array((int)$value, [-1, 0, 1], true)) {
                 throw new InvalidArgumentException(sprintf(
                     'Invalid value "%s" for permission "%s" given.', $value, $permission,
                 ));

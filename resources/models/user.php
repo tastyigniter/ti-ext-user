@@ -1,5 +1,7 @@
 <?php
 
+use Igniter\User\Models\UserRole;
+
 $config['list']['filter'] = [
     'search' => [
         'prompt' => 'lang:igniter.user::default.staff.text_filter_search',
@@ -10,7 +12,7 @@ $config['list']['filter'] = [
             'label' => 'lang:igniter.user::default.staff.text_filter_role',
             'type' => 'select',
             'conditions' => 'user_role_id in (:filtered)',
-            'modelClass' => \Igniter\User\Models\UserRole::class,
+            'modelClass' => UserRole::class,
         ],
         'status' => [
             'label' => 'lang:igniter::admin.text_filter_status',
@@ -260,7 +262,7 @@ $config['form']['fields'] = [
         'type' => 'radiolist',
         'span' => 'left',
         'context' => ['create', 'edit'],
-        'options' => [\Igniter\User\Models\UserRole::class, 'listDropdownOptions'],
+        'options' => [UserRole::class, 'listDropdownOptions'],
         'commentAbove' => 'lang:igniter.user::default.staff.help_role',
     ],
     'super_user' => [
