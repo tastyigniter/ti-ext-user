@@ -85,7 +85,7 @@ it('falls back to parent getRecordId when customer route parameter is absent', f
 
     $route = new Route(['PUT'], '/admin/customers/{slug}', []);
     $route->bind($customerRequest);
-    $route->setParameter('slug', 'igniter/customers/5');
+    $route->setParameter('slug', 'customers/5');
 
     $customerRequest->setRouteResolver(fn(): Route => $route);
 
@@ -106,7 +106,7 @@ it('unique email rule ignores the customer being updated', function(): void {
 
     $rules = $customerRequest->rules();
 
-    expect($rules['email'][3]->__toString())->toBe('unique:customers,NULL,7,customer_id');
+    expect($rules['email'][3]->__toString())->toBe('unique:customers,NULL,"7",customer_id');
 });
 
 it('has correct validation rules when request is patch', function(): void {
