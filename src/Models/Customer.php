@@ -131,7 +131,7 @@ class Customer extends AuthUserModel
     {
         return static::query()
             ->whereIsEnabled()
-            ->selectRaw('customer_id, concat(first_name, " ", last_name) as name')
+            ->selectRaw("customer_id, concat(first_name, ' ', last_name) as name")
             ->dropdown('name');
     }
 
