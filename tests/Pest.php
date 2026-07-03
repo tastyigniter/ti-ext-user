@@ -37,3 +37,8 @@ function mockRequest(array $data)
 
     return $mockRequest;
 }
+
+function withoutAdminUsers(): void
+{
+    User::all()->each->delete();
+}

@@ -21,6 +21,8 @@ beforeEach(function(): void {
 });
 
 it('loads initial setup page if no user exists', function(): void {
+    withoutAdminUsers();
+
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
     AdminAuth::shouldReceive('isImpersonator')->andReturnFalse();
     request()->setRouteResolver(fn() => $this->route);
@@ -32,6 +34,8 @@ it('loads initial setup page if no user exists', function(): void {
 });
 
 it('creates super admin account and updates default location details successfully', function(): void {
+    withoutAdminUsers();
+
     request()->request->add([
         'name' => 'Test Admin',
         'email' => 'test@example.com',
@@ -89,8 +93,6 @@ it('throws exception if user exists when completing initial setup', function(): 
 });
 
 it('throws exception if validation fails when completing initial setup', function(): void {
-    User::factory()->create();
-
     request()->request->add([
         'name' => 'Test Admin',
     ]);

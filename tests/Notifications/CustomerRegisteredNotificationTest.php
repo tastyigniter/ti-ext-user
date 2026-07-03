@@ -15,6 +15,8 @@ beforeEach(function(): void {
 });
 
 it('returns recipients who are enabled super users', function(): void {
+    withoutAdminUsers();
+
     $user = User::factory()->superUser()->create();
 
     $result = $this->notification->getRecipients();
