@@ -11,6 +11,7 @@ use Igniter\Flame\Exception\FlashException;
 use Igniter\Local\Models\Location;
 use Igniter\System\Models\Country;
 use Igniter\System\Models\Language;
+use Igniter\System\Models\Settings;
 use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserGroup;
@@ -124,6 +125,13 @@ class Login extends AdminController
         ]);
 
         Country::updateDefault($data['country_id']);
+
+        Settings::set([
+            'site_name' => $data['restaurant_name'],
+            'site_email' => $data['restaurant_email'],
+            'sender_name' => $data['restaurant_name'],
+            'sender_email' => $data['restaurant_email'],
+        ]);
 
         flash()->overlay(lang('igniter.user::default.login.alert_super_admin_created'));
 
