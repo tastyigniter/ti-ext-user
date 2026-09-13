@@ -55,9 +55,7 @@ trait Assignable
 
     public function updateAssignTo(?UserGroup $group = null, ?User $assignee = null, ?User $user = null)
     {
-        if (is_null($group)) {
-            $group = $this->assignee_group;
-        }
+        $group ??= $this->assignee_group;
 
         if (is_null($group) && !is_null($assignee)) {
             $group = $assignee->groups()->first();

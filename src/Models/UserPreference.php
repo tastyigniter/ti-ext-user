@@ -123,13 +123,10 @@ class UserPreference extends Model
 
     public function scopeApplyItemAndUser($query, $item, $user = null)
     {
-        $query = $query->where('item', $item);
-
-        if ($user) {
-            $query = $query->where('user_id', $user->user_id);
-        }
-
-        return $query;
+        return $query->where('item', $item)
+            ->when($user, function ($query) use ($user) {
+                return $query->where('user_id', $user->user_id);
+            });
     }
 
     /**

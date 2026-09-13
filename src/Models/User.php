@@ -232,16 +232,14 @@ class User extends AuthUserModel
             $staffPermissions, $permissions, $checkAll);
     }
 
-    public function getPermissions()
+    public function getPermissions(): array
     {
         $role = $this->role;
-
-        $permissions = [];
         if ($role && is_array($role->permissions)) {
-            $permissions = $role->permissions;
+            return $role->permissions;
         }
 
-        return $permissions;
+        return [];
     }
 
     //

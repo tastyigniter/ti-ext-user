@@ -22,7 +22,7 @@ it('logs user last seen when database is available and user is authenticated', f
     $authService->shouldReceive('check')->andReturnTrue();
     $authService->shouldReceive('getId')->andReturn(1);
     $authService->shouldReceive('user')->andReturn($customer = Mockery::mock(Customer::class)->makePartial());
-    $customer->shouldReceive('updateLastSeen')->andReturnTrue()->atMost(2);
+    $customer->shouldReceive('updateLastSeen')->andReturnTrue()->atMost();
     app()->instance('admin.auth', $authService);
     app()->instance('main.auth', $authService);
 
