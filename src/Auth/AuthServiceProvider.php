@@ -68,12 +68,12 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function configureAuthGuards()
     {
-        Auth::resolved(function($auth): void {
-            $auth->extend('igniter-admin', fn($app, $name, array $config): object => $this->createGuard(UserGuard::class, $name, $config, $auth));
-        });
 
-        Auth::resolved(function($auth): void {
-            $auth->extend('igniter-customer', fn($app, $name, array $config): object => $this->createGuard(CustomerGuard::class, $name, $config, $auth));
+        $provider = $this;
+
+        Auth::resolved(function($auth) use ($provider): void {
+            $auth->extend('igniter-admin', fn($app, $name, array $config): object => $provider->createGuard(UserGuard::class, $name, $config, $auth));
+            $auth->extend('igniter-customer', fn($app, $name, array $config): object => $provider->createGuard(CustomerGuard::class, $name, $config, $auth));
         });
     }
 
@@ -91,7 +91,7 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
-    protected function createGuard($guardClass, $name, array $config, $auth): object
+    public function createGuard($guardClass, $name, array $config, $auth): object
     {
         $guard = new $guardClass($name,
             $auth->createUserProvider($config['provider']),

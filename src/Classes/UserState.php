@@ -134,9 +134,7 @@ class UserState
 
     public function getConfig($key = null, $default = null)
     {
-        if (is_null($this->stateConfigCache)) {
-            $this->stateConfigCache = $this->loadConfigFromPreference();
-        }
+        $this->stateConfigCache ??= $this->loadConfigFromPreference();
 
         $result = array_merge($this->defaultStateConfig, $this->stateConfigCache);
         if (is_null($key)) {
