@@ -13,6 +13,7 @@ use Igniter\User\Http\Controllers\Login;
 use Igniter\User\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Sleep;
 use Illuminate\Validation\ValidationException;
 
@@ -153,8 +154,9 @@ it('redirects reset password to dashboard if already logged in', function(): voi
 
 it('resets password successfully', function(): void {
     Sleep::fake();
+    Mail::fake();
 
-    $user = User::factory()->create();
+    $user = User::factory()->create(['status' => true]);
     request()->request->set('email', $user->email);
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
 
