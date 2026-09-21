@@ -92,7 +92,7 @@ class User extends AuthUserModel
 
     public $timestamps = true;
 
-    protected $guarded = ['reset_code', 'activation_code', 'remember_token'];
+    protected $guarded = ['reset_code', 'activation_code', 'remember_token', 'super_user'];
 
     protected $appends = ['full_name'];
 

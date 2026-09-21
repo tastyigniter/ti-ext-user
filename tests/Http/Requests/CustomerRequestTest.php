@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Igniter\User\Tests\Http\Requests;
 
 use Igniter\User\Http\Requests\CustomerRequest;
+use Igniter\User\Models\Customer;
+use Igniter\User\Models\User;
 use Illuminate\Routing\Route;
+use Mockery;
+use ReflectionMethod;
 
 it('returns correct attribute labels for customer', function(): void {
     $attributes = (new CustomerRequest)->attributes();
@@ -116,4 +120,55 @@ it('has correct validation rules when request is patch', function(): void {
     expect($customerRequest->rules())
         ->not->toHaveKey('send_invite')
         ->toHaveKey('password', ['exclude_without:password_confirm', 'nullable', 'string', 'min:8', 'max:40', 'same:password_confirm']);
+});
+
+it('omits privileged field rules for authenticated customers', function(): void {
+    $customerRequest = new CustomerRequest;
+    $customerRequest->setMethod('patch');
+    $customerRequest->setUserResolver(fn(): Customer => Mockery::mock(Customer::class));
+
+    expect($customerRequest->rules())
+        ->not->toHaveKey('customer_group_id')
+        ->not->toHaveKey('status');
+});
+
+it('keeps privileged field rules for staff users', function(): void {
+    $customerRequest = new CustomerRequest;
+    $customerRequest->setMethod('patch');
+    $customerRequest->setUserResolver(fn(): User => Mockery::mock(User::class));
+
+    expect($customerRequest->rules())
+        ->toHaveKey('customer_group_id', ['required', 'integer'])
+        ->toHaveKey('status', ['required', 'boolean']);
+});
+
+it('strips privileged fields from customer request input', function(): void {
+    $customerRequest = CustomerRequest::create('/api/customers/1', 'PUT', [
+        'first_name' => 'Test',
+        'customer_group_id' => 2,
+        'status' => true,
+    ]);
+    $customerRequest->setUserResolver(fn(): Customer => Mockery::mock(Customer::class));
+
+    (new ReflectionMethod(CustomerRequest::class, 'prepareForValidation'))->invoke($customerRequest);
+
+    expect($customerRequest->all())
+        ->toHaveKey('first_name', 'Test')
+        ->not->toHaveKey('customer_group_id')
+        ->not->toHaveKey('status');
+});
+
+it('does not strip privileged fields from staff request input', function(): void {
+    $customerRequest = CustomerRequest::create('/api/customers/1', 'PUT', [
+        'first_name' => 'Test',
+        'customer_group_id' => 2,
+        'status' => true,
+    ]);
+    $customerRequest->setUserResolver(fn(): User => Mockery::mock(User::class));
+
+    (new ReflectionMethod(CustomerRequest::class, 'prepareForValidation'))->invoke($customerRequest);
+
+    expect($customerRequest->all())
+        ->toHaveKey('customer_group_id', 2)
+        ->toHaveKey('status', true);
 });

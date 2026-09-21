@@ -13,6 +13,8 @@ use Igniter\User\Http\Controllers\Login;
 use Igniter\User\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Sleep;
 use Illuminate\Validation\ValidationException;
 
 beforeEach(function(): void {
@@ -151,7 +153,10 @@ it('redirects reset password to dashboard if already logged in', function(): voi
 });
 
 it('resets password successfully', function(): void {
-    $user = User::factory()->create();
+    Sleep::fake();
+    Mail::fake();
+
+    $user = User::factory()->create(['status' => true]);
     request()->request->set('email', $user->email);
     AdminAuth::shouldReceive('isLogged')->andReturnFalse();
 
@@ -159,7 +164,25 @@ it('resets password successfully', function(): void {
 
     expect($response->getTargetUrl())->toBe('http://localhost/admin/login')
         ->and(flash()->messages()->first())->level->toBe('success')
-        ->message->toBe(lang('igniter.user::default.login.alert_email_sent'));
+        ->message->toBe(lang('igniter.user::default.reset.alert_reset_request_success'));
+
+    Sleep::assertSleptTimes(1);
+});
+
+it('returns the same success response when requesting reset for unknown email', function(): void {
+    Sleep::fake();
+
+    request()->request->set('email', 'unknown@example.com');
+    AdminAuth::shouldReceive('isLogged')->andReturnFalse();
+
+    $response = (new Login)->onRequestResetPassword();
+
+    expect($response->getTargetUrl())->toBe('http://localhost/admin/login')
+        ->and(flash()->messages()->first())->level->toBe('success')
+        ->message->toBe(lang('igniter.user::default.reset.alert_reset_request_success'))
+        ->and(User::query()->where('email', 'unknown@example.com')->exists())->toBeFalse();
+
+    Sleep::assertSleptTimes(1);
 });
 
 it('fails to reset password with invalid code', function(): void {

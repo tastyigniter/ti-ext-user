@@ -159,7 +159,7 @@ abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenti
      */
     public function checkResetPasswordCode($resetCode): bool
     {
-        if ($this->reset_code != $resetCode) {
+        if (!hash_equals($this->reset_code, $resetCode)) {
             return false;
         }
 

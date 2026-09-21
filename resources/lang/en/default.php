@@ -42,6 +42,7 @@ return [
     'text_permission_impersonate_staff' => 'Ability to impersonate staff members',
     'text_permission_impersonate_customers' => 'Ability to impersonate customers',
     'text_permission_user_groups' => 'Manage user groups',
+    'text_permission_user_roles' => 'Manage user roles',
     'text_permission_staffs' => 'Create and manage staff members',
     'text_permission_delete_staffs' => 'Ability to delete staff members',
     'text_permission_delete_customers' => 'Ability to delete customers',
@@ -115,8 +116,6 @@ return [
         'alert_success_reset' => 'You\'ve successfully changed your password.',
         'alert_failed_reset' => 'The reset code is either invalid or expired.',
         'alert_success_logout' => 'You are now logged out.',
-        'alert_email_sent' => 'We\'ve sent a password reset link to your email.',
-        'alert_email_not_sent' => 'The e-mail could not be sent. Possible reason: your host may have disabled the mail() function.',
 
         'alert_logout_success' => 'You have been logged out successfully.',
         'alert_expired_login' => 'Session expired, please login',
@@ -168,8 +167,7 @@ return [
         'button_reset' => 'Reset Password',
 
         'alert_reset_success' => 'Password reset successfully.',
-        'alert_reset_request_success' => 'Password reset request successfully, please check your email on how to proceed.',
-        'alert_reset_error' => 'Password reset unsuccessful, email not found or incorrect details entered.',
+        'alert_reset_request_success' => 'If the email address exists in our system, we\'ve sent a password reset link to your email.',
         'alert_reset_failed' => 'Password reset failed, reset code is either invalid or expired.',
         'alert_activation_failed' => 'Account activation failed, please try again.',
         'alert_no_email_match' => 'No matching email address',

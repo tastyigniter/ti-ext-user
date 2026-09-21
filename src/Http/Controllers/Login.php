@@ -18,6 +18,7 @@ use Igniter\User\Models\UserGroup;
 use Igniter\User\Models\UserRole;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Timebox;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -169,17 +170,19 @@ class Login extends AdminController
             'email' => lang('igniter::admin.label_email'),
         ]);
 
-        if ($user = User::query()->whereEmail($data['email'])->first()) {
-            /** @var User $user */
-            $user->resetPassword();
-            $user->mailSendResetPasswordRequest([
-                'reset_link' => admin_url('login/reset?code='.$user->reset_code),
-            ]);
-        }
+        return (new Timebox)->call(function() use ($data): RedirectResponse {
+            if ($user = User::query()->whereEmail($data['email'])->whereIsEnabled()->first()) {
+                /** @var User $user */
+                $user->resetPassword();
+                $user->mailSendResetPasswordRequest([
+                    'reset_link' => admin_url('login/reset?code='.$user->reset_code),
+                ]);
+            }
 
-        flash()->success(lang('igniter.user::default.login.alert_email_sent'));
+            flash()->success(lang('igniter.user::default.reset.alert_reset_request_success'));
 
-        return AdminHelper::redirect('login');
+            return AdminHelper::redirect('login');
+        }, microseconds: (int) config('igniter-auth.timeboxDuration', 2_000_000));
     }
 
     public function onResetPassword(): RedirectResponse
