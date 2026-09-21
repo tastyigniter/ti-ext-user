@@ -49,4 +49,18 @@ return [
             'model' => Customer::class,
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Timebox Duration
+    |--------------------------------------------------------------------------
+    |
+    | Minimum execution time in microseconds for sensitive auth operations
+    | such as password reset. This equalizes the "account exists" and
+    | "no such account" paths so response timing cannot be used to
+    | enumerate emails, including when mail is sent synchronously.
+    |
+    */
+
+    'timeboxDuration' => 2_000_000,
 ];
