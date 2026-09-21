@@ -26,6 +26,13 @@ class CustomerObserver
         }
     }
 
+    public function updated(Customer $customer): void
+    {
+        if ($customer->wasChanged('status') && $customer->isDisabled()) {
+            $customer->tokens()->delete();
+        }
+    }
+
     public function deleting(Customer $customer): void
     {
         $customer->addresses()->delete();

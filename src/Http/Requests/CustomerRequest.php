@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Igniter\User\Http\Requests;
 
 use Igniter\System\Classes\FormRequest;
+use Igniter\User\Models\Customer;
 use Illuminate\Validation\Rule;
 use Override;
 
@@ -62,6 +63,21 @@ class CustomerRequest extends FormRequest
             $rules['password'] = ['exclude_without:password_confirm', 'nullable', 'string', 'min:8', 'max:40', 'same:password_confirm'];
         }
 
+        if ($this->user() instanceof Customer) {
+            unset($rules['customer_group_id'], $rules['status']);
+        }
+
         return $rules;
+    }
+
+    #[Override]
+    protected function prepareForValidation(): void
+    {
+        if (!$this->user() instanceof Customer) {
+            return;
+        }
+
+        $this->offsetUnset('customer_group_id');
+        $this->offsetUnset('status');
     }
 }
