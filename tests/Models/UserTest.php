@@ -369,6 +369,13 @@ it('returns broadcast notification channel', function(): void {
     expect($result)->toBe('admin.users.123');
 });
 
+it('does not mass assign super user', function(): void {
+    $user = new User(['super_user' => true, 'name' => 'Test']);
+
+    expect($user->isFillable('super_user'))->toBeFalse()
+        ->and($user->super_user)->not->toBeTrue();
+});
+
 it('configures user model correctly', function(): void {
     $user = new User;
 
@@ -381,7 +388,7 @@ it('configures user model correctly', function(): void {
         ->and($user->getTable())->toBe('admin_users')
         ->and($user->getKeyName())->toBe('user_id')
         ->and($user->timestamps)->toBeTrue()
-        ->and($user->getGuarded())->toBe(['reset_code', 'activation_code', 'remember_token'])
+        ->and($user->getGuarded())->toBe(['reset_code', 'activation_code', 'remember_token', 'super_user'])
         ->and($user->getAppends())->toBe(['full_name'])
         ->and($user->getHidden())->toBe(['password', 'remember_token'])
         ->and($user->getCasts()['password'])->toBe('hashed')
