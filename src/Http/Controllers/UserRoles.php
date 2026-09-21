@@ -59,7 +59,7 @@ class UserRoles extends AdminController
         'configFile' => 'userrole',
     ];
 
-    protected null|string|array $requiredPermissions = 'Admin.Staffs';
+    protected null|string|array $requiredPermissions = 'Admin.StaffRoles';
 
     public static function getSlug(): string
     {

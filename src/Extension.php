@@ -234,6 +234,10 @@ class Extension extends BaseExtension
                 'label' => 'igniter.user::default.text_permission_user_groups',
                 'group' => 'igniter.user::default.text_permission_group',
             ],
+            'Admin.StaffRoles' => [
+                'label' => 'igniter.user::default.text_permission_user_roles',
+                'group' => 'igniter.user::default.text_permission_group',
+            ],
             'Admin.Staffs' => [
                 'label' => 'igniter.user::default.text_permission_staffs',
                 'group' => 'igniter.user::default.text_permission_group',

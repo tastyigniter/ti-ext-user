@@ -43,6 +43,7 @@ $config['list']['toolbar'] = [
             'label' => 'lang:igniter.user::default.text_side_menu_user_role',
             'class' => 'btn btn-default',
             'href' => 'user_roles',
+            'permission' => 'Admin.StaffRoles',
         ],
     ],
 ];

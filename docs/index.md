@@ -350,6 +350,7 @@ The User extension registers the following permissions:
 - `Admin.ImpersonateCustomers` - Control who can impersonate customers in the admin area.
 - `Admin.Staffs` - Control who can manage staff members in the admin area.
 - `Admin.StaffGroups` - Control who can manage staff groups in the admin area.
+- `Admin.StaffRoles` - Control who can manage staff roles in the admin area.
 - `Admin.DeleteStaffs` - Control who can delete staff members in the admin area.
 - `Admin.Impersonate` - Control who can impersonate staff members in the admin area.
 
