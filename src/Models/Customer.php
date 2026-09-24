@@ -270,16 +270,20 @@ class Customer extends AuthUserModel
     {
         $update = ['customer_id' => $this->customer_id];
 
+        // The unclaimed check must stay grouped: without the nesting, SQL's
+        // AND-before-OR precedence turns this into
+        // "(email = x AND customer_id IS NULL) OR customer_id = 0", which
+        // claims every legacy zero-id row in the table regardless of email.
+        $unclaimed = fn($query) => $query->whereNull('customer_id')->orWhere('customer_id', 0);
+
         Reservation::query()
             ->where('email', $this->email)
-            ->whereNull('customer_id')
-            ->orWhere('customer_id', 0)
+            ->where($unclaimed)
             ->update($update);
 
         Order::query()
             ->where('email', $this->email)
-            ->whereNull('customer_id')
-            ->orWhere('customer_id', 0)
+            ->where($unclaimed)
             ->update($update);
 
         Address::query()
