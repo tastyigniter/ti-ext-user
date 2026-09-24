@@ -231,6 +231,40 @@ it('updates guest orders, address and reservations matching customer email', fun
         ->and($address->fresh()->customer_id)->toBe($customerId);
 });
 
+it('claims legacy zero customer id guest orders matching the customer email', function(): void {
+    $customer = Customer::factory()->create(['email' => 'john.doe@example.com']);
+    $order = Order::factory()->create([
+        'customer_id' => 0,
+        'email' => $customer->email,
+    ]);
+    $reservation = Reservation::factory()->create([
+        'customer_id' => 0,
+        'email' => $customer->email,
+    ]);
+
+    $customer->saveCustomerGuestOrder();
+
+    expect($order->fresh()->customer_id)->toBe($customer->getKey())
+        ->and($reservation->fresh()->customer_id)->toBe($customer->getKey());
+});
+
+it('does not claim guest orders belonging to another email', function(): void {
+    $customer = Customer::factory()->create(['email' => 'john.doe@example.com']);
+    $strangersOrder = Order::factory()->create([
+        'customer_id' => 0,
+        'email' => 'jane.roe@example.com',
+    ]);
+    $strangersReservation = Reservation::factory()->create([
+        'customer_id' => 0,
+        'email' => 'jane.roe@example.com',
+    ]);
+
+    $customer->saveCustomerGuestOrder();
+
+    expect($strangersOrder->fresh()->customer_id)->toBe(0)
+        ->and($strangersReservation->fresh()->customer_id)->toBe(0);
+});
+
 it('sends invite email to customer', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
     $customer->shouldReceive('mailSend')->with('igniter.user::mail.invite_customer', 'customer', [])->once();
