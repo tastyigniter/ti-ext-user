@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Http\Requests;
 
+use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Http\Requests\UserRequest;
+use Illuminate\Routing\Route;
 use Illuminate\Validation\Rules\Password;
 
 it('has correct attribute labels', function(): void {
@@ -50,7 +52,8 @@ it('has correct validation rules', function(): void {
         ->and($rules['groups'])->toBe(['sometimes', 'required', 'array'])
         ->and($rules['locations'])->toBe(['nullable', 'array'])
         ->and($rules['groups.*'])->toBe(['integer'])
-        ->and($rules['locations.*'])->toBe(['integer']);
+        ->and($rules['locations.*'])->toBe(['integer'])
+        ->and($rules['sale_permission'])->toBe(['integer']);
 });
 
 it('has correct validation rules when request method is patch', function(): void {
@@ -62,4 +65,38 @@ it('has correct validation rules when request method is patch', function(): void
         ->not->toHaveKey('send_invite')
         ->and($rules['password'])->toContain('nullable', 'exclude_without:password_confirm', 'string', 'same:password_confirm')
         ->and($rules['password'][3])->toBeInstanceOf(Password::class);
+});
+
+it('returns user route parameter from getRecordId', function(): void {
+    $userRequest = new class extends UserRequest
+    {
+        public function exposeGetRecordId(): int|string|null
+        {
+            return $this->getRecordId();
+        }
+    };
+
+    $route = new Route(['PUT'], '/api/users/{user}', []);
+    $route->bind($userRequest);
+    $route->setParameter('user', 42);
+
+    $userRequest->setRouteResolver(fn(): Route => $route);
+
+    expect($userRequest->exposeGetRecordId())->toBe(42);
+});
+
+it('unique email rule ignores the user being updated', function(): void {
+    $userRequest = new UserRequest;
+    $userRequest->setMethod('patch');
+
+    $route = new Route(['PATCH'], '/api/users/{user}', []);
+    $route->bind($userRequest);
+    $route->setParameter('user', 7);
+
+    $userRequest->setRouteResolver(fn(): Route => $route);
+
+    $rules = $userRequest->rules();
+
+    expect($rules['email'][3]->__toString())->toBe('unique:admin_users,NULL,"7",user_id')
+        ->and($rules['username'][3]->__toString())->toBe('unique:admin_users,NULL,"7",user_id');
 });

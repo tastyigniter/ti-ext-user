@@ -66,8 +66,7 @@ class UserRequest extends FormRequest
     #[Override]
     protected function getRecordId(): int|string|null
     {
-        $routeUser = $this->route('user');
-        if (is_string($routeUser) || is_int($routeUser)) {
+        if ($routeUser = $this->route('user')) {
             return $routeUser;
         }
 
