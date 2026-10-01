@@ -50,6 +50,7 @@ class UserRequest extends FormRequest
             'locations' => ['nullable', 'array'],
             'groups.*' => ['integer'],
             'locations.*' => ['integer'],
+            'sale_permission' => ['integer'],
         ];
 
         if ($this->method() === 'POST') {
@@ -65,6 +66,11 @@ class UserRequest extends FormRequest
     #[Override]
     protected function getRecordId(): int|string|null
     {
+        $routeUser = $this->route('user');
+        if (is_string($routeUser) || is_int($routeUser)) {
+            return $routeUser;
+        }
+
         $slugName = ($slug = $this->route('slug'))
             ? str_after($slug, '/') : null;
 
