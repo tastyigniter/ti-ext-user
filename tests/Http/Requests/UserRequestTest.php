@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Http\Requests;
 
-use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Http\Requests\UserRequest;
 use Illuminate\Routing\Route;
 use Illuminate\Validation\Rules\Password;
