@@ -127,6 +127,8 @@ class Customer extends AuthUserModel
         'last_location_area' => '',
     ];
 
+    protected array $queryModifierSearchableFields = ['first_name', 'last_name', 'email', 'telephone'];
+
     public static function getDropdownOptions()
     {
         return static::query()
