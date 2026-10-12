@@ -75,7 +75,7 @@ class PermissionManager
         return $grouped;
     }
 
-    public function checkPermission($permissions, $checkPermissions, $checkAll)
+    public function checkPermission($permissions, $checkPermissions, $checkAll): bool
     {
         foreach ($checkPermissions as $permission) {
             $matched = false;
