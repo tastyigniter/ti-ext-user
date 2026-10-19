@@ -32,9 +32,4 @@ class CustomerObserver
             $customer->tokens()->delete();
         }
     }
-
-    public function deleting(Customer $customer): void
-    {
-        $customer->addresses()->delete();
-    }
 }
