@@ -34,7 +34,7 @@ To manage staff members, navigate to the _Manage > Staff members_ admin page. He
 
 ## Usage
 
-This section covers how to integrate the User extension API into your own extension if you need to authenticate customers, register customers, create staff members, reset passwords, impersonate users, and manage permissions. The User extension provides a simple API for managing users and their authentication.
+This section covers how to integrate the User extension API into your own extension if you need to authenticate customers, register customers, delete customer accounts, create staff members, reset passwords, impersonate users, and manage permissions. The User extension provides a simple API for managing users and their authentication.
 
 ### Authenticating customers
 
@@ -141,6 +141,25 @@ $registerCustomer = new CustomerRegister();
 $customer = $registerCustomer->activate($code);
 
 $customer->sendRegisteredMail(['account_login_link' => page_url('account.login')]);
+```
+
+### Deleting a customer account
+
+To delete a customer account, use the `\Igniter\User\Actions\DeleteCustomer` action class. The `handle` method accepts the customer model and, optionally, the customer's current password.
+
+When a password is given, it must match the account password. A wrong password throws a validation exception and the account is left in place. Omit the password, or pass `null`, to delete the account without checking it.
+
+The action refuses to run while an admin is impersonating the customer. It dispatches `igniter.user.beforeDeleteAccount` before the customer is deleted and `igniter.user.deleteAccount` afterwards. Listeners can use the first event to remove data that belongs to the customer, such as saved payment cards. Deleting the customer also deletes their saved addresses.
+
+If the customer being deleted is the one currently signed in, they are logged out, their session is invalidated, and the CSRF token is regenerated.
+
+```php
+use Igniter\User\Actions\DeleteCustomer;
+use Igniter\User\Models\Customer;
+
+$customer = Customer::find(1);
+
+(new DeleteCustomer)->handle($customer, 'password');
 ```
 
 ### Creating a staff member
@@ -367,6 +386,8 @@ This extension will fire some global events that can be useful for interacting w
 | `igniter.user.beforeRegister` | Before the user is attempting to register  |        `[ &$postData ]`  |
 | `igniter.user.register` | The user has registered successfully |        `[ $customer, $postData ]`    |
 | `igniter.user.logout` | The user has logged out successfully  |        `[ $customer ]` |
+| `igniter.user.beforeDeleteAccount` | Before a customer account is deleted | `[ $customer ]` |
+| `igniter.user.deleteAccount` | After a customer account has been deleted | `[ $customer ]` |
 
 Here is an example of hooking an event in the `boot` method of an extension class:
 

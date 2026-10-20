@@ -71,6 +71,9 @@ return [
     'column_subject' => 'Subject',
 
     'alert_logout_success' => 'You have been logged out successfully.',
+    'alert_delete_account_success' => 'Your account has been deleted.',
+    'alert_delete_account_password' => 'That password is not correct.',
+    'alert_delete_account_impersonating' => 'Stop impersonating this customer before deleting their account.',
 
     'text_send_to_restaurant' => 'Restaurant email address',
     'text_send_to_location' => 'Location email address (if available)',

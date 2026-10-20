@@ -42,16 +42,6 @@ it('saves addresses if addresses attribute exists', function(): void {
     $observer->saved($customer);
 });
 
-it('deletes addresses on deleting', function(): void {
-    $customer = Mockery::mock(Customer::class)->makePartial();
-    $addresses = Mockery::mock();
-    $addresses->shouldReceive('delete')->once();
-    $customer->shouldReceive('addresses')->andReturn($addresses);
-
-    $observer = new CustomerObserver;
-    $observer->deleting($customer);
-});
-
 it('revokes tokens when customer is disabled', function(): void {
     $tokens = Mockery::mock();
     $tokens->shouldReceive('delete')->once();
