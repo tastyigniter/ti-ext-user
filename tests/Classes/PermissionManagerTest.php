@@ -114,6 +114,59 @@ it('returns false when permission is not matched', function(): void {
     expect($result)->toBeFalse();
 });
 
+it('does not treat permissions sharing a prefix as equivalent', function(): void {
+    $permissionManager = new PermissionManager;
+
+    expect($permissionManager->checkPermission(['Admin.ImpersonateCustomers' => 1], ['Admin.Impersonate'], false))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Admin.ImpersonateCustomers' => 1], ['Admin.Impersonate'], true))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Admin.Impersonate' => 1], ['Admin.ImpersonateCustomers'], false))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Admin.Impersonate' => 1], ['Admin.ImpersonateCustomers'], true))->toBeFalse();
+});
+
+it('does not treat permissions sharing a suffix as equivalent', function(): void {
+    $permissionManager = new PermissionManager;
+
+    expect($permissionManager->checkPermission(['Admin.DeleteOrders' => 1], ['Orders'], false))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Orders' => 1], ['Admin.DeleteOrders'], false))->toBeFalse();
+});
+
+it('does not treat a parent namespace as granting its children without a wildcard', function(): void {
+    $permissionManager = new PermissionManager;
+
+    expect($permissionManager->checkPermission(['Igniter.Api' => 1], ['Igniter.Api.Manage'], false))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Igniter.Api.Manage' => 1], ['Igniter.Api'], false))->toBeFalse();
+});
+
+it('matches a required wildcard permission against any granted permission in the namespace', function(): void {
+    $permissionManager = new PermissionManager;
+
+    expect($permissionManager->checkPermission(['Igniter.Pages.Manage' => 1], ['Igniter.Pages.*'], false))->toBeTrue()
+        ->and($permissionManager->checkPermission(['Igniter.PagesOther.Manage' => 1], ['Igniter.Pages.*'], false))->toBeFalse();
+});
+
+it('does not match a single asterisk as a grant-all wildcard', function(): void {
+    $permissionManager = new PermissionManager;
+
+    expect($permissionManager->checkPermission(['*' => 1], ['Admin.Orders'], false))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Admin.Orders' => 1], ['*'], false))->toBeFalse();
+});
+
+it('ignores permissions that are not granted', function(): void {
+    $permissionManager = new PermissionManager;
+
+    expect($permissionManager->checkPermission(['Admin.Orders' => 0], ['Admin.Orders'], false))->toBeFalse()
+        ->and($permissionManager->checkPermission(['Admin.*' => -1], ['Admin.Orders'], false))->toBeFalse();
+});
+
+it('checks all permissions when check all is enabled', function(): void {
+    $permissionManager = new PermissionManager;
+    $permissions = ['Admin.Orders' => 1, 'Admin.Staffs' => 1];
+
+    expect($permissionManager->checkPermission($permissions, ['Admin.Orders', 'Admin.Staffs'], true))->toBeTrue()
+        ->and($permissionManager->checkPermission($permissions, ['Admin.Orders', 'Admin.Impersonate'], true))->toBeFalse()
+        ->and($permissionManager->checkPermission($permissions, ['Admin.Impersonate', 'Admin.Staffs'], false))->toBeTrue();
+});
+
 it('executes registered callback functions', function(): void {
     $extensionManager = Mockery::mock(ExtensionManager::class);
     $extensionManager->shouldReceive('getRegistrationMethodValues')->with('registerPermissions')->andReturn([]);
