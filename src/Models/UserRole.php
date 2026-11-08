@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Igniter\User\Models;
 
 use Igniter\Flame\Database\Builder;
-use Igniter\Flame\Database\Casts\Serialize;
 use Igniter\Flame\Database\Factories\HasFactory;
 use Igniter\Flame\Database\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -52,7 +51,7 @@ class UserRole extends Model
     ];
 
     protected $casts = [
-        'permissions' => Serialize::class,
+        'permissions' => 'array',
     ];
 
     public static function getDropdownOptions()
@@ -88,6 +87,6 @@ class UserRole extends Model
             }
         }
 
-        $this->attributes['permissions'] = empty($permissions) ? '' : serialize($permissions);
+        $this->attributes['permissions'] = empty($permissions) ? '' : json_encode($permissions, JSON_THROW_ON_ERROR);
     }
 }

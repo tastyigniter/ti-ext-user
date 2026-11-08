@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Igniter\User\Tests\Models;
 
-use Igniter\Flame\Database\Casts\Serialize;
 use Igniter\User\Models\User;
 use Igniter\User\Models\UserRole;
 use InvalidArgumentException;
@@ -67,6 +66,20 @@ it('removes permissions with value 0', function(): void {
     expect($result)->toBe(['edit' => 1]);
 });
 
+it('stores permissions as json', function(): void {
+    $userRole = new UserRole;
+    $userRole->permissions = ['Admin.Orders' => 1, 'Admin.Menus' => -1];
+
+    expect($userRole->getAttributes()['permissions'])->toBe('{"Admin.Orders":1,"Admin.Menus":-1}');
+});
+
+it('does not unserialize php serialized permissions', function(): void {
+    $userRole = new UserRole;
+    $userRole->setRawAttributes(['permissions' => 'a:1:{i:0;O:8:"stdClass":0:{}}']);
+
+    expect($userRole->permissions)->toBeNull();
+});
+
 it('configures user role model correctly', function(): void {
     $role = new UserRole;
 
@@ -76,5 +89,5 @@ it('configures user role model correctly', function(): void {
         ->and($role->relation['hasMany']['users'])->toBe([
             User::class, 'foreignKey' => 'user_role_id', 'otherKey' => 'user_role_id',
         ])
-        ->and($role->getCasts()['permissions'])->toBe(Serialize::class);
+        ->and($role->getCasts()['permissions'])->toBe('array');
 });
