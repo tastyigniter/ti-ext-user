@@ -7,7 +7,9 @@ namespace Igniter\User\Tests\Http\Controllers;
 use Igniter\Flame\Exception\FlashException;
 use Igniter\User\Http\Controllers\Users;
 use Igniter\User\Models\User;
+use Igniter\User\Models\UserRole;
 use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Support\Facades\Gate as GateFacade;
 use Mockery;
 
 it('loads users page', function(): void {
@@ -248,6 +250,20 @@ it('impersonates user successfully', function(): void {
     expect(flash()->messages()->first())
         ->level->toBe('success')
         ->message->toBe(sprintf(lang('igniter.user::default.staff.alert_impersonate_success'), 'John Doe'));
+});
+
+it('does not allow a customer impersonation grant to authorize staff impersonation', function(): void {
+    $role = UserRole::factory()->create([
+        'permissions' => [
+            'Admin.ImpersonateCustomers' => 1,
+            'Admin.Staffs' => 1,
+        ],
+    ]);
+    $attacker = User::factory()->create(['user_role_id' => $role->getKey()]);
+
+    expect($attacker->hasPermission('Admin.Impersonate'))->toBeFalse()
+        ->and(GateFacade::forUser($attacker)->allows('Admin.Impersonate'))->toBeFalse()
+        ->and(GateFacade::forUser($attacker)->allows('Admin.ImpersonateCustomers'))->toBeTrue();
 });
 
 it('throws exception when unauthorized to impersonate user', function(): void {

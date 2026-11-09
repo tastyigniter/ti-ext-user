@@ -78,13 +78,7 @@ class PermissionManager
     public function checkPermission($permissions, $checkPermissions, $checkAll): bool
     {
         foreach ($checkPermissions as $permission) {
-            $matched = false;
-            if ($this->checkPermissionStartsWith($permission, $permissions)
-                || $this->checkPermissionEndsWith($permission, $permissions)
-                || $this->checkPermissionMatches($permission, $permissions)
-            ) {
-                $matched = true;
-            }
+            $matched = $this->isPermissionGranted((string)$permission, $permissions);
 
             if ($checkAll === false && $matched) {
                 return true;
@@ -98,57 +92,50 @@ class PermissionManager
         return $checkAll !== false;
     }
 
-    protected function checkPermissionStartsWith($permission, $permissions): ?bool
+    protected function isPermissionGranted(string $permission, $permissions): bool
     {
-        $checkPermission = (strlen((string)$permission) > 1 && ends_with($permission, '*'))
-            ? substr((string)$permission, 0, -1) : $permission;
-
         foreach ($permissions as $groupPermission => $permitted) {
-            $groupPermission = (strlen((string)$groupPermission) > 1 && ends_with($groupPermission, '*'))
-                ? substr((string)$groupPermission, 0, -1) : $groupPermission;
-
-            // Let's make sure the available permission starts with our permission
-            if ($checkPermission != $groupPermission
-                && (starts_with($groupPermission, $checkPermission) || starts_with($checkPermission, $groupPermission))
-                && $permitted == 1
-            ) {
+            if ($permitted == 1 && $this->permissionMatches((string)$groupPermission, $permission)) {
                 return true;
             }
         }
 
-        return null;
+        return false;
     }
 
-    protected function checkPermissionEndsWith($permission, $permissions): ?bool
+    /**
+     * Permission names are compared exactly. A prefix or suffix match is only
+     * allowed when one side carries an explicit leading or trailing wildcard,
+     * e.g. a grant of "Admin.*" covers "Admin.Orders", and a check for
+     * "Igniter.Pages.*" is satisfied by a grant of "Igniter.Pages.Manage".
+     * Names that merely share a prefix or suffix, such as "Admin.Impersonate"
+     * and "Admin.ImpersonateCustomers", never satisfy each other.
+     */
+    protected function permissionMatches(string $grantedPermission, string $checkPermission): bool
     {
-        $checkPermission = (strlen((string)$permission) > 1 && starts_with($permission, '*'))
-            ? substr((string)$permission, 1) : $permission;
-
-        foreach ($permissions as $groupPermission => $permitted) {
-            $groupPermission = (strlen((string)$groupPermission) > 1 && starts_with($groupPermission, '*'))
-                ? substr((string)$groupPermission, 1) : $groupPermission;
-
-            // Let's make sure the available permission ends with our permission
-            if ($checkPermission != $groupPermission
-                && (ends_with($groupPermission, $checkPermission) || ends_with($checkPermission, $groupPermission))
-                && $permitted == 1
-            ) {
-                return true;
-            }
+        if ($grantedPermission === $checkPermission) {
+            return true;
         }
 
-        return null;
+        return $this->matchesWildcard($grantedPermission, $checkPermission)
+            || $this->matchesWildcard($checkPermission, $grantedPermission);
     }
 
-    protected function checkPermissionMatches($permission, $permissions): ?bool
+    protected function matchesWildcard(string $pattern, string $permission): bool
     {
-        foreach ($permissions as $groupPermission => $permitted) {
-            if ($permission == $groupPermission && $permitted == 1) {
-                return true;
-            }
+        if (strlen($pattern) < 2) {
+            return false;
         }
 
-        return null;
+        if (str_ends_with($pattern, '*')) {
+            return str_starts_with($permission, substr($pattern, 0, -1));
+        }
+
+        if (str_starts_with($pattern, '*')) {
+            return str_ends_with($permission, substr($pattern, 1));
+        }
+
+        return false;
     }
 
     //
