@@ -43,12 +43,6 @@ parameters:
 			path: src/Auth/UserGuard.php
 
 		-
-			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:each\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: mixed, Closure\(Igniter\\User\\Models\\UserPreference, int\)\: true given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Console/Commands/ClearUserStateCommand.php
-
-		-
 			message: '#^Call to function is_a\(\) with Igniter\\Admin\\Classes\\AdminController and class\-string\<stdClass\>&literal\-string will always evaluate to false\.$#'
 			identifier: function.impossibleType
 			count: 1

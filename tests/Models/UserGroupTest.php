@@ -44,7 +44,7 @@ it('syncs auto assign status', function(): void {
 
     UserGroup::syncAutoAssignStatus();
 
-    expect(setting()->getPref('allocator_is_enabled'))->toBe('1');
+    expect(setting()->getPref('allocator_is_enabled'))->toBe(1);
 });
 
 it('returns default auto assign limit', function(): void {
