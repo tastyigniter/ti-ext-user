@@ -16,10 +16,6 @@ return RectorConfig::configure()
         __DIR__.'/src',
         __DIR__.'/tests',
     ])
-    ->withImportNames(removeUnusedImports: true)
-    ->withRules([
-        DeclareStrictTypesRector::class,
-    ])
     ->withSkip([
         CatchExceptionNameMatchingTypeRector::class,
         ReturnNeverTypeRector::class,
