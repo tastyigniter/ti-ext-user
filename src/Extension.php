@@ -150,15 +150,62 @@ class Extension extends BaseExtension
     public function registerMailTemplates(): array
     {
         return [
-            'igniter.user::mail.admin_password_reset' => 'lang:igniter.user::default.text_mail_admin_password_reset',
-            'igniter.user::mail.admin_password_reset_request' => 'lang:igniter.user::default.text_mail_admin_password_reset_request',
-            'igniter.user::mail.password_reset' => 'lang:igniter.user::default.text_mail_password_reset',
-            'igniter.user::mail.password_reset_request' => 'lang:igniter.user::default.text_mail_password_reset_request',
-            'igniter.user::mail.registration' => 'lang:igniter.user::default.text_mail_registration',
-            'igniter.user::mail.registration_alert' => 'lang:igniter.user::default.text_mail_registration_alert',
-            'igniter.user::mail.activation' => 'lang:igniter.user::default.text_mail_activation',
-            'igniter.user::mail.invite' => 'lang:igniter.user::default.text_mail_invite',
-            'igniter.user::mail.invite_customer' => 'lang:igniter.user::default.text_mail_invite_customer',
+            'igniter.user::mail.admin_password_reset' => [
+                'label' => 'lang:igniter.user::default.text_mail_admin_password_reset',
+                'variables' => ['igniter::system.mail_variables.text_group_staff_reset'],
+            ],
+            'igniter.user::mail.admin_password_reset_request' => [
+                'label' => 'lang:igniter.user::default.text_mail_admin_password_reset_request',
+                'variables' => ['igniter::system.mail_variables.text_group_staff_reset'],
+            ],
+            'igniter.user::mail.password_reset' => [
+                'label' => 'lang:igniter.user::default.text_mail_password_reset',
+                'variables' => ['igniter::system.mail_variables.text_group_reset'],
+            ],
+            'igniter.user::mail.password_reset_request' => [
+                'label' => 'lang:igniter.user::default.text_mail_password_reset_request',
+                'variables' => ['igniter::system.mail_variables.text_group_reset'],
+            ],
+            'igniter.user::mail.registration' => [
+                'label' => 'lang:igniter.user::default.text_mail_registration',
+                'variables' => ['igniter::system.mail_variables.text_group_registration'],
+            ],
+            'igniter.user::mail.registration_alert' => [
+                'label' => 'lang:igniter.user::default.text_mail_registration_alert',
+                'variables' => ['igniter::system.mail_variables.text_group_registration'],
+            ],
+            'igniter.user::mail.activation' => [
+                'label' => 'lang:igniter.user::default.text_mail_activation',
+                'variables' => ['igniter.user::default.mail_variables.text_group_activation'],
+            ],
+            'igniter.user::mail.invite' => [
+                'label' => 'lang:igniter.user::default.text_mail_invite',
+                'variables' => ['igniter.user::default.mail_variables.text_group_staff_invite'],
+            ],
+            'igniter.user::mail.invite_customer' => [
+                'label' => 'lang:igniter.user::default.text_mail_invite_customer',
+                'variables' => ['igniter.user::default.mail_variables.text_group_customer_invite'],
+            ],
+        ];
+    }
+
+    #[Override]
+    public function registerMailVariables(): array
+    {
+        return [
+            'igniter.user::default.mail_variables.text_group_activation' => [
+                '{{ $first_name }}' => 'igniter::system.mail_variables.text_first_name',
+                '{{ $last_name }}' => 'igniter::system.mail_variables.text_last_name',
+                '{{ $account_activation_link }}' => 'igniter.user::default.mail_variables.text_account_activation_link',
+            ],
+            'igniter.user::default.mail_variables.text_group_staff_invite' => [
+                '{{ $staff_name }}' => 'igniter::system.mail_variables.text_staff_name',
+                '{{ $invite_url }}' => 'igniter.user::default.mail_variables.text_invite_url',
+            ],
+            'igniter.user::default.mail_variables.text_group_customer_invite' => [
+                '{{ $full_name }}' => 'igniter::system.mail_variables.text_full_name',
+                '{{ $invite_url }}' => 'igniter.user::default.mail_variables.text_invite_url',
+            ],
         ];
     }
 

@@ -300,6 +300,8 @@ class Customer extends AuthUserModel
 
     public function mailSendInvite(array $vars = []): void
     {
+        $vars['invite_url'] ??= rescue(fn(): string => page_url('account.reset'), '', false).'/'.($vars['invite_code'] ?? '');
+
         $this->mailSend('igniter.user::mail.invite_customer', 'customer', $vars);
     }
 

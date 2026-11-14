@@ -267,7 +267,9 @@ it('does not claim guest orders belonging to another email', function(): void {
 
 it('sends invite email to customer', function(): void {
     $customer = Mockery::mock(Customer::class)->makePartial();
-    $customer->shouldReceive('mailSend')->with('igniter.user::mail.invite_customer', 'customer', [])->once();
+    $customer->shouldReceive('mailSend')->with('igniter.user::mail.invite_customer', 'customer', Mockery::on(
+        fn(array $vars): bool => array_key_exists('invite_url', $vars),
+    ))->once();
 
     $customer->mailSendInvite();
 });
