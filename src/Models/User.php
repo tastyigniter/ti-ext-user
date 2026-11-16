@@ -301,6 +301,8 @@ class User extends AuthUserModel
 
     protected function mailSendInvite(array $vars = [])
     {
+        $vars['invite_url'] ??= admin_url('login/reset?code='.($vars['invite_code'] ?? ''));
+
         $this->mailSend('igniter.user::mail.invite', 'staff', $vars);
     }
 

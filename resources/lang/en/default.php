@@ -360,4 +360,11 @@ return [
 
         'button_mark_as_read' => 'Mark all as read',
     ],
+    'mail_variables' => [
+        'text_group_activation' => 'Account activation variables',
+        'text_group_staff_invite' => 'Staff invitation variables',
+        'text_group_customer_invite' => 'Customer invitation variables',
+        'text_account_activation_link' => 'Account activation link',
+        'text_invite_url' => 'Invitation link',
+    ],
 ];
