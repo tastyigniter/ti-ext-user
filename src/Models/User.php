@@ -228,8 +228,7 @@ class User extends AuthUserModel
             $permissions = [$permissions];
         }
 
-        return (bool)resolve(PermissionManager::class)->checkPermission(
-            $staffPermissions, $permissions, $checkAll);
+        return (bool)resolve(PermissionManager::class)->checkPermission($staffPermissions, $permissions, $checkAll);
     }
 
     public function getPermissions(): array

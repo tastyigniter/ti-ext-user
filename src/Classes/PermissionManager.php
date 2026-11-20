@@ -56,6 +56,14 @@ class PermissionManager
         return $this->permissionCache = $this->permissions;
     }
 
+    /**
+     * @return array<int, string>
+     */
+    public function listPermissionCodes(): array
+    {
+        return array_values(array_map(fn($permission): string => (string)$permission->code, $this->listPermissions()));
+    }
+
     public function listGroupedPermissions()
     {
         $grouped = [];

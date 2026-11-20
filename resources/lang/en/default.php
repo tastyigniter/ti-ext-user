@@ -193,6 +193,10 @@ return [
         'text_empty' => 'There are no user roles available.',
 
         'label_permissions' => 'Permissions',
+
+        'alert_unknown_permissions' => 'The following permissions are not recognised: %s',
+        'alert_cannot_grant_permissions' => 'You cannot grant permissions you do not hold: %s',
+        'alert_cannot_edit_own_role' => 'You cannot change your own staff role.',
     ],
 
     'staff' => [
