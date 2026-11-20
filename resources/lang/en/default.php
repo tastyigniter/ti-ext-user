@@ -1,27 +1,16 @@
 <?php
 
 return [
-    'text_title' => 'My Account',
 
-    'text_heading' => 'Account',
-    'text_account' => 'My Account',
     'text_edit_details' => 'Edit My Details',
     'text_address' => 'Address Book',
-    'text_orders' => 'Recent Orders',
-    'text_reservations' => 'Recent Reservations',
-    'text_inbox' => 'My Inbox',
     'text_welcome' => 'Welcome %s',
     'text_cart_summary' => 'You have %s items: %s',
-    'text_change_password' => 'Change Password',
     'text_order' => 'ORDER NOW',
-    'text_checkout' => 'CHECKOUT NOW',
     'text_edit' => 'EDIT',
     'text_set_default' => 'MAKE DEFAULT',
     'text_default_address' => 'My Default Address',
     'text_no_default_address' => 'You don\'t have a default address',
-    'text_no_orders' => 'There are no orders available to show.',
-    'text_no_reservations' => 'There are no reservations available to show.',
-    'text_no_inbox' => 'There are no messages available to show',
     'text_no_cart_items' => 'There are no menus added in your cart.',
     'text_charts_customers' => 'Customers',
     'text_total_customer' => 'Total Customers',
@@ -53,22 +42,17 @@ return [
     'text_side_menu_user_group' => 'Groups',
     'text_side_menu_user_role' => 'Roles',
 
-    'text_logout' => 'Logout',
     'text_impersonating_user' => 'Impersonating user',
     'text_leave' => 'Leave',
     'text_super_admin' => 'Super Admin Account',
     'text_restaurant_details' => 'Restaurant Details',
 
-    'label_heading' => 'Heading:',
     'label_template' => 'Mail template',
     'label_send_to' => 'Send To',
     'label_send_to_staff_group' => 'Send To User Group',
     'label_send_to_custom' => 'Send To Email Address',
     'label_allow_registration' => 'Allow customer registration',
     'label_registration_email' => 'Send Registration Email',
-
-    'column_date' => 'Date/Time',
-    'column_subject' => 'Subject',
 
     'alert_logout_success' => 'You have been logged out successfully.',
     'alert_delete_account_success' => 'Your account has been deleted.',
@@ -98,8 +82,6 @@ return [
         'text_reset_password_title' => 'Reset your Password',
         'text_back_to_login' => 'Back to Login',
 
-        'button_terms_agree' => 'I Agree',
-        'button_subscribe' => 'Subscribe',
         'button_login' => 'Login',
         'button_complete_setup' => 'Complete Setup',
         'button_reset_password' => 'Reset Password',
@@ -109,7 +91,6 @@ return [
         'label_password' => 'Password',
         'label_password_confirm' => 'Confirm Password',
         'label_remember' => 'Remember me',
-        'label_activation' => 'Activation Code',
         'label_newsletter' => 'Keep me up-to-date with offers by email.',
         'label_terms' => 'By clicking Register, you agree to the <a target="_blank" href="%s">Terms and Conditions</a> set out by this site, including our Cookie Use.',
         'label_i_agree' => 'I Agree',
@@ -120,8 +101,6 @@ return [
         'alert_failed_reset' => 'The reset code is either invalid or expired.',
         'alert_success_logout' => 'You are now logged out.',
 
-        'alert_logout_success' => 'You have been logged out successfully.',
-        'alert_expired_login' => 'Session expired, please login',
         'alert_invalid_login' => 'Username and password not found!',
         'alert_account_created' => 'Account created successfully, login below!',
         'alert_account_activation' => 'An activation email has been sent to your email address.',
@@ -130,20 +109,15 @@ return [
         'alert_super_admin_created' => 'Super admin account created successfully. You can now login with your new account.',
 
         'help_create_super_admin' => 'The installation is complete! Now, create your initial super admin account and provide your restaurant’s default name and location details. This ensures you have full access to manage the system and that your site starts off with the correct business information.',
-        'error_email_exist' => 'The Email address already has an account, please log in',
 
         'notify_registered_account_title' => 'Customer registered',
         'notify_registered_account' => '<b>%s</b> created an account.',
     ],
 
     'account' => [
-        'text_heading' => 'Address Book',
-        'text_edit_heading' => 'Address Book Edit',
         'text_no_address' => 'You don\'t have any stored address(s)',
-        'text_edit' => 'EDIT',
         'text_delete' => 'DELETE',
 
-        'button_back' => 'Back',
         'button_add' => 'Add New Address',
         'button_update' => 'Update Address',
 
@@ -158,7 +132,6 @@ return [
         'alert_deleted_success' => 'Address deleted successfully.',
     ],
     'reset' => [
-        'text_heading' => 'Account Password Reset',
         'text_summary' => 'Email address you use to log in to your account We\'ll send you an email with a new password.',
 
         'label_email' => 'Email Address',
@@ -166,23 +139,16 @@ return [
         'label_password_confirm' => 'Confirm Password',
         'label_code' => 'Reset Code',
 
-        'button_login' => 'Login',
         'button_reset' => 'Reset Password',
 
         'alert_reset_success' => 'Password reset successfully.',
         'alert_reset_request_success' => 'If the email address exists in our system, we\'ve sent a password reset link to your email.',
         'alert_reset_failed' => 'Password reset failed, reset code is either invalid or expired.',
         'alert_activation_failed' => 'Account activation failed, please try again.',
-        'alert_no_email_match' => 'No matching email address',
     ],
     'settings' => [
-        'text_heading' => 'My Details',
-        'text_details' => 'Edit your details',
         'text_password_heading' => 'Change Password',
 
-        'button_subscribe' => 'Subscribe',
-        'button_back' => 'Back',
-        'button_delete' => 'Delete account',
         'button_save' => 'Save Details',
 
         'label_first_name' => 'First Name',
@@ -192,15 +158,9 @@ return [
         'label_password_confirm' => 'New Password Confirm',
         'label_old_password' => 'Old Password',
         'label_telephone' => 'Telephone',
-        'label_s_question' => 'Security Question',
-        'label_s_answer' => 'Security Answer',
         'label_newsletter' => 'Keep me up-to-date with offers by email.',
 
-        'error_password' => 'The %s you entered does not match.',
-
         'alert_updated_success' => 'Details updated successfully.',
-        'alert_deleted_success' => 'Account deleted successfully.',
-        'alert_delete_confirm' => 'Are you sure you want to delete your account? This cannot be undone.',
     ],
 
     'user_groups' => [
@@ -240,9 +200,7 @@ return [
         'text_form_name' => 'Staff member',
         'text_filter_search' => 'Search by location, name or email.',
         'text_filter_role' => 'View all roles',
-        'text_filter_group' => 'View all groups',
         'text_empty' => 'There are no staff members available.',
-        'text_roles_scope_groups' => 'Scope, Roles and Groups',
         'text_sale_permission_global_access' => 'Global Access',
         'text_sale_permission_groups' => 'Groups',
         'text_sale_permission_restricted' => 'Restricted Access',
@@ -278,7 +236,6 @@ return [
         'help_sale_permission_restricted' => 'Can only view Orders and Reservations assigned to them',
 
         'alert_login_restricted' => 'Warning: You do not have the right permission to <b>access a user account</b>, please contact system administrator.',
-        'alert_impersonate_confirm' => 'Are you sure you want to impersonate this staff? You can revert to your original state by logging out.',
         'alert_impersonate_success' => 'You are now impersonating staff: %s',
     ],
 
@@ -318,12 +275,10 @@ return [
         'text_empty' => 'There are no customers available.',
         'text_subscribe' => 'Subscribe',
         'text_un_subscribe' => 'Un-subscribe',
-        'text_title_edit_address' => 'Address',
         'text_impersonate' => 'Impersonate Customer',
 
         'column_full_name' => 'Full Name',
         'column_telephone' => 'Telephone',
-        'column_date_added' => 'Date Registered',
 
         'button_activate' => 'Activate',
 
