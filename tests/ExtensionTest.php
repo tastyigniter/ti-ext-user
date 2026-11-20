@@ -112,6 +112,7 @@ it('registers customer statistics card', function(): void {
 
     expect($cards)->toHaveKey('customer')
         ->and($cards['customer']['label'])->toBe('lang:igniter.user::default.text_total_customer')
+        ->and($cards['customer']['permission'])->toBe('Admin.Customers')
         ->and($cards['customer']['valueFrom']('customer', null, null, fn($query) => $query))->toBe(0);
 });
 
@@ -203,5 +204,6 @@ it('extends dashboard charts datasets', function(): void {
         ->and($datasets['customers']['label'])->toBe('lang:igniter.user::default.text_charts_customers')
         ->and($datasets['customers']['color'])->toBe('#4DB6AC')
         ->and($datasets['customers']['model'])->toBe(Customer::class)
-        ->and($datasets['customers']['column'])->toBe('created_at');
+        ->and($datasets['customers']['column'])->toBe('created_at')
+        ->and($datasets['customers']['permission'])->toBe('Admin.Customers');
 });
