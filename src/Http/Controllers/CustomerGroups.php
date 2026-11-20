@@ -36,6 +36,7 @@ class CustomerGroups extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.customer_groups.text_form_name',
         'model' => CustomerGroup::class,
+        'recordName' => 'group_name',
         'request' => CustomerGroupRequest::class,
         'create' => [
             'title' => 'lang:admin::lang.form.create_title',

@@ -43,6 +43,7 @@ class Customers extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.customers.text_form_name',
         'model' => Customer::class,
+        'recordName' => 'full_name',
         'request' => CustomerRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',
