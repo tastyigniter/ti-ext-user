@@ -31,6 +31,17 @@ it('retrieves user by token', function(): void {
     expect($result->getKey())->toBe($user->getKey());
 });
 
+it('does not retrieve a user with a wrong or empty token', function(?string $token): void {
+    $user = User::factory()->create([
+        'remember_token' => 'token',
+        'status' => 1,
+    ]);
+
+    $provider = new UserProvider(['model' => User::class]);
+
+    expect($provider->retrieveByToken($user->getKey(), $token))->toBeNull();
+})->with(['wrong token' => ['other'], 'empty token' => [''], 'null token' => [null]]);
+
 it('updates remember token', function(): void {
     $user = User::factory()->create();
     $provider = new UserProvider(['model' => User::class]);
