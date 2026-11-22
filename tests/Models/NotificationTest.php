@@ -22,6 +22,22 @@ it('can get message attribute', function(): void {
     expect($notification->message)->toEqual('Test Message');
 });
 
+it('keeps bare formatting tags in the message html', function(): void {
+    $notification = new Notification;
+    $notification->data = ['message' => '<b>Jane & Co</b> created an order.<br/>'];
+
+    expect($notification->getMessageHtml())->toBe('<b>Jane &amp; Co</b> created an order.<br>');
+});
+
+it('escapes markup injected into the message html', function(): void {
+    $notification = new Notification;
+    $notification->data = ['message' => sprintf('<b>%s</b> created an order.', '<img src=x onerror=alert(1)><b onclick=x>')];
+
+    expect($notification->getMessageHtml())
+        ->toBe('<b>&lt;img src=x onerror=alert(1)&gt;&lt;b onclick=x&gt;</b> created an order.')
+        ->not->toContain('<img');
+});
+
 it('can get url attribute', function(): void {
     $notification = new Notification;
     $notification->data = ['url' => 'http://localhost'];

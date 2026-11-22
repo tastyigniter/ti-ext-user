@@ -6,7 +6,7 @@
   @endif
   <div class="flex-grow-1">
     <div class="text-truncate text-muted">{{ $notification->title }}</div>
-    <div class="menu-item-meta">{!! $notification->message !!}</div>
+    <div class="menu-item-meta">{!! $notification->getMessageHtml() !!}</div>
     <span class="small menu-item-meta text-muted">
             {{ time_elapsed($notification->created_at) }}
         </span>
