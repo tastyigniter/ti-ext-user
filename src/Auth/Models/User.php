@@ -69,7 +69,6 @@ abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenti
 
     /**
      * Checks the given remember token.
-     * @param string $token
      * @return bool
      */
     public function checkRememberToken($token)
