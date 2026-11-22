@@ -36,6 +36,7 @@ class UserGroups extends AdminController
     public array $formConfig = [
         'name' => 'lang:igniter.user::default.user_groups.text_form_name',
         'model' => UserGroup::class,
+        'recordName' => 'user_group_name',
         'request' => UserGroupRequest::class,
         'create' => [
             'title' => 'lang:igniter::admin.form.create_title',

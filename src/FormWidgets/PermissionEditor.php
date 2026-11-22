@@ -6,6 +6,7 @@ namespace Igniter\User\FormWidgets;
 
 use Igniter\Admin\Classes\BaseFormWidget;
 use Igniter\User\Classes\PermissionManager;
+use Igniter\User\Facades\AdminAuth;
 use Override;
 
 /**
@@ -38,6 +39,13 @@ class PermissionEditor extends BaseFormWidget
         $this->vars['groupedPermissions'] = $this->listPermissions();
         $this->vars['checkedPermissions'] = (array)$this->formField->value;
         $this->vars['field'] = $this->formField;
+    }
+
+    public function canGrantPermission(string $permission): bool
+    {
+        $user = AdminAuth::getUser();
+
+        return !$user || $user->hasPermission($permission);
     }
 
     #[Override]

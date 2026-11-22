@@ -69,16 +69,15 @@ abstract class User extends Model implements \Illuminate\Contracts\Auth\Authenti
 
     /**
      * Checks the given remember token.
-     * @param string $token
      * @return bool
      */
     public function checkRememberToken($token)
     {
-        if (!$token || !$this->remember_token) {
+        if (!is_string($token) || $token === '' || !$this->remember_token) {
             return false;
         }
 
-        return $token == $this->remember_token;
+        return hash_equals((string)$this->remember_token, $token);
     }
 
     public function updateLastSeen($expireAt): void

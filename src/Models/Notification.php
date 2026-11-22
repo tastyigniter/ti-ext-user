@@ -44,6 +44,22 @@ class Notification extends DatabaseNotification
         return array_get($this->data ?? [], 'message');
     }
 
+    /**
+     * The message as safe HTML. Messages embed user-supplied values such as a
+     * customer's name, so everything is escaped and only bare formatting tags
+     * (no attributes) are restored.
+     */
+    public function getMessageHtml(): string
+    {
+        $allowedTags = ['b', 'strong', 'i', 'em', 'u', 'br'];
+
+        return (string)preg_replace_callback(
+            '#&lt;(/?)('.implode('|', $allowedTags).')\s*/?&gt;#i',
+            fn(array $match): string => '<'.$match[1].strtolower($match[2]).'>',
+            e((string)$this->message, false),
+        );
+    }
+
     public function getUrlAttribute()
     {
         return array_get($this->data ?? [], 'url');

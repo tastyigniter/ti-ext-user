@@ -8,7 +8,10 @@ use Igniter\Admin\Classes\AdminController;
 use Igniter\Admin\Facades\AdminMenu;
 use Igniter\Admin\Http\Actions\FormController;
 use Igniter\Admin\Http\Actions\ListController;
+use Igniter\Flame\Exception\FlashException;
+use Igniter\User\Facades\AdminAuth;
 use Igniter\User\Http\Requests\UserRoleRequest;
+use Igniter\User\Models\User;
 use Igniter\User\Models\UserRole;
 
 /**
@@ -71,5 +74,16 @@ class UserRoles extends AdminController
         parent::__construct();
 
         AdminMenu::setContext('users', 'system');
+    }
+
+    public function formBeforeSave(UserRole $model): void
+    {
+        $user = $this->getUser() ?? AdminAuth::getUser();
+        throw_unless($user instanceof User, new FlashException(lang('igniter::admin.alert_user_restricted')));
+
+        throw_if(
+            !$user->isSuperUser() && $model->exists && (int)$model->getKey() === (int)$user->user_role_id,
+            new FlashException(lang('igniter.user::default.user_roles.alert_cannot_edit_own_role')),
+        );
     }
 }

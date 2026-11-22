@@ -28,10 +28,11 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         $query = $this->createModelQuery();
         $model = $query->getModel();
 
-        return $query
-            ->where($model->getAuthIdentifierName(), $identifier)
-            ->where($model->getRememberTokenName(), $token)
-            ->first();
+        /** @var null|User $user */
+        $user = $query->where($model->getAuthIdentifierName(), $identifier)->first();
+
+        // Compare the token in constant time instead of in the SQL query.
+        return $user?->checkRememberToken($token) ? $user : null;
     }
 
     #[Override]

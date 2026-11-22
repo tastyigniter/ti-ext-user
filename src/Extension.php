@@ -406,6 +406,7 @@ class Extension extends BaseExtension
                 $charts->mergeDataset('reports', 'sets', [
                     'customers' => [
                         'label' => 'lang:igniter.user::default.text_charts_customers',
+                        'permission' => 'Admin.Customers',
                         'color' => '#4DB6AC',
                         'model' => Customer::class,
                         'column' => 'created_at',
@@ -419,6 +420,7 @@ class Extension extends BaseExtension
             'customer' => [
                 'label' => 'lang:igniter.user::default.text_total_customer',
                 'icon' => ' text-info fa fa-4x fa-users',
+                'permission' => 'Admin.Customers',
                 'valueFrom' => function(string $cardCode, $start, $end, $callback): int {
                     $query = Customer::query();
 
